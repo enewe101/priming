@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2010.7.21)  9 APR 2014 15:36
+This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2010.7.21)  9 APR 2014 16:30
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -618,30 +618,32 @@ Underfull \vbox (badness 2452) has occurred while \output is active []
  [1{/usr/local/texlive/2010/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
 
-] (./draft1.bbl)
-[2
+]
+<../figs/specificity.pdf, id=16, 722.7pt x 794.97pt>
+File: ../figs/specificity.pdf Graphic file (type pdf)
 
-] (./draft1.aux) ) 
+<use ../figs/specificity.pdf> (./draft1.bbl) [2] [3 <../figs/specificity.pdf>]
+(./draft1.aux) ) 
 Here is how much of TeX's memory you used:
- 10565 strings out of 493747
- 175355 string characters out of 3143546
+ 10571 strings out of 493747
+ 175489 string characters out of 3143546
  254429 words of memory out of 3000000
- 13614 multiletter control sequences out of 15000+200000
+ 13618 multiletter control sequences out of 15000+200000
  12363 words of font info for 48 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
- 47i,6n,49p,336b,229s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfon
-ts/cm/cmbx12.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfont
-s/cm/cmmi10.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmr10.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmr12.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/
-cmr17.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-sy10.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmt
-i10.pfb>
-Output written on draft1.pdf (2 pages, 83926 bytes).
+ 47i,7n,49p,336b,229s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmbx12.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmmi10.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmr10.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/
+cmr12.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+r17.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy
+10.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmti1
+0.pfb>
+Output written on draft1.pdf (3 pages, 103027 bytes).
 PDF statistics:
- 42 PDF objects out of 1000 (max. 8388607)
- 30 compressed objects within 1 object stream
+ 85 PDF objects out of 1000 (max. 8388607)
+ 41 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 13 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 18 words of extra memory for PDF output out of 10000 (max. 10000000)
 

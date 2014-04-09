@@ -89,9 +89,10 @@ def plotAllSpecificity():
 			50, 'figs/spec-treat0-%s.pdf'%dimension, 'overall'
 		)
 
-def plotAllSpecificityComparisons(fname='specificity/all.json'):
+def plotAllSpecificityComparisons(readFname='specificities/all.json', 
+	writeFname='figs/specificity.pdf'):
 
-	data = json.loads(open(fname).read())
+	data = json.loads(open(readFname).read())
 
 
 	fig = plt.figure(figsize=(10,11))
@@ -188,6 +189,7 @@ def plotAllSpecificityComparisons(fname='specificity/all.json'):
 				plt.tight_layout()
 
 	plt.subplots_adjust(bottom=.10)
+	fig.savefig(writeFname)
 	plt.show()
 
 
