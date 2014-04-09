@@ -1,0 +1,301 @@
+chinese 34
+asian 32
+fried 28
+food 18
+dumplings 17
+tasty 17
+steamed 14
+rolls 14
+egg rolls 11
+delicious 10
+variety 10
+eggrolls 9
+egg roll 8
+eggroll 7
+sweet 7
+dim sum 6
+healthy 6
+plates 6
+spring rolls 5
+yummy 5
+oriental 5
+dinner 5
+spring roll 5
+wonton 5
+interesting 4
+sweets 4
+fish 4
+filling 4
+simple 4
+bland 4
+spicy 4
+plain 4
+appetizing 4
+different 4
+ethnic 4
+traditional 4
+steamer 3
+dumpling 3
+good 3
+crunchy 3
+nice 3
+dimsum 3
+springrolls 3
+baskets 3
+edible 3
+cake 3
+sushi 3
+roll 3
+buffet 3
+yellow 2
+chicken 2
+wraps 2
+snack 2
+appetizers 2
+rice 2
+colorful 2
+doughy 2
+meat 2
+bredding 2
+leaf wrapped 2
+banana leaf 2
+uncooked 2
+meal 2
+seaweed 2
+lumpia 2
+spring 2
+siu mai 2
+chinese food 2
+fun 2
+calories 2
+puff 2
+cakes 2
+unhealthy 2
+family 2
+chicken roll 2
+crispy 2
+meals 2
+wrapped 2
+white 2
+egg 2
+warm 2
+rangoon 2
+veg roll 2
+unappetizing 2
+similar 2
+starchy 2
+snacks 2
+pastry 2
+tan 2
+cuisine 2
+bowl 2
+plate 2
+tradition 2
+light 2
+deep fried 2
+fresh 2
+rapturous 1
+frankie 1
+potsticker 1
+rollup 1
+desirable 1
+enjoyable 1
+desserts 1
+paper 1
+dough 1
+finger food 1
+very hygenic 1
+milk 1
+hygenic 1
+puffs 1
+likeable 1
+sugar 1
+starters 1
+jam 1
+choose 1
+savory 1
+cantonese food 1
+diverse 1
+egg-rolls 1
+rounded 1
+compartmentalized 1
+cultural 1
+momo 1
+rools 1
+browns 1
+tortillia 1
+chips 1
+instresting 1
+maybe 1
+combined treats 1
+ledu 1
+marvellous 1
+sour 1
+feast 1
+tiny dessert 1
+cutlet 1
+delightful 1
+brownish 1
+red 1
+sweet,brown 1
+breading 1
+bengali sweet 1
+momos 1
+cuisin 1
+mediterranean 1
+bowls 1
+simple rolls 1
+mushy 1
+burger 1
+palm 1
+squishy 1
+enticing 1
+yummy? 1
+kimchi 1
+special 1
+pork buns 1
+gross 1
+leaf 1
+courses 1
+wow 1
+alwa 1
+lean 1
+vessels 1
+nutty 1
+indian 1
+white laddu 1
+sweetball 1
+baklava 1
+nutritious 1
+spring egg roll 1
+hash 1
+love 1
+dissapointing 1
+cnacks 1
+gathered 1
+wrap 1
+pot stickers 1
+werid 1
+wanton 1
+crispy snacks 1
+pancake 1
+textured 1
+potato baked 1
+light food 1
+desert 1
+pork bun 1
+greasy 1
+box 1
+breaded 1
+rare 1
+brown 1
+containers 1
+mexican 1
+nice to look 1
+healthy sweets 1
+tempting 1
+delishious 1
+fatening 1
+options 1
+wan ton 1
+exotic 1
+wontons 1
+cooked 1
+nice shapes 1
+pot 1
+or maybe asian 1
+indian foods 1
+sexy 1
+table 1
+gooey 1
+franky 1
+trays 1
+sweet roll 1
+dishs 1
+tins 1
+egg roles 1
+unknown 1
+vegetables 1
+pots 1
+tubes 1
+taste 1
+gyoza 1
+pi 1
+is this dessert 1
+treat 1
+yuck 1
+tasteless 1
+flavorful 1
+sufficient 1
+great 1
+not good 1
+japanese 1
+sharing is caring 1
+msg 1
+excellent 1
+ganesh foods 1
+sticker 1
+verity 1
+glamorous 1
+balls 1
+this 1
+oily 1
+leaf roll 1
+soup 1
+appealing 1
+grapeleaf 1
+neat 1
+juicy mommus 1
+atta 1
+salty 1
+shrimp 1
+beautiful 1
+mini 1
+seven 1
+awesome 1
+organized 1
+ginger 1
+foods 1
+sharing 1
+tastey 1
+foreign 1
+breakfast 1
+junk food 1
+varied 1
+dishes 1
+carbohydrates 1
+eastern 1
+aromatic 1
+non veg 1
+hot 1
+flavored 1
+fattening 1
+oriential 1
+european 1
+lavish 1
+mouth watering 1
+okay 1
+looks fried 1
+yummy tasty 1
+gulab 1
+rangoons 1
+social 1
+steam 1
+tea is needed 1
+cabbage 1
+authentic 1
+butter 1
+carbs 1
+varieties 1
+surprising 1
+lunch 1
+chineese 1
+seafood 1
+vines 1
+greek 1
+segmented 1
+so 1
+potstickers 1
+chicekn roll 1
+baked 1
+restuarant 1

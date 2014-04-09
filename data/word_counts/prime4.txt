@@ -1,0 +1,1121 @@
+lemon 181
+rodeo 175
+fried 164
+cowboy 154
+horse 131
+potatoes 75
+healthy 73
+food 70
+bucking 56
+vegetables 54
+pepper 53
+fish 51
+tasty 51
+chicken 50
+dinner 47
+onion 46
+fresh 46
+green 45
+breaded 43
+horses 37
+ingredients 35
+garlic 34
+bland 34
+peppers 34
+spices 34
+potato 32
+delicious 31
+bronco 31
+cooking 30
+plate 30
+meal 29
+herbs 29
+filling 28
+texas 27
+crispy 27
+pasta 26
+dangerous 26
+riding 25
+good 24
+meat 24
+white 24
+asparagus 23
+spicy 23
+onions 22
+western 22
+greens 22
+crunchy 20
+cowboys 20
+recipe 19
+simple 19
+cilantro 19
+unhealthy 18
+lime 17
+lunch 17
+competition 17
+seasoning 15
+arena 15
+sauce 15
+buck 14
+bread 14
+cheese 14
+exciting 14
+water 13
+wild 13
+ginger 13
+dry 13
+plain 13
+hat 13
+yummy 12
+roots 12
+american 12
+hearty 12
+fun 12
+grinder 12
+game 12
+crowd 12
+salad 11
+hot 11
+southern 11
+heavy 11
+raw 11
+leafy 11
+show 11
+spice 11
+garden 10
+ride 10
+natural 10
+chilli 10
+stadium 10
+citrus 10
+people 10
+baked 10
+race 9
+zesty 9
+leaves 9
+garnish 9
+preparation 9
+sport 9
+white asparagus 9
+table 9
+parsley 9
+fatty 9
+brown 8
+sour 8
+green chilli 8
+coriander 8
+boring 8
+flavorful 8
+america 8
+satisfying 8
+country 8
+oil 8
+beans 8
+starchy 8
+lemony 7
+limes 7
+sports 7
+chilly 7
+man 7
+light 7
+event 7
+entertainment 7
+rider 7
+flavor 7
+vegetable 7
+audience 7
+traditional 7
+rough 6
+danger 6
+radish 6
+scary 6
+warm 6
+interesting 6
+amazing 6
+schnitzel 6
+bitter 6
+unappetizing 6
+shallots 6
+coriander leaves 6
+ground 6
+gnocci 6
+nutritious 6
+sweet 6
+seasoned 6
+carbohydrates 6
+bowl 6
+veggies 6
+cutlet 6
+yellow 5
+bucking horse 5
+dish 5
+cheap 5
+dirt 5
+rustic 5
+battered 5
+green beans 5
+potatos 5
+green chilly 5
+greasy 5
+organic 5
+snack 5
+savory 5
+appetizing 5
+butter 5
+peas 5
+ingrediants 4
+gnocchi 4
+fattening 4
+fried fish 4
+weird 4
+glass 4
+crazy 4
+salty 4
+comfort 4
+mexican 4
+colorless 4
+coriander leaf 4
+appealing 4
+carrots 4
+breakfast 4
+mix 4
+german 4
+toast 4
+nice 4
+steak 4
+lemon wedge 4
+bucking bronco 4
+west 4
+tasteless 4
+chili 4
+cuisine 4
+fruit 4
+easy 4
+kick 4
+gross 4
+delightful 4
+starch 4
+saddle 4
+jockey 4
+homemade 4
+dull 4
+dirty 4
+aromatic 4
+tart 4
+spectators 4
+cook 3
+jump 3
+comforting 3
+strong 3
+flavors 3
+horse riding 3
+edible 3
+awesome 3
+entree 3
+jumping 3
+adventure 3
+classy 3
+pepper shaker 3
+healthy food 3
+bowls 3
+black pepper 3
+exotic 3
+fancy 3
+tangy 3
+vegatables 3
+skillful 3
+seasonings 3
+butterfly 3
+seafood 3
+clean 3
+colorful 3
+breading 3
+homestyle 3
+tender 3
+unappealing 3
+kitchen 3
+bull 3
+rope 3
+protein 3
+difficult 3
+tradition 3
+skill 3
+parsely 3
+stallion 3
+big 3
+cut 3
+seconds 3
+beige 3
+fast 3
+large 3
+fishy 3
+excitement 3
+classic 3
+taste 3
+diet 3
+chillis 2
+hats 2
+horseback 2
+enjoyable 2
+veg 2
+ingredient 2
+bravery 2
+fall 2
+soury 2
+small 2
+challenge 2
+pungent 2
+boots 2
+odd 2
+energy 2
+scallops 2
+racing 2
+men 2
+mule 2
+light food 2
+great 2
+fried meat 2
+cold 2
+usa 2
+culinary 2
+foods 2
+india 2
+lemons 2
+excellent 2
+unexciting 2
+cap 2
+soul 2
+root 2
+horse ride 2
+beautiful 2
+deep-fried 2
+daring 2
+cripsy 2
+falling 2
+thrilling 2
+combination 2
+eat 2
+bold 2
+variety 2
+texture 2
+unprepared 2
+red chilly 2
+hefty 2
+quick 2
+corriander 2
+yum 2
+tempting 2
+loud 2
+south 2
+lettuce 2
+gourmet 2
+8 seconds 2
+wonderful 2
+banana 2
+painful 2
+season 2
+noodle 2
+thai 2
+ingedients 2
+manly 2
+horse race 2
+saute 2
+juicy 2
+tastey 2
+noodles 2
+performance 2
+yucky 2
+play 2
+equestrian 2
+seasons 2
+spinach 2
+hungry 2
+salt 2
+non veg 2
+bad 2
+culture 2
+latin 2
+unsure 2
+cruel 2
+monotone 2
+mud 2
+outside 2
+affordable 2
+fearless 2
+fruits 2
+restaurant 2
+ranch 2
+mint leaves 2
+basic 2
+fry 2
+homely 2
+plants 2
+homey 2
+balance 2
+vegitables 2
+blah 2
+warming 2
+lemon slice 2
+grind 2
+veal 2
+spectator 2
+steamed 2
+chives 2
+crusty 2
+sause 2
+stunt 2
+thrill 2
+sensational 2
+crisp 2
+vegtables 2
+mustang 2
+jalapeno 2
+meaty 2
+herbs and spices 2
+produce 2
+intense 2
+diner 2
+biscuit 2
+chop 2
+piled 2
+mixed 2
+risk 2
+aspargus 2
+full 2
+fulfilling 2
+cake 2
+crowds 2
+crumbly 2
+cream 2
+gambling 2
+energetic 2
+carbs 2
+for 2
+cooked 2
+dance 1
+stems 1
+corianderleaves 1
+aromatics 1
+mill 1
+hate 1
+southern dish 1
+a cowboy 1
+light snacks 1
+riders 1
+dinnertime 1
+clinatro 1
+enjoying 1
+presentation 1
+random 1
+premium 1
+very 1
+baked chicken 1
+vegan 1
+good nature 1
+heavenly 1
+gallop 1
+archaic 1
+special 1
+green leaf 1
+cheerful 1
+health-minded 1
+nice and beutifull 1
+glass jar 1
+rodea 1
+satchel 1
+nourishing 1
+skewed 1
+i like it 1
+onion juice 1
+horseback riding 1
+cholesterol 1
+stereotypical 1
+uncooked 1
+innovative food 1
+enjoy 1
+cheyanne 1
+pork 1
+dangerious 1
+gnochi 1
+distastful 1
+masroom 1
+okay 1
+diced 1
+messy 1
+crisply 1
+fast food 1
+peppet 1
+acid 1
+blue 1
+aggresive horse 1
+rottey 1
+lemeadon 1
+fillet 1
+waiting 1
+60 seconds 1
+bull-riding 1
+predone 1
+friday 1
+risk free 1
+festive 1
+component 1
+parsnip 1
+french 1
+tracks 1
+focused 1
+hers 1
+looking nice 1
+bull riding 1
+stark 1
+talent 1
+foraged 1
+pickle 1
+costly food 1
+non-veg rosted 1
+useful to age increase 1
+califlower 1
+potates 1
+breadcrumbs 1
+action 1
+yeehaw 1
+makes 1
+options 1
+golden 1
+bare 1
+love 1
+apple 1
+family 1
+g.chilly 1
+fresh garnishes 1
+decoration is simple 1
+riding horse 1
+apples 1
+outdoors 1
+staple 1
+earthty 1
+conventional 1
+vivid 1
+likley 1
+super 1
+angry 1
+snacks 1
+creamy 1
+handler 1
+calm 1
+yummy tummy 1
+high calorie 1
+mysterious 1
+prep 1
+flat 1
+green lime 1
+calamondin 1
+clowd 1
+beauty 1
+white sauce 1
+energenic 1
+hurt 1
+berlin 1
+rigid 1
+stick 1
+vegetal 1
+harvest 1
+eatable 1
+nice picks 1
+green chili 1
+verdant 1
+player 1
+hand breaded 1
+food favorites 1
+soup 1
+male 1
+uncolorful 1
+control 1
+wedge 1
+low-calorie 1
+thirsty 1
+mayonaise 1
+corriander leaves 1
+bananas 1
+confused 1
+competion 1
+north america 1
+leather 1
+main ingredients 1
+native 1
+huge 1
+paleo 1
+hangover cure 1
+naglets 1
+bull rider 1
+audience in background 1
+tatters 1
+toppings 1
+nice picture 1
+parsnips 1
+timer 1
+sprinkle 1
+mat 1
+nile bitting 1
+wonderful display 1
+inhumane 1
+diet food 1
+holding on 1
+vegiterian food 1
+hourse 1
+high-calorie 1
+tomato 1
+foolhardy 1
+visitors 1
+large portion 1
+splendid 1
+crowded 1
+butterly 1
+recepie 1
+robot 1
+corral 1
+ballbusting 1
+tall 1
+execitment 1
+yee-haw 1
+typical 1
+serving 1
+hungy 1
+nuts 1
+peck 1
+competing 1
+lip-smacking 1
+peppered 1
+sea food 1
+raddish 1
+continental dinner 1
+saucy 1
+chicken toaster 1
+hard-work 1
+mixed bulavo 1
+winning 1
+better 1
+green tometo 1
+jalapenos 1
+poultry 1
+break fast 1
+orange 1
+holiday 1
+strength 1
+non 1
+tasty food 1
+hold on 1
+whitebread 1
+plater 1
+complete 1
+homegrown 1
+tasty snacks 1
+smoothie 1
+lemon on fish 1
+liquify 1
+sweety 1
+adventurous 1
+vinegary 1
+green leaves 1
+some balls 1
+oniin 1
+piccata 1
+proteins 1
+legume 1
+olin 1
+fitness 1
+full plate 1
+non-appetizing 1
+funny 1
+uninteresting 1
+mean 1
+fired 1
+fish filet 1
+patoto 1
+good taste 1
+hard 1
+plant 1
+cooking supplies 1
+deep fry 1
+turnip 1
+squishy 1
+chicken wings 1
+receipe 1
+of horse 1
+eye catching 1
+category 1
+tiffon 1
+folksy 1
+red treat 1
+precooked 1
+crowd enjoyment 1
+health 1
+showy 1
+mato 1
+mayonese 1
+presented well 1
+grease 1
+home cooked 1
+chiles 1
+ocra 1
+sufficeint calories 1
+pleasant 1
+grandma 1
+pasta chicken 1
+palatable 1
+bulls 1
+training 1
+equine 1
+people gathering 1
+tough time 1
+inexpensive 1
+calories 1
+british 1
+veggy 1
+particpants 1
+cheering 1
+butter sweet 1
+wave 1
+veggie 1
+cowboy hats 1
+green onions 1
+long 1
+fascinating 1
+potatoes sliced 1
+indulgent 1
+earthy 1
+stadium event 1
+i like very much 1
+master 1
+mosaic 1
+stuffed 1
+bounty 1
+legs 1
+nutrition 1
+beer battered 1
+rewards 1
+smells good 1
+stallions 1
+shallot 1
+tom 1
+plane 1
+legumes 1
+crispy juicy 1
+tuscan 1
+constituent 1
+lite fat 1
+slices 1
+tortellini 1
+elegant 1
+not fatty 1
+jocky 1
+mint leafs 1
+creamsauce 1
+silly 1
+green chilli,onions, lemon 1
+pepper grinder 1
+raw vegetables 1
+tophat 1
+happy 1
+risky 1
+live performance 1
+delectable 1
+sad 1
+dash 1
+medium 1
+leafs 1
+delictable 1
+sidedish 1
+chicken grilled 1
+clove 1
+herbed 1
+dishes 1
+laden 1
+coliseum 1
+useful condiments 1
+chicken fried 1
+potatoe 1
+brussel sprouts 1
+hollandaise 1
+vitaminrich 1
+bread bulavo 1
+leather vest 1
+desserts 1
+potaoes 1
+reins 1
+starches 1
+fat less 1
+mashed 1
+game of power 1
+harmful 1
+raucous 1
+horseride 1
+gallery 1
+achievement 1
+stands 1
+green chillie 1
+overwhelming 1
+city hotel foods 1
+refreshing 1
+biscut 1
+mushy 1
+proud 1
+brussel spouts 1
+deep fried 1
+artistic 1
+professional 1
+aatta 1
+mexico 1
+dinner preperations 1
+very different 1
+goodies 1
+macroni 1
+tearful 1
+pototes 1
+strange looking fish 1
+horse-trade 1
+corriender leaves 1
+fine 1
+methi leaves 1
+giant 1
+dip 1
+glass container 1
+menu 1
+winner 1
+degrading 1
+bust 1
+nutritional food 1
+celery 1
+wood 1
+viennese 1
+rich 1
+broncs 1
+unheathly 1
+i qeulity foods 1
+quick and easy 1
+galangal 1
+chicken with dip 1
+karnik 1
+bareback 1
+bean 1
+courage 1
+batter 1
+words 1
+nasty 1
+chips 1
+tips 1
+schpaetzle 1
+gray 1
+maniacal 1
+overbearing 1
+viel 1
+slimey 1
+roasted 1
+spicy food items 1
+greeny 1
+bullrider 1
+stupid 1
+scrumptous 1
+a rodeo 1
+scrumptious 1
+citrusy 1
+baj 1
+very tastfull 1
+picnic 1
+fair 1
+fresh vegetables 1
+nice decorations 1
+artsy 1
+green levies 1
+demented 1
+dumb 1
+european 1
+best 1
+eight seconds 1
+multiple cowboys 1
+pork chop 1
+dessert 1
+taming 1
+chewy 1
+herbal 1
+acidic 1
+excititng 1
+chicken nuggets 1
+dinner ingredients 1
+home-cooked 1
+rudimentary 1
+cauliflower 1
+nature 1
+generous 1
+kicking 1
+broncos 1
+bunched 1
+uncreative 1
+spicy. 1
+rodeos 1
+horse-show 1
+bronc 1
+talented 1
+a good snack 1
+aged 1
+coated 1
+giddyup 1
+olive oil 1
+and 1
+tough 1
+flavorless 1
+boiled 1
+greenleaf 1
+very tasty 1
+refreshment 1
+gampling 1
+vadai 1
+foolish 1
+crispy food 1
+muddy 1
+root vegetables 1
+horse raid 1
+yam 1
+combined 1
+not tasty 1
+ravioli 1
+white loops 1
+champion 1
+mushroom 1
+chopped green stuffs 1
+who will win? 1
+racer 1
+picante 1
+tense 1
+asparagu 1
+chicken fried steak 1
+unflavorful 1
+gritty 1
+crucnh 1
+cotoletta 1
+horse kicking 1
+resturant 1
+dusty 1
+stunning 1
+neat 1
+match 1
+items 1
+aditorium 1
+green seasoning 1
+ripe 1
+well-plated 1
+chaotic 1
+incredible 1
+evening 1
+ready 1
+inviting 1
+mise en place 1
+different 1
+in air 1
+chilis 1
+tasty bulavo 1
+complex 1
+galler 1
+peoples 1
+party 1
+crispy treat 1
+succulent 1
+plating 1
+meal time 1
+gee rosted 1
+alert 1
+cowboy hat 1
+hamberger 1
+redneck 1
+assortment 1
+leamon 1
+horse in action 1
+condiments 1
+contest 1
+cultural 1
+solids 1
+chees 1
+patty 1
+restuarant 1
+lightly fried 1
+kale 1
+jackpot 1
+money 1
+aroma 1
+violent 1
+horse rider 1
+horse play 1
+chrunchy 1
+corriandle 1
+speed 1
+perilous 1
+happiness 1
+cowbiys 1
+unique 1
+fried chicken 1
+chicken combo 1
+moist 1
+cherry 1
+attractive 1
+add 1
+spread 1
+energized 1
+horse bucking 1
+jars 1
+borat 1
+mystery 1
+to 1
+presentable 1
+oninon 1
+germanic 1
+new potatoes 1
+dark 1
+buff bulavo 1
+side dish 1
+milk sweet 1
+string 1
+seperate 1
+flavoring 1
+vibrant 1
+piece 1
+clown 1
+smoshy 1
+greenbeans 1
+vegtable 1
+green tomato 1
+served 1
+battered meat 1
+soft 1
+italian 1
+beneficial 1
+old 1
+scared 1
+spongy 1
+gravy 1
+added 1
+showriding 1
+wild horse 1
+pale 1
+horse-riding 1
+coriender 1
+unpredictable 1
+purple 1
+vinigur 1
+fod 1
+turnup 1
+leap 1
+passion 1
+run 1
+sparse 1
+power 1
+corn 1
+simplef 1
+delecious 1
+garnishment 1
+stew 1
+worthy 1
+paste 1
+garnished 1
+sporty 1
+pilled 1
+untamed 1
+aromic 1
+ok 1
+inedible 1
+of 1
+practiced 1
+mixer 1
+round 1
+cowbowy 1
+crusted 1
+auditorium 1
+curry 1
+cowboy on horse 1
+meatclice 1
+raised 1
+ridding 1
+gymnastic 1
+citron 1
+whites 1
+abusive 1
+bountiful 1
+carrot 1
+rotti 1
+balanced 1
+honored 1
+additions 1
+dangerous riding 1
+leeks 1
+fisg 1
+high vitamins 1
+grub 1
+prepare 1
+shells 1
+vinegar 1
+fight 1
+like 1
+victorious 1
+was 1
+fresh catch 1
+white onion 1
+cream sauce 1
+potassium 1
+non-nutritive 1
+motherly 1
+white gourd(mooli) 1
+calgary 1
+neutral 1
+bun 1
+flaky 1
+chilies 1
+lemon garnish 1
+rush 1
+dryish 1
+flavour 1
+bronco busting 1
+lychee 1
+finesse 1
+veges 1
+patato 1
+string beans 1
+unfulfilling 1
+greenchilli 1
+sticks 1
+circus 1
+festival 1
+goodness 1
+home 1
+yuck 1
+casunut 1
+are 1
+breaded fish 1
+sweet bulavo 1
+endurance 1
+ambrosial 1
+fryed fish 1
+fresh spices 1
+papers 1
+skiding 1
+vegetative 1
+hang on 1
+veg food 1
+all-consuming 1
+fodder 1
+ham 1
+tasteful 1
+theatrical 1
+exhilerated 1
+well-cooked 1
+prepared 1
+power riding 1
+beets 1
+charming 1
+amusement 1
+healty 1
+radishes 1
+packet of spices 1
+coyboy 1
+bleached 1
+heath 1
+time 1
+carlic 1
+jackey 1

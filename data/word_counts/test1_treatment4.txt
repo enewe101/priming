@@ -1,0 +1,203 @@
+pizza 68
+italian 62
+wine 57
+pasta 31
+spaghetti 23
+salad 20
+garlic 13
+bread 12
+calzone 11
+food 9
+meatballs 9
+delicious 9
+noodles 9
+tasty 8
+tomato 8
+meal 7
+dinner 7
+cheese 5
+italian food 5
+fresh 5
+filling 4
+picnic 4
+mediterranean 4
+red 4
+healthy 4
+romantic 4
+italy 4
+plates 4
+traditional 4
+tomatoes 3
+sauce 3
+lunch 3
+restaurant 3
+spicy 3
+flowers 3
+meatball 3
+carbohydrates 3
+carbs 3
+yummy 2
+hot 2
+colorful 2
+meat balls 2
+meat 2
+garlic bread 2
+spagetti 2
+olive oil 2
+family 2
+sweet 2
+table 2
+crispy 2
+cheesy 2
+glass 2
+brunch 2
+soup 2
+mouthwatering 2
+salty 2
+speghetti 2
+variety 2
+sandwich 2
+fatty 2
+ethnic 2
+antipasto 2
+composed 1
+checkered tablecloth 1
+cempin 1
+mains 1
+doughy 1
+dine 1
+aroma 1
+pitza 1
+bright 1
+liquer 1
+samosa 1
+saucy 1
+snack 1
+itailan 1
+royal 1
+sugar 1
+spaghetti and meatballs 1
+veg mix 1
+focaccia 1
+rich 1
+a healthy meal 1
+ideal 1
+evening 1
+homecooking 1
+well rounded 1
+smell 1
+vital 1
+fat 1
+fresh wine 1
+domato 1
+party 1
+nice setting 1
+inviting 1
+wine with food 1
+dipping 1
+roti 1
+discrete 1
+crossiant 1
+fragrant 1
+worldly 1
+european cuisine 1
+junk 1
+spahetti 1
+fast food 1
+acid 1
+out 1
+soup cake 1
+flower 1
+vitamins 1
+fine dining 1
+tomato sauce 1
+hairy 1
+garlic pizza 1
+full 1
+cozy 1
+delecious 1
+gujiya 1
+salate 1
+dry 1
+meal. 1
+foreign 1
+planned 1
+tempting 1
+croissantes 1
+spices 1
+loud 1
+vegetable salad 1
+patty 1
+greek food 1
+table cloth 1
+simple 1
+mafia 1
+vegetables 1
+craving 1
+rustic 1
+wonderful 1
+seasoned 1
+italia 1
+oily 1
+attractive 1
+bear 1
+restoran 1
+tomatos 1
+hotel 1
+warm 1
+tuscan 1
+beautiful 1
+over-eating 1
+pesa 1
+holiday 1
+arranged 1
+dining table 1
+smooth 1
+sour 1
+stromboli 1
+starchy 1
+costly 1
+satisfying 1
+snacks 1
+taste 1
+flavorful 1
+an 1
+veg.salad 1
+good 1
+pastry 1
+junk food 1
+pastas 1
+varied 1
+dishes 1
+flaky 1
+romance 1
+dining 1
+sunday 1
+high energy 1
+tomatoey 1
+vegetable 1
+delicious spagetti 1
+pan pizza 1
+mouth watering 1
+diet prone 1
+homestyle 1
+souce 1
+western cuisine 1
+sandwhich 1
+karnik 1
+italion 1
+wholesome 1
+tablecloth 1
+celebratory 1
+alcohol 1
+bonda noodles 1
+thanksiving 1
+antipasta 1
+spic 1
+coriender 1
+well 1
+cooked 1
+bakery 1
+hearty 1
+green 1
+carlic 1

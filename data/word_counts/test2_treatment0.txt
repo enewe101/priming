@@ -1,0 +1,283 @@
+chinese 39
+fried 33
+asian 32
+dumplings 26
+egg rolls 17
+tasty 16
+steamed 12
+egg roll 12
+rolls 12
+spring rolls 12
+crunchy 9
+dimsum 9
+delicious 7
+dim sum 7
+eggrolls 6
+crispy 6
+ethnic 6
+samosa 5
+food 5
+meat 5
+oriental 5
+greasy 5
+wontons 5
+sweet 5
+variety 5
+meal 4
+brown 4
+small 4
+eggroll 4
+dry 4
+steamy 4
+spicy 4
+plates 4
+salty 4
+appetizers 3
+dumpling 3
+spring roll 3
+bamboo 3
+fish 3
+chinese food 3
+cake 3
+foreign 3
+dinner 3
+potstickers 3
+exotic 3
+bland 3
+oily 3
+warm 3
+fun 3
+snacks 3
+varied 3
+cultural 3
+traditional 3
+clean 3
+mexican 2
+fine 2
+hot 2
+good 2
+rice 2
+sweety 2
+steamed dumplings 2
+roll 2
+filling 2
+boring 2
+heavy 2
+pork 2
+bowls 2
+noodles 2
+fatty 2
+china 2
+delightful 2
+cabbage 2
+unhealthy 2
+simple 2
+wonderful 2
+gyoza 2
+healthy food 2
+chinese cuisine 2
+asian food 2
+dull 2
+asain 2
+plain 2
+healthy 2
+appealing 2
+unappetizing 2
+starchy 2
+flavorful 2
+soup 2
+raw 2
+pastry 2
+bowl 2
+steamed food 2
+plate 2
+buffet 2
+assortment 2
+authentic 2
+wonton 2
+light 2
+potsticker 1
+random 1
+sauce chicken 1
+steamer 1
+chinese appetisers 1
+chicken 1
+arrangement 1
+terrific 1
+wraps 1
+unique 1
+yummy 1
+flavorsome 1
+hint 1
+sharing 1
+baadhusha 1
+attractive 1
+ghee 1
+savory 1
+dingy 1
+smoothies 1
+money bags 1
+flour 1
+chopsticks 1
+fried items 1
+village food 1
+boxes 1
+tantalizing 1
+fluffy 1
+mgt 1
+delicacies 1
+variety foods 1
+siomai 1
+adventurous 1
+bread 1
+won ton 1
+dolma 1
+dim-sum 1
+crisp 1
+look awesme 1
+i like it 1
+well displayed 1
+tortilla 1
+soft 1
+round 1
+egg 1
+picnic 1
+chicken roll 1
+buffet-style 1
+spanish 1
+mediterranean 1
+lotus leaf 1
+sweet modak 1
+looking good 1
+home 1
+hotel foods and nice 1
+enticing 1
+satisfying 1
+wobton 1
+tamales 1
+chimichanga 1
+taste treats 1
+bento 1
+chinese buffet 1
+springroll 1
+chewy 1
+discovery 1
+affordable 1
+wheat 1
+rolled 1
+monotone 1
+expiremental 1
+drizzled 1
+pot stickers 1
+wanton 1
+new dish 1
+pasta 1
+uncooked 1
+decoration is very simple 1
+sticky rice 1
+chinese style food 1
+leaves 1
+jelly 1
+takeout 1
+trational food 1
+yum 1
+tempting 1
+social 1
+weird 1
+unappealing 1
+steamers 1
+taco 1
+romantic 1
+bountiful 1
+tofu 1
+kosher 1
+one 1
+fried food 1
+homemade 1
+heady 1
+side 1
+medium 1
+gelatinous 1
+ancient 1
+from 1
+color full restorents foods 1
+scalops 1
+unknown 1
+hungry 1
+two 1
+long 1
+plentiful 1
+chappathi role 1
+mysterious 1
+white 1
+containers 1
+questionable 1
+stuffed 1
+tasteless 1
+buttery 1
+cheese rolls 1
+wrapped 1
+bun 1
+won tons 1
+sticky 1
+oilfoods 1
+rangoon 1
+sticky buns 1
+fulfilling 1
+monochromatic 1
+crab ragoon 1
+jda 1
+j ta 1
+crab ckaes 1
+slippery 1
+hotel foods 1
+eatable 1
+mushy 1
+shu mai 1
+pick 1
+lip smacking 1
+seven 1
+delectable 1
+delicatessen 1
+sushi 1
+juicy 1
+diverse 1
+appetizing 1
+breakfast 1
+shrimp 1
+tan 1
+finger-foods 1
+cuisine 1
+clever 1
+comfort 1
+flaky 1
+chicken stir-fry 1
+jmg. 1
+amazing 1
+other 1
+disgusting 1
+yucky 1
+nice 1
+tapas 1
+salad 1
+gross 1
+.kmd 1
+sour 1
+oriental food 1
+steam 1
+baozi 1
+mystery 1
+wantons 1
+desert 1
+breads 1
+fried dumplings 1
+lemon chicken 1
+dippers 1
+best food 1
+buns 1
+deep fried 1
+hearty 1
+honeyed 1
+platter 1
+oysters 1
+cabage 1

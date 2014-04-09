@@ -1,0 +1,273 @@
+fish 47
+salmon 32
+fancy 23
+cucumber 18
+expensive 17
+caviar 15
+sauce 14
+tasty 13
+plate 12
+food 11
+delicious 11
+healthy 10
+seafood 9
+small 8
+presentation 8
+light 8
+fresh 8
+garnish 7
+roe 6
+onion 6
+dinner 6
+gourmet 6
+egg 6
+meat 5
+sushi 5
+raw 5
+butter 5
+good 4
+colorful 4
+lunch 4
+messy 4
+bad 4
+meal 4
+gross 4
+creamy 4
+fishy 4
+elegant 4
+eggs 4
+smelly 3
+snack 3
+yummy 3
+unique 3
+bland 3
+restaurant 3
+unhealthy 3
+simple 3
+sweet 3
+pretty 3
+tasteless 3
+beautiful 3
+cream 3
+diet 3
+green 3
+classy 3
+partial 2
+chicken 2
+jam 2
+attractive 2
+unsatisfying 2
+nice 2
+art 2
+dish 2
+nutritious 2
+bold 2
+gormet 2
+small portion 2
+weird 2
+sparse 2
+quality 2
+tiny 2
+crab 2
+radish 2
+eatable 2
+whites 2
+pretentious 2
+ugly 2
+minimalistic 2
+salty 2
+fried 2
+cuccumber 2
+taste 2
+appetizing 2
+different 2
+lacking 2
+odd 2
+meager 2
+plating 2
+not nice 2
+unappealing 2
+delectable 2
+portion 2
+clean 2
+attractable 1
+nutrious 1
+very sweet 1
+cheese 1
+excellent 1
+unidentifible 1
+cavier 1
+mild 1
+fish eggs 1
+innovative 1
+unfavorable 1
+scarce 1
+brillent 1
+wasabi sauce 1
+meticulous 1
+extravagent 1
+expenisve 1
+cup 1
+ketchep 1
+refreshment 1
+sashimi 1
+veg 1
+disgust 1
+ghee 1
+savory 1
+bread 1
+high-class 1
+junk 1
+halfeaten 1
+haute cuisine 1
+contemporary 1
+streak 1
+palate cleanser 1
+tasty snacks 1
+melted 1
+exquisite 1
+nasty 1
+edible 1
+enjoyable 1
+marvellous 1
+vibrant 1
+croquette 1
+crunchy 1
+tiffon 1
+unfilling 1
+roast 1
+plain 1
+served 1
+dip 1
+awesome 1
+view 1
+heavy 1
+japanese 1
+artsy 1
+small amount 1
+engaging 1
+bare 1
+fist 1
+squishy 1
+high end 1
+looks great 1
+avocado puree 1
+ice cream 1
+irresistible 1
+nonedible 1
+dense 1
+fine 1
+wow 1
+petite 1
+fillet 1
+creative 1
+protien 1
+egg taste 1
+asian 1
+mashed potatoes 1
+five star 1
+highbrow 1
+skimpy 1
+smatter 1
+tartar 1
+posh 1
+colorless 1
+seconds 1
+french 1
+sauce? 1
+hallwa 1
+pate 1
+high calories 1
+worthy 1
+montan fry 1
+tasty break 1
+paste 1
+cucumber salad 1
+inspired 1
+jelly 1
+yum 1
+suitable 1
+creamsauce 1
+indulging 1
+loaf 1
+low calorie 1
+disgusting 1
+non-veg 1
+cucmber 1
+balanced 1
+refined 1
+complex 1
+cheesy 1
+meaty 1
+undesirable 1
+lemongrass veloute 1
+white jam 1
+unknown 1
+vegetables 1
+snacks 1
+few 1
+gorgeous 1
+mysterious 1
+white 1
+oily 1
+spicy 1
+delscious 1
+half eaten 1
+tarter sauce 1
+serve 1
+specialty 1
+orange 1
+ikura 1
+mouth-watering 1
+antipasta 1
+undercooked 1
+flan 1
+starter 1
+freash 1
+nordic 1
+delecious 1
+unfulfilling 1
+spicy sauc 1
+raddish 1
+brown 1
+inadequate 1
+upscale 1
+flavorful 1
+curd 1
+mush 1
+pastry 1
+sliver of vegetables 1
+inviting 1
+breakfast 1
+disliked 1
+unsatisfied 1
+cuisine 1
+mushroom farce 1
+eloquent 1
+underwhelmed 1
+green with meat 1
+strange 1
+special 1
+clean sweet 1
+pudding 1
+pizza 1
+poor 1
+vegetable 1
+entree 1
+yummy tasty 1
+egg item 1
+tapia 1
+food art 1
+delicate 1
+eaten 1
+professional 1
+nothing 1
+not colorful 1
+elaborate 1
+potato 1
+hungry 1
+shushi 1
+ocean 1
+artistic 1
+platter 1
+hard boiled egg 1

@@ -1,0 +1,207 @@
+sausage 42
+bread 33
+delicious 30
+healthy 27
+food 24
+tasty 23
+dinner 18
+vegetables 18
+colorful 16
+meal 16
+fresh 15
+toast 14
+lunch 13
+grilled 13
+meat 10
+peppers 10
+balanced 9
+savory 9
+toasted 9
+filling 8
+breakfast 8
+sauce 7
+veggies 7
+hearty 7
+yummy 6
+plate 6
+nutritious 6
+meaty 5
+sausages 5
+salad 5
+protein 5
+fatty 5
+dip 4
+fattening 4
+mustard 4
+greasy 4
+brunch 4
+capsicum 4
+juicy 4
+hot dog 4
+bright 3
+satisfying 3
+pepper 3
+cucumber 3
+spicy 3
+warm 3
+variety 3
+cooked 3
+summer 2
+good 2
+bread toast 2
+herbs 2
+chilly 2
+cheese 2
+fancy 2
+garlic toast 2
+vegatables 2
+nutrition 2
+combo 2
+appealing 2
+fruits 2
+salty 2
+leaves 2
+links 2
+flavorful 2
+appetizing 2
+zucchini 2
+hot 2
+nice 2
+carbs 2
+egg 2
+bred 2
+hungry 2
+hot dogs 2
+dressing 1
+german 1
+leafy greens 1
+sauages 1
+mouth-watering 1
+roasted 1
+dish 1
+greens 1
+deep fried bread 1
+unique 1
+ham 1
+eat 1
+veg 1
+heavy breakfast 1
+easy 1
+break fast 1
+toasted bread 1
+cool 1
+grill 1
+big 1
+sause 1
+luring 1
+attractive dish 1
+clogging 1
+veg egg 1
+delisious 1
+lettuce 1
+vibrant 1
+grilled sandwich 1
+feast 1
+bland 1
+large 1
+scrumptious 1
+quick 1
+dipping sauce 1
+apetizing 1
+attracting 1
+vegtables 1
+red sausages 1
+sasage 1
+succulent 1
+good taste 1
+burger 1
+nourishing 1
+colourful 1
+leaf 1
+tasteful 1
+caloric 1
+delightful 1
+colorful vegetables 1
+expensive 1
+zesty 1
+custard 1
+unappealing 1
+contrasting 1
+full 1
+yumm 1
+saussage 1
+dipping sauce in the middle 1
+chilli 1
+chef prepared 1
+egg cury 1
+potato chips 1
+yum 1
+delishious 1
+shiny 1
+frankies 1
+unhealthy 1
+sweet 1
+soft cury 1
+bountiful 1
+nutritional 1
+brats 1
+franks 1
+sos 1
+vivid 1
+meats 1
+kielbasa 1
+crispy 1
+susuage 1
+beef 1
+spinach 1
+gourmet 1
+mayonaise 1
+parsley 1
+garnished 1
+homemade 1
+sweet egg 1
+banana 1
+rich 1
+fried sausages 1
+tangy 1
+chukiny 1
+bratwurst 1
+easy to make 1
+overwhelming 1
+white 1
+rusk 1
+edible 1
+fulfilling 1
+fresh vegetables 1
+oily 1
+cake 1
+brawts 1
+fried 1
+snacks 1
+decandent 1
+mint 1
+baguette 1
+lemon 1
+varied 1
+toastes 1
+grilled bread at the end 1
+tomato 1
+vegetable 1
+hotdogs 1
+veg cury 1
+sauted 1
+yummy vegetables 1
+good looking food 1
+hamberger 1
+well-plated 1
+wholesome 1
+energetic 1
+herby 1
+butter 1
+refreshing 1
+chees 1
+green 1
+letuce 1
+platter 1
+grilled bread 1
+hotdog 1

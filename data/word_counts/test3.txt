@@ -1,0 +1,845 @@
+sushi 592
+fish 351
+raw 263
+japanese 235
+shrimp 208
+seafood 158
+fresh 104
+rice 86
+healthy 74
+food 72
+colorful 70
+sashimi 69
+delicious 63
+tasty 60
+platter 60
+tuna 54
+variety 51
+asian 48
+plate 46
+salmon 45
+japan 44
+fishy 44
+rolls 29
+sweet 28
+sweets 27
+prawn 26
+octopus 26
+sea food 24
+seaweed 24
+cold 23
+raw fish 23
+crab 22
+meat 22
+expensive 20
+dinner 19
+roe 18
+roll 18
+yummy 16
+sea 16
+cucumber 16
+nigiri 16
+meal 15
+beautiful 14
+prawns 14
+wasabi 13
+gross 13
+spicy 13
+lobster 12
+caviar 12
+light 11
+exotic 11
+cheese 11
+squid 11
+tofu 11
+good 10
+california roll 9
+avocado 9
+japanese food 9
+cuisine 9
+leaf 9
+smelly 9
+vegetables 9
+leaves 8
+crackers 8
+artistic 8
+chicken 8
+onion 8
+uncooked 7
+salty 7
+delicacy 7
+ethnic 7
+red 7
+fancy 7
+assortment 7
+delicate 7
+attractive 7
+nice 7
+dish 6
+disgusting 6
+salad 6
+organized 6
+natural 6
+egg 6
+appealing 6
+fruits 6
+dishes 6
+different 6
+ocean 6
+slimy 6
+cake 6
+appetizing 6
+oriental 6
+chinese 5
+presentation 5
+sushi platter 5
+varied 5
+green 5
+interesting 5
+filling 5
+tray 5
+large 5
+eggs 5
+traditional 5
+pretty 5
+appetizer 5
+chewy 5
+table 5
+decoration 5
+unique 5
+fish eggs 4
+non-veg 4
+garnish 4
+edible 4
+sour 4
+authentic 4
+savory 4
+health 4
+yum 4
+plentiful 4
+ginger 4
+buffet 4
+sushi set 4
+hungry 4
+clean 4
+nasty 4
+oceanic 4
+nutritious 4
+foreign 4
+raw food 4
+maki 4
+vegetable 4
+butter 4
+lunch 4
+soft 4
+asain 4
+taste 4
+prepared 4
+creative 3
+nori 3
+california rolls 3
+small 3
+enticing 3
+saki 3
+yuck 3
+share 3
+shashimi 3
+sample 3
+crunchy 3
+feast 3
+asia 3
+exquisite 3
+japanese cuisine 3
+squishy 3
+organic 3
+gourmet 3
+prans 3
+tuna rolls 3
+tangy 3
+shell 3
+unappetizing 3
+tamago 3
+yucky 3
+refreshing 3
+art 3
+culture 3
+cakes 3
+options 3
+assorted 3
+fun 3
+protein 3
+party 3
+boiled 3
+fruit 3
+delectable 3
+stinky 3
+steamed 3
+sea foods 3
+sampler 3
+eel 3
+suchi 3
+of 3
+arranged 3
+display 3
+diverse 3
+enjoyable 2
+cool 2
+cavier 2
+shrimps 2
+colourfull 2
+colourful 2
+poison 2
+omega 3 2
+full 2
+curry 2
+china 2
+looking nice 2
+not cooked 2
+california 2
+weird 2
+slices 2
+octupus 2
+veg 2
+eral 2
+rich 2
+abundant 2
+decorative 2
+awesome 2
+pieces 2
+pink 2
+hearty 2
+tomato 2
+crowded 2
+classy 2
+appetizers 2
+tuna roll 2
+sushis 2
+combination 2
+bread 2
+healthy food 2
+special 2
+healty 2
+tasteless 2
+grapes 2
+marine 2
+rasagula 2
+earthy 2
+pork 2
+bland 2
+mercury 2
+festival 2
+japanese meal 2
+white 2
+flavorful 2
+leafs 2
+non-vegetarian 2
+plater 2
+tako 2
+aquatic 2
+bright 2
+calamari 2
+fleshy 2
+sugar 2
+non veg 2
+delisious 2
+whitefish 2
+ebi 2
+satisfying 2
+unappealing 2
+garnishing 2
+simple 2
+unusual 2
+sushi rolls 2
+colors 2
+orange 2
+asian food 2
+appetising 2
+items 2
+bowl 2
+japenese 2
+milk sweet 2
+spread 2
+cultural 2
+green leaves 2
+crisp 2
+color 2
+vibrant 2
+popular 2
+bite-size 2
+nauseating 2
+japaneese 2
+favorite 2
+happy 2
+paneer 2
+fulfilling 2
+mouthwatering 2
+avacado 2
+sticky 2
+fresh fish 2
+tasteful 2
+diet 2
+fishes 2
+llisa dish 1
+mouth-watering 1
+desirable 1
+yellow 1
+desserts 1
+mild 1
+selection 1
+inari 1
+mgt 1
+greens 1
+row 1
+and strawberry 1
+mixed meat 1
+chinnes dishess 1
+flash 1
+i like this food 1
+culinary 1
+sashami 1
+yellowtail 1
+marinelike 1
+seefood 1
+square fish 1
+sushio 1
+unsatisfying 1
+very 1
+vegan 1
+choice 1
+well-done 1
+binto box 1
+well-presented 1
+tantalizing 1
+romantic 1
+cook 1
+salmon rolls 1
+ebi nigiri 1
+lury 1
+egg roe 1
+nice and beutifull 1
+tra 1
+adorable 1
+mixed pieces 1
+i like it 1
+item 1
+honor 1
+excellence 1
+good meals 1
+ghee sweet 1
+sweet varities 1
+round 1
+one in all llisa 1
+cookies 1
+brave 1
+shrimpt 1
+refreshment 1
+nigirizushi 1
+elegant 1
+asian cusine 1
+colorful salad 1
+bacteria 1
+tactile 1
+fried fish 1
+top-grade 1
+colorful meat 1
+fine 1
+delicous 1
+uniform 1
+beautifula 1
+indian 1
+raw seafood sushi 1
+shared 1
+zesty 1
+son papdi 1
+odor 1
+era 1
+semiraw food 1
+festive 1
+mussels 1
+rubbery 1
+great 1
+delicious raw fish 1
+talent 1
+seafoods 1
+costly food 1
+eating. 1
+i'd 1
+umami 1
+japanese sushi set 1
+bento box 1
+suprising 1
+variety food 1
+shark 1
+elegent 1
+sliced 1
+fresh flash 1
+meats 1
+it is beautyful 1
+iodine 1
+objectable 1
+meaty 1
+sake 1
+creamy 1
+freshly served sushi 1
+jam 1
+lowfat 1
+vegetable slad 1
+milk sweets 1
+chubby 1
+see foor 1
+excellent 1
+egg white 1
+asian cuisine 1
+chicken and fish 1
+straw berry 1
+md 1
+mg 1
+protine 1
+tokyo 1
+round fish 1
+sonpapdi 1
+texturous 1
+non vegetables 1
+tinder 1
+high protien 1
+fish-adventurous 1
+caution 1
+bites 1
+history 1
+fish meat 1
+foodie 1
+snacks 1
+japanses 1
+foods 1
+mixture 1
+intricate 1
+raatu 1
+wonderful 1
+onions 1
+native 1
+deep find 1
+flawless 1
+divided 1
+summery 1
+delicacies 1
+amazing 1
+flushy 1
+toxic 1
+spinach with toor daal. 1
+mouth watering 1
+delectible 1
+small meal 1
+cocktail 1
+food arrangement 1
+chines 1
+ball 1
+onion leaf 1
+well-plated 1
+date 1
+chilled 1
+splendid 1
+enriching 1
+artful 1
+non vegetarian 1
+maki rolls 1
+palcovas 1
+japanese plate 1
+squid combo 1
+yummy seafood 1
+hors d'ouvres 1
+top foods items 1
+diverse selections 1
+displayed 1
+satisfied 1
+unboiled 1
+looks 1
+innovative 1
+arrangement 1
+perfect 1
+japanese sushi restaurant 1
+chilled fish 1
+sussi 1
+jananese 1
+wet dish 1
+strange 1
+sushir 1
+variety taste 1
+tourist 1
+swwet 1
+variety flavours 1
+korian 1
+tails 1
+plates 1
+large sushi plate 1
+ketchup 1
+tossed seafood 1
+cottage cheese cubes in spinach gravy 1
+ebi shrimp sushi 1
+sweet halwa 1
+veins 1
+full plate 1
+lasting 1
+sugary 1
+eastern 1
+jaangri 1
+nagiri 1
+good taste 1
+parasites 1
+soy 1
+mysoreback 1
+receipe 1
+salads 1
+fatty 1
+authentic sushi 1
+good looking 1
+hunger-inducing 1
+strawberry 1
+dirverse 1
+good sushi 1
+egg sushi 1
+tempura 1
+i'm hungry 1
+like 1
+pleasant 1
+different colour 1
+icky 1
+food presentation 1
+not fresh 1
+greasy 1
+scary 1
+fish pieces 1
+spinach 1
+calories 1
+foods looking colourful 1
+khadai 1
+sushsi 1
+tempting 1
+more variety 1
+chilly 1
+miso 1
+artistry 1
+sumptious 1
+flavourful 1
+sushi treat 1
+array 1
+little 1
+this chicken , mutten and veg 1
+different tast 1
+prons 1
+mgjt 1
+i like very much 1
+needed 1
+decorations 1
+perfectly 1
+swrimp 1
+stuffed 1
+cavair 1
+fresh eral 1
+eral family 1
+unboiled healthy 1
+antipasta 1
+very healthy 1
+varieties 1
+handmade sushi 1
+futo maki 1
+scrumptious 1
+japanese sushi 1
+healthy salad 1
+raw sea food 1
+risky 1
+chop-sticks 1
+juicy 1
+fish food 1
+shushi 1
+tastey 1
+my 1
+breakfast 1
+good choice 1
+caviare 1
+sensual 1
+lumpy 1
+wholesome 1
+pron dishess 1
+tekka maki 1
+allergies 1
+dining 1
+tentacles 1
+korean 1
+seductive 1
+food-plate 1
+tastes good 1
+varity 1
+mutton 1
+srimo 1
+plenty 1
+sea food items 1
+why 1
+black plate 1
+cucumber roll 1
+mushy 1
+not filling 1
+orderly 1
+healhy 1
+precise 1
+hunger 1
+cucumber slices 1
+worms 1
+many foods 1
+serving 1
+nonvegeterian 1
+sasami 1
+busy 1
+non-veg food 1
+shellfish 1
+makizushi 1
+and sweet 1
+nice decorations 1
+adventureous 1
+sushi plate 1
+good with spicy sauses 1
+healthhy 1
+dk 1
+no go 1
+salmon roe 1
+chopsticks 1
+very hungry 1
+colorful dish 1
+mixed dish 1
+crabs 1
+ghee sweets 1
+fantastically 1
+grap 1
+non veg food 1
+useful to age increase 1
+greeny 1
+rich in folic acid 1
+bad 1
+dangerous 1
+burfi 1
+grab 1
+steak 1
+fascinating 1
+fresh and healthy 1
+arranged in plate 1
+chinese food 1
+coconut cake 1
+tender 1
+suculent 1
+shushi platter 1
+packed 1
+palette 1
+vitamins 1
+soushi 1
+prsentation 1
+distinctive 1
+wow 1
+fish roe 1
+grape sweet 1
+decoration is good 1
+various 1
+horrible 1
+chosticks 1
+claws 1
+mysour pak 1
+rolled 1
+joy 1
+spoiled 1
+vitamin 1
+sushi delight 1
+full course 1
+tun 1
+sea  food 1
+bite-sized 1
+cultural food 1
+talented 1
+many 1
+jelly 1
+detailed 1
+flavorless 1
+full plate of sushi 1
+vessel 1
+cup ,white 1
+sweet roll 1
+patterened 1
+indulgent 1
+colour full 1
+lovely 1
+shimp 1
+large prawns 1
+side-dishes 1
+boiled seafood 1
+tidy 1
+non-vegetables 1
+wet 1
+pricey 1
+bean curry with rice 1
+careful 1
+jangiry 1
+intriguing 1
+fresh prawns 1
+very look 1
+choices 1
+ugly 1
+jelly cakes 1
+morsels 1
+mongolian 1
+sakura sushi thai 1
+likable 1
+sushi dinner 1
+susi 1
+sush 1
+expenive 1
+vegitables 1
+upscale 1
+sushy 1
+junk food 1
+jerry 1
+plated 1
+wierd 1
+suishi 1
+clammy 1
+atural 1
+plating 1
+fat rich 1
+skilled 1
+pinapple 1
+jammie 1
+tradition 1
+finesse 1
+well 1
+segmented 1
+greenleaves 1
+salmon sashimi 1
+crayfish 1
+delicasy 1
+whimsical 1
+japanese tofu 1
+flesh 1
+handrolls 1
+mannerly 1
+nonveg 1
+sample platter 1
+crackle 1
+fishing 1
+skill 1
+healty food 1
+generous 1
+cherry 1
+arranged well 1
+kelp 1
+craftsmanship 1
+cherri 1
+japenese food 1
+sashmi 1
+smart 1
+funny picture 1
+pies 1
+sea weed 1
+seperate 1
+badusa 1
+inviting 1
+nonappealing 1
+nutrients 1
+fishroll 1
+shapes 1
+banana leaf 1
+served 1
+unagi 1
+seafood decoration 1
+ahi 1
+proteins 1
+loaded 1
+trendy 1
+tomago 1
+divine 1
+health-nut 1
+vegetsables 1
+delightful 1
+polluted 1
+pron 1
+very engry food 1
+food-decoration 1
+srimp 1
+minimal 1
+potatoes cooked in curry. 1
+contrasting 1
+diced 1
+neatly 1
+bold 1
+corn 1
+oil free 1
+so much fish 1
+exciting 1
+garnished 1
+seafood platter 1
+rare 1
+who wants same 1
+high-end 1
+sweet mix 1
+catchy 1
+mixed 1
+urges 1
+fish and prawns 1
+tofy 1
+coldserved 1
+get them while they are fresh 1
+hygenic 1
+bountiful 1
+laos cuisine 1
+yellow butter 1
+horesdourves 1
+coastal 1
+wrap 1
+chopped 1
+calming 1
+home cooking 1
+brain food 1
+un-cooked 1
+tasting 1
+sahimi 1
+welldone 1
+jom roll 1
+racist 1
+homemade 1
+this is a non-veg 1
+sushi and shashimi 1
+cauliflower with potatoes sauteed with garam masala. 1
+oil 1
+sophisticated 1
+fisheries 1
+fish curry 1
+eat 1
+fresh sushi 1
+northern europe 1
+smooth 1
+oily 1
+wasbi 1
+prawn foods 1
+high calorie 1
+boiled food 1
+fat free 1
+platter of fish 1
+diversity 1
+ew 1
+prawn receipe 1
+yammi 1
+non vegitarian 1
+platting 1
+handmade 1
+aromatic 1
+sick 1
+test 1
+omegas 1
+spicysauce 1
+hives 1
+juices 1
+vital for health 1
+mouth-filling 1
+nutrient 1
+small salmon 1
+beda 1
+tapeworm 1
+salmon fish 1
+round box 1
+tuna sashimi 1
+seafood combo 1

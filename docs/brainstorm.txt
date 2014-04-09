@@ -1,0 +1,98 @@
+Thesis: pre-task worker orientation can strongly
+- prime workers
+- generate different results
+
+Park-dog coding task - pictures of national parks or something with people 
+and animals
+
+Priming Strategies:
+1) Training excercise
+	- stock photos with animals
+	- stock photos without
+	- random subset
+
+2) Funder
+	- National Park Service
+	- McGill
+	- Animal Health Org
+
+3) Motivation / Description
+	- City planning and how people view their surroundings
+	- Animals and greenspace
+	- strictly operational description
+
+Studying lasting effects of priming
+	- use 10 pictures
+	- 3 orderings
+
+Measured
+	- effect of priming on k-top label ordering for the first pic
+	- effect of priming on k-top labels for later pics (the lasting effect)
+
+Guidelines to avoid priming:
+	- Burn-in
+	- diverse training
+
+
+
+
+
+
+Treatments:
+2 treatments per treatment set
+3 sets
+1 control treatment
+~~~~
+7 treatments
+
+100 workers per treatment
+x 7 treatments
+~~~~~
+700 worker-HITs
+
+0.15 $ per worker-HIT
+x 700 worker-HITs
+~~~~~
+210 $
+
+
+analysis
+- compare TF between different treatments.
+- compare total vocabulary between different treatments, and between a 
+	population comprised of 50 users from cultural and 50 users from ingredients
+
+
+
+
+discussion
+
+- make an ontology
+- separately label things
+- can we predict which set people were in - naive bayes
+- idea of successive runs with clustering to gain specificity
+- make an edgelist for the ontology
+- comparing 
+- temporal analysis, a figure:
+
+	% |
+	c |
+	u |
+	l |
+	t |
+	u |
+	r |
+	e |
+	  |______________________
+		1	2	3	4	5
+
+- vacabulary - diversity
+- vocabulary - specificity
+- stroop test
+- relative strength of priming pics vs funder
+- table:
+
+	PRIMING	FOOD	CULTUR	OTHER
+	ambig	#		#		#
+	food	#		#		#
+	culture	#		#		#
+

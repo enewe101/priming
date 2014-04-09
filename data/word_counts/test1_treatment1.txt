@@ -1,0 +1,179 @@
+italian 80
+wine 69
+pizza 67
+food 52
+pasta 33
+spaghetti 26
+dinner 20
+delicious 18
+calzone 13
+meal 12
+italy 11
+table 10
+feast 9
+salad 9
+picnic 8
+restaurant 6
+chianti 6
+garlic 6
+bread 5
+flowers 5
+tasty 5
+traditional 5
+italian food 4
+yummy 3
+sauce 3
+noodles 3
+family 3
+romantic 3
+cuisine 3
+dishes 3
+tablecloth 3
+hungry 3
+colorful 2
+red wine 2
+culture 2
+satisfying 2
+meatballs 2
+festive 2
+diner 2
+healthy 2
+complete 2
+meatball 2
+appetizing 2
+variety 2
+salads 2
+tomatoes 2
+authentic 2
+antipasto 2
+hearty 2
+hunger 1
+formal 1
+enjoyable 1
+celebrations 1
+dish 1
+itallian 1
+italian dishes 1
+jam 1
+break fast 1
+savory 1
+enjoying 1
+cousine 1
+who is hungry? 1
+home made 1
+familiar 1
+lunch 1
+cultural 1
+pizza and salad 1
+unique 1
+roti 1
+filling 1
+red 1
+popular 1
+evening snacks 1
+enjoy 1
+vino 1
+liquor 1
+mediterranean 1
+restaurent 1
+side dishes 1
+european 1
+sauces 1
+drinks 1
+soothing 1
+checkers 1
+wow 1
+cooking 1
+delightful 1
+filled 1
+nutritious 1
+enjoy food 1
+checkered 1
+beverages 1
+pleasant 1
+nice 1
+spagetti 1
+dry 1
+great 1
+eatables 1
+mean 1
+flower 1
+join me. 1
+cheese 1
+dine 1
+table cloth 1
+simple 1
+calazone 1
+low calorie 1
+cheesy 1
+expensive 1
+exciting 1
+indulgent 1
+friends 1
+vegetables 1
+tradition 1
+rustic 1
+beer 1
+customs 1
+white onion 1
+spagheti 1
+spicy 1
+prosperous 1
+vine 1
+hotel 1
+ristorante 1
+chiante 1
+warm 1
+baked snacks 1
+mouth-watering 1
+brunch 1
+with 1
+eat 1
+plaid 1
+relaxing 1
+elegant 1
+food and drinks 1
+decorate 1
+fruits 1
+cake 1
+addictive 1
+pastry 1
+gathering 1
+full 1
+classic 1
+modern 1
+deep 1
+comfortable 1
+tabletop 1
+breakfast 1
+cafe 1
+different 1
+mushroom 1
+artisinal 1
+nudils 1
+american 1
+dining 1
+special 1
+sandwich 1
+yammi 1
+tasteful 1
+spagetti and meatballs 1
+diet 1
+sophistication 1
+fruit 1
+favorites 1
+supper 1
+salsa 1
+pizzas 1
+restraunt 1
+diningtable 1
+tomato 1
+antipasta 1
+nuddles 1
+eat item 1
+croissant 1
+italain 1
+greek 1
+prepared 1
+classy 1
+fresh 1

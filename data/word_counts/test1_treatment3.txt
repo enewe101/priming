@@ -1,0 +1,203 @@
+italian 77
+pizza 66
+wine 51
+pasta 30
+spaghetti 21
+calzone 18
+salad 17
+bread 15
+delicious 14
+filling 12
+garlic 11
+carbs 11
+noodles 10
+hearty 8
+dinner 7
+warm 7
+fresh 7
+meatballs 6
+meal 5
+healthy 5
+unhealthy 5
+fancy 5
+vegetables 5
+tasty 5
+variety 5
+food 4
+restaurant 4
+flowers 4
+classic 4
+tomato 4
+rich 3
+sauce 3
+lunch 3
+feast 3
+heavy 3
+comforting 3
+family 3
+balanced 3
+cheesy 3
+appetizing 3
+breakfast 3
+italian food 3
+authentic 3
+traditional 3
+attractive 2
+good 2
+red wine 2
+inviting 2
+picnic 2
+burger 2
+checkered 2
+fattening 2
+greasy 2
+simple 2
+homemade 2
+table 2
+meaty 2
+assortment 2
+glass 2
+romantic 2
+appealing 2
+meatball 2
+fried 2
+speghetti 2
+garlicy 2
+sharing 2
+cuisine 2
+carbohydrates 2
+aromatic 2
+croissant 2
+meat ball 1
+chowmin 1
+crust 1
+sleepy 1
+enjoyable 1
+ittalian 1
+chicken 1
+itallian 1
+veg pizza 1
+toast 1
+yummy 1
+mama mia! 1
+recreational 1
+hot 1
+spaghetti and meatballs 1
+meatballs on sauce 1
+dairy 1
+tamotoes salad 1
+formal 1
+for friends 1
+plate 1
+fancy bread 1
+starch 1
+dessert 1
+dark 1
+good with wine 1
+bead 1
+sweety 1
+old 1
+gooy 1
+meat 1
+sos 1
+courses 1
+delightful 1
+european 1
+soft 1
+exquisite 1
+cheese burger 1
+oregano 1
+fascinating 1
+colorful food 1
+full meal 1
+manner-like 1
+perfect dinner 1
+sphagetti 1
+dining hall 1
+sauces 1
+enticing 1
+satisfying 1
+sancwich 1
+frugal 1
+caloric 1
+pizzeria 1
+tomato sauce 1
+full 1
+commercial 1
+fun 1
+high calories 1
+pastas and pizza 1
+sweet pizza 1
+diner 1
+appertif 1
+foreign 1
+tomato based 1
+lemon 1
+tasty foods 1
+variety food 1
+cheese 1
+sweet 1
+ethnic 1
+pepper pizza 1
+rotti 1
+mafia 1
+crispy 1
+tired 1
+meditteranean 1
+long 1
+plentiful 1
+meal for all 1
+seasoned 1
+lury 1
+stuffed 1
+racist 1
+amazing 1
+fancy vegetables 1
+butter 1
+good pizza 1
+complete 1
+relaxing 1
+luncheon 1
+pizz 1
+flaky 1
+brunch 1
+past 1
+dining table 1
+chianti 1
+medley 1
+soup 1
+arrangements 1
+stromboli 1
+salat 1
+fries and croissont 1
+salet 1
+flavorful 1
+pie 1
+calzones 1
+pastry 1
+multiple-course 1
+italy 1
+dishes 1
+salaid 1
+comfort 1
+chauce 1
+ideal 1
+tomatoey 1
+spaghetti with meatballs 1
+drinks 1
+tomatoes 1
+spagghetti 1
+pizza with gravy 1
+herbs 1
+coriander leaves 1
+croissants 1
+tablecloth 1
+spittleget 1
+robusr 1
+antipasto 1
+counter 1
+veg and non veg food 1
+dish for two 1
+classy 1
+entertaining 1
+breads 1

@@ -1,0 +1,234 @@
+italian 64
+pizza 53
+wine 42
+pasta 32
+spaghetti 23
+delicious 18
+calzone 17
+salad 15
+filling 11
+meatballs 11
+tasty 11
+bread 8
+traditional 8
+food 7
+garlic 7
+feast 6
+picnic 6
+healthy 6
+variety 6
+fresh 6
+meal 5
+dinner 5
+fancy 5
+rustic 5
+spicy 5
+chianti 5
+appetizing 5
+hearty 5
+yummy 4
+heavy 4
+noodles 4
+vegetables 4
+pie 4
+varied 4
+tomato 4
+eat 3
+sauce 3
+colorful 3
+red wine 3
+restaurant 3
+balanced 3
+cheesy 3
+classic 3
+flowers 3
+hot 3
+italian food 3
+authentic 3
+croissant 3
+saucy 2
+attractive 2
+plate 2
+comforting 2
+full 2
+family 2
+table 2
+expensive 2
+meaty 2
+appealing 2
+cafe 2
+carbohydrates 2
+comfort 2
+buffet 2
+robust 2
+italian cuisine 2
+antipasto 2
+delectable 2
+classy 2
+baked 2
+beutifull pizza 1
+sicilian 1
+poori 1
+salivating 1
+enjoyable 1
+oven 1
+anitpasto 1
+gj 1
+cup 1
+sharing 1
+down home 1
+amazing 1
+decoration looking nice 1
+savory 1
+holiday 1
+joyful 1
+feel good 1
+dm 1
+tasty food 1
+desirable 1
+lunch 1
+party 1
+ketchup 1
+meat 1
+home cooked 1
+crunchy 1
+grilled 1
+nice 1
+dip 1
+en 1
+pasa 1
+vino 1
+heavy food 1
+healthy food 1
+liquor 1
+vine 1
+bowls 1
+group 1
+burger 1
+checkered 1
+full-course 1
+family dinner 1
+home 1
+sauces 1
+fattening 1
+garlic bread 1
+flower 1
+italian style food 1
+comfort food 1
+delicous 1
+acidic 1
+red 1
+affordable 1
+be 1
+bold 1
+mouthwatering 1
+pleasant 1
+delecious 1
+muffalotta 1
+pasta with sauce 1
+cabreze 1
+spagetti 1
+lyonnaise 1
+cheers 1
+great 1
+egg wraps 1
+down-home 1
+games 1
+tempting 1
+salty 1
+share 1
+glasses 1
+cheese 1
+fantastic 1
+table cloth 1
+unhealthy 1
+simple 1
+calazone 1
+marvelous 1
+square 1
+tango 1
+decoration is rich 1
+chapathi 1
+plentiful 1
+gourmet 1
+friends 1
+insalata 1
+beutifuly 1
+peppery 1
+spread 1
+music 1
+homemade 1
+basic 1
+tangy 1
+ordered 1
+oily 1
+peppers 1
+loving 1
+tomator 1
+mediterranean 1
+hotel 1
+yahoo 1
+looking good 1
+glass 1
+warm 1
+excellent 1
+heavy foods 1
+chef salad 1
+nice bred 1
+restorents foods 1
+welcoming 1
+edible 1
+elegant 1
+fulfilling 1
+italian feast 1
+blueberry 1
+extra ordinatory food 1
+big hotel foods 1
+glossy 1
+outdoors 1
+cake 1
+homecooked 1
+country 1
+wellmade 1
+beautiful 1
+stuffing 1
+trattoria 1
+well-balanced 1
+satisfying 1
+alcoholic 1
+awesome 1
+flavorful 1
+ginger 1
+diverse 1
+penne 1
+sharp 1
+breakfast 1
+spaghetti with meatballs 1
+traditional italian 1
+junk food 1
+italy 1
+dishes 1
+salads 1
+bowl 1
+american 1
+ng 1
+rome 1
+vegetable 1
+plates 1
+watery 1
+gravy 1
+cocktail 1
+broad 1
+pic-nic 1
+drink 1
+toasty 1
+fruit 1
+food varieties 1
+professional 1
+date 1
+heavy fat 1
+carbs 1
+natural 1
+antipasti 1
+green 1
+breads 1

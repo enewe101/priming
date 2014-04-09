@@ -1,0 +1,214 @@
+sausage 40
+bread 35
+tasty 35
+delicious 34
+food 28
+healthy 26
+colorful 17
+meal 17
+peppers 17
+breakfast 16
+yummy 13
+vegetables 13
+toast 11
+sauce 11
+dinner 11
+plate 10
+lunch 9
+salad 9
+fresh 8
+good 7
+grilled 7
+meat 6
+filling 6
+balanced 6
+scrumptious 5
+sausages 5
+veggies 5
+hot dog 5
+dip 4
+meaty 4
+capsicum 4
+appetizing 4
+hearty 4
+cucumber 4
+dish 3
+vibrant 3
+fattening 3
+unhealthy 3
+tomato 3
+garnish 3
+spicy 3
+basil 3
+juicy 3
+protein 3
+hot 3
+vegetable 3
+egg 3
+hotdog 3
+bright 2
+nice 2
+avocado 2
+sause 2
+greens 2
+burger 2
+crispy 2
+delicous 2
+health 2
+nutritious 2
+pepper 2
+full 2
+simple 2
+brats 2
+complete 2
+flavorful 2
+rusk 2
+edible 2
+salty 2
+beautiful 2
+snacks 2
+varied 2
+enticing 2
+supper 2
+american 2
+hungry 2
+weiners 1
+summer 1
+bell pepper 1
+salivating 1
+yellow 1
+polish 1
+chicken 1
+fine 1
+menu 1
+spread 1
+pretty 1
+dressing 1
+savory 1
+toasted bread 1
+plump 1
+whole meal 1
+vegetavles 1
+non veg 1
+capscium 1
+tantalizing 1
+barbque 1
+unique 1
+instresting 1
+sandwitch 1
+crostini 1
+dipping 1
+summerlike 1
+yummy eatables 1
+dipping sauce 1
+saugage 1
+italian 1
+hygienic 1
+sausuage 1
+fresh food 1
+dippable 1
+colourful 1
+gross 1
+satisfying 1
+leaf 1
+rottey 1
+presentable 1
+delightful 1
+chewy 1
+green foods 1
+diet food 1
+comestible 1
+brealfast 1
+red 1
+bold 1
+fatty 1
+home cooked 1
+deliscious 1
+breakfest 1
+exciting 1
+rubbery 1
+greasy 1
+viennese 1
+great 1
+restaurant 1
+leaves 1
+onion 1
+rations 1
+yum 1
+eatables 1
+social 1
+shiny 1
+showy 1
+nutritional 1
+franks 1
+quality 1
+expensive 1
+home cooking 1
+toasted bun 1
+vegatables 1
+spinach 1
+gourmet 1
+recipedog 1
+jam 1
+colourful food 1
+banana 1
+nutrition 1
+serve 1
+two sausages 1
+greek 1
+bun 1
+starter 1
+lovely 1
+healthy breakfast 1
+fulfilling 1
+leafy 1
+ugly 1
+diverse 1
+yummy yummy 1
+squash 1
+cake 1
+vegetarian 1
+want it now 1
+omnomnom 1
+delucious 1
+delectable 1
+links 1
+saute 1
+awesome 1
+organized 1
+decadent 1
+temptating 1
+foods 1
+carrot 1
+mint 1
+bangers 1
+genuine 1
+variety 1
+suasages 1
+summery 1
+bread roast 1
+sick 1
+toasted 1
+enormous 1
+zucchini 1
+succulent 1
+plating 1
+sandwich 1
+papaya 1
+bruch 1
+tasteful 1
+starches 1
+warm 1
+diet 1
+french food 1
+toasty 1
+fruit 1
+energetic 1
+butter 1
+refreshing 1
+nasy 1
+cooked 1
+mango 1
+green 1
+platter 1
+wow 1

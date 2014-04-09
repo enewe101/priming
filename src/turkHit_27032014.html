@@ -1,0 +1,590 @@
+<form name="mturk_form" id="mturk_form">
+
+
+	<div id="task_anchor"></div>
+
+	<!-- The form controls below are needed for correct HIT functionning  -->
+	<input type="hidden" id="assignmentId" name="assignmentId" />
+	<input type="hidden" id="treatment_id" name="treatment_id" value="" />
+	<input type="submit" id="submitButton" name="submitButton" />
+
+</form>
+
+<script type="text/javascript">
+window.onload = init;
+
+var NUM_TREATMENTS = 7;
+var NUM_WORDS = 5;
+var NUM_PRIMING_IMAGES = 5;
+var NUM_TEST_IMAGES = 5;
+//	
+//  Builds the HIT based on the treatment_id.  
+//
+function buildTask(treatment_id){
+
+	// remove the submit button.  we'll submit programmatically
+	// (But we had to have one in the HTML else AMT behaves strangely)
+	$('#submitButton').remove();
+
+	// if treatment is -1 show the demo question
+	if(treatment_id<0) {
+		make_intro_panes(treatment_id);
+
+	// otherwise choose one of the test
+	} else {
+
+		// This controls which sets of images are used for priming under
+		// the given treatment (key is treatment_id)
+		var subject_map = {
+			// control
+			0 : 'ambiguous',
+
+			// trials with no funder
+			1 : 'cultural',
+			2 : 'ingredients',
+
+			// trials with funder "Nutritional Awareness"
+			3 : 'ambiguous',
+			4 : 'ingredients',
+
+			// trials with funder "Cultural Recognition"
+			5 : 'ambiguous',
+			6 : 'cultural'
+		};
+
+		// Build a list of all the image ids to be used
+		var image_subject = subject_map[treatment_id];
+		var image_src_prefix = 'http://shpow.com/hcomp/images/';
+
+		var priming_image_ids = [];
+		for (var i = 0; i<NUM_PRIMING_IMAGES; i++) {
+			priming_image_ids.push(image_subject + '_' + i);
+		}
+
+		var test_image_ids = [];
+		for (i = 0; i<NUM_TEST_IMAGES; i++) {
+			test_image_ids.push('test_' + i );
+		}
+
+		var all_image_ids = priming_image_ids.concat(test_image_ids);
+
+		// Build a list of the image hrefs to be used
+		var all_image_hrefs = [];
+		for(i = 0; i<NUM_PRIMING_IMAGES + NUM_TEST_IMAGES; i++) {
+			all_image_hrefs.push(image_src_prefix + all_image_ids[i] + '.jpg');
+		}
+
+		// Build the introductory panes (for some treatments a funder
+		// statement is included)
+		make_intro_panes(treatment_id);
+
+		// Build the task panes containing images
+		for(i=0; i < all_image_ids.length; i++) {
+
+			var pane = $('<div class="pane" />')
+				.css("border", "2px solid rgb(120,120,120)")
+				.css("width", "620px")
+				.css("padding", "20px")
+				.css("clear", "both")
+				.css("display", "none")
+				.attr("id", "pane_" + i);
+
+			var progress = $('<div>image ' + (i+1) + ' of ' 
+					+ all_image_ids.length + '</div>')
+				.css("clear", "both")
+				.css("color", "rgb(80,80,80)")
+				.css("font-style", "italic")
+				.css("font-size", "20px");
+
+			var img = $('<img />')
+				.css("width", "400px")
+				.css("float", "left")
+				.css("margin-right", "20px")
+				.attr("src", all_image_hrefs[i]);
+
+			var img_id_input = $('<input type="hidden" />')
+				.attr("name", "img_" + i + "_id")
+				.val(all_image_ids[i]);
+
+			var word_input_wrapper = $('<div />')
+				.css("float", "left")
+				.css("width", "200px");
+
+			for(var j = 0; j<NUM_WORDS; j++) {
+				word_input = $('<input type="text" />')
+					.css("width", "200px")
+					.css("height", "36px")
+					.css("margin-top", "4px")
+					.css("margin-bottom", "4px")
+					.css("font-size", "24px")
+					.css("color", "rgb(80,80,80)")
+					.css("font-weight", "bold")
+					.css("border", "solid 1px rgb(80,80,80)")
+					.attr("name", "img_" + i + "_word_" + j)
+					.attr("id", "img_" + i + "_word_" + j);
+
+				prevent_submit_on_enter(word_input);
+				word_input_wrapper.append(word_input);
+			}
+
+			var next_button = $('<input type="button"/>')
+				.css("width", "200px")
+				.css("height", "45px")
+				.css("cursor", "pointer")
+				.css("border", "solid 2px rgb(80,80,80)")
+				.css("margin-top", "10px")
+				.css("color", "green")
+				.css("font-size", "30px")
+				.css("background", "rgb(240,240,240")
+				.css("font-weight", "bold")
+
+			word_input_wrapper.append(next_button);
+
+			if(i == (all_image_ids.length - 1)) {
+				arm_submit(next_button, i);
+				next_button.val("finish");
+
+			} else {
+				arm_paginate(next_button, i);
+				next_button.val("next >");
+			}
+
+			var clear = $('<div />')
+				.css("clear", "both");
+
+			pane.append(img_id_input);
+			pane.append(progress);
+			pane.append(img);
+			pane.append(word_input_wrapper);
+			pane.append(clear);
+			$('#task_anchor').append(pane);
+
+		}
+	}
+}
+
+function prevent_submit_on_enter(input) {
+	input.on("keypress", function(e) {
+		if(e.which == 13) {
+			e.preventDefault();
+		}
+	});
+}
+
+function arm_submit(btn, pane_num) {
+	btn.click(function() {
+		if(verify_pane(pane_num)) {
+			$('#mturk_form').submit();
+		}
+	});
+}
+
+function arm_paginate(btn, pane_num) {
+	btn.click(function() {
+		if(verify_pane(pane_num)) {
+			$('#pane_' + pane_num).css("display", "none");
+			$('#pane_' + (pane_num + 1)).css("display", "block");
+		}
+	});
+}
+
+function verify_pane(pane_num) {
+	var pass = true;
+
+	for(var i = 0; i < NUM_WORDS; i++) {
+  		var word_input = $('#img_' + pane_num + '_word_' + i);
+
+		if(word_input.val().trim().length < 2) {
+			word_input.css("border", "solid 1px red");
+			pass = false;
+		} else {
+			word_input.css("border", "solid 1px rgb(80,80,80)");
+		}
+	}
+
+	return pass;
+}
+
+
+function make_intro_panes(treatment_id) {
+
+	var instructions_msg = $("<div />")
+		.css("font-size", "20px");
+	instructions_msg.html(
+		"<strong>Instructions</strong>"
+		+	"<p>You will be shown a series of pictures.</p>"
+		+	"<p>Please assign 5 descriptive words to each picture.</p>"
+		+	"<p>Place one word in each text-box.</p>"
+		+ 	"<p>A word has to be at least two letters long to count!</p>"
+	);
+
+	i = -1;
+
+	var pane = $('<div class="pane" />')
+		.css("border", "2px solid rgb(120,120,120)")
+		.css("width", "620px")
+		.css("padding", "20px")
+		.css("clear", "both")
+		.attr("id", "pane_instructions");
+
+	var explanation_div = $('<div />')
+		.css("width", "358px")
+		.css("float", "left")
+		.css("margin-right", "20px")
+		.css("border", "solid 1px rgb(80,80,80)")
+		.css("color", "rgb(80,80,80)")
+		.css("padding", "40px 20px 40px 20px");
+
+	explanation_div.append(funder_msg);
+	explanation_div.append(instructions_msg);
+
+	var word_input_wrapper = $('<div />')
+		.css("float", "left")
+		.css("width", "200px");
+
+	var next_button = $('<input type="button"/>')
+		.css("width", "200px")
+		.css("height", "45px")
+		.css("cursor", "pointer")
+		.css("border", "solid 2px rgb(80,80,80)")
+		.css("margin-top", "10px")
+		.css("color", "green")
+		.css("font-size", "30px")
+		.css("background", "rgb(240,240,240")
+		.css("font-weight", "bold")
+		.val("next >");
+
+	word_input_wrapper.append(next_button);
+
+
+	// Treatments 3 and higher have a funder statement.  Arm the 'next'-button
+	// to show the funder statement pane.
+	if(treatment_id > 2) {
+		next_button.click(function() {
+			$('#pane_instructions').css("display", "none");
+			$('#pane_funding').css("display", "block");
+		});
+
+	// Treatments 0 to 2 don't have a funder statement.  Arm the next-button
+	// to show the first picture-labeling task
+	} else if(treatment_id >= 0) {
+		next_button.click(function() {
+			$('#pane_instructions').css("display", "none");
+			$('#pane_0').css("display", "block");
+		});
+
+	// Treatment -1 represents a preview of the hit -- don't arm the next 
+	// button.  We don't want to spoil the surprise!
+	} else {
+		// do nothing
+	}
+
+	var clear = $('<div />')
+		.css("clear", "both");
+
+	pane.append(explanation_div);
+	pane.append(word_input_wrapper);
+	pane.append(clear);
+
+	$('#task_anchor').append(pane);
+
+	if(treatment_id > 2) {
+		pane = $('<div class="pane" />')
+			.css("border", "2px solid rgb(120,120,120)")
+			.css("width", "620px")
+			.css("padding", "20px")
+			.css("clear", "both")
+			.css("display", "none")
+			.attr("id", "pane_funding");
+
+		explanation_div = $('<div />')
+		.css("width", "358px")
+		.css("float", "left")
+		.css("margin-right", "20px")
+		.css("border", "solid 1px rgb(80,80,80)")
+		.css("color", "rgb(80,80,80)")
+		.css("padding", "100px 20px 100px 20px");
+
+		var funder_msg = $("<div />")
+			.css('font-size', '18px')
+			.css('text-align', 'center')
+			.css('font-weight', 'bold');
+
+		funder_msg.text('This research is proudly funded by');
+
+		if(treatment_id == 3 || treatment_id == 4) {
+			var funder_name = $('<div>The National Foundation for Nutritional Awareness</div>').css("font-size", "24px").css("margin", "20px");
+		} else if(treatment_id == 5 || treatment_id == 6) {
+			var funder_name = $('<div>The Global Foundation for the Recognition of Cultures</div>').css("font-size", "24px").css("margin", "20px");
+		}
+
+		funder_msg.append(funder_name);
+
+		explanation_div.append(funder_msg);
+
+		word_input_wrapper = $('<div />')
+			.css("float", "left")
+			.css("width", "200px");
+
+		next_button = $('<input type="button"/>')
+			.css("width", "200px")
+			.css("height", "45px")
+			.css("cursor", "pointer")
+			.css("border", "solid 2px rgb(80,80,80)")
+			.css("background", "rgb(240,240,240")
+			.css("margin-top", "10px")
+			.css("color", "green")
+			.css("font-size", "30px")
+			.css("font-weight", "bold")
+
+		word_input_wrapper.append(next_button);
+
+		next_button.click(function() {
+			$('#pane_funding').css("display", "none");
+			$('#pane_0').css("display", "block");
+		});
+
+		next_button.val("next >");
+
+		clear = $('<div />')
+			.css("clear", "both");
+
+		pane.append(explanation_div);
+		pane.append(word_input_wrapper);
+		pane.append(clear);
+
+		$('#task_anchor').append(pane);
+	}
+}
+
+//	** Usually you don't need to edit the stuff below **
+
+
+//
+//	Initial script called onload.  Turns the form into a conformant HIT
+//	then gets the workerId and passes it to your custom buildTask() function. 
+//
+function init() {
+	
+	// a standard call that sets the assignmentId, 
+	// form action, and submit btn behavior, so that the HIT works properly.
+	// the Hit must have a form with id="mturk_form" and a buttun with
+	// id="submitButton".
+	turkSetAssignmentID();
+
+	// get the reqester id
+	var worker_id = turkGetParam('workerId', false);
+
+	// randomly choose a treatment based on the worker_id
+	// treatment_id is set to -1 if there's no requester Id.  
+	var treatment_id;
+	if(worker_id) {
+		treatment_id = decideTreatment(worker_id, NUM_TREATMENTS);
+	} else {
+		treatment_id = -1; 	// this designates the preview
+	}
+
+	//	Set the treatment id and worker id to hidden form fields
+	//	so it gets associated with the HIT's results
+	$('#treatment_id').val(treatment_id);
+
+	// build the HIT based on the treatment_id
+	buildTask(treatment_id);
+}
+
+//
+//	Get a url query parameter by name
+//
+function getParameterByName(name) {
+	name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+	var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+	results = regex.exec(location.search);
+	return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
+
+//
+//	returns a randomly chosen treatment_id in {0 ... numTreatments}
+// 	based on the seeed.  Returns -1 if the seed==false.
+//
+function decideTreatment(seed, numTreatments) {
+	return parseInt(Sha256.hash(seed), 16)%numTreatments;
+}
+</script>
+<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="https://s3.amazonaws.com/mturk-public/externalHIT_v1.js"></script>
+<script type="text/javascript">
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
+/*  SHA-256 implementation in JavaScript | (c) Chris Veness 2002-2010 | www.movable-type.co.uk    */
+/*   - see http://csrc.nist.gov/groups/ST/toolkit/secure_hashing.html                             */
+/*         http://csrc.nist.gov/groups/ST/toolkit/examples.html                                   */
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
+
+var Sha256 = {};  // Sha256 namespace
+
+/**
+ * Generates SHA-256 hash of string
+ *
+ * @param {String} msg                String to be hashed
+ * @param {Boolean} [utf8encode=true] Encode msg as UTF-8 before generating hash
+ * @returns {String}                  Hash of msg as hex character string
+ */
+Sha256.hash = function(msg, utf8encode) {
+    utf8encode =  (typeof utf8encode == 'undefined') ? true : utf8encode;
+    
+    // convert string to UTF-8, as SHA only deals with byte-streams
+    if (utf8encode) msg = Utf8.encode(msg);
+    
+    // constants [§4.2.2]
+    var K = [0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
+             0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174,
+             0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc, 0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da,
+             0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7, 0xc6e00bf3, 0xd5a79147, 0x06ca6351, 0x14292967,
+             0x27b70a85, 0x2e1b2138, 0x4d2c6dfc, 0x53380d13, 0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85,
+             0xa2bfe8a1, 0xa81a664b, 0xc24b8b70, 0xc76c51a3, 0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070,
+             0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
+             0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2];
+    // initial hash value [§5.3.1]
+    var H = [0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a, 0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19];
+
+    // PREPROCESSING 
+ 
+    msg += String.fromCharCode(0x80);  // add trailing '1' bit (+ 0's padding) to string [§5.1.1]
+
+    // convert string msg into 512-bit/16-integer blocks arrays of ints [§5.2.1]
+    var l = msg.length/4 + 2;  // length (in 32-bit integers) of msg + ‘1’ + appended length
+    var N = Math.ceil(l/16);   // number of 16-integer-blocks required to hold 'l' ints
+    var M = new Array(N);
+
+    for (var i=0; i<N; i++) {
+        M[i] = new Array(16);
+        for (var j=0; j<16; j++) {  // encode 4 chars per integer, big-endian encoding
+            M[i][j] = (msg.charCodeAt(i*64+j*4)<<24) | (msg.charCodeAt(i*64+j*4+1)<<16) | 
+                      (msg.charCodeAt(i*64+j*4+2)<<8) | (msg.charCodeAt(i*64+j*4+3));
+        } // note running off the end of msg is ok 'cos bitwise ops on NaN return 0
+    }
+    // add length (in bits) into final pair of 32-bit integers (big-endian) [§5.1.1]
+    // note: most significant word would be (len-1)*8 >>> 32, but since JS converts
+    // bitwise-op args to 32 bits, we need to simulate this by arithmetic operators
+    M[N-1][14] = ((msg.length-1)*8) / Math.pow(2, 32); M[N-1][14] = Math.floor(M[N-1][14])
+    M[N-1][15] = ((msg.length-1)*8) & 0xffffffff;
+
+
+    // HASH COMPUTATION [§6.1.2]
+
+    var W = new Array(64); var a, b, c, d, e, f, g, h;
+    for (var i=0; i<N; i++) {
+
+        // 1 - prepare message schedule 'W'
+        for (var t=0;  t<16; t++) W[t] = M[i][t];
+        for (var t=16; t<64; t++) W[t] = (Sha256.sigma1(W[t-2]) + W[t-7] + Sha256.sigma0(W[t-15]) + W[t-16]) & 0xffffffff;
+
+        // 2 - initialise working variables a, b, c, d, e, f, g, h with previous hash value
+        a = H[0]; b = H[1]; c = H[2]; d = H[3]; e = H[4]; f = H[5]; g = H[6]; h = H[7];
+
+        // 3 - main loop (note 'addition modulo 2^32')
+        for (var t=0; t<64; t++) {
+            var T1 = h + Sha256.Sigma1(e) + Sha256.Ch(e, f, g) + K[t] + W[t];
+            var T2 = Sha256.Sigma0(a) + Sha256.Maj(a, b, c);
+            h = g;
+            g = f;
+            f = e;
+            e = (d + T1) & 0xffffffff;
+            d = c;
+            c = b;
+            b = a;
+            a = (T1 + T2) & 0xffffffff;
+        }
+         // 4 - compute the new intermediate hash value (note 'addition modulo 2^32')
+        H[0] = (H[0]+a) & 0xffffffff;
+        H[1] = (H[1]+b) & 0xffffffff; 
+        H[2] = (H[2]+c) & 0xffffffff; 
+        H[3] = (H[3]+d) & 0xffffffff; 
+        H[4] = (H[4]+e) & 0xffffffff;
+        H[5] = (H[5]+f) & 0xffffffff;
+        H[6] = (H[6]+g) & 0xffffffff; 
+        H[7] = (H[7]+h) & 0xffffffff; 
+    }
+
+    return Sha256.toHexStr(H[0]) + Sha256.toHexStr(H[1]) + Sha256.toHexStr(H[2]) + Sha256.toHexStr(H[3]) + 
+           Sha256.toHexStr(H[4]) + Sha256.toHexStr(H[5]) + Sha256.toHexStr(H[6]) + Sha256.toHexStr(H[7]);
+}
+
+Sha256.ROTR = function(n, x) { return (x >>> n) | (x << (32-n)); }
+Sha256.Sigma0 = function(x) { return Sha256.ROTR(2,  x) ^ Sha256.ROTR(13, x) ^ Sha256.ROTR(22, x); }
+Sha256.Sigma1 = function(x) { return Sha256.ROTR(6,  x) ^ Sha256.ROTR(11, x) ^ Sha256.ROTR(25, x); }
+Sha256.sigma0 = function(x) { return Sha256.ROTR(7,  x) ^ Sha256.ROTR(18, x) ^ (x>>>3);  }
+Sha256.sigma1 = function(x) { return Sha256.ROTR(17, x) ^ Sha256.ROTR(19, x) ^ (x>>>10); }
+Sha256.Ch = function(x, y, z)  { return (x & y) ^ (~x & z); }
+Sha256.Maj = function(x, y, z) { return (x & y) ^ (x & z) ^ (y & z); }
+
+//
+// hexadecimal representation of a number 
+//   (note toString(16) is implementation-dependant, and  
+//   in IE returns signed numbers when used on full words)
+//
+Sha256.toHexStr = function(n) {
+  var s="", v;
+  for (var i=7; i>=0; i--) { v = (n>>>(i*4)) & 0xf; s += v.toString(16); }
+  return s;
+}
+
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
+/*  Utf8 class: encode / decode between multi-byte Unicode characters and UTF-8 multiple          */
+/*              single-byte character encoding (c) Chris Veness 2002-2010                         */
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
+
+var Utf8 = {};  // Utf8 namespace
+
+/**
+ * Encode multi-byte Unicode string into utf-8 multiple single-byte characters 
+ * (BMP / basic multilingual plane only)
+ *
+ * Chars in range U+0080 - U+07FF are encoded in 2 chars, U+0800 - U+FFFF in 3 chars
+ *
+ * @param {String} strUni Unicode string to be encoded as UTF-8
+ * @returns {String} encoded string
+ */
+Utf8.encode = function(strUni) {
+  // use regular expressions & String.replace callback function for better efficiency 
+  // than procedural approaches
+  var strUtf = strUni.replace(
+      /[\u0080-\u07ff]/g,  // U+0080 - U+07FF => 2 bytes 110yyyyy, 10zzzzzz
+      function(c) { 
+        var cc = c.charCodeAt(0);
+        return String.fromCharCode(0xc0 | cc>>6, 0x80 | cc&0x3f); }
+    );
+  strUtf = strUtf.replace(
+      /[\u0800-\uffff]/g,  // U+0800 - U+FFFF => 3 bytes 1110xxxx, 10yyyyyy, 10zzzzzz
+      function(c) { 
+        var cc = c.charCodeAt(0); 
+        return String.fromCharCode(0xe0 | cc>>12, 0x80 | cc>>6&0x3F, 0x80 | cc&0x3f); }
+    );
+  return strUtf;
+}
+
+/**
+ * Decode utf-8 encoded string back into multi-byte Unicode characters
+ *
+ * @param {String} strUtf UTF-8 string to be decoded back to Unicode
+ * @returns {String} decoded string
+ */
+Utf8.decode = function(strUtf) {
+  // note: decode 3-byte chars first as decoded 2-byte strings could appear to be 3-byte char!
+  var strUni = strUtf.replace(
+      /[\u00e0-\u00ef][\u0080-\u00bf][\u0080-\u00bf]/g,  // 3-byte chars
+      function(c) {  // (note parentheses for precence)
+        var cc = ((c.charCodeAt(0)&0x0f)<<12) | ((c.charCodeAt(1)&0x3f)<<6) | ( c.charCodeAt(2)&0x3f); 
+        return String.fromCharCode(cc); }
+    );
+  strUni = strUni.replace(
+      /[\u00c0-\u00df][\u0080-\u00bf]/g,                 // 2-byte chars
+      function(c) {  // (note parentheses for precence)
+        var cc = (c.charCodeAt(0)&0x1f)<<6 | c.charCodeAt(1)&0x3f;
+        return String.fromCharCode(cc); }
+    );
+  return strUni;
+}
+</script>
+

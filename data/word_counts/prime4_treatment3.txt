@@ -1,0 +1,254 @@
+fried 61
+lemon 57
+chicken 21
+potatoes 19
+breaded 19
+fish 17
+dinner 13
+tasty 11
+healthy 11
+bland 10
+asparagus 9
+crispy 9
+plate 8
+filling 8
+pasta 8
+crunchy 7
+unhealthy 7
+good 6
+food 6
+lunch 5
+meat 5
+heavy 5
+simple 5
+delicious 5
+lemony 5
+hearty 5
+white 4
+sauce 4
+bread 4
+meal 4
+satisfying 4
+zesty 4
+dry 4
+cheese 4
+warm 4
+plain 4
+fatty 4
+southern 4
+potato 4
+starch 3
+citrus 3
+fattening 3
+colorless 3
+lemon wedge 3
+greasy 3
+beige 3
+classic 3
+light 3
+baked 3
+german 2
+toast 2
+yummy 2
+interesting 2
+easy 2
+boring 2
+small 2
+seasoning 2
+odd 2
+fried fish 2
+unappealing 2
+brown 2
+leaves 2
+mixed 2
+sweet 2
+white asparagus 2
+fancy 2
+lime 2
+fry 2
+homemade 2
+dull 2
+garnish 2
+sour 2
+fruits 2
+unappetizing 2
+blah 2
+salty 2
+crusty 2
+protein 2
+breakfast 2
+chilly 2
+carbohydrates 2
+comfort 2
+veal 2
+tart 2
+cuisine 2
+fruit 2
+seafood 2
+traditional 2
+green 2
+fresh 2
+potates 1
+bananas 1
+golden 1
+gnocci 1
+cheap 1
+macroni 1
+strange looking fish 1
+love 1
+hate 1
+chicken nuggets 1
+light snacks 1
+chicken toaster 1
+ham 1
+chicken combo 1
+mixed bulavo 1
+hot 1
+texture 1
+hungy 1
+complex 1
+poultry 1
+break fast 1
+orange 1
+unheathly 1
+chives 1
+premium 1
+tasty food 1
+combination 1
+big 1
+professional 1
+chicken with dip 1
+batter 1
+lemon on fish 1
+viel 1
+nasty 1
+sweety 1
+germanic 1
+seperate 1
+some balls 1
+onion 1
+pilled 1
+cutlet 1
+nice 1
+breading 1
+old 1
+fired 1
+fascinating 1
+patoto 1
+gravy 1
+artsy 1
+british 1
+succulent 1
+crisply 1
+noodles 1
+cold 1
+gnocchi 1
+healty 1
+chicken fried 1
+chewy 1
+buff bulavo 1
+scallops 1
+meaty 1
+pepper 1
+full 1
+coated 1
+hefty 1
+home cooked 1
+giant 1
+sufficeint calories 1
+pasta chicken 1
+light food 1
+chilli 1
+steak 1
+galler 1
+calories 1
+a good snack 1
+uncolorful 1
+fried meat 1
+toppings 1
+grease 1
+crusted 1
+spices 1
+patty 1
+exotic 1
+raised 1
+flavorless 1
+parsley 1
+casunut 1
+aspargus 1
+crispy food 1
+potatoes sliced 1
+shells 1
+gourmet 1
+very tastfull 1
+flat 1
+rustic 1
+seasoned 1
+garnished 1
+stuffed 1
+non-nutritive 1
+mysterious 1
+not tasty 1
+fresh catch 1
+tomato 1
+beer battered 1
+smells good 1
+tasteless 1
+cream sauce 1
+chopped green stuffs 1
+homely 1
+tangy 1
+lemons 1
+flaky 1
+splendid 1
+tortellini 1
+inedible 1
+salad 1
+hand breaded 1
+preparation 1
+fishy 1
+cake 1
+starchy 1
+beautiful 1
+potatoe 1
+flavor 1
+green seasoning 1
+thirsty 1
+appetizing 1
+flavorful 1
+pototes 1
+robot 1
+vinegary 1
+battered 1
+potatos 1
+aged 1
+tasty bulavo 1
+cream 1
+huge 1
+different 1
+sweet bulavo 1
+colorful 1
+califlower 1
+fryed fish 1
+special 1
+hollandaise 1
+entree 1
+bread bulavo 1
+sprinkle 1
+deep fry 1
+chicken wings 1
+potaoes 1
+sause 1
+hamberger 1
+well-plated 1
+peppered 1
+warming 1
+butter 1
+noodle 1
+refreshing 1
+hungry 1
+bleached 1
+cooked 1
+chees 1
+artistic 1
+classy 1

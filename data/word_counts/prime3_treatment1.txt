@@ -1,0 +1,214 @@
+dogs 65
+horses 55
+hunting 35
+horse 32
+hunt 31
+british 24
+hounds 16
+england 16
+fox 16
+english 15
+red 14
+sport 12
+dog 12
+riding 11
+outdoors 8
+horseback 6
+rich 6
+riders 6
+equestrian 6
+people 5
+men 5
+uniforms 5
+hound 5
+traditional 5
+foxes 4
+red coats 4
+country 4
+animals 4
+fox hunting 4
+ride 4
+royal 3
+game 3
+beagles 3
+race 3
+event 3
+uniform 3
+outside 3
+training 3
+competition 3
+elite 3
+fox hunt 3
+cute 2
+soldiers 2
+group 2
+aristocratic 2
+trees 2
+royalty 2
+enjoy 2
+parade 2
+proper 2
+posh 2
+trainers 2
+racing 2
+herding 2
+nature 2
+exciting 2
+equine 2
+beautiful 2
+fast 2
+army 2
+horse riding 2
+excitement 2
+coats 2
+grass 2
+aristocracy 2
+rider 2
+european 2
+countryside 2
+tradition 2
+green 2
+walking 1
+barking 1
+bristish 1
+hats 1
+fall 1
+royal hunters 1
+bright 1
+white horse 1
+costume 1
+hunting with horses 1
+chace 1
+ground 1
+discipline 1
+field 1
+quaint 1
+with 1
+workers 1
+united kingdom 1
+athletic 1
+obedient 1
+regal 1
+pride 1
+sporting 1
+woods 1
+horseriding 1
+garden 1
+food 1
+high-class 1
+hunter 1
+virginia 1
+wealthy 1
+majestic 1
+unethical 1
+formal 1
+horse riders 1
+varriors 1
+scenic 1
+cool 1
+men in coats 1
+affluent 1
+westminister 1
+brutal 1
+horseback riding 1
+predatory 1
+spring 1
+searching 1
+elegant 1
+patient 1
+preparation 1
+jackets 1
+movie 1
+wow 1
+cruel 1
+trot 1
+caucasian 1
+horse trail 1
+uk 1
+power 1
+herd 1
+houses 1
+protection 1
+cultural 1
+groups 1
+police 1
+hearding 1
+noisy 1
+cop 1
+hackneyed 1
+old-world 1
+outfits 1
+action 1
+puppies 1
+snobbish 1
+snobby 1
+setters 1
+british culture 1
+trained 1
+scottish 1
+polo 1
+mens 1
+dogs pack 1
+red coat 1
+meadow 1
+pastures 1
+sporty 1
+hourse 1
+hunters 1
+soliders 1
+obedience 1
+cultured 1
+beautyful 1
+wonderful 1
+site seeing 1
+happy 1
+horse back riding 1
+club 1
+brisk 1
+sophisticated 1
+stylized 1
+cops 1
+train 1
+hobby 1
+mounted 1
+dog, 1
+privileged 1
+inhumane 1
+war 1
+appealing 1
+historical 1
+many 1
+fun 1
+high-brow 1
+similar 1
+pack 1
+and 1
+horse ride 1
+clip 1
+gallop 1
+chaotic 1
+wealth 1
+heard 1
+britain 1
+upscale 1
+royal man 1
+sanitized 1
+hunting with dogs 1
+casual 1
+guns 1
+amazing 1
+strange 1
+noble 1
+sunny 1
+police dog 1
+foxhunt 1
+pleasure 1
+eager 1
+charming 1
+weekend 1
+upper class 1
+lane 1
+breeze 1
+classy 1
+serious 1
+english hunting 1

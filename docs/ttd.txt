@@ -1,0 +1,24 @@
+- make sure that we can define a nbdataset that considers only specific images 
+	for specific treatments
+- make sure that we can get test sets that consider only specific images for 
+	specific treatments
+
+- run the classifier on the cultural and ingredients treatments, 
+	on a per-image basis.
+	- the output should be the accuracy for each class?
+	- these tests will have output
+		- accuracy on true-label-1 tests
+		- accuracy on true-label-2 tests
+		- overall precision on label-1 classification
+		- overall recall on label-1 classification
+		- F1-score on label-1 classification
+
+
+- run the classifier on the cultural-image, cultural-funder, 
+	cultural-image-funder treatments, all pairs, for the first pic, second,
+	pic, etc
+
+- concptualize the null-model for the specificity tests
+- hypothesis test the results already generated
+- consider comparisons between treatment variations (image, funder, both)
+	for specificity in the first-picture labels

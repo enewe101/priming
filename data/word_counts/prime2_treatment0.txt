@@ -1,0 +1,274 @@
+fish 42
+salmon 40
+fancy 24
+healthy 23
+sauce 18
+expensive 18
+cucumber 17
+caviar 15
+food 13
+small 12
+seafood 12
+plate 11
+gourmet 10
+egg 9
+meal 8
+roe 7
+delicious 7
+dinner 6
+garnish 6
+fishy 6
+light 6
+fine 5
+meat 5
+onion 5
+elegant 5
+tasty 5
+dish 4
+appetizer 4
+unique 4
+raw 4
+cuisine 4
+eggs 4
+fresh 4
+interesting 3
+spread 3
+pretty 3
+zucchini 3
+paste 3
+restaurant 3
+radish 3
+bland 3
+little 3
+tiny 3
+creamy 3
+rich 3
+fine dining 3
+beautiful 3
+appetizing 3
+complex 3
+artful 3
+green 3
+clean 3
+less 2
+yellow 2
+fish eggs 2
+disgusting 2
+culinary 2
+good 2
+unsatisfying 2
+sweets 2
+bread 2
+art 2
+artsy 2
+presentation 2
+lean 2
+unappealing 2
+tartar 2
+unusual 2
+small portion 2
+weird 2
+cheese 2
+simple 2
+smelly 2
+spicy 2
+tasteless 2
+scant 2
+appealing 2
+sushi 2
+messy 2
+nice 2
+good food 1
+overpriced 1
+haute 1
+mouth-watering 1
+recipe 1
+glossy 1
+scarce 1
+creative 1
+row 1
+sweety 1
+yummy 1
+limit food 1
+sparce 1
+moist 1
+stinky 1
+appetizers 1
+dull 1
+attractive 1
+sweet 1
+grilled 1
+nouvelle 1
+salivating 1
+dn 1
+colorful 1
+dg 1
+decaration 1
+safe 1
+vomit 1
+big hotel food 1
+awful 1
+chutney 1
+nouveau 1
+bony 1
+green leaves 1
+gjt 1
+proteins 1
+decoration good 1
+nice food 1
+mayonese 1
+sparse 1
+boring 1
+uncooked 1
+dip 1
+fritter 1
+portioned 1
+ecclectic 1
+thin 1
+fries 1
+some 1
+pickled 1
+chef 1
+small portions 1
+trendy 1
+pickles 1
+pretentious 1
+odd 1
+gross 1
+satisfying 1
+thin slices 1
+fatty food 1
+crispy 1
+exspensive 1
+the hamiltonian 1
+foreign 1
+healthy foods 1
+showy 1
+silly 1
+custard 1
+red 1
+pasty 1
+bold 1
+seder 1
+delicacy 1
+bo 1
+french 1
+vitamin 1
+gormet 1
+uptight 1
+distinctive 1
+complicated 1
+salmom 1
+garnished 1
+chilli 1
+smear 1
+soft 1
+jam 1
+mixed veg-nonveg 1
+arty 1
+jelly 1
+entr̩e 1
+shiny 1
+snobby 1
+espensive 1
+exotic 1
+soe 1
+tofu 1
+elegent 1
+fisheggs 1
+dietary 1
+healthy alternative 1
+greenies 1
+hushpuppy 1
+low calorie 1
+food is very nice 1
+lime 1
+zuchinni 1
+sensible 1
+quality 1
+indulgent 1
+super 1
+reduction 1
+sea food 1
+seasoned 1
+healthy food 1
+tangy 1
+bits 1
+is 1
+nice and better 1
+rastorent foods 1
+dips 1
+buttery 1
+sophisticated 1
+i like it for color fully 1
+minimalistic 1
+modeern 1
+elite 1
+orange purey 1
+md 1
+well-presented 1
+arranged 1
+asain 1
+this 1
+scrumptious 1
+pungent 1
+aeoli 1
+balanced 1
+high-end 1
+unfulfilling 1
+curdy 1
+cake 1
+upscale 1
+unappetizing 1
+aperitif 1
+average 1
+nice presentation 1
+abstract 1
+good presentation 1
+decadent 1
+pieces 1
+decoration 1
+puree 1
+protein 1
+onions 1
+cream 1
+ostentatious 1
+fashionable 1
+elegance 1
+smeared sauce 1
+sea weed 1
+dining 1
+wierd 1
+vegetable 1
+mayonnaise 1
+yucky 1
+mayo 1
+hors d'oeuvres 1
+succulent 1
+plating 1
+entree 1
+fatty 1
+tasteful 1
+diet 1
+prepared 1
+fruit 1
+delicate 1
+professional 1
+tuna 1
+measured 1
+celebratory 1
+perfectly plated 1
+gravy 1
+booshy 1
+full-flavored 1
+japanese 1
+refreshing 1
+potato 1
+gelato 1
+elogant 1
+not filling 1
+hearty 1
+artistic 1
+classy 1
+platter 1
+fussy 1

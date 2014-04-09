@@ -1,0 +1,179 @@
+rodeo 93
+cowboy 81
+horse 71
+bucking 35
+bronco 18
+horses 17
+dangerous 15
+riding 13
+western 12
+competition 9
+cowboys 9
+arena 9
+buck 9
+texas 9
+ride 7
+game 6
+wild 6
+exciting 6
+show 5
+hat 5
+people 5
+sport 5
+american 5
+fun 5
+race 4
+event 4
+entertainment 4
+crowd 4
+stadium 4
+man 4
+audience 3
+country 3
+danger 3
+saddle 3
+rider 3
+spectators 3
+southern 3
+america 3
+horseback 2
+bucking horse 2
+rough 2
+ground 2
+kick 2
+brown 2
+falling 2
+boots 2
+jump 2
+cruel 2
+mud 2
+dirty 2
+dirt 2
+crowds 2
+bucking bronco 2
+jockey 2
+west 2
+sports 2
+white 2
+painful 2
+scary 2
+horse riding 2
+horse race 2
+skillful 2
+jumping 2
+traditional 2
+mexican 1
+dance 1
+hats 1
+competing 1
+horse rider 1
+horse play 1
+untamed 1
+perilous 1
+happiness 1
+thrilling 1
+hard-work 1
+degrading 1
+winning 1
+enjoying 1
+outside 1
+risk 1
+broncs 1
+wave 1
+gambling 1
+bravery 1
+clowd 1
+thrill 1
+inhumane 1
+quick 1
+foolish 1
+auditorium 1
+dangerious 1
+fair 1
+reins 1
+culture 1
+demented 1
+amusement 1
+equestrian 1
+blue 1
+rope 1
+stands 1
+leap 1
+stupid 1
+60 seconds 1
+excititng 1
+racing 1
+bull-riding 1
+run 1
+seconds 1
+fearless 1
+stallion 1
+intense 1
+bronc 1
+talent 1
+equine 1
+dusty 1
+timer 1
+cowboy hat 1
+weird 1
+aditorium 1
+and 1
+horse bucking 1
+abusive 1
+gampling 1
+fast 1
+victorious 1
+mean 1
+rewards 1
+bullrider 1
+in air 1
+hurt 1
+who will win? 1
+racer 1
+tense 1
+bull 1
+riders 1
+excitement 1
+appealing 1
+energenic 1
+silly 1
+outdoors 1
+tophat 1
+male 1
+risky 1
+live performance 1
+horse ride 1
+gallop 1
+circus 1
+sad 1
+player 1
+cap 1
+wonderful 1
+strength 1
+daring 1
+game of power 1
+coliseum 1
+endurance 1
+nuts 1
+people gathering 1
+amazing 1
+performance 1
+strong 1
+difficult 1
+energetic 1
+alert 1
+harmful 1
+visitors 1
+power riding 1
+horseride 1
+tradition 1
+foolhardy 1
+finesse 1
+horse in action 1
+crowded 1
+ranch 1
+archaic 1
+corral 1
+spectator 1
+rigid 1
+yee-haw 1

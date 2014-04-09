@@ -1,0 +1,226 @@
+food 56
+chinese 38
+asian 36
+fried 24
+egg rolls 23
+dumplings 23
+rolls 18
+steamed 15
+delicious 15
+dim sum 13
+plates 13
+eggroll 12
+eggrolls 11
+tasty 11
+egg roll 8
+dumpling 8
+meal 8
+dinner 8
+traditional 8
+variety 7
+yellow 6
+spring rolls 6
+cuisine 6
+sweets 5
+feast 5
+snacks 5
+steamer 4
+yummy 4
+appetizers 4
+good 4
+bowls 4
+oriental 4
+crispy 4
+dishes 4
+spring roll 4
+wonton 4
+hot 3
+china 3
+eatables 3
+unhealthy 3
+crab 3
+white 3
+soup 3
+foods 3
+crab rangoon 3
+wontons 2
+fantastic 2
+wanton 2
+plate 2
+meat 2
+crunchy 2
+asia 2
+momos 2
+fish 2
+japanese 2
+gross 2
+leaf 2
+vessels 2
+dimsum 2
+full 2
+pot stickers 2
+healthy 2
+potstickers 2
+family 2
+fried food 2
+spicy 2
+asian food 2
+spice 2
+hong kong 2
+beautiful 2
+brown 2
+wonderful 2
+foreign 2
+buns 2
+roll 2
+ethnic 2
+egg 2
+seafood 2
+hungry 2
+unimaginative 1
+exotic 1
+potsticker 1
+endulge 1
+aroma 1
+vegetable roll 1
+dough 1
+drooling 1
+steamers 1
+tables 1
+local food 1
+dull 1
+kerala 1
+setting 1
+attractive 1
+sampler 1
+health 1
+gluttonous 1
+rice 1
+tiffen box 1
+chinnesse 1
+dessert 1
+dumplins 1
+rools 1
+bread 1
+won ton 1
+come and try them 1
+food items 1
+bad 1
+steam 1
+bamboo 1
+evening snacks 1
+biscuits 1
+heavy 1
+pork 1
+smooth 1
+bland 1
+chinese food 1
+springroll 1
+bamboo steamer 1
+satisfying 1
+wow 1
+cooking 1
+chappathi 1
+indian 1
+process 1
+eating 1
+south indian 1
+utensil 1
+buckets 1
+cheap 1
+high calories 1
+chineese 1
+exciting 1
+indian dishes 1
+celebration 1
+tortilla 1
+rice foods 1
+eat 1
+restaurant 1
+of 1
+strange 1
+shrimp 1
+wheats 1
+pastries 1
+variety food 1
+golden 1
+cakes 1
+sugar fries 1
+simple 1
+pot 1
+lumpia 1
+mexican 1
+sampling 1
+satiating 1
+steamy 1
+wrap 1
+table 1
+who wants to try? 1
+steam food 1
+strong 1
+look tasty 1
+beef 1
+indulgent 1
+kerala food 1
+vegetables 1
+dumplin 1
+taste 1
+sea food 1
+oily 1
+containers 1
+questionable 1
+wooden bowls 1
+organized 1
+hot pot 1
+cultural food 1
+bun 1
+western 1
+bitesize 1
+fry 1
+rangoon 1
+pleasing 1
+grains 1
+culture 1
+fulfilling 1
+boring 1
+traditional asian food 1
+chinatown 1
+choices 1
+mouthwatering 1
+cake 1
+starchy 1
+arromatic 1
+soft 1
+sushi 1
+flavorful 1
+trditional 1
+entree 1
+appetizing 1
+tastey 1
+round box 1
+give me some please 1
+carnivorous 1
+lumpa 1
+chopsticks 1
+mouth-watering 1
+sandwich 1
+yammi 1
+enticing 1
+eggs 1
+customs 1
+food pots 1
+dine 1
+meals 1
+puddings 1
+breads 1
+treats 1
+lunch 1
+foriegn 1
+greek 1
+deep fried 1
+healty and tasty 1
+clean 1
+fresh 1
+overseas 1
+platter 1
+baked 1

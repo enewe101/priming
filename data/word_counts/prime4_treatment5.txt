@@ -1,0 +1,260 @@
+lemon 57
+fried 45
+fish 20
+tasty 18
+potatoes 16
+chicken 14
+food 13
+potato 13
+dinner 12
+breaded 11
+meat 10
+plate 9
+good 9
+meal 9
+filling 9
+pasta 9
+white 9
+asparagus 8
+healthy 8
+delicious 8
+crispy 8
+bread 7
+simple 7
+bland 7
+plain 7
+lunch 6
+cheese 6
+yummy 5
+sauce 5
+fresh 5
+unhealthy 4
+crunchy 4
+dry 4
+starchy 4
+hearty 4
+dish 3
+snack 3
+boring 3
+heavy 3
+nutritious 3
+gross 3
+sweet 3
+white asparagus 3
+lime 3
+carbohydrates 3
+baked 3
+carbs 2
+cooking 2
+cheap 2
+cripsy 2
+veg 2
+colorful 2
+non veg 2
+yellow 2
+cutlet 2
+delightful 2
+bad 2
+comforting 2
+satisfying 2
+citrus 2
+leaves 2
+piled 2
+schnitzel 2
+seasoned 2
+garnish 2
+tasteless 2
+edible 2
+unexciting 2
+appealing 2
+sour 2
+unappetizing 2
+appetizing 2
+crumbly 2
+breakfast 2
+large 2
+aromatic 2
+butterfly 2
+butter 2
+lemon slice 2
+aatta 1
+palatable 1
+cherry 1
+creamsauce 1
+very different 1
+innovative food 1
+serving 1
+citrusy 1
+saucy 1
+generous 1
+whitebread 1
+menu 1
+amazing 1
+bust 1
+white loops 1
+easy 1
+savory 1
+food favorites 1
+non 1
+big 1
+quick and easy 1
+sause 1
+baked chicken 1
+new potatoes 1
+gnocci 1
+liquify 1
+milk sweet 1
+chips 1
+zesty 1
+mystery 1
+cold 1
+green leaves 1
+desserts 1
+colorless 1
+tiffon 1
+scrumptous 1
+scrumptious 1
+served 1
+steak 1
+uninteresting 1
+butter sweet 1
+italian 1
+picnic 1
+distastful 1
+very tasty 1
+ravioli 1
+squishy 1
+noodles 1
+pale 1
+comfort 1
+gnocchi 1
+red treat 1
+rottey 1
+lemeadon 1
+presentable 1
+outside 1
+showy 1
+tips 1
+meaty 1
+affordable 1
+toast 1
+full 1
+unsure 1
+bold 1
+simplef 1
+white sauce 1
+focused 1
+mashed 1
+full plate 1
+light food 1
+greasy 1
+chilli 1
+ok 1
+diner 1
+restaurant 1
+country 1
+spinach 1
+non-veg rosted 1
+breading 1
+salty 1
+weird 1
+large portion 1
+apple 1
+wedge 1
+grandma 1
+tasty snacks 1
+nice decorations 1
+rotti 1
+table 1
+refreshment 1
+vadai 1
+presented well 1
+biscuit 1
+tart 1
+creamy 1
+snacks 1
+stark 1
+rustic 1
+yummy tummy 1
+basic 1
+peppers 1
+banana 1
+attractive 1
+nutrition 1
+fancy 1
+spicy 1
+yuck 1
+rich 1
+mushroom 1
+motherly 1
+great 1
+white gourd(mooli) 1
+tangy 1
+warm 1
+bun 1
+stick 1
+crispy juicy 1
+excellent 1
+lemony 1
+dull 1
+crucnh 1
+homey 1
+whites 1
+resturant 1
+patato 1
+high calorie 1
+dryish 1
+beautiful 1
+soft 1
+sticks 1
+vegatables 1
+mayonaise 1
+taste 1
+awesome 1
+confused 1
+battered 1
+potatos 1
+tastey 1
+complete 1
+gee rosted 1
+acid 1
+combination 1
+variety 1
+ambrosial 1
+hangover cure 1
+american 1
+naglets 1
+hot 1
+dessert 1
+plater 1
+sensational 1
+crispy treat 1
+yucky 1
+smoshy 1
+nice 1
+plating 1
+entree 1
+fatty 1
+meal time 1
+well-cooked 1
+diet 1
+homestyle 1
+fulfilling 1
+fishy 1
+coriander leaves 1
+charming 1
+restuarant 1
+warming 1
+leamon 1
+breadcrumbs 1
+biscut 1
+mushy 1
+seafood 1
+butterly 1
+delictable 1
+traditional 1
+cooked 1
+deep fried 1
+green 1
+slimey 1
+typical 1

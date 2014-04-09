@@ -1,0 +1,279 @@
+indian 49
+feast 31
+spicy 31
+variety 18
+buffet 18
+red 16
+curry 16
+samosa 14
+ethnic 14
+meal 10
+sauce 9
+banquet 9
+exotic 9
+delicious 9
+naan 7
+foreign 7
+dinner 7
+fried 7
+asian 6
+spread 6
+colorful 6
+sauces 6
+cuisine 6
+food 5
+filling 5
+tasty 5
+statue 5
+authentic 5
+rice 4
+choices 4
+elephant 4
+chicken 3
+ganesha 3
+ganesh 3
+oriental 3
+healthy 3
+vegetarian 3
+options 3
+extravagant 3
+appealing 3
+flavorful 3
+party 3
+indian food 3
+assortment 3
+traditional 3
+god 3
+fresh 3
+chinese 2
+abundant 2
+religious 2
+saucy 2
+royal 2
+rich 2
+savory 2
+sweets 2
+chutney 2
+bread 2
+inviting 2
+array 2
+large 2
+heavy 2
+bowls 2
+flavor 2
+religion 2
+international 2
+massive 2
+color 2
+bountiful 2
+fancy 2
+fried food 2
+halwa 2
+hindu 2
+vegetables 2
+snacks 2
+plentiful 2
+offering 2
+dips 2
+paneer 2
+overwhelming 2
+golden 2
+elegant 2
+curd 2
+diverse 2
+appetizing 2
+hot 2
+tomatoes 2
+tomato 2
+hearty 2
+breads 2
+vart 1
+all 1
+payasam 1
+red chilly chutney 1
+medeteranian 1
+presentation 1
+nan 1
+bhojan 1
+family meal 1
+selection 1
+ornate 1
+king 1
+ethnic food 1
+worship 1
+somasa 1
+green chilly chutney 1
+pray 1
+enticing 1
+punjab 1
+ganesh chaturti 1
+amazing 1
+adventurous 1
+lord 1
+extensive 1
+plate 1
+premium 1
+tasty food 1
+so much food 1
+choice 1
+cultural 1
+royalty 1
+community 1
+messy 1
+wedding 1
+opulent 1
+acidic 1
+sweety 1
+new 1
+lury 1
+meat 1
+ordurves 1
+laddu 1
+fragrant 1
+god food 1
+fascinating 1
+colorful food 1
+roti 1
+platters 1
+plethora 1
+culture 1
+side dishes 1
+ganesh chathurthi 1
+colourful 1
+satisfying 1
+customary 1
+worshipping 1
+classy 1
+temple food 1
+milk 1
+multiples 1
+kesari 1
+nutritious 1
+holiday 1
+full 1
+buddah 1
+festive 1
+treditional 1
+fed 1
+lord ganesh 1
+great 1
+so much sauce 1
+powdery 1
+exciting 1
+pagan 1
+for fastival 1
+too much 1
+elephant statue 1
+smorgasbord 1
+restaurant 1
+many 1
+spiced 1
+homam manthra 1
+spicey 1
+tempting 1
+interesting 1
+mixed 1
+gold statue 1
+spices 1
+vijayanagar temple 1
+high calories 1
+cheese 1
+fantastic 1
+keasari 1
+ganesh lord 1
+sos 1
+smelly 1
+vinayakar 1
+lovely 1
+buddist 1
+chilly 1
+crispy 1
+vadai 1
+explosion of flavour 1
+turkey 1
+ancient 1
+variety of food 1
+indulgent 1
+festival 1
+cultured 1
+creamy 1
+wood 1
+bounty 1
+racist 1
+extreme 1
+indian meal 1
+shiny 1
+assorted 1
+india 1
+varied dish 1
+heat 1
+asian food 1
+papad 1
+chili 1
+masala 1
+spice 1
+abundance 1
+pooja 1
+combos 1
+asain 1
+samosas 1
+past 1
+ganesha idol 1
+pungent 1
+sauses 1
+sesame 1
+huge 1
+alva 1
+soups 1
+wild 1
+carved 1
+beautiful 1
+sambar 1
+joyous 1
+dumplings 1
+cusine 1
+wrimp 1
+veggies 1
+ready 1
+tandoori 1
+bowl 1
+south 1
+appam 1
+handmade 1
+it is a festival 1
+varied 1
+dishes 1
+strong smell 1
+spreads 1
+different rice 1
+glorious 1
+aromatic 1
+arrangement 1
+pierogie 1
+complex 1
+hookah 1
+reds 1
+shahi paneer 1
+eclectic 1
+seasonings 1
+nice 1
+lusty 1
+vegetable 1
+kum kum 1
+varity 1
+different taste 1
+cakes 1
+delicate 1
+egge roll 1
+robust 1
+wonton 1
+carbs 1
+soupy 1
+lord ganesh statue 1
+many food 1
+cutney 1
+artful 1
+humbling 1
+artistic 1
+sweet food 1
+wine 1

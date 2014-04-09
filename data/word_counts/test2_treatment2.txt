@@ -1,0 +1,293 @@
+asian 40
+chinese 34
+food 33
+fried 29
+dumplings 23
+rolls 17
+steamed 15
+delicious 14
+egg rolls 13
+egg roll 11
+meal 11
+dim sum 10
+tasty 10
+eggroll 9
+cake 8
+plates 8
+wontons 8
+spring rolls 8
+dumpling 7
+eggrolls 7
+sweet 7
+spicy 7
+roll 7
+crunchy 6
+oriental 6
+spring roll 6
+wonton 6
+steam 5
+sushi 5
+ethnic 5
+yummy 4
+hot 4
+rice 4
+plate 4
+dinner 4
+cuisine 4
+traditional 4
+fresh 4
+mexican 3
+wraps 3
+snack 3
+savory 3
+good 3
+appetizer 3
+sweets 3
+bowls 3
+dimsum 3
+japanese 3
+snacks 3
+dishes 3
+eggs 3
+crab rangoon 3
+cooked 3
+egg 3
+ragoons 2
+samosa 2
+appetizers 2
+fish 2
+fattening 2
+foreign 2
+pot stickers 2
+chineese 2
+greasy 2
+brown 2
+healthy 2
+garlic 2
+potstickers 2
+tofu 2
+steamy 2
+wrap 2
+table 2
+wrapped 2
+yuck 2
+rangoon 2
+chinese food 2
+foods 2
+pastry 2
+ready 2
+breakfast 2
+different 2
+variety 2
+aromatic 2
+buns 2
+fried roll 2
+light 2
+asian food 1
+potsticker 1
+desirable 1
+yellow 1
+aroma 1
+hot pot 1
+dough 1
+chinease 1
+steamed siomai 1
+chicken 1
+rice cake 1
+fried rolls 1
+dull 1
+simple 1
+jam 1
+choose 1
+snack. 1
+nori 1
+asian dishes 1
+round 1
+egg rols 1
+colorful 1
+steamer basket 1
+dessert 1
+momo 1
+cabbage roll 1
+i like very much 1
+milk sweet 1
+bread 1
+won ton 1
+dim 1
+tortillas 1
+fortune 1
+meat 1
+badusha 1
+choklate cake 1
+useful to age increase 1
+burritos 1
+candy 1
+spicy rolls 1
+bad 1
+kolukattai 1
+banana leaf 1
+boring 1
+small 1
+minced 1
+soft 1
+seaweed 1
+colorless 1
+circles 1
+taquitos 1
+good taste 1
+leaf appam 1
+baked 1
+balanced 1
+french onion roast 1
+steam cooked 1
+paneer cake 1
+family dinner 1
+quick meal 1
+heavy 1
+tradional 1
+flavor 1
+venerable 1
+golden colour 1
+gross 1
+what 1
+container 1
+wooden steamer 1
+courses 1
+wow 1
+alwa 1
+fingers 1
+asia 1
+stuff 1
+bread roll 1
+springrolls 1
+filled dough 1
+japanese food 1
+tempura 1
+springroll 1
+pan fried 1
+veg roll 1
+wrapping 1
+sweet cake 1
+leave ada 1
+wanton 1
+cookie 1
+rasagulla 1
+culture 1
+shrimp 1
+bamboo 1
+great 1
+restaurant 1
+leaves 1
+kachori 1
+takeout 1
+spicey 1
+yum 1
+beige 1
+tempting 1
+spices 1
+options 1
+exotic 1
+mixture 1
+ingrediants 1
+steamers 1
+very 1
+chicken pieces 1
+supper 1
+soy 1
+fried food 1
+raw 1
+pakkodas 1
+rollz 1
+finger chips 1
+daal role 1
+dumbling 1
+beef 1
+coconut role 1
+vegetables 1
+pots 1
+healthy food 1
+cultured 1
+handfood 1
+taste 1
+sea food 1
+jaangri 1
+stuffed 1
+tea 1
+white 1
+lovely 1
+bitter 1
+banana 1
+sarma 1
+plain 1
+home cooked dinner 1
+fatning 1
+chinese cuisine 1
+flavorful 1
+warm 1
+fishy 1
+fried dumplings 1
+with 1
+eat 1
+spice 1
+portions 1
+elegant 1
+this 1
+sauce 1
+sticky rice 1
+baked food 1
+choices 1
+jillebi 1
+evening 1
+hand rolled 1
+steel tumbler 1
+apeteizers 1
+servings 1
+fun 1
+similar 1
+starchy 1
+small portions 1
+maida role 1
+vegroll 1
+meat buns 1
+is 1
+share 1
+juicy 1
+wan tan 1
+maida roll 1
+mush 1
+salty 1
+appetizing 1
+homecooked 1
+onions 1
+pigs feet 1
+varied 1
+comfort 1
+bowl 1
+tacito 1
+favorite foods 1
+party 1
+japaense 1
+tamale 1
+deep fry 1
+swwt poori 1
+pork buns 1
+prepared 1
+egg roles, dumplings, rice, and more 1
+cabbage 1
+wantons 1
+siomai 1
+meals 1
+butter 1
+bland 1
+wheat roll 1
+glob jamoon 1
+recepie 1
+costly food 1
+chilli snack 1
+deep fried 1
+hearty 1
+icky 1
+oily 1
+eggtolls 1
+eggrools 1
+sum 1

@@ -1,0 +1,223 @@
+italian 67
+pizza 61
+wine 51
+pasta 36
+spaghetti 17
+calzone 15
+delicious 15
+dinner 11
+sauce 10
+bread 10
+filling 10
+noodles 9
+salad 9
+tasty 9
+food 8
+meatballs 8
+feast 7
+garlic 7
+fresh 7
+family 6
+vegetables 6
+tomato 6
+hearty 6
+yummy 4
+good 4
+meal 4
+comforting 4
+classic 4
+flowers 4
+meatball 4
+carbohydrates 4
+tomatoes 4
+colorful 3
+picnic 3
+satisfying 3
+red 3
+restaurant 3
+fancy 3
+table 3
+cheesy 3
+beautiful 3
+flavorful 3
+foods 3
+complete 3
+party 3
+fattening 3
+plate 3
+verity 2
+onion 2
+heavy 2
+burger 2
+european 2
+drinks 2
+stereotypical 2
+cheese 2
+italian food 2
+expensive 2
+rustic 2
+treat 2
+spicy 2
+dining table 2
+fulfilling 2
+mouthwatering 2
+appetizing 2
+breakfast 2
+varied 2
+variety 2
+aromatic 2
+amazing 2
+whimsical 1
+rounded 1
+salivating 1
+balanced 1
+ornate 1
+abundant 1
+perfect 1
+interesting 1
+maincourse 1
+appetizers 1
+hot 1
+starters 1
+jam 1
+flannel 1
+attractive 1
+rich 1
+gluttonous 1
+friendly 1
+ideal 1
+puffs 1
+with wine 1
+nodules 1
+sause 1
+carefree 1
+break 1
+pizza and salad 1
+romantic 1
+vibrant 1
+food items 1
+large 1
+common 1
+served 1
+organized 1
+nice 1
+typical 1
+group dining 1
+naan 1
+vine 1
+full meal 1
+sphagetti 1
+countless 1
+candle 1
+sauces 1
+garlic bread 1
+enticing 1
+side dish 1
+snacks 1
+beatiful 1
+culture 1
+pattern 1
+itialian 1
+high class 1
+party preperations 1
+appreciative 1
+nodles 1
+oriental 1
+bunches 1
+champagne 1
+options 1
+full 1
+diversicativ 1
+red salad 1
+healthy garlic 1
+delightful 1
+vivid 1
+breaded 1
+ok 1
+healthy 1
+of 1
+spiced 1
+foreign 1
+plants 1
+grain 1
+planned 1
+vegetable salad 1
+olive oil 1
+simple 1
+sweet 1
+smelly 1
+pretty 1
+rotti 1
+guest 1
+gourmet 1
+friends 1
+wonderful 1
+seasoned 1
+gorgeous 1
+airy 1
+white 1
+lovely 1
+type 1
+heartburn 1
+invite 1
+great 1
+carbs 1
+catering 1
+natural 1
+brunch 1
+vermicelly 1
+tomatto 1
+abundance 1
+super sallad 1
+edible 1
+homey 1
+desierable 1
+sauses 1
+high-end 1
+appealing 1
+stromboli 1
+cake 1
+seafood 1
+costly 1
+alcoholic 1
+red vine 1
+medium 1
+want 1
+different 1
+dishes 1
+colourful 1
+eloquent 1
+american 1
+arrangement 1
+terrific 1
+pizzone 1
+grand 1
+vegetable 1
+simple and great 1
+yummy pizza 1
+sandwich 1
+high pizza 1
+topped noodles 1
+drink 1
+yummy choppsy 1
+ethnic 1
+date 1
+robust 1
+tablecloth 1
+authentic 1
+tradition 1
+italian cuisine 1
+puddings 1
+antipasta 1
+liquid 1
+home 1
+croissant 1
+meticulous 1
+delectable 1
+hungry 1
+nice wine 1
+traditional 1
+green 1
+classy 1
+sauce snack 1
+breads 1

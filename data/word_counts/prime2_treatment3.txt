@@ -1,0 +1,264 @@
+fish 52
+salmon 26
+fancy 25
+healthy 18
+cucumber 18
+seafood 16
+expensive 14
+egg 14
+caviar 13
+tasty 13
+gourmet 12
+sauce 11
+dinner 11
+light 11
+small 9
+plate 7
+food 7
+fishy 7
+raw 7
+roe 6
+unique 6
+meat 6
+cheese 6
+radish 6
+fresh 6
+interesting 5
+attractive 5
+bland 5
+cuisine 5
+eggs 5
+colorful 4
+lunch 4
+sparse 4
+gross 4
+sushi 4
+diet 4
+delicate 4
+green 4
+spread 3
+rich 3
+messy 3
+onion 3
+meal 3
+japanese 3
+elegant 3
+delicacy 3
+exotic 3
+delicious 3
+cream 3
+garnish 3
+artistic 3
+classy 3
+asian 2
+chicken 2
+yummy 2
+sparce 2
+appetizer 2
+exquisite 2
+high class 2
+unappealing 2
+pate 2
+paste 2
+sweet 2
+smelly 2
+zuchinni 2
+unusual 2
+vegetables 2
+creamy 2
+airy 2
+modern 2
+filet 2
+orange 2
+boring 2
+pretentious 2
+fine dining 2
+unappetizing 2
+decorative 2
+salty 2
+breakfast 2
+art 2
+vegetable 2
+class 2
+hungry 2
+fine 2
+unimpressive 1
+artisit 1
+cheap 1
+yellow 1
+dish 1
+creative 1
+calamari 1
+faty 1
+tilapia 1
+saucy 1
+sweety 1
+disgusting 1
+simple 1
+break fast 1
+savory 1
+pleasing 1
+fish with butter 1
+good 1
+premium 1
+professional 1
+special occasion 1
+heavy calorie 1
+seafod 1
+spicy 1
+cool 1
+minimalist 1
+seared 1
+coffee with snacks 1
+pretencious 1
+strange sticks 1
+artisitc 1
+zucchini 1
+specific 1
+filling 1
+stupid 1
+plain 1
+stylish 1
+uncooked 1
+nice 1
+unallealing 1
+pasty 1
+old 1
+bread cheese 1
+samon 1
+presentation 1
+chef 1
+boiled 1
+good tase 1
+curious 1
+pickles 1
+high end 1
+sauces 1
+fish filltes 1
+ginger? 1
+fried fish 1
+flower 1
+vitamins 1
+crispy 1
+lean 1
+tangy 1
+top chef 1
+omega 3 1
+new 1
+fish eggs 1
+rainbow 1
+nutritious 1
+perfect 1
+tartar 1
+cauliflower 1
+spartan 1
+high quality 1
+french 1
+pleasant 1
+gormet 1
+creamy food 1
+cucumber slice 1
+light food 1
+main course 1
+garnished 1
+egg and fish 1
+sauce that was spread 1
+egg and cheese 1
+elaborate 1
+zucinni 1
+jelly 1
+foreign 1
+chilly 1
+beige 1
+tempting 1
+fritter 1
+experimental 1
+uninspired 1
+fish combo 1
+lite 1
+apple 1
+slightly cooked fish 1
+color 1
+ethnic 1
+palate 1
+some green thing 1
+refined 1
+quality 1
+sweet cream 1
+sliced cucumbers 1
+uncreative 1
+tiny 1
+wonderful 1
+beet 1
+aoli 1
+bread butter 1
+bitter 1
+jel 1
+artisan 1
+pretty 1
+strange 1
+less vegetables 1
+catch 1
+undercooked 1
+dull 1
+tasteful 1
+masago 1
+pungent 1
+unappeasing 1
+hush puppy 1
+appealing 1
+thin 1
+smear 1
+potatoe 1
+fish meat 1
+caviar eggs 1
+costly 1
+small portion 1
+freah 1
+salmo 1
+upscale 1
+flavorful 1
+juicy 1
+ginger 1
+hollaindaise 1
+mush 1
+artful 1
+appetizing 1
+mash 1
+protein 1
+chase 1
+different 1
+lemon 1
+presentable 1
+deconstructed 1
+fish dip 1
+plated 1
+non veg 1
+hot 1
+complex 1
+special 1
+nuveau 1
+cream bread 1
+yucky 1
+half eaten 1
+eggy 1
+scant 1
+entree 1
+frilly 1
+beauty 1
+enticing 1
+mess 1
+haute cuisine 1
+hamberger 1
+decorated 1
+arful 1
+butter 1
+finesse 1
+picky 1
+ocean 1
+cooked 1
+farm raised 1
+boiled meat 1
+puree 1
+very neet 1
+flakey 1

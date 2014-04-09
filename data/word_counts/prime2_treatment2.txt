@@ -1,0 +1,182 @@
+green 80
+lime 56
+garlic 43
+onion 42
+peppers 28
+spicy 25
+healthy 19
+vegetables 18
+pepper 17
+lemon 17
+food 14
+fresh 14
+onions 12
+hot 12
+fruit 12
+ingredients 10
+jalapeno 9
+tasty 9
+tomatoes 9
+delicious 8
+sour 8
+vegetable 7
+salsa 7
+mexican 5
+chilli 5
+chili 5
+tomatillos 5
+jalepeno 5
+flavorful 5
+tomato 5
+natural 5
+jalapenos 5
+limes 4
+tangy 4
+acidic 4
+chilly 4
+capsicum 4
+fruits 4
+raw 4
+produce 3
+plate 3
+tomatillo 3
+cooking 3
+nutritious 3
+flavors 3
+smooth 3
+spicey 2
+flavor 2
+chillies 2
+greens 2
+green tomato 2
+crunchy 2
+round 2
+strong 2
+meal 2
+spices 2
+white 2
+spice 2
+greenchilli 2
+vegatables 2
+veggies 2
+tart 2
+green chilly 2
+green lemon 2
+refreshing 2
+bell pepper 1
+aromatics 1
+garnic 1
+vitamin c 1
+green pepper 1
+bitery 1
+dish 1
+good color 1
+snack 1
+group 1
+stinky 1
+fried 1
+dressing 1
+chipotle 1
+flavorings 1
+ingredient 1
+good 1
+garden 1
+oninon 1
+garilc 1
+fiesta 1
+green tometo 1
+tacos 1
+leman 1
+chips 1
+useful to age increase 1
+filling 1
+circular 1
+soft 1
+fragrant 1
+cry 1
+tomatillos, lime, jalapeno, and garlic 1
+good taste 1
+healthy food 1
+citric 1
+potent 1
+salad mix 1
+raw garnishes 1
+coss 1
+capcicum 1
+acid 1
+cold 1
+slice 1
+hot peppers 1
+distinctive 1
+sweet and spicy 1
+indian 1
+fruits and vegetables 1
+fiber 1
+jalepenos 1
+red chilly 1
+chiles 1
+cut 1
+feista 1
+yummy 1
+intense 1
+great 1
+white garlic 1
+organic 1
+pico 1
+cucumber 1
+options 1
+apple 1
+sweet 1
+spicy vegetables 1
+garden-fresh 1
+grlic 1
+spanish 1
+table 1
+smells 1
+flavourful 1
+hote 1
+homemade 1
+less calories 1
+bitter 1
+prep 1
+kiwi 1
+nutrition 1
+green lime 1
+lush 1
+healthful 1
+tomatoe 1
+hemisphere 1
+lemons 1
+wholesome 1
+eat 1
+plants 1
+edible 1
+salad 1
+imgredients 1
+paprika 1
+apples 1
+raw vegetables 1
+vitalizing 1
+fresh vegetables 1
+crazy 1
+taste 1
+juicy 1
+ginger 1
+acidulent 1
+everyday 1
+for 1
+zest 1
+energizing 1
+latino 1
+mexican food 1
+odiforous 1
+favourite 1
+southern 1
+green and white vegetables 1
+authentic 1
+i like very much 1
+light 1
+life 1
+green chilli 1
+clean 1
+cookbook 1
