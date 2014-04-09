@@ -239,7 +239,7 @@ def computeAllSpecificityComparisons(
 
 				# compare basis treatment to subject treatment
 				rslt = a.compareValenceSpecificity(
-					valence, basisTreatment, subjectTreatment, numToCompare)
+					valence, subjectTreatment, basisTreatment, numToCompare)
 
 				# express the avg specificity in terms of the standard 
 				# deviations of the null comparison.  Store the result

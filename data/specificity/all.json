@@ -1,0 +1,305 @@
+[
+   {
+      "valence": "overall", 
+      "results": [
+         {
+            "null": {
+               "stdev": 5.8732505480355597, 
+               "avg": -0.92000000000000004, 
+               "subject": "null"
+            }, 
+            "results": [
+               {
+                  "stdev": 8.4842932528290174, 
+                  "avg": -37.719999999999999, 
+                  "avgNorm": -6.422337969664226, 
+                  "subject": "treatment1"
+               }, 
+               {
+                  "stdev": 7.3269043940807634, 
+                  "avg": -8.9399999999999995, 
+                  "avgNorm": -1.5221553936584884, 
+                  "subject": "treatment5"
+               }, 
+               {
+                  "stdev": 8.1234106137754711, 
+                  "avg": -47.100000000000001, 
+                  "avgNorm": -8.0194092887376733, 
+                  "subject": "treatment6"
+               }, 
+               {
+                  "stdev": 8.9862779836815641, 
+                  "avg": -20.98, 
+                  "avgNorm": -3.5721275345587347, 
+                  "subject": "treatment2"
+               }, 
+               {
+                  "stdev": 5.675606751705053, 
+                  "avg": 8.1199999999999992, 
+                  "avgNorm": 1.3825393508397008, 
+                  "subject": "treatment3"
+               }, 
+               {
+                  "stdev": 10.361198386287178, 
+                  "avg": -10.279999999999999, 
+                  "avgNorm": -1.7503084392404094, 
+                  "subject": "treatment4"
+               }
+            ], 
+            "basis": "treatment0"
+         }, 
+         {
+            "null": {
+               "stdev": 10.157974601267716, 
+               "avg": -5.2400000000000002, 
+               "subject": "null"
+            }, 
+            "results": [
+               {
+                  "stdev": 9.2197683268073494, 
+                  "avg": 49.439999999999998, 
+                  "avgNorm": 4.8671119923680335, 
+                  "subject": "treatment5"
+               }, 
+               {
+                  "stdev": 10.79953184170499, 
+                  "avg": 20.16, 
+                  "avgNorm": 1.9846476085384217, 
+                  "subject": "treatment6"
+               }, 
+               {
+                  "stdev": 10.007251770591163, 
+                  "avg": 44.159999999999997, 
+                  "avgNorm": 4.3473233329889229, 
+                  "subject": "treatment2"
+               }
+            ], 
+            "basis": "treatment1"
+         }, 
+         {
+            "null": {
+               "stdev": 10.649553981270763, 
+               "avg": 4.9000000000000004, 
+               "subject": "null"
+            }, 
+            "results": [
+               {
+                  "stdev": 7.2146234828991602, 
+                  "avg": 49.979999999999997, 
+                  "avgNorm": 4.6931542943393865, 
+                  "subject": "treatment3"
+               }, 
+               {
+                  "stdev": 11.192290560917368, 
+                  "avg": 24.539999999999999, 
+                  "avgNorm": 2.3043218564043331, 
+                  "subject": "treatment4"
+               }
+            ], 
+            "basis": "treatment2"
+         }
+      ]
+   }, 
+   {
+      "valence": "cultural", 
+      "results": [
+         {
+            "null": {
+               "stdev": 1.661327180298932, 
+               "avg": -2.8599999999999999, 
+               "subject": "null"
+            }, 
+            "results": [
+               {
+                  "stdev": 2.2740430954579551, 
+                  "avg": 1.4199999999999999, 
+                  "avgNorm": 0.85473831815867318, 
+                  "subject": "treatment1"
+               }, 
+               {
+                  "stdev": 1.7914374116892842, 
+                  "avg": -1.76, 
+                  "avgNorm": -1.0593939718022991, 
+                  "subject": "treatment5"
+               }, 
+               {
+                  "stdev": 1.9829694904359976, 
+                  "avg": -1.46, 
+                  "avgNorm": -0.87881545388145277, 
+                  "subject": "treatment6"
+               }, 
+               {
+                  "stdev": 2.2928916241287993, 
+                  "avg": -2.8199999999999998, 
+                  "avgNorm": -1.6974380684559565, 
+                  "subject": "treatment2"
+               }, 
+               {
+                  "stdev": 1.4588872471853336, 
+                  "avg": 0.32000000000000001, 
+                  "avgNorm": 0.19261708578223621, 
+                  "subject": "treatment3"
+               }, 
+               {
+                  "stdev": 1.5813943214770942, 
+                  "avg": -3.1400000000000001, 
+                  "avgNorm": -1.8900551542381929, 
+                  "subject": "treatment4"
+               }
+            ], 
+            "basis": "treatment0"
+         }, 
+         {
+            "null": {
+               "stdev": 3.5586300734973841, 
+               "avg": 4.2599999999999998, 
+               "subject": "null"
+            }, 
+            "results": [
+               {
+                  "stdev": 1.7236449750456155, 
+                  "avg": -0.81999999999999995, 
+                  "avgNorm": -0.23042574897202298, 
+                  "subject": "treatment5"
+               }, 
+               {
+                  "stdev": 3.0772715187321369, 
+                  "avg": 1.3999999999999999, 
+                  "avgNorm": 0.39340981531808805, 
+                  "subject": "treatment6"
+               }, 
+               {
+                  "stdev": 1.3626444877516659, 
+                  "avg": 0.20000000000000001, 
+                  "avgNorm": 0.056201402188298298, 
+                  "subject": "treatment2"
+               }
+            ], 
+            "basis": "treatment1"
+         }, 
+         {
+            "null": {
+               "stdev": 1.4490852286873948, 
+               "avg": 1.26, 
+               "subject": "null"
+            }, 
+            "results": [
+               {
+                  "stdev": 2.2670086016599056, 
+                  "avg": -1.5600000000000001, 
+                  "avgNorm": -1.0765412338189893, 
+                  "subject": "treatment3"
+               }, 
+               {
+                  "stdev": 1.9190435117526645, 
+                  "avg": -1.0600000000000001, 
+                  "avgNorm": -0.73149596656931315, 
+                  "subject": "treatment4"
+               }
+            ], 
+            "basis": "treatment2"
+         }
+      ]
+   }, 
+   {
+      "valence": "food", 
+      "results": [
+         {
+            "null": {
+               "stdev": 1.0463230858582826, 
+               "avg": 0.97999999999999998, 
+               "subject": "null"
+            }, 
+            "results": [
+               {
+                  "stdev": 1.4197915339936351, 
+                  "avg": -11.359999999999999, 
+                  "avgNorm": -10.857067146407811, 
+                  "subject": "treatment1"
+               }, 
+               {
+                  "stdev": 1.4283304939683947, 
+                  "avg": 0.44, 
+                  "avgNorm": 0.42052020637495047, 
+                  "subject": "treatment5"
+               }, 
+               {
+                  "stdev": 1.57352089277518, 
+                  "avg": -8.0399999999999991, 
+                  "avgNorm": -7.6840510437604577, 
+                  "subject": "treatment6"
+               }, 
+               {
+                  "stdev": 1.2358122834799787, 
+                  "avg": -1.72, 
+                  "avgNorm": -1.6438517158293517, 
+                  "subject": "treatment2"
+               }, 
+               {
+                  "stdev": 0.70597450378891147, 
+                  "avg": 2.6000000000000001, 
+                  "avgNorm": 2.4848921285792529, 
+                  "subject": "treatment3"
+               }, 
+               {
+                  "stdev": 1.715736576517503, 
+                  "avg": -3.8199999999999998, 
+                  "avgNorm": -3.6508799735279789, 
+                  "subject": "treatment4"
+               }
+            ], 
+            "basis": "treatment0"
+         }, 
+         {
+            "null": {
+               "stdev": 2.0583410796075565, 
+               "avg": 3.04, 
+               "subject": "null"
+            }, 
+            "results": [
+               {
+                  "stdev": 2.8557716995586317, 
+                  "avg": 10.220000000000001, 
+                  "avgNorm": 4.9651635004770673, 
+                  "subject": "treatment5"
+               }, 
+               {
+                  "stdev": 2.3508449544791339, 
+                  "avg": -0.57999999999999996, 
+                  "avgNorm": -0.28178031607404097, 
+                  "subject": "treatment6"
+               }, 
+               {
+                  "stdev": 3.3426707884564406, 
+                  "avg": 12.26, 
+                  "avgNorm": 5.9562528880478318, 
+                  "subject": "treatment2"
+               }
+            ], 
+            "basis": "treatment1"
+         }, 
+         {
+            "null": {
+               "stdev": 2.3350271947024512, 
+               "avg": 3.3199999999999998, 
+               "subject": "null"
+            }, 
+            "results": [
+               {
+                  "stdev": 1.4934523762075573, 
+                  "avg": 4.0, 
+                  "avgNorm": 1.7130421474640314, 
+                  "subject": "treatment3"
+               }, 
+               {
+                  "stdev": 2.5561283222874396, 
+                  "avg": 3.52, 
+                  "avgNorm": 1.5074770897683476, 
+                  "subject": "treatment4"
+               }
+            ], 
+            "basis": "treatment2"
+         }
+      ]
+   }
+]
