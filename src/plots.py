@@ -1,3 +1,4 @@
+import json
 import util
 import analysis
 import sys
@@ -8,9 +9,11 @@ import data_processing
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib 
+import matplotlib.gridspec as gridspec
 from matplotlib.ticker import FixedLocator, LinearLocator, FixedFormatter
 
 # z-score for two-tailed 99-percent confidence interval
+CONFIDENCE_95 = 1.96
 CONFIDENCE_99 = 2.975
 
 TREATMENT_NAMES = {
@@ -56,6 +59,205 @@ def analyze():
 	treatments = ['treatment0', 'treatment1', 'treatment5', 'treatment6',
 			'treatment2', 'treatment3', 'treatment4']
 	plotValenceComparison(treatments, '../docs/figs/valenceComparison.pdf')
+
+	plotSpecificityComparison(
+		'treatment1', 
+		['treatment5', 'treatment6', 'treatment2'],
+		10, 'figs/spec-treat0-overall.pdf', 'overall'
+	)
+
+def plotAllSpecificity():
+
+
+	for dimension in ['overall', 'cultural', 'food']:
+		plotSpecificityComparison(
+			'treatment1', 
+			['treatment5', 'treatment6', 'treatment2'],
+			50, 'figs/spec-treat1-%s.pdf'%dimension, 'overall'
+		)
+
+		plotSpecificityComparison(
+			'treatment2', 
+			['treatment3', 'treatment4', 'treatment1'],
+			50, 'figs/spec-treat2-%s.pdf'%dimension, 'overall'
+		)
+
+		plotSpecificityComparison(
+			'treatment0', 
+			['treatment1', 'treatment5', 'treatment6', 'treatment2', 
+				'treatment3','treatment4'],
+			50, 'figs/spec-treat0-%s.pdf'%dimension, 'overall'
+		)
+
+def plotAllSpecificityComparisons(fname='specificity/all.json'):
+
+	data = json.loads(open(fname).read())
+
+
+	fig = plt.figure(figsize=(10,11))
+	gs = gridspec.GridSpec(3,3, width_ratios=[25,13,9])
+	subplotCounter = 0
+
+
+	for valenceComparison in data:
+		valence = valenceComparison['valence']
+
+		
+		for basisComparison in valenceComparison['results']:
+			basis = basisComparison['basis']
+
+			comparisonData = basisComparison['results']
+
+			width=0.75
+			X = range(len(comparisonData))
+			Y = map(lambda x: x['avgNorm'], comparisonData)
+			treatmentNames = map(lambda x: x['subject'], comparisonData)
+
+			if subplotCounter == 0:
+				ax = plt.subplot(gs[subplotCounter])
+				ax0 = ax	# keep a reference for sharing y-axis
+
+			elif subplotCounter == 1:
+				ax = plt.subplot(gs[subplotCounter], sharey=ax0)
+				ax1 = ax
+
+			elif subplotCounter == 2:
+				ax = plt.subplot(gs[subplotCounter], sharey=ax0)
+				ax2 = ax
+
+			elif subplotCounter % 3 == 0:
+				ax = plt.subplot(gs[subplotCounter], sharey=ax0, sharex=ax0)
+
+			elif subplotCounter % 3 == 1:
+				ax = plt.subplot(gs[subplotCounter], sharey=ax0, sharex=ax1)
+
+			elif subplotCounter % 3 == 2:
+				ax = plt.subplot(gs[subplotCounter], sharey=ax0, sharex=ax2)
+
+
+
+			series = ax.bar(X, Y, width, color='0.25')
+
+			padding = 0.25
+			xlims = (-padding, len(comparisonData) - 1 + width + padding)
+			plt.xlim(xlims)
+
+			zero = ax.plot(
+				xlims, [0, 0], color='0.35', linestyle='-')
+
+			confidenceIntervalUpper = ax.plot(
+				xlims, [CONFIDENCE_95, CONFIDENCE_95], color='0.35',
+				linestyle=':')
+
+			confidenceIntervalLower = ax.plot(
+				xlims, [-CONFIDENCE_95, -CONFIDENCE_95], color='0.35',
+				linestyle=':')
+
+			
+			ylims = plt.ylim()
+			ypadding = (ylims[1] - ylims[0]) * 0.05
+			plt.ylim(ylims[0] - ypadding, ylims[1] + ypadding)
+
+			# handle x-axis labelling
+			if subplotCounter > 5:
+				xlabels = [TREATMENT_NAMES[t] for t in treatmentNames]
+				ax.set_xticks(map(lambda x: x + width/2., X))
+				ax.set_xticklabels(xlabels, rotation=45, 
+					horizontalalignment='right')
+			else:
+				plt.setp(ax.get_xticklabels(), visible=False)
+
+			# handle y-axis labelling
+			if subplotCounter == 0:
+				ax.set_ylabel("overall specificity")
+
+			elif subplotCounter == 3:
+				ax.set_ylabel("cultural specificity")
+
+			elif subplotCounter == 6:
+				ax.set_ylabel("food specificity")
+
+			else:
+				plt.setp(ax.get_yticklabels(), visible=False)
+
+
+
+			subplotCounter += 1
+			plt.draw()
+			if subplotCounter < 6 :
+				plt.tight_layout()
+
+	plt.subplots_adjust(bottom=.10)
+	plt.show()
+
+
+def computeAllSpecificityComparisons(
+	fname='specificity/all.json', numToCompare=50):
+
+	comparisonSchedule = {
+		'treatment0': ['treatment1', 'treatment5', 'treatment6',
+			'treatment2', 'treatment3', 'treatment4']
+
+		, 'treatment1': ['treatment5', 'treatment6', 'treatment2']
+
+		, 'treatment2': ['treatment3', 'treatment4']
+	}
+
+	# Make an analyzer object -- it performs the actual comparisons
+	a = analysis.Analyzer()
+
+	# A results object to aggregate all the data
+	fh = open(fname, 'w')
+	results = []
+
+	for valence in ['overall', 'cultural', 'food']:
+		thisValenceResults = {'valence': valence, 'results': []}
+		results.append(thisValenceResults)
+
+		for basisTreatment in ['treatment0', 'treatment1', 'treatment2']:
+			thisBasisResults = {'basis': basisTreatment, 'results':[]}
+			thisValenceResults['results'].append(thisBasisResults)
+
+			# first compute the null comparison.  This determines the variance
+			# observed when comparing samples when they are both taken from 
+			# the basis treatment, and establishes confidence intervals
+			rslt = a.compareValenceSpecificity(
+				valence, basisTreatment, basisTreatment, numToCompare)
+
+			nullComparison = {
+				'subject':'null',
+				'stdev':rslt['stdMoreMinusLess'],
+				'avg':rslt['avgMoreMinusLess']
+			}
+
+			thisBasisResults['null'] = nullComparison
+
+			# Now compare the basis treatment to each subject treatment
+			for subjectTreatment in comparisonSchedule[basisTreatment]:
+
+				# compare basis treatment to subject treatment
+				rslt = a.compareValenceSpecificity(
+					valence, basisTreatment, subjectTreatment, numToCompare)
+
+				# express the avg specificity in terms of the standard 
+				# deviations of the null comparison.  Store the result
+				avgNorm = rslt['avgMoreMinusLess'] / nullComparison['stdev']
+
+				subjectComparison = {
+					'subject': subjectTreatment,
+					'stdev': rslt['stdMoreMinusLess'],
+					'avg': rslt['avgMoreMinusLess'],
+					'avgNorm': avgNorm
+				}
+
+				thisBasisResults['results'].append(subjectComparison)
+
+	fh.write(json.dumps(results, indent=3))
+	fh.close
+
+	return results
+
+
 
 
 
@@ -114,6 +316,7 @@ def plotSpecificityComparison(basisTreatment, treatmentsToBeCompared,
 
 	avgSpecificities = map(lambda s: s/stdNullSpecificities, avgSpecificities)
 
+
 	width=0.7
 	X = range(len(treatmentsToBeCompared))
 
@@ -129,13 +332,13 @@ def plotSpecificityComparison(basisTreatment, treatmentsToBeCompared,
 	plt.xlim(xlims)
 
 	zero = ax.plot(
-		xlims, [0, 0], color='0.75', linestyle='-')
+		xlims, [0, 0], color='0.35', linestyle='-')
 
 	confidenceIntervalUpper = ax.plot(
-		xlims, [CONFIDENCE_99, CONFIDENCE_99], color='0.75', linestyle=':')
+		xlims, [CONFIDENCE_95, CONFIDENCE_95], color='0.35', linestyle=':')
 
 	confidenceIntervalLower = ax.plot(
-		xlims, [-CONFIDENCE_99, -CONFIDENCE_99], color='0.75', linestyle=':')
+		xlims, [-CONFIDENCE_95, -CONFIDENCE_95], color='0.35', linestyle=':')
 
 	xlabels = [TREATMENT_NAMES[t] for t in treatmentsToBeCompared]
 
@@ -148,8 +351,8 @@ def plotSpecificityComparison(basisTreatment, treatmentsToBeCompared,
 	ax.set_xticklabels(xlabels, rotation=45, horizontalalignment='right')
 	ax.set_ylabel("excess specific words")
 
-
 	fig.subplots_adjust(bottom=.20)
+	fig.savefig(fname)
 
 	plt.show()
 

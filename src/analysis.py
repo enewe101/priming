@@ -98,6 +98,29 @@ class Analyzer(object):
 		return result
 
 
+	def compareValenceSpecificity(
+		self, valence, subjectTreatment, basisTreatment, numToCompare=50):
+
+		assert(valence in ['overall', 'cultural', 'food'])
+
+		if valence == 'overall':
+			return self.compareSpecificity(
+				subjectTreatment, basisTreatment, numToCompare)
+
+		elif valence == 'cultural':
+			return self.compareCulturalSpecificity(
+				subjectTreatment, basisTreatment, numToCompare)
+
+		elif valence == 'food':
+			return self.compareFoodSpecificity(
+				subjectTreatment, basisTreatment, numToCompare)
+
+		else:
+			raise ValueError("In Analyzer.compareValenceSpecificity: valence "\
+				"must be one of 'overall', 'cultural', or 'food'. Found '"\
+				+ valence + "'.")
+
+
 	def compareFoodSpecificity(
 		self, treatment1, treatment2, numToCompare=50):
 
