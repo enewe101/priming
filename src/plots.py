@@ -614,40 +614,47 @@ def plotDisting(numReplicates, fname, comparisons=CROSS_COMPARISONS):
 
 
 
-def plotClassificationVsImage(numClassificationReplicates, treatments, fname):
+def plotClassificationVsImage(numReplicates=50, 
+	treatments=('treatment1','treatment2'), fname='figs/longitudinalF1scores.pdf'):
 
 	# Assess the classifier's ability to classify as a function of the image 
 	# from which the labels used for classification are derived
 	a = analysis.NBCAnalyzer()
 	f1Results, stdevResults = a.longitudinal(
-			numClassificationReplicates, treatments)
+			numReplicates, treatments)
 
 	# Plot the result
 	numPics = 5
-	width = 0.35						# width of bars
+	width = 0.375						# width of bars
 	X1 = range(numPics + 1)				# x-position of series1 bars
 	X2 = map(lambda x: x + width, X1)	# x-position of series2 bars
-	xlabels = ['all images'] + ['Image %d' % i for i in range(numPics)]
+	xlabels = ['all images'] + ['image %d' % (i+1) for i in range(numPics)]
 
 	# Make a plot
-	fig, ax = plt.subplots()
+	fig = plt.figure(figsize=(5,5))
+	ax = plt.subplot(111)
 
 	# Plot the performance with position-based labels
 	series1 = ax.bar(
-		X1, f1Results['withPosition'], width, color='0.25',  ecolor='0.55',
-		yerr=stdevResults['withPosition'])
+		X1, f1Results['withPosition'], width, color='0.25')
 
 	# Plot the performance without position-less labels
 	series1 = ax.bar(
 		X2, 
-		f1Results['withoutPosition'], width, color='0.55', ecolor='0.25',
-		yerr=stdevResults['withoutPosition'])
+		f1Results['withoutPosition'], width, color='0.55')
 
 	# Do some labelling business with the plot
-	ax.set_ylabel("F1 Score")
+	ax.set_ylabel("$F_1$-score", size=14)
 	ax.set_xticks(X2)
-	ax.set_xticklabels( xlabels )
+	ax.set_xticklabels( xlabels, ha='right', rotation=45 )
+
+	padding = 0.25
+	plt.xlim((-padding, numPics + 2*width + padding))
+	plt.ylim((0,1))
 	
+	plt.draw()
+	plt.tight_layout()
+	plt.subplots_adjust(bottom=.16)
 
 	fig.savefig(fname)
 	plt.show()

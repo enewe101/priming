@@ -32,107 +32,149 @@
 \section*{Abstract}
 \textbf{}
 \section*{Introduction}
-There are still many tasks for which humans outperform computers
-These tend to be tasks that rely on a large repertoire of prior knowledge,
-the excercise of common sense judgment, certain visual tasks, and 
-tasks that require spontaneous hypothesis generation.
+Although capabilities in artificial intelligence continue to advance, 
+there are still many tasks for which human performance exceeds that of 
+computers now and in the forseable future.  Tasks requiring repertoire of 
+general knowledge about the world, the use of common sense or expert judgment, 
+finding creative solutions to open-ended questions, and spontaneously 
+hypothesis generation outside any apparent framework, are all examples of 
+tasks that are routine for humans, but very difficult or impossible for 
+computers.  The image labelling task is perhaps the canonical human 
+intelligence task (HIT), perhaps because it is simply stated, nearly effortless
+for humans, but still extremely challenging for computers.
 
-With the emergence of microtask platforms like Amazon Mechanical Turk (AMT),
-comes the hope of building compute in which human intelligence can be accessed
-on-demand.  This leads to an analogy of the human to the CPU, wherein we think
-of human processing units.
+Rather than replicate human intelligence, there is an alternate vision in 
+which human intelligence can be freely accessed and meshed with artificial
+intelligenc.  The emergence of microtask platforms like Amazon Mechanical 
+Turk (AMT) has made this vision a reality to some extent.  In this paradigm,
+the human processing unit (HPU) becomes one component in a hybrid 
+computational system, analagous to the CPU.
 
-A major challenge in building systems that deliver on this vision is the 
-natual variability obtained in HPU output.  In some tasks, this variability
-is desireable.  For example, in an image labelling task, the natural 
-variability in
-HPU output leads to greater coverage of the semantic space occupied by an 
-image.  In other cases this variability can be problematic, such as in a 
-transcription task, where there is only one corect output, and any variability
-is only noise.
+But there are major challenges in building systems that deliver on this 
+vision.  People are far more complex than manufactured chips, 
+and so HPU performance is noisy, and subject to bias, leading to uncertain
+quality of output.  Of course, the effect that HPU noise has on a compute job 
+will depend on the application.
+In the image labelling task, some variability is desireable, because it helps
+generate sets of labels that in some sense cover semantic space occupied by an 
+image.  In other cases this variability can be problematic.  In a 
+transcription task, usually there is only one correct output, and so 
+variability in the output only degrades quality.
 
-Whether desired or not, to build up efficient systems from HPUs, one must 
-understand the natural variance quantitatively, and understand the factors that
-influence it.
+Regardless of the application, the understanding HPU variance quantititively,
+and the factors that influence it, will help design of efficient compute 
+systems built from HPUs.
 
-Here we model the variance between HPUs as comming from two sources.  The first
-is a persistent, or intrinsic variability.  We imagine that this to encompass  
-temperamental predispositions, life history, and developmental stage of the 
-individual.  While
-it may change over the course of a person's lifetime, in the view of the 
-computational architect, it is essentially constant.
+Much has been written on the factors that influence human input in 
+crowdsourcing platforms.  This has generally related to the context in which
+the HPU engages the task.  Unfortunately, especially for platforms like AMT,
+this context is out of the designers control, and the relative anonymity of
+workers makes it difficult to select for specific conditions.
 
-The seccond is a short-term variability, which arises from the fact that 
-peoples immediate state is a function of recent events.  This would include
-such things as an HPU becomming more efficient at a task once it has completed
-a few tasks of the same type.  It would also include such things as the 
-potentially detrimental effects of a noisy environment.
+In the present work, we compare influences that arise from the framing of the
+task to influences that arise in-task from the mere act of working.  What 
+are the effects of performance that arise simply from how the worker's 
+attention is influenced by the previous task, and how do these relate 
+quantititively to other pre-task influences?
 
-In this view, one can imagine HPUs being different in their specifications,
-and also exhibiting hysteresis, whereby their output at some time $t$ is a
-function of their inputs at time $t$, $t-1$, and so on.
+We pay workers on AMT to label images, and analyze the effects brought about
+by subjecting them to different priming treatments, either in the form of 
+disclosing a semantically charged name of a (fictitious) organization 
+funding the research, or by altering the first few images presented to the
+workers.  Surpisingly, simply altering the first few images produces a much
+stronger shift in subsequent labelling performance than does disclosing the 
+semantically-laden name of the funder. 
 
-In psychology, the act of producing these short-lived states that effect a
-person's performance during a task is called \textit{priming}.  We will adopt
-this term throughout the present work.
 
 
 \section*{Prior Work}
-Priming itself can be broken into many types, and many studies exist exploring
-the effects of overt priming on the performance of HPUs. Priming may arise
-due to how the task is framed.  This includes such things as the stated
-purpose of the task, and the identity of the requester the task.
 
-In \cite{chandler2013breaking}, the researchers investigate the effects of 
-framing task either in a meaningful or meaningless way.  Compared to a 
-zero-context control treatment, workers increase their output (for less pay),
-when they are told that they are helping identify cancer, but there is no
-change in quality.  When workers are told that their submissions will be 
-discarded, there is no change in the amount of work done, but the quality 
-declines.
 
-Another source of priming can be due to what might be called 
-\textit{sidestream information}: information that is presented to the 
-individual but which is not actually salient to the task.
+When considering the design of computing systems based on HPUs, we can think
+of variability in HPU output as having a relatively persistent component,
+and a transient one.  The persistent component would include intrinsic
+qualities of a person, such as their temperament, life history, and their 
+current developmental stage.  Such characteristics cannot be influenced by
+the designer, but it may be possible to screen or at least characterise them 
+to some extent.
 
-Other researchers have studied how having peer's responses available to 
-the task could influence the worker.
+The transient component of variability might include such factors as influence
+alertness, orientation focus, mood, meaningfulness of the task, and any number
+of aspects of mental state too subtle to describe.  Such aspects are partly
+in the control of the system designer, and can be controlled through how the
+task is framed and set up.
 
-In the present work, we focus on a more subtle source of priming, which arises
-simply from the worker's performance in earlier stages of the task. 
+In psychology, the phenomenon of priming occurs when a prior stimulus 
+makes a person more likely to respond to a task in a particular way.  The 
+phenomenon is well-studied, and is believed to follow perceptual, semantic,
+or conceptual similarities between the priming stimulus and the ensuing 
+response.
 
-We compare this to priming arising from framing the task by disclosing a 
-(fictitious) funding agency that is paying for the study in which they are 
-participating.
+Drawing from this insight, it is natural to wonder whether current HPU 
+performance might be modulated by recently performed tasks.
 
-\section*{Framework}
-At this point we have surveyed some of the conceptual framework traditionally
-used to discuss priming in the context of psychology.  Having the origin that
-they do, these frameworks are suited to describing the internal mechanisms of
-the mind from which they arise.  For our purposes here, we are interested 
-primarily in the \textit{effects} of priming, and so it makes sense to 
-adopt a position conducive to those ends.  Since our interest in priming 
-arises from a desire to construct computing systems from HPUs, we shall
-propose a well-defined algorithmic definition for priming.
+Existing work on the effects of human input in crowdsourcing platforms has
+generally focused on effects arising from auxilliary information, which has
+been added into the task setting, or which frames the task during its 
+introduction.  
 
-We must first remark that it does not make sense to speak of an un-primed 
-state.  A person can be no more un-primed than a ship at sea can have no 
-bearing.  Next, we propose that priming should generally be regarded as a
-property of a population of HPUs, rather than as the state of a single HPU.
-This is rather like the notion of temperature in thermodynamics.  Although
-it does make sense to speak of the kinetic energy of a single molecule, 
-Temperature is a statement about the distribution of kinetic energies in a
-population of molecules.  The definition of priming which we presently submit
-will also be defined in terms of populations.
+For example, it was shown that framing a task in a meaningful or meaningless
+way influences both task quality and the willingness of workers to produce
+more output given a declining payment schedule \cite{chandler2013breaking}.
+Surprisingly, relative to a zero-context treatment, although workers who were
+told that there contributions would be used to help identify cancerous cells
+were willing to provide more work, their work was not of a sufficiencly higher
+quality.  The only effect on quality occered when workers were told that their
+output would be discarded, in which case quality declined.
 
-Two populations, \textsc{j} and \textsc{k} are said to be 
+Another study investigated the influence of providing workers with information
+about one another.  This study found that workers were willing to provide
+more output, when they were able to see one another's names.  The effect was 
+stronger when workers could also see some basic self-reported demographic 
+information, and more still when they could see one another's responses.
+
+In the present work, we focus on a perhaps unusual source of priming---that 
+arising from the task itself, and compare this to priming that results from 
+framing the work as part of study by a named organization.  Given that the 
+mechanisms of priming are believed to be related to the residual activation of
+perceptual, semantic, and conceptual representations, we hypothesize that 
+\textit{in-task} priming could produce effects quantitively comparable to those
+produced by framing.
+
+\section*{Theoretical Framework}
+Having discussed very briefly some mechanisms and cases of priming, we shall 
+now seek to put forward, as an additional testable contribution, a rigorous
+definition for priming that is suitable for the study of computing with HPUs.
+
+First, we remark that it does not make sense to speak of an un-primed 
+state.  When a person engages in a task, she comes to the task with some 
+state of mind.  We therefore do not attempt to define priming in an absolute
+sense, but rather, in a relative sense, that is, one priming can be said to 
+be different from another.
+
+Also, the effects of a given treatment will depend on the task to which the 
+HPUs are put.  In other words, a treatment which generates a strong effect on
+the output in one task, does not necessarily produce a strong effect on the
+output for other tasks.  On a related note, the study of the effects of priming
+on HPUs should be defined algorithmically.  Only effects on HPU output that
+can be detected algorithmically can be relevant to a computing system built 
+from HPUs.
+
+Further, since only the influence on populations of HPU outputs can be 
+meaningfully measured, and since accessing HPU power generally involves 
+sampling from a pool of HPU workers, we define priming as a property of a 
+population of HPU outputs.  Having said these remarks, we now present an
+algorithmic definition of HPU priming:
+
+Two populations of HPU outputs, \textsc{j} and \textsc{k}, are said to be 
 \textit{differently primed} with respect to a task $\mathcal{T}$ if there 
-exists a polynomial-time algorithm $\mathcal{A}$ that can distinguish 
-(classify) members of \textsc{j} and \textsc{k} with accuracy $\theta$, when 
-$\mathcal{A}$ is provided the labelled work-products of HPUs from \textsc{j} 
-and \textsc{k} tasked with $\mathcal{T}$.
-When $\mathcal{A}$ exists, we say that \textsc{j} and \textsc{k} deviate by 
-$\theta$ in priming.
+exists an algorithm $\mathcal{A}$ which runs in time polynomial in the size
+of \textsc{j} and \textsc{k}, that can distinguish 
+(classify) members of \textsc{j} and \textsc{k} with accuracy 
+$\frac{1+\theta}{2}$, on input \textsc{j} and \textsc{k}.  Further, $\theta$
+must be a non-negligible function of $|\textsc{j} + \textsc{k}|$.
+If such an $\mathcal{A}$ exists, 
+we say that \textsc{j} and \textsc{k} deviate by $\theta$ in priming.
 
 The above definition is simply intended to provide a well-defined definition
 of what priming \textit{is}.  Naturally, it says nothing about the consequences
@@ -417,8 +459,14 @@ occupied by the image, by eliciting labels at coarser and finer levels of
 specificity using the techniques suggested by the present work.
 
 \begin{figure}
-	\includegraphics[scale=0.4]{../figs/longitude0.pdf}
-	\caption{caption here}
+	\includegraphics[scale=0.58]{../figs/longitudinalF1scores.pdf}
+\caption{$F_1$-score for a naive Bayes classifier trained to distinguish
+	HPUs from $\textsc{ingr}_{img}$ and $\textsc{cult}_{img}$ based on 80  
+	instances from each treatment, and tested using 20 instances.  Here we
+	present the performance of the classifier when only the labels from 
+	specific images are presented, to exhibit whether its performance degrades 
+	as the number of subtasks since priming increases. 
+	}
 	\label{fig:longitude}
 \end{figure}
 
