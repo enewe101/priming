@@ -56,9 +56,7 @@ def analyze():
 	# distinguishable, when priming takes place through different mechanisms
 	plotDisting(5, '../docs/figs/cross-classification.pdf')
 
-	treatments = ['treatment0', 'treatment1', 'treatment5', 'treatment6',
-			'treatment2', 'treatment3', 'treatment4']
-	plotValenceComparison(treatments, '../docs/figs/valenceComparison.pdf')
+	plotValenceComparison()
 
 	plotSpecificityComparison(
 		'treatment1', 
@@ -361,59 +359,67 @@ def plotSpecificityComparison(basisTreatment, treatmentsToBeCompared,
 
 
 
-def plotValenceComparison(treatments, fname):
+def plotValenceComparison(fname='../docs/figs/valenceComparison.pdf'):
+
+	treatmentIds = [0,1,5,6,2,3,4]
+	treatments = ['treatment%d' % i for i in treatmentIds]
+
 	a = analysis.Analyzer()
-	percentValences = {'cultural':[], 'food':[]}
-	stdevValences = {'cultural':[], 'food':[]}
+	percentValences = {'cultural':[], 'food':[], 'both':[]}
+	stdValences = {'cultural':[], 'food':[], 'both':[]}
+
 	for treatment in treatments:
 
-		result = a.percentValence('cultural', treatment, 'test0')
-		percentValences['cultural'].append(result['mean'])
-		stdevValences['cultural'].append(result['stdev'])
+		result = a.percentValence(treatment, 'test0')
 
-		result = a.percentValence('food', treatment, 'test0')
-		percentValences['food'].append(result['mean'])
-		stdevValences['food'].append(result['stdev'])
+		percentValences['cultural'].append(result['mean']['cultural'])
+		percentValences['food'].append(result['mean']['food'])
+		percentValences['both'].append(result['mean']['both'])
 
-	
-	width = 0.35
+		stdValences['cultural'].append(result['stdev']['cultural'])
+		stdValences['food'].append(result['stdev']['food'])
+		stdValences['both'].append(result['stdev']['both'])
+
+	width = 0.375
 	X = range(len(treatments))
 	X2 = map(lambda x: x + width, X)
 	
-	fig, ax = plt.subplots()
+	fig = plt.figure(figsize=(5,5))
+	ax = plt.subplot(111)
 
 	seriesCultural =ax.bar(
 		X, percentValences['cultural'], width, color='0.25', ecolor='0.55', 
-		yerr=stdevValences['cultural'])
+		bottom=percentValences['both'], yerr=stdValences['cultural'])
 
 	seriesFood = ax.bar(
 		X2, percentValences['food'], width, color='0.55', ecolor='0.25', 
-		yerr=stdevValences['food'])
+		bottom=percentValences['both'], yerr=stdValences['food'])
 		
+	seriesBoth1 =ax.bar(
+		X, percentValences['both'], width, color='0.85', ecolor='0.55', 
+		yerr=stdValences['both'])
+
+	seriesBoth2 =ax.bar(
+		X2, percentValences['both'], width, color='0.85', ecolor='0.25', 
+		yerr=stdValences['both'])
+
+
+	# Let the plot breathe horizontally
+	padding = 0.25
+	xlims = (-padding, len(treatments) - 1 + 2*width + padding)
+	plt.xlim(xlims)
+	plt.ylim((0,55))
+
+	ax.set_ylabel("percent of labels having valence")
 
 	xlabels = [TREATMENT_NAMES[t] for t in treatments]
-	ax.set_ylabel("percent words with valence")
-
-
-	# ax.set_xticks(map(lambda x: x + width /2., X))
-	# ax.set_xticklabels(xlabels, rotation=45)
-
-	xmajorlocator = FixedLocator(map(lambda x: x + width, X))
-	ax.xaxis.set_major_locator(xmajorlocator)
-
-	xmajorformatter = FixedFormatter(xlabels)
-	ax.xaxis.set_major_formatter(xmajorformatter)
-
-	labels = [tick.label1 for tick in ax.xaxis.get_major_ticks()]
-	for label in labels:
-		label.set_horizontalalignment('right')
-		label.set_rotation(45)
+	ax.set_xticks(X2)
+	ax.set_xticklabels(xlabels, rotation=45, horizontalalignment='right')
 
 	fig.subplots_adjust(bottom=.20)
 
-	legend = ax.legend((seriesCultural[0], seriesFood[0]), ('cultural', 'food'), 
-		loc='lower right')
-	
+	legend = ax.legend( (seriesCultural[0], seriesFood[0], seriesBoth1[0]),
+			('cultural', 'food', 'both'), loc='top left', prop={'size':10})
 
 	fig.savefig(fname)
 	plt.show()
@@ -482,7 +488,7 @@ def plotAllDisting(
 
 	# Start a figure 
 	# -- Assumes specific shape of data produced by computeAllDisting()!
-	fig = plt.figure(figsize=(10,5))
+	fig = plt.figure(figsize=(10,4))
 	gs = gridspec.GridSpec(1,3, width_ratios=[25,21,17])
 	subplotCounter = 0
 

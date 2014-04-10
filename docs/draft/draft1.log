@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2010.7.21)  9 APR 2014 23:00
+This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2010.7.21)  10 APR 2014 04:15
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -622,45 +622,89 @@ Underfull \vbox (badness 2452) has occurred while \output is active []
  [1{/usr/local/texlive/2010/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
 
-]
+] [2]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [2]
-<../figs/f1scores.pdf, id=20, 722.7pt x 361.35pt>
+
+<../figs/f1scores.pdf, id=21, 722.7pt x 289.08pt>
 File: ../figs/f1scores.pdf Graphic file (type pdf)
  <use ../figs/f1scores.pdf>
-<../figs/specificity2.pdf, id=21, 722.7pt x 794.97pt>
+[3] <../figs/valenceComparison.pdf, id=27, 361.35pt x 361.35pt>
+File: ../figs/valenceComparison.pdf Graphic file (type pdf)
+
+<use ../figs/valenceComparison.pdf>
+Overfull \hbox (10.66698pt too wide) in paragraph at lines 243--244
+[][] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Underfull \hbox (badness 2302) in paragraph at lines 268--275
+\OT1/cmr/m/n/10.95 nif-i-cant ex-cess of culturally-oriented la-bels
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [4 <../figs/f1scores.pdf> <../figs/valenceComparison.pdf>]
+Underfull \hbox (badness 1867) in paragraph at lines 282--286
+[]\OT1/cmr/m/n/10.95 In the case of $[][]$ treat-ments one ex-
+ []
+
+<../figs/specificity2.pdf, id=125, 722.7pt x 794.97pt>
 File: ../figs/specificity2.pdf Graphic file (type pdf)
 
 <use ../figs/specificity2.pdf>
+Underfull \hbox (badness 7012) in paragraph at lines 304--312
+[]\OT1/cmr/m/n/10.95 Label-specificity only gen-er-ates a par-tial
+ []
+
+
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
-(./draft1.bbl) [3] [4 <../figs/f1scores.pdf>] [5 <../figs/specificity2.pdf>]
-(./draft1.aux) ) 
+<../figs/longitude0.pdf, id=126, 578.16pt x 433.62pt>
+File: ../figs/longitude0.pdf Graphic file (type pdf)
+
+<use ../figs/longitude0.pdf>
+Overfull \hbox (7.05217pt too wide) in paragraph at lines 354--355
+[][] 
+ []
+
+(./draft1.bbl
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [5]
+[6 <../figs/specificity2.pdf>]) [7
+
+ <../figs/longitude0.pdf>] [8] (./draft1.aux) ) 
 Here is how much of TeX's memory you used:
- 10613 strings out of 493747
- 176137 string characters out of 3143546
- 256003 words of memory out of 3000000
- 13655 multiletter control sequences out of 15000+200000
- 13573 words of font info for 52 fonts, out of 3000000 for 9000
+ 10627 strings out of 493747
+ 176468 string characters out of 3143546
+ 258026 words of memory out of 3000000
+ 13666 multiletter control sequences out of 15000+200000
+ 13434 words of font info for 52 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
- 47i,7n,49p,336b,229s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmbx10.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmbx12.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmcsc10.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmmi10.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm
-/cmmi8.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mr10.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr
-12.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17
-.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.
-pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.p
-fb>
-Output written on draft1.pdf (5 pages, 152363 bytes).
+ 47i,7n,49p,336b,250s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/local/texlive/2010/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2010/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2010/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/local/texlive/2010/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2010/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2010/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2010/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2010/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2010/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2010/texmf-dist/fonts/type
+1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmtt10.pfb>
+Output written on draft1.pdf (8 pages, 209447 bytes).
 PDF statistics:
- 149 PDF objects out of 1000 (max. 8388607)
- 63 compressed objects within 1 object stream
+ 252 PDF objects out of 1000 (max. 8388607)
+ 91 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 23 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 33 words of extra memory for PDF output out of 10000 (max. 10000000)
 

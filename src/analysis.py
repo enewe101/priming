@@ -6,6 +6,8 @@ import ontology
 import data_processing
 import numpy as np
 
+CONFIDENCE_95 = 1.96
+CONFIDENCE_99 = 2.975
 
 class ClassifierPerformanceResult(object):
 
@@ -157,15 +159,13 @@ class Analyzer(object):
 		return result
 
 
-	def percentValence(self, valence, treatment, image=None):
+	def percentValence(self, treatment, image=None, 
+		significanceLevel=CONFIDENCE_95):
 		'''
 		Determine the percentage of culture-related tokens found in entries
 		of a given treatment.  If image is specified, restrict counts to
 		a specific image
 		Input: 
-			valence (str): root token in the ontology, e.g. 'food', or 
-				'cultural'.
-
 			treatmen (str): key for identifying a treatment, e.g.
 				'treatment0'.
 
@@ -178,59 +178,86 @@ class Analyzer(object):
 		'''
 
 		# counters
-		numValenceTokens = 0
-		numTokens = 0
-
-		valencePercentages = []
+		treatmentCounts = {'cultural':0, 'food':0, 'both':0, 'overall':0}
+		percentages = {'cultural': [], 'food': [], 'both': []}
 
 		entries = self.dataSet.entries[treatment]
 		for entry in entries:
 
-			# Figure out which images we're interested in
-			interestingImages = []
+			# Figure out which tokens we're interested in
+			tokenKeys = []
 
 			# if the image wasn't specified, just get all the keys that specify
 			# words entered for any test image
 			if image is None:
-				interestingImages = filter(
-					lambda imageKey: imageKey[0].startswith('test'), 
+				tokenKeys = filter(
+					lambda tokenKey: tokenKey[0].startswith('test'), 
 					entry.keys())
 
 			# But if the image was specified, just use that one
 			else:
-				interestingImages = filter(
-					lambda imageKey: imageKey[0] == image, entry.keys())
+				tokenKeys = filter(
+					lambda tokenKey: tokenKey[0] == image, entry.keys())
 
-			if not len(interestingImages):
+			if not len(tokenKeys):
 				raise Exception('Bad key for image')
 
 
-			thisNumValenceTokens = 0
-			thisNumTokens = 0
-			for imageKey in interestingImages:
-				numTokens += 1
-				thisNumTokens += 1
+			entryCounts = {'cultural': 0, 'food': 0, 'both': 0, 'overall': 0}
 
-				if valence == 'cultural' and self.isCultural(entry[imageKey]):
-					numValenceTokens += 1
-					thisNumValenceTokens += 1
+			for tokenKey in tokenKeys:
 
-				elif valence == 'food' and self.isFood(entry[imageKey]):
-					numValenceTokens += 1
-					thisNumValenceTokens += 1
+				treatmentCounts['overall'] += 1
+				entryCounts['overall'] += 1
 
-			valencePercentages.append(
-				100 * thisNumValenceTokens/float(thisNumTokens))
+				isCultural = self.isCultural(entry[tokenKey])
+				isFood = self.isFood(entry[tokenKey])
+
+				if isCultural:
+					entryCounts['cultural'] += 1
+
+				if isFood:
+					entryCounts['food'] += 1
+
+				if isCultural and isFood:
+					entryCounts['both'] += 1
+
+					# we want these to count "strictly cultural", etc.
+					entryCounts['cultural'] -= 1
+					entryCounts['food'] -= 1
 
 
-		meanPercentage = np.mean(valencePercentages)
+			percentages['cultural'].append(
+				100 * entryCounts['cultural']/float(entryCounts['overall']))
 
-		# To get the standard deviation of the mean, take the standard deviation
-		# of the samples and divide by square root of number of samples
-		stdvPercentage = (
-			np.std(valencePercentages) / np.sqrt(len(valencePercentages)))
+			percentages['food'].append(
+				100 * entryCounts['food']/float(entryCounts['overall']))
 
-		return {'mean': meanPercentage, 'stdev':stdvPercentage}
+			percentages['both'].append(
+				100 * entryCounts['both']/float(entryCounts['overall']))
+
+
+		meanPercentage = {
+			'cultural': np.mean(percentages['cultural'])
+			, 'food': np.mean(percentages['food'])
+			, 'both': np.mean(percentages['both'])
+		}
+
+		# To get the standard deviation of the mean, 
+		# take the standard deviation of the samples 
+		# and divide by square root of number of samples
+		stdPercentage = {
+			'cultural': significanceLevel * (
+				np.std(percentages['cultural']) / np.sqrt(len(entries)))
+
+			, 'food': significanceLevel * (
+				np.std(percentages['food']) / np.sqrt(len(entries)))
+
+			, 'both': significanceLevel * (
+				np.std(percentages['both']) / np.sqrt(len(entries)))
+		}
+
+		return {'mean': meanPercentage, 'stdev':stdPercentage}
 
 
 	def isCultural(self, token):

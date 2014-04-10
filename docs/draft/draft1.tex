@@ -104,6 +104,42 @@ We compare this to priming arising from framing the task by disclosing a
 (fictitious) funding agency that is paying for the study in which they are 
 participating.
 
+\section*{Framework}
+At this point we have surveyed some of the conceptual framework traditionally
+used to discuss priming in the context of psychology.  Having the origin that
+they do, these frameworks are suited to describing the internal mechanisms of
+the mind from which they arise.  For our purposes here, we are interested 
+primarily in the \textit{effects} of priming, and so it makes sense to 
+adopt a position conducive to those ends.  Since our interest in priming 
+arises from a desire to construct computing systems from HPUs, we shall
+propose a well-defined algorithmic definition for priming.
+
+We must first remark that it does not make sense to speak of an un-primed 
+state.  A person can be no more un-primed than a ship at sea can have no 
+bearing.  Next, we propose that priming should generally be regarded as a
+property of a population of HPUs, rather than as the state of a single HPU.
+This is rather like the notion of temperature in thermodynamics.  Although
+it does make sense to speak of the kinetic energy of a single molecule, 
+Temperature is a statement about the distribution of kinetic energies in a
+population of molecules.  The definition of priming which we presently submit
+will also be defined in terms of populations.
+
+Two populations, \textsc{j} and \textsc{k} are said to be 
+\textit{differently primed} with respect to a task $\mathcal{T}$ if there 
+exists a polynomial-time algorithm $\mathcal{A}$ that can distinguish 
+(classify) members of \textsc{j} and \textsc{k} with accuracy $\theta$, when 
+$\mathcal{A}$ is provided the labelled work-products of HPUs from \textsc{j} 
+and \textsc{k} tasked with $\mathcal{T}$.
+When $\mathcal{A}$ exists, we say that \textsc{j} and \textsc{k} deviate by 
+$\theta$ in priming.
+
+The above definition is simply intended to provide a well-defined definition
+of what priming \textit{is}.  Naturally, it says nothing about the consequences
+of priming.  The significance of the priming of a given population will
+depend both on the nature of $\mathcal{T}$ and on the intended purpose of 
+the work products derived from HPUs performing $\mathcal{T}$.
+
+
 \section*{Methods}
 
 \textbf{Task set-up.}
@@ -166,35 +202,162 @@ was built as a directed acyclic graph starting
 
 \section*{Results and discussion}
 
-\subsection*{Priming affects HPU output.}
+\begin{figure*}
+	\begin{center}
+		\includegraphics[scale=0.55]{../figs/f1scores.pdf}
+		\caption{caption here}
+		\label{fig:classifier}
+	\end{center}
+\end{figure*}
+
+\textbf{Priming affects HPU output.}
 Before looking for differences in the content of labels provided by workers
-from different treatments, we first demonstrate that each treatment has a
-distinguishable impact on worker output relative to the \textsc{ambg}.
+from different treatments, we first demonstrate that the treatments are
+distringuishable in an algorithmic sense.
 
 Using a naive bayes classifier, we are able to distinguish with high precision
 and specificity between workers from the \textsc{ambg} treatment and any of
-the other 5 treatments.  Fig~\ref{fig:classifier} shows F1-score for a
+the other 5 treatments.  Fig~\ref{fig:classifier}A shows F1-score for a
 naive bayes classifier when distinguishing between the \textsc{ambg} and 
-target treatments. The classifier was trained using random subsamples of 
-output 80 HPUs drawn from each of the \textsc{ambg} and target treatments, and
-tested on the ouput of 20 HPUs from each treatment.
+the other treatments. The classifier achieves high precision and specificity
+in task.  Figure~\ref{fig:classifier}B shows the F1-score for binary
+classification between the $\textsc{cult}_{img}$ and the other treatments, 
+while \ref{fig:classifier}C shows that for $\textsc{ingr}_{img}$ and the other
+treatments.  
+
+Not surprisingly, pairs of treatments in which one primes for culture, and the
+other primes for ingredients are easily distinguished.  However, it is quite
+surprising that high accuracy is achieved when classifying treatments within 
+the same valence (e.g. cultural).  This is especially true in such cases as
+the classification of  $\textsc{cult}_{img}$ and $\textsc{cult}_{fund,img}$
+($\text{F}_1 = 0.863$), where both treatments also share the priming images in 
+common.
 
 We find it remarkable that, using only the labels that workers provide, it is
-possible to infer with good accuracy the treatment to which the worker was 
+possible to infer with good accuracy (at least when given a choice between 
+two posibilities)  the treatment to which the worker was 
 subjected.
 
-\begin{figure*}
-	\includegraphics[scale=0.65]{../figs/f1scores.pdf}
+
+\begin{figure}
+	\includegraphics[scale=0.65]{../figs/valenceComparison.pdf}
 	\caption{caption here}
-	\label{fig:classifier}
+	\label{fig:valence}
+\end{figure}
+
+
+\textbf{Priming orients HPU focus.}
+Having established that each treatment does in fact consist of distinguishable 
+populations of the HPUs, we next look at the content of labels.  Two of the
+root labels in our ontology, \texttt{food} and \texttt{cultural}, map naturally
+onto the two concepts that laid behind the design of our priming treatments.
+A natural and straightforward expectation is that HPUs from treatments 
+$\textsc{cult}_x$ should emit more labels that are ontological descendents of
+\texttt{cultural}, while those from the $\textsc{ingr}_x$ treatments should
+emit more labels under $\textsc{food}$.
+
+In Fig.~\ref{fig:valence}, we exhibit the percentage of labels having a 
+cultural valence (i.e. descending from \texttt{cultural} in the ontology), and 
+the percentage having a food valence. Before making comparisons using this
+information, we remark that there is no reason to expect a balance in the 
+number of words having cultural or food valence overall.  The $\textsc{ambg}$
+treatment, which was designed to promote neither valence, exhibits a
+significant fraction of words from both the food and cultural valence, while
+significantly favoring the former.  
+
+Both $\textsc{cult}_{img}$ and $\textsc{cult}_{fund,img}$ show a significant
+excess of culturally-oriented labels and fewer food-orientel labels.  
+Furthermore, HPUs in these treatments emit more culturally-oriented labels 
+even while emitting fewer labes that are simultaneously oriented toward 
+cultural and food (light bars in Fig.~\ref{fig:valence}).
+The deviation of these treatments from
+the others is well beyond the 95\% confidence interval.
+
+Interestingly, the $\textsc{cult}_{fund}$ treatment did not have this effect.
+Although we have demonstrated that $\textsc{cult}_{fund}$ is differently
+primed from \textsc{ambg} using a naive bayes classifier, in respect of 
+overal fraction of food- and culturally-oriented labels, no distinction 
+is to be made.
+
+In the case of $\textsc{ingr}_x$ treatments one expects to see an 
+enrichment of food-oriented labels. There is perhaps some evidence for this
+$\textsc{ingr}_{fund}$ and $\textsc{ingr}_{fund,img}$, but we cannat make any
+assertion with confidence.
+
+
+\begin{figure*}
+	\includegraphics[scale=0.65]{../figs/specificity2.pdf}
+	\caption{caption here}
+	\label{fig:specificity}
 \end{figure*}
 
+\textbf{Priming affects attention to detail.}
+We next look at how alternately treated HPUs differ in their tendency to use
+more specific or more general labels. We use the ontology of labels emitted
+on the first test image to unambiguously establish a partial ordering of 
+label-specificity.  If one label $\ell_1$ is within the ancestry of another
+$\ell_2$, we say that $\ell_1$ is more general than $\ell_2$, otherwise they
+are not comparable.  Thus, the label \texttt{naan} is more 
+specific than both \texttt{bread} and \texttt{indian}, while uncomparable to
+\texttt{statue}.
 
-A natural question is to test the ability for the classifier to perform 
-distinguish between other pairings of treatments.  For example, can the 
-classifier distinguish $\textsc{cult}_{img}$ workers from 
-$\textsc{cult}_{fund}$ workers?
+Label-specificity only generates a partial ordering---at least in our 
+experimental design.  A consequence of this is that it is not possible to
+assign an overall specificity score to a set of labels.  We submit that this
+reflects the underlying complexity of natural language semantics.  While
+we admit that there may be many ways to generate full orderings based on some
+notion of label specificity, we believe that this would inappropriately 
+collapse qualitative differences between labels, leading to results that are
+difficult to interpret.
 
+In Fig.~\ref{fig:specificity}, We show pairwise specificity comparisons 
+between various pairs of treatments.  Figure~\ref{fig:specificity}A shows
+the comparison of \textsc{ambg} with all other treatments.  Both treatments
+primed with cultural images ($\textsc{cult}_{img}$ and 
+$\textsc{cult}_{fund, img}$) exhibit an excess of more general words compared
+to \textsc{ambg}.  Meanwhile, $\textsc{ingr}_{fund}$ emitted an excess of 
+more specific words.
+
+We can seek to explain these observations by restricting the comparison to
+labels of a specific orientation (e.g. food or cultural).  When we perform
+the same comparisons but restricting to food-oriented labels, as shown in 
+Fig.~\ref{fig:specificity}G, we see some of the same tendencies as in A.
+However, when restricting to culturally-oriented labels 
+(Fig~\ref{fig:specificity}D) there are no significant comparative deviations 
+in specificity to speak of.
+
+A first conclusion that we can draw from this is that there is a significant
+loss of specificity in labels emitted by treatments having non-ambiguous 
+priming images.  In Fig.~\ref{fig:specificity}G, only $\textsc{cult}_{fund}$
+and $\textsc{ingr}_{fund}$ show no significant deviation.  
+
+- through negative priming workers stop responding to generic features of images of prepared meals, which happens in the ambiguous case.
+
+- On the other hand, workers presented with either the cultural or ingredients images are initially struck by the gross differences, which draws generic 
+labels, especially with respect to food for which generic labels in ambiguous treatment had been suppressed through negative priming.
+
+- it seems, at first, inconsistent that $\textsc{cult}_{img}$ and 
+$\textsc{cult}_{fund,img}$ would at once enrich the fraction of 
+culturally-oriented words, but produce no change in the specificity of 
+culturally oriented words.  First of all, there is no logical incompatibility
+with producing a greater number of cultural terms, yet which are generic 
+in nature.  If we follow the hypothesis that focus (or orientation) is directed
+by positive priming (perhaps through the subconscious or conscious inference
+of reqeuster intent), while focusing on nuances comes from the inhibition
+of gross features through negative priming, then this combination of observations makes sense.  Having seen many cultural images, HPUs in 
+$\textsc{cult}_{img}$ and $\textsc{cult}_{fund,img}$ are primed to emit 
+cultural labels, however, since the diversity of images is high compared to
+other treatments on reaching the test images, there no opportunity for 
+focussing in to finer detail through the mechanism of negative priming.
+
+\begin{figure}
+	\includegraphics[scale=0.4]{../figs/longitude0.pdf}
+	\caption{caption here}
+	\label{fig:longitude}
+\end{figure}
+
+
+One interesting test of this hypothesis arises in 
 % Graphics commented out because they make compiling take long!  
 % Uncomment when desired!
 \begin{figure*}
@@ -219,11 +382,6 @@ $\textsc{cult}_{fund}$ workers?
 %	\includegraphics[scale=1.00]{../figs/ingredients.png}
 	\caption{caption here}
 	\label{fig:ingredients}
-\end{figure*}
-
-\section*{Results}
-\begin{figure*}
-	\includegraphics[scale=0.65]{../figs/specificity2.pdf}
 \end{figure*}
 
 \bibliographystyle{plain}
