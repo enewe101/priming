@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2010.7.21)  9 APR 2014 17:55
+This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2010.7.21)  9 APR 2014 23:00
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -59,6 +59,10 @@ Package ifvtex Info: VTeX not detected.
 \Gm@layouthoffset=\dimen109
 \Gm@layoutvoffset=\dimen110
 \Gm@dimlist=\toks15
+)
+(/usr/local/texlive/2010/texmf-dist/tex/latex/base/fixltx2e.sty
+Package: fixltx2e 2006/09/13 v1.1m fixes to LaTeX
+LaTeX Info: Redefining \em on input line 420.
 )
 (/usr/local/texlive/2010/texmf-dist/tex/latex/pgf/frontendlayer/tikz.sty
 (/usr/local/texlive/2010/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty
@@ -482,18 +486,18 @@ Package: gensymb 2003/07/02 v1.0 (WaS)
 ) (./draft1.aux)
 \openout1 = `draft1.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -587,28 +591,28 @@ G,.JBIG2,.JB2,.eps]
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-LaTeX Info: Redefining \celsius on input line 27.
-Package gensymb Info: Faking symbols for \degree and \celsius on input line 27.
+LaTeX Info: Redefining \celsius on input line 28.
+Package gensymb Info: Faking symbols for \degree and \celsius on input line 28.
 
 
 
 Package gensymb Warning: Not defining \perthousand.
 
-LaTeX Info: Redefining \ohm on input line 27.
-Package gensymb Info: Using \Omega for \ohm on input line 27.
+LaTeX Info: Redefining \ohm on input line 28.
+Package gensymb Info: Using \Omega for \ohm on input line 28.
 
 Package gensymb Warning: Not defining \micro.
 
-LaTeX Font Info:    Try loading font information for U+msa on input line 28.
+LaTeX Font Info:    Try loading font information for U+msa on input line 29.
 (/usr/local/texlive/2010/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 28.
+LaTeX Font Info:    Try loading font information for U+msb on input line 29.
 
 (/usr/local/texlive/2010/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 )
-LaTeX Font Info:    Try loading font information for U+rsfs on input line 28.
+LaTeX Font Info:    Try loading font information for U+rsfs on input line 29.
 
 (/usr/local/texlive/2010/texmf-dist/tex/latex/jknapltx/ursfs.fd
 File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
@@ -619,48 +623,44 @@ Underfull \vbox (badness 2452) has occurred while \output is active []
 
 
 ]
-<../figs/testImages.png, id=16, 441.5697pt x 509.2626pt>
-File: ../figs/testImages.png Graphic file (type png)
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-<use ../figs/testImages.png>
-<../figs/ambiguous.png, id=18, 436.029pt x 422.7795pt>
-File: ../figs/ambiguous.png Graphic file (type png)
+ [2]
+<../figs/f1scores.pdf, id=20, 722.7pt x 361.35pt>
+File: ../figs/f1scores.pdf Graphic file (type pdf)
+ <use ../figs/f1scores.pdf>
+<../figs/specificity2.pdf, id=21, 722.7pt x 794.97pt>
+File: ../figs/specificity2.pdf Graphic file (type pdf)
 
-<use ../figs/ambiguous.png>
-<../figs/cultural.png, id=19, 439.6425pt x 440.847pt>
-File: ../figs/cultural.png Graphic file (type png)
+<use ../figs/specificity2.pdf>
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-<use ../figs/cultural.png>
-<../figs/ingredients.png, id=20, 435.0654pt x 412.6617pt>
-File: ../figs/ingredients.png Graphic file (type png)
 
-<use ../figs/ingredients.png>
-<../figs/specificity.pdf, id=21, 722.7pt x 794.97pt>
-File: ../figs/specificity.pdf Graphic file (type pdf)
-
-<use ../figs/specificity.pdf> (./draft1.bbl) [2] [3 <../figs/testImages.png>]
-[4 <../figs/ambiguous.png>] [5 <../figs/cultural.png>] [6 <../figs/ingredients.
-png>] [7 <../figs/specificity.pdf>] (./draft1.aux) ) 
+(./draft1.bbl) [3] [4 <../figs/f1scores.pdf>] [5 <../figs/specificity2.pdf>]
+(./draft1.aux) ) 
 Here is how much of TeX's memory you used:
- 10596 strings out of 493747
- 176029 string characters out of 3143546
- 255457 words of memory out of 3000000
- 13638 multiletter control sequences out of 15000+200000
- 12363 words of font info for 48 fonts, out of 3000000 for 9000
+ 10613 strings out of 493747
+ 176137 string characters out of 3143546
+ 256003 words of memory out of 3000000
+ 13655 multiletter control sequences out of 15000+200000
+ 13573 words of font info for 52 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
  47i,7n,49p,336b,229s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/local/texlive/2010/te
-xmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2010/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2010/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2010/texmf-
-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2010/texmf-di
-st/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2010/texmf-dist
-/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2010/texmf-dist/
-fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on draft1.pdf (7 pages, 20634700 bytes).
+</usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmbx10.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmbx12.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmcsc10.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmmi10.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmmi8.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mr10.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr
+12.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17
+.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.
+pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.p
+fb>
+Output written on draft1.pdf (5 pages, 152363 bytes).
 PDF statistics:
- 108 PDF objects out of 1000 (max. 8388607)
- 52 compressed objects within 1 object stream
+ 149 PDF objects out of 1000 (max. 8388607)
+ 63 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 38 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 23 words of extra memory for PDF output out of 10000 (max. 10000000)
 

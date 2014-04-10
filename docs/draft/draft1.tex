@@ -2,6 +2,7 @@
 \usepackage[margin=1in]{geometry}
 \setlength{\columnsep}{0.75cm}
 
+\usepackage{fixltx2e}
 \usepackage{tikz}
 \usetikzlibrary{calc}
 \usepackage{algorithm2e}
@@ -105,6 +106,7 @@ participating.
 
 \section*{Methods}
 
+\textbf{Task set-up.}
 We paid 900 AMT workers to perform an image-labelling task.  A task consisted 
 of labelling 10 images, with 5 labels each.  The first 5 images were varied 
 depending on the priming treatment, while the last 5 images were the same 
@@ -120,7 +122,20 @@ purportedly funding work as part of a research study.  Depending on the
 treatment, one of two funding agencies was presented, or no indication was 
 made.
 
-The 5 test images, were chosen carefully with two ideals in mind.  
+Tasks were presented to workers as a series of panels or flash cards.  The
+first panel provided brief instructions, and was identical for all treatments.
+Workers could see this panel when previewing the task, but could not advance.
+Depending on the treatment, the worker was either shown a second pannel 
+stating the name of 
+one of two fictitious organizations funding the work, or this panel was 
+skipped.  The next five pannels each consisting of a priming sub-tasks, 
+wherein the worker was asked to submit five descriptive labels.  The images
+used during the priming sub-task depended on the treatment.  The last 5 pannels
+consisted of testing subtasks, wherein, as for the priming sub-tasks, workers
+were asked to submit 5 descriptive labels.
+
+\textbf{Choice of images.}
+The 5 test images, were chosen with two ideals in mind.  
 First, we chose images that we judged would generate a diverse vocabulary of 
 labels, such that the effects of priming could be detected.  In other words,
 sparse images with a single object in the foreground were not considered good 
@@ -133,36 +148,82 @@ This created the opportunity to attempt to prime workers in a way that would
 bias them toward emitting food-related or culture-related labels.
 
 Under these considerations, we chose the images shown in 
-Fig.~\ref{fig:testImages}
+Fig.~\ref{fig:testImages}.  Each of these images has food as its main focus,
+but also has a strong and specific cultural reference due to the unique, 
+iconic character of the food and the artifacts depicted.
+
+To investigate in-task priming, we chose a set of images that highly
+recognizeable cultural settings and no food, and another set that contained
+separated food ingredients, without any overt cultural content.  The third
+set of images was chosen to be very much like the test images, showing prepared
+meals, and though prepared food is inseperable from culture, these images
+were chosen based on being culturally more muted or ambiguous. 
+
+\textbf{Label ontology.}
+In order to provide a deeper analysis, we built an ontology
+of the corpus of all labels applied to the first test image.  The ontology
+was built as a directed acyclic graph starting 
+
+\section*{Results and discussion}
+
+\subsection*{Priming affects HPU output.}
+Before looking for differences in the content of labels provided by workers
+from different treatments, we first demonstrate that each treatment has a
+distinguishable impact on worker output relative to the \textsc{ambg}.
+
+Using a naive bayes classifier, we are able to distinguish with high precision
+and specificity between workers from the \textsc{ambg} treatment and any of
+the other 5 treatments.  Fig~\ref{fig:classifier} shows F1-score for a
+naive bayes classifier when distinguishing between the \textsc{ambg} and 
+target treatments. The classifier was trained using random subsamples of 
+output 80 HPUs drawn from each of the \textsc{ambg} and target treatments, and
+tested on the ouput of 20 HPUs from each treatment.
+
+We find it remarkable that, using only the labels that workers provide, it is
+possible to infer with good accuracy the treatment to which the worker was 
+subjected.
 
 \begin{figure*}
-	\includegraphics[scale=1.00]{../figs/testImages.png}
+	\includegraphics[scale=0.65]{../figs/f1scores.pdf}
+	\caption{caption here}
+	\label{fig:classifier}
+\end{figure*}
+
+
+A natural question is to test the ability for the classifier to perform 
+distinguish between other pairings of treatments.  For example, can the 
+classifier distinguish $\textsc{cult}_{img}$ workers from 
+$\textsc{cult}_{fund}$ workers?
+
+% Graphics commented out because they make compiling take long!  
+% Uncomment when desired!
+\begin{figure*}
+%	\includegraphics[scale=1.00]{../figs/testImages.png}
+	\caption{caption here}
 	\label{fig:testImages}
 \end{figure*}
 
 \begin{figure*}
-	\includegraphics[scale=1.00]{../figs/ambiguous.png}
+%	\includegraphics[scale=1.00]{../figs/ambiguous.png}
+	\caption{caption here}
 	\label{fig:ambiguous}
 \end{figure*}
 
 \begin{figure*}
-	\includegraphics[scale=1.00]{../figs/cultural.png}
+%	\includegraphics[scale=1.00]{../figs/cultural.png}
+	\caption{caption here}
 	\label{fig:cultural}
 \end{figure*}
 
 \begin{figure*}
-	\includegraphics[scale=1.00]{../figs/ingredients.png}
+%	\includegraphics[scale=1.00]{../figs/ingredients.png}
+	\caption{caption here}
 	\label{fig:ingredients}
 \end{figure*}
 
-We chose the three sets of priming images to that end.  The first set, was 
-chosen to be 
-for the treatment 
-
-\textit{culture}, and \textit{food}.
 \section*{Results}
 \begin{figure*}
-	\includegraphics[scale=0.65]{../figs/specificity.pdf}
+	\includegraphics[scale=0.65]{../figs/specificity2.pdf}
 \end{figure*}
 
 \bibliographystyle{plain}

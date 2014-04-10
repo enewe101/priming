@@ -17,13 +17,13 @@ CONFIDENCE_95 = 1.96
 CONFIDENCE_99 = 2.975
 
 TREATMENT_NAMES = {
-	'treatment0': r'ambg'
-	, 'treatment1': 'cult$_{img}$'
-	, 'treatment2': 'ingr$_{img}$'
-	, 'treatment3': 'ingr$_{fund}$'
-	, 'treatment4': 'ingr$_{fund,img}$'
-	, 'treatment5': 'cult$_{fund}$'
-	, 'treatment6': 'cult$_{fund,img}$'
+	'treatment0': 'AMBG'
+	, 'treatment1': 'CULT$_{img}$'
+	, 'treatment2': 'INGR$_{img}$'
+	, 'treatment3': 'INGR$_{fund}$'
+	, 'treatment4': 'INGR$_{fund,img}$'
+	, 'treatment5': 'CULT$_{fund}$'
+	, 'treatment6': 'CULT$_{fund,img}$'
 }
 
 CROSS_COMPARISONS = [
@@ -54,7 +54,7 @@ def analyze():
 
 	# Here we assess whether the cultural and ingredients treatments are
 	# distinguishable, when priming takes place through different mechanisms
-	plotCrossComparison(5, '../docs/figs/cross-classification.pdf')
+	plotDisting(5, '../docs/figs/cross-classification.pdf')
 
 	treatments = ['treatment0', 'treatment1', 'treatment5', 'treatment6',
 			'treatment2', 'treatment3', 'treatment4']
@@ -65,6 +65,7 @@ def analyze():
 		['treatment5', 'treatment6', 'treatment2'],
 		10, 'figs/spec-treat0-overall.pdf', 'overall'
 	)
+
 
 def plotAllSpecificity():
 
@@ -422,49 +423,149 @@ def plotValenceComparison(treatments, fname):
 
 
 
-def plotCrossComparison(numReplicates, fname, comparisons=CROSS_COMPARISONS):
+def computeAllDisting(numReplicates=50, fname='f1scores/all.json'):
+
+	fh = open(fname, 'w')
+
+	subplotComparisons = [
+		{'basis': 'treatment0', 
+		'subjects' : ['treatment1', 'treatment5', 'treatment6', 
+			'treatment2', 'treatment3', 'treatment4']}
+
+		, {'basis': 'treatment1', 
+		'subjects' : ['treatment5', 'treatment6', 
+			'treatment2', 'treatment3', 'treatment4']}
+
+		, {'basis': 'treatment2', 
+		'subjects' : ['treatment5', 'treatment6', 
+			'treatment3', 'treatment4']}
+	]
+
+	results = []
+
 	a = analysis.NBCAnalyzer()
+
+	for comp in subplotComparisons:
+
+		thisSubplotData = {
+			'basis': comp['basis']
+			, 'subjects': comp['subjects']
+			, 'results':[]
+		}
+		results.append(thisSubplotData)
+
+		basisTreatment = comp['basis']
+
+		# build the set of all comparisons to be presented in one subplot
+		# NBCAnalyzer() will perform all these comparisons as a batch
+		comparisons = [(basisTreatment, subjectTreatment) for
+				subjectTreatment in comp['subjects']]
+
+		# Compute the results for the batch of comparisons
+		f1Results, stdevResults = a.crossComparison(
+			numReplicates, comparisons)
+
+		# Unpack, and then then repack the batch so it can be saved
+		# -- sort of inconvenient isn't it?
+		thisSubplotData['results'] = map(lambda c: f1Results[c], comparisons)
+
+	fh.write(json.dumps(results, indent=3))
+	fh.close()
+	return results
+
+
+def plotAllDisting(
+	readFname='f1scores/all.json', writeFname='figs/f1scores.pdf'):
+
+	# Read the data from file
+	f1scores = json.loads(open(readFname, 'r').read())
+
+	# Start a figure 
+	# -- Assumes specific shape of data produced by computeAllDisting()!
+	fig = plt.figure(figsize=(10,5))
+	gs = gridspec.GridSpec(1,3, width_ratios=[25,21,17])
+	subplotCounter = 0
+
+	for subplotData in f1scores:
+
+		# Unpack the data for this subplot
+		basisTreatment = subplotData['basis']
+		Y_f1scores = subplotData['results']
+		X = range(len(Y_f1scores))
+
+		# Make a set of axes.  
+		# Manage axis-sharing directives, and whether ytick-labels are visible
+		if subplotCounter == 0:
+			ax = plt.subplot(gs[subplotCounter])
+			ax0 = ax
+		else:
+			ax = plt.subplot(gs[subplotCounter], sharey=ax0)
+			plt.setp(ax.get_yticklabels(), visible=False)
+
+		# Do a bar plot
+		width = 0.75
+		series = ax.bar(X, Y_f1scores, width, color='0.25')
+
+		# Label the y-axis, only on the left-most subplot
+		if subplotCounter == 0:
+			ax.set_ylabel("F1 Score")
+
+		# Let the plot breathe horizontally
+		padding = 0.25
+		xlims = (-padding, len(Y_f1scores) - 1 + width + padding)
+		plt.xlim(xlims)
+
+		# Put together intelligible labels for the x-axis
+		xlabels = [TREATMENT_NAMES[t] for t in subplotData['subjects']]
+		ax.set_xticks(map(lambda x: x + width /2., X))
+		ax.set_xticklabels(xlabels, rotation=45, 
+			horizontalalignment='right')
+
+		# Increment the subplotCounter, 
+		# helps us make the subplots display well
+		subplotCounter += 1
+
+		# Tighten up the layout
+		plt.draw()
+		if subplotCounter < 2:
+			plt.tight_layout()
+	
+	fig.savefig(writeFname)
+	plt.show()
+
+
+
+def plotDisting(numReplicates, fname, comparisons=CROSS_COMPARISONS):
+	a = analysis.NBCAnalyzer()
+
 	f1Results, stdevResults = a.crossComparison(numReplicates, comparisons)
 
 	# Organize the results into arrays for the purpose of plotting
 	PlotF1Results = map(lambda c: f1Results[c], comparisons)
 	PlotF1Stdevs = map(lambda c: stdevResults[c], comparisons)
 
-	print PlotF1Results
-	print PlotF1Stdevs
-
-	# Put together intelligible labels for the x-axis
-	xlabels = []
-	for comparison in comparisons:
-		firstTreatment, secondTreatment = comparison
-		xlabels.append("%s \nvs %s" % (
-			TREATMENT_NAMES[firstTreatment], TREATMENT_NAMES[secondTreatment]))
-
-
 	X = range(len(comparisons))
-	width = 0.35
-	
-	fig, ax = plt.subplots()
+	width = 0.75
 
-	series = ax.bar(X, PlotF1Results, width, color='0.25', ecolor='0.55',
-		yerr=PlotF1Stdevs)
+	fig = plt.figure(figsize=(5,5))
+	ax = plt.subplot(111)
+
+	series = ax.bar(X, PlotF1Results, width, color='0.25')
+
+	#series = ax.bar(X, PlotF1Results, width, color='0.25', ecolor='0.55',
+	#	yerr=PlotF1Stdevs)
 
 	ax.set_ylabel("F1 Score")
 
+	padding = 0.25
+	xlims = (-padding, len(comparisons) - 1 + width + padding)
+	plt.xlim(xlims)
 
-	# ax.set_xticks(map(lambda x: x + width /2., X))
-	# ax.set_xticklabels(xlabels, rotation=45)
-
-	xmajorlocator = FixedLocator(map(lambda x: x + width /2., X))
-	ax.xaxis.set_major_locator(xmajorlocator)
-
-	xmajorformatter = FixedFormatter(xlabels)
-	ax.xaxis.set_major_formatter(xmajorformatter)
-
-	labels = [tick.label1 for tick in ax.xaxis.get_major_ticks()]
-	for label in labels:
-		label.set_horizontalalignment('right')
-		label.set_rotation(45)
+	# Put together intelligible labels for the x-axis
+	xlabels = [TREATMENT_NAMES[secondTreatment] 
+		for firstTreatment, secondTreatment in comparisons]
+	ax.set_xticks(map(lambda x: x + width /2., X))
+	ax.set_xticklabels(xlabels, rotation=45, horizontalalignment='right')
 
 	fig.subplots_adjust(bottom=.20)
 

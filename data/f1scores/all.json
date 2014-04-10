@@ -1,0 +1,53 @@
+[
+   {
+      "subjects": [
+         "treatment1", 
+         "treatment5", 
+         "treatment6", 
+         "treatment2", 
+         "treatment3", 
+         "treatment4"
+      ], 
+      "results": [
+         0.74790235829200702, 
+         0.94850365677792003, 
+         0.92510453715716812, 
+         0.82140777935844322, 
+         0.82948705111945376, 
+         0.92550448808343477
+      ], 
+      "basis": "treatment0"
+   }, 
+   {
+      "subjects": [
+         "treatment5", 
+         "treatment6", 
+         "treatment2", 
+         "treatment3", 
+         "treatment4"
+      ], 
+      "results": [
+         0.83420100802339436, 
+         0.86330969040299199, 
+         0.89199631884774022, 
+         0.93116354798073186, 
+         0.85491997323252622
+      ], 
+      "basis": "treatment1"
+   }, 
+   {
+      "subjects": [
+         "treatment5", 
+         "treatment6", 
+         "treatment3", 
+         "treatment4"
+      ], 
+      "results": [
+         0.87375556255988729, 
+         0.92827761558993005, 
+         0.96216970086465858, 
+         0.89781996954040832
+      ], 
+      "basis": "treatment2"
+   }
+]
