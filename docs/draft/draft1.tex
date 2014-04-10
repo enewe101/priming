@@ -2,6 +2,7 @@
 \usepackage[margin=1in]{geometry}
 \setlength{\columnsep}{0.75cm}
 
+\usepackage[font=footnotesize,labelfont=bf]{caption}
 \usepackage{fixltx2e}
 \usepackage{tikz}
 \usetikzlibrary{calc}
@@ -205,7 +206,12 @@ was built as a directed acyclic graph starting
 \begin{figure*}
 	\begin{center}
 		\includegraphics[scale=0.55]{../figs/f1scores.pdf}
-		\caption{caption here}
+		\caption{$F_1$-score for binary classification of HPUs from seperate
+			treatments using a naive Bayes classifier.  Each pannel shows
+			the performance of the classifier when distinguishing between 
+			a basis treatment (inset) and the treatments listed on the 
+			abscissa.
+		}
 		\label{fig:classifier}
 	\end{center}
 \end{figure*}
@@ -228,7 +234,7 @@ treatments.
 Not surprisingly, pairs of treatments in which one primes for culture, and the
 other primes for ingredients are easily distinguished.  However, it is quite
 surprising that high accuracy is achieved when classifying treatments within 
-the same valence (e.g. cultural).  This is especially true in such cases as
+the same orientation (e.g. cultural).  This is especially true in such cases as
 the classification of  $\textsc{cult}_{img}$ and $\textsc{cult}_{fund,img}$
 ($\text{F}_1 = 0.863$), where both treatments also share the priming images in 
 common.
@@ -241,7 +247,10 @@ subjected.
 
 \begin{figure}
 	\includegraphics[scale=0.65]{../figs/valenceComparison.pdf}
-	\caption{caption here}
+	\caption{Percentage of labels of a food- or cultural- orientation, or
+	both.  In our ontology of labels, a label can have multiple parents. 
+	For example \texttt{naan} inherits from both \texttt{food} and 
+	\texttt{cultural} through its parent \texttt{indian food}.}
 	\label{fig:valence}
 \end{figure}
 
@@ -254,15 +263,15 @@ onto the two concepts that laid behind the design of our priming treatments.
 A natural and straightforward expectation is that HPUs from treatments 
 $\textsc{cult}_x$ should emit more labels that are ontological descendents of
 \texttt{cultural}, while those from the $\textsc{ingr}_x$ treatments should
-emit more labels under $\textsc{food}$.
+emit more labels under $\texttt{food}$.
 
 In Fig.~\ref{fig:valence}, we exhibit the percentage of labels having a 
-cultural valence (i.e. descending from \texttt{cultural} in the ontology), and 
-the percentage having a food valence. Before making comparisons using this
+cultural orientation (i.e. descending from \texttt{cultural} in the ontology), and 
+the percentage having a food orientation. Before making comparisons using this
 information, we remark that there is no reason to expect a balance in the 
-number of words having cultural or food valence overall.  The $\textsc{ambg}$
-treatment, which was designed to promote neither valence, exhibits a
-significant fraction of words from both the food and cultural valence, while
+number of words having cultural or food orientation overall.  The $\textsc{ambg}$
+treatment, which was designed to promote neither orientation, exhibits a
+significant fraction of words from both the food and cultural orientation, while
 significantly favoring the former.  
 
 Both $\textsc{cult}_{img}$ and $\textsc{cult}_{fund,img}$ show a significant
@@ -286,9 +295,32 @@ assertion with confidence.
 
 
 \begin{figure*}
-	\includegraphics[scale=0.65]{../figs/specificity2.pdf}
-	\caption{caption here}
+	\begin{center}
+	\includegraphics[scale=0.55]{../figs/specificity2.pdf}
+	\caption{Pairwise comparisons of label specificity between different 
+	HPU treatments.  Each pannel presents a binary comparison between a 
+	basis treatment (inset) and the subject treatments indicated on the 
+	abscissa.  A positive specificity score indicates that the subject 
+	treatment emitted more specific words than the basis treatment overall.
+	In a given comparison, a sample of 50 HPUs from the   
+	each treatment was randomly sampled, and the specificity of labels from
+	the HPUs of oposing treatments were compared.
+	To compare two HPUs, each pair of labels from different HPUs are compared.
+	and the specificity score of subject HPU is the number of cases where its
+	label is more specific than the subject HPUs, less the number of cases 
+	where it is more general. This score is 
+	avereaged for all HPU pairings.  Statistical significance is guaged
+	by generating a null-comparison between two mutually exclusive subsamples 
+	from the basis treatment.  This null-comparison yields a distribution
+	of relative specificities whose mean is in principle zero.  The 
+	specificity scores are expressed in terms of standard deviations of
+	the null-comparison specificities.  
+	The dotted lines represent the 95\% confidence interval for rejecting 
+	the null Hypothesis that the basis treatment and subject treatment are
+	equally specific.
+	}
 	\label{fig:specificity}
+	\end{center}
 \end{figure*}
 
 \textbf{Priming affects attention to detail.}
@@ -349,6 +381,40 @@ $\textsc{cult}_{img}$ and $\textsc{cult}_{fund,img}$ are primed to emit
 cultural labels, however, since the diversity of images is high compared to
 other treatments on reaching the test images, there no opportunity for 
 focussing in to finer detail through the mechanism of negative priming.
+
+\textbf{In-task priming is stronger than framing.}
+Our experimental set-up includes two priming mechanisms: in-task priming, 
+produced by varying the first 5 images of the task, as well as what could be
+called sidestream priming, in which a fictitious funder is disclosed.
+The intention behind this set-up was to enable a direct comparison, and 
+our expectation was that in-task priming might produce some fraction of the
+effect produced by disclosing the funder.  To our surprise, in-task priming 
+produces a much stronger effect.
+
+There is a cautionary lesson here.  In-task priming, which is inherently 
+impossible to eliminate is may be far more severe than the more overt causes 
+of priming that more routinely attract concern during the design of an 
+experiment.   Depending on the final purpos of HPU work products, this may be
+quite restrictive.
+
+\textbf{Leveraging priming.}
+In a more positive view, the results of our study suggest that the ordering 
+of subtasks can be used as a way to direct the focus and attention to detail
+by HPUs.  If the designer desires more coarse-grained work-products, this
+can be achieved by presenting successive subtasks with high diversity.  On 
+the other hand if fine-grained work products are desired, then the designer
+should aim to sort subtasks into ``tracks'' that are highly homogeneous,
+and assign subsens of the pool of HPUs to specifict tracks.
+
+It is interesting to consider to what extent the output of HPUs can be driven
+toward nuanced detail using this technique.  Consider, for example, the 
+image labelling platform called the ESP Game.  Here Two HPUs are shown
+the same image and in order to derive what are in some sense the moset 
+characteristic labels, they are asked to attempt to produce the same labels
+for the image.  One could imagine a similar setup, but in which the designer
+attempts to produce the set of labels that best covers the semantic space 
+occupied by the image, by eliciting labels at coarser and finer levels of 
+specificity using the techniques suggested by the present work.
 
 \begin{figure}
 	\includegraphics[scale=0.4]{../figs/longitude0.pdf}

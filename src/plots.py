@@ -88,11 +88,12 @@ def plotAllSpecificity():
 			50, 'figs/spec-treat0-%s.pdf'%dimension, 'overall'
 		)
 
-def plotAllSpecificityComparisons(readFname='specificities/all.json', 
+def plotAllSpecificityComparisons(readFname='specificity/all.json', 
 	writeFname='figs/specificity.pdf'):
 
 	data = json.loads(open(readFname).read())
 
+	subplotLabels = ['A','B','C','D','E','F','G','H','I']
 
 	fig = plt.figure(figsize=(10,11))
 	gs = gridspec.GridSpec(3,3, width_ratios=[25,13,9])
@@ -157,6 +158,19 @@ def plotAllSpecificityComparisons(readFname='specificities/all.json',
 			ylims = plt.ylim()
 			ypadding = (ylims[1] - ylims[0]) * 0.05
 			plt.ylim(ylims[0] - ypadding, ylims[1] + ypadding)
+
+			# Label each pannel
+			letterLabel = subplotLabels[subplotCounter]
+			ax.text(len(comparisonData) - 0.2, 9.9, letterLabel, 
+					va='top', ha='right', size=20)
+
+			# Label the basis treatment as an inset
+			basisTreatmentName = TREATMENT_NAMES[basis]
+			bbox_props =  {'facecolor': 'white'}
+			if subplotCounter%3 == 0:
+				bbox_props['pad'] = 8
+			ax.text(len(Y)-0.3,-9.4,basisTreatmentName, 
+					ha='right', va='bottom', bbox=bbox_props)
 
 			# handle x-axis labelling
 			if subplotCounter > 5:
@@ -410,7 +424,7 @@ def plotValenceComparison(fname='../docs/figs/valenceComparison.pdf'):
 	plt.xlim(xlims)
 	plt.ylim((0,55))
 
-	ax.set_ylabel("percent of labels having valence")
+	ax.set_ylabel("percent of labels having orientation", size=14)
 
 	xlabels = [TREATMENT_NAMES[t] for t in treatments]
 	ax.set_xticks(X2)
@@ -446,6 +460,7 @@ def computeAllDisting(numReplicates=50, fname='f1scores/all.json'):
 		'subjects' : ['treatment5', 'treatment6', 
 			'treatment3', 'treatment4']}
 	]
+
 
 	results = []
 
@@ -483,6 +498,8 @@ def computeAllDisting(numReplicates=50, fname='f1scores/all.json'):
 def plotAllDisting(
 	readFname='f1scores/all.json', writeFname='figs/f1scores.pdf'):
 
+	subplotLabels = ['A','B','C']
+
 	# Read the data from file
 	f1scores = json.loads(open(readFname, 'r').read())
 
@@ -514,17 +531,30 @@ def plotAllDisting(
 
 		# Label the y-axis, only on the left-most subplot
 		if subplotCounter == 0:
-			ax.set_ylabel("F1 Score")
+			ax.set_ylabel("$F_1$-score", size=14)
 
 		# Let the plot breathe horizontally
 		padding = 0.25
 		xlims = (-padding, len(Y_f1scores) - 1 + width + padding)
 		plt.xlim(xlims)
 
+		# Label each pannel
+		letterLabel = subplotLabels[subplotCounter]
+		ax.text(-0.05,0.98,letterLabel, 
+				va='top', ha='left', size=20)
+
+		# Label the basis treatment as an inset
+		basisTreatmentName = TREATMENT_NAMES[basisTreatment]
+		bbox_props =  {'facecolor': 'white'}
+		if not subplotCounter:
+			bbox_props['pad'] = 8
+		ax.text(len(Y_f1scores)-0.4,0.1,basisTreatmentName, 
+				ha='right', bbox=bbox_props)
+
 		# Put together intelligible labels for the x-axis
 		xlabels = [TREATMENT_NAMES[t] for t in subplotData['subjects']]
 		ax.set_xticks(map(lambda x: x + width /2., X))
-		ax.set_xticklabels(xlabels, rotation=45, 
+		ax.set_xticklabels(xlabels, rotation=45, size=12,
 			horizontalalignment='right')
 
 		# Increment the subplotCounter, 
@@ -561,7 +591,7 @@ def plotDisting(numReplicates, fname, comparisons=CROSS_COMPARISONS):
 	#series = ax.bar(X, PlotF1Results, width, color='0.25', ecolor='0.55',
 	#	yerr=PlotF1Stdevs)
 
-	ax.set_ylabel("F1 Score")
+	ax.set_ylabel("$F_1$-score")
 
 	padding = 0.25
 	xlims = (-padding, len(comparisons) - 1 + width + padding)
