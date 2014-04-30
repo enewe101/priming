@@ -1,0 +1,12 @@
+food 10
+bread 5
+braed 1
+naan 2
+colorful 3
+colourfull 2
+ganesha 3
+ganesh 2
+god 2
+gods 1
+
+

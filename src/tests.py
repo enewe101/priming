@@ -9,7 +9,7 @@ import ontology
 class OntologyTestCase(unittest.TestCase):
 	def setUp(self):
 		self.ont = ontology.Ontology()
-		self.ont.readOntology('ontology/test0.ontology.json')
+		self.ont.readOntology('ontology/ontology0.json')
 
 
 	def test_comparison(self):
@@ -47,6 +47,71 @@ class OntologyTestCase(unittest.TestCase):
 		self.assertEqual(self.ont.compare('naan', 'bread', strict=False), -1)
 
 
+	def test_ontologyBuilding(self):
+
+		# start with a fresh ontology
+		self.ont = ontology.Ontology()
+
+		# Read a set of words that will be made into an ontology
+		# Check that we have loaded the expected words
+		self.ont.readWords('test/words.txt')
+		self.assertItemsEqual(
+			self.ont.getWords(1),
+			[('food', 10), ('bread', 5), ('braed', 1), ('naan', 2),
+				('colorful', 3), ('colourfull', 2), ('ganesha', 3),
+				('ganesh', 2), ('god', 2), ('gods', 1)])
+
+
+		# Read a set of synonyms
+		self.ont.readSynonyms('test/synonyms.txt')
+
+		# the synonyms are mapping correctly
+		self.assertTrue(
+			self.ont.getSynonym('god'), self.ont.getSynonym('gods'))
+		self.assertTrue(
+			self.ont.getSynonym('bread'), self.ont.getSynonym('braed'))
+		self.assertTrue(self.ont.getSynonym('colorful'), 
+			self.ont.getSynonym('colourfull'))
+	
+		# read the edgelist
+		self.ont.readEdgeList('test/edgeList.txt')
+
+		# try a comparison based on the synonyms
+		self.assertEqual(self.ont.compare('food', 'braed'), 1)
+		self.assertEqual(self.ont.compare('braed', 'naan'), 1)
+
+		# There should be one orphan, 'food'
+		self.assertEqual(self.ont.findOrphans(), ['food'])
+
+		# Adding the node 'ROOT', 'food' gets rid of this orphan
+		self.ont.addNode('ROOT', 'food')
+		self.assertEqual(self.ont.findOrphans(), [])
+
+		# There should be one un-placed word
+		self.assertEqual(self.ont.getWords(), [('ganesha', 3)])
+
+		# Making 'ganesha' and 'ganesh' synonyms fixes this
+		self.ont.addSynonym('ganesha', 'ganesh')
+		self.assertEqual(self.ont.getWords(), [])
+
+		# Removing the node ('gods', 'ganesha') works, even though the model 
+		# actually contains their synonyms 
+		self.ont.removeNode('gods', 'ganesha', False)
+		self.assertItemsEqual(
+			self.ont.getWords(), [('ganesha',3), ('ganesh', 2)])
+
+		# Remove the synonym ('ganesha', 'ganesh') and add the node (
+		# ('god', 'ganesha').  Now ganesh is un-placed
+		self.ont.removeSynonym('ganesha', 'ganesh', False)
+		self.ont.addNode('god', 'ganesha')
+		self.assertEqual(self.ont.getWords(), [('ganesh', 2)])
+
+		# Add the synonym, comparison works; remove the synonym, it doesn't
+		self.ont.addSynonym('ganesha', 'ganesh')
+		self.assertEqual(self.ont.compare('god', 'ganesh'), 1)
+		self.ont.removeSynonym('ganesh', 'ganesha', False)
+		self.assertEqual(self.ont.compare('god', 'ganesh'), 0)
+
 
 class AnalysisTestCase(unittest.TestCase):
 	def setUp(self):
@@ -55,6 +120,34 @@ class AnalysisTestCase(unittest.TestCase):
 
 
 		self.a = analysis.Analyzer(self.dataset)
+
+
+	def test_isCultural(self):
+		# 'ganesha' is certainly a cultural word (an Indian god)
+		self.assertTrue(self.a.isCultural('ganesha'))
+
+		# 'chenese food' is both a cultural and food word
+		self.assertTrue(self.a.isCultural('chinese food'))
+
+		# 'russion' is a misspelling of a cultural word, and it is found
+		# in the ontology as a 'synonym' for russian.
+		self.assertTrue(self.a.isCultural('russion'))
+
+		# not cultural
+		self.assertFalse(self.a.isCultural('statue'))
+		self.assertFalse(self.a.isCultural('raw'))
+
+	def test_isFood(self):
+		# 'ganesha' is not food-related
+		self.assertFalse(self.a.isFood('ganesha'))
+		self.assertFalse(self.a.isFood('statue'))
+
+		# 'chenese food' is both a cultural and food word
+		self.assertTrue(self.a.isFood('chinese food'))
+
+		# Food-related words
+		self.assertTrue(self.a.isFood('raw'))
+		self.assertTrue(self.a.isFood('pizza'))
 
 
 	def test_CompareSpecificity(self):
@@ -71,7 +164,7 @@ class AnalysisTestCase(unittest.TestCase):
 
 		result = self.a.compareCulturalSpecificity(
 			'treatment1', 'treatment2', 2)
-		self.assertEqual(result['avgFirstMoreSpecific'], 3.0)
+		self.assertEqual(result['avgFirstMoreSpecific'], 6.0)
 		self.assertEqual(result['avgFirstLessSpecific'], 0.0)
 
 
@@ -80,6 +173,7 @@ class AnalysisTestCase(unittest.TestCase):
 		result = self.a.compareFoodSpecificity('treatment1', 'treatment2', 2)
 		self.assertLess(
 			result['avgFirstMoreSpecific'], result['avgFirstLessSpecific'])
+
 
 
 

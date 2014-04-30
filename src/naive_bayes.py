@@ -1,23 +1,46 @@
-
 '''
-Given a dataset:
-- find the set of treatments
-- find the set of features
-- calculate the probability that an instance from a class has a property
+This module provides classes that facilitate the building of a naive bayes 
+classifier based on the dataset for this project.
 
-one way to calculate the probability of a word is just the number of instances
-of the word in the treatment divided by 100.  This assumes that people don't 
-repeat words, which is fair, but not guaranteed. At least at first I'll build 
-with this assumption.
+As a quick reminder, the dataset consists of words that workers have attributed
+to images in an image-labeling task.  So, for a given worker, their use (or
+non-use) of a given word as a label for a given image, constitutes a feature.
 
-What are the features in my case?  Potentially it is a word-position-occurence,
-alternatively, it is a word-occurence.  The former takes into account which
-text input into which the word was entered, the latter only takes into account
-whether or not the word was entered into any text input of a particular
-picture.
+Now, we can get more specific: workers had to label each image with 5 words.
+They were given 5 text inputs.  We can regard the use of a given word for
+a given image *in a given text input* as a feature.  That is, using `wine` as
+the first label in image 2 is a distinct feature from using `wine` as the
+second label in image 2.  (Intuitively, a worker might provide a label sooner
+if she was primed to produce that label.)
+
+This module has a few classes:
+
+	`NBDataset` is responsible for wrapping the dataset, (as represented by
+		`CleanDataset` in the data_processing module), and answering questions
+		about the dataset that are useful in training a naive bayes classifier.
+
+	`NaiveBayesClassifier` is responsible for acting as an actual classifier.
+		it takes a `NBDataset` and internalizes a model of a features's 
+		probabilities conditionned on the fact that it belongs to an instance
+		of a particular class.  This is normal naive bayes stuff.  Once trained
+		it also produces classifications in a testing mode, upon input of an
+		unlabelled instance taken from one of the classes it was trained to 
+		distinguish.
+
+	`TestInstance` wraps an entry taken from the `CleanDataset`, and makes it
+		usable as a test-case for the `NaiveBayesClassifier`.  That's because
+		the `NaiveBayesClassifier` assumes that test instances know what 
+		features are, and what features they have, in straightforward 
+		"queriable" way.
+
+These classes get used by the NBCAnalizer, which is responsible for looking at
+how distinguishable diffirent treatments are (in various ways) when using a 
+naive bayes classifier to do the distinguishing.
 '''
+
 
 import random
+
 
 class NBDataset(object):
 	'''

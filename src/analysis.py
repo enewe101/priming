@@ -1,3 +1,27 @@
+'''
+This module provides two classes that perform certain analyses on the data.
+They call on classes in `data_processing`, `naive_bayes`, and `ontology` to do 
+so.
+
+`NBCAnalyzer` is used to analyze the capacity of a naive bayes classifier
+in being able to distinguish between different treatments.  It provides
+different kinds of analyses as methods.  One example is testing the ability of
+a classifier to distinguish between treatments as a function of the image
+used (i.e., taking into consideration only the labels that worker instances
+attribute to a particular image, and varying the image).
+
+
+`Analyzer` is used to analyze the difference between treatments on the basis
+of an ontology of the words used.  So, for example, it can assess to what 
+degree the workers in one treatment are using more specific words than the 
+workers from another treatment.
+'''
+
+
+# Todo make a __main__ method that gets called when this is run as a python
+# script from the command line, which reproductes all of the analysis
+
+
 import util
 import sys
 import random
@@ -6,55 +30,17 @@ import ontology
 import data_processing
 import numpy as np
 
+
+# Number of stardard deviations equivalent to the % condifdence for a 
+# normal variate
 CONFIDENCE_95 = 1.96
 CONFIDENCE_99 = 2.975
-
-class ClassifierPerformanceResult(object):
-
-	def __init__(self, treatments):
-		self.treatments = treatments
-		self.results = {}
-		
-		for treatment in treatments:
-			self.results[treatment] = {
-				'numCorrect':0
-				, 'numIdentified':0
-				, 'numTested':0
-			}
-
-
-	def getPrecision(self, treatment):
-		numerator = self.results[treatment]['numCorrect']
-		denominator = float(self.results[treatment]['numIdentified'])
-		return numerator / denominator
-
-
-	def getRecall(self, treatment):
-		numerator = self.results[treatment]['numCorrect']
-		denominator = float(self.results[treatment]['numTested'])
-		return numerator / denominator
-
-
-	def getOverallAccuracy(self):
-		numCorrectOverall = 0
-		numTestedOverall = 0
-		for treatment, result in self.results.items():
-			numCorrectOverall += result['numCorrect']
-			numTestedOverall += result['numTested']
-
-		return numCorrectOverall / float(numTestedOverall)
-
-	def getF1(self, treatment):
-		recall = self.getRecall(treatment)
-		precision = self.getPrecision(treatment)
-		return 2*recall*precision / (recall + precision)
-
 
 
 class Analyzer(object):
 
 	# Constants
-	ONTOLOGY_FILE = 'ontology/test0.ontology.json'
+	ONTOLOGY_FILE = 'ontology/testOntology.json'
 
 	def __init__(self, dataset=None, ontology=None):
 		if dataset is None:
@@ -72,7 +58,8 @@ class Analyzer(object):
 		self, treatment1, treatment2, numToCompare=50):
 
 		# Mask food
-		self.ontology.mask('cultural')
+		cultureToken = self.ontology.getSynonym('cultural')
+		self.ontology.mask(cultureToken)
 
 		# compare entries now that the mask is applied
 		result = self.compareSpecificity(
@@ -88,7 +75,8 @@ class Analyzer(object):
 		self, treatment1, treatment2, numToCompare=50):
 
 		# Mask food
-		self.ontology.mask('food')
+		foodToken = self.ontology.getSynonym('food')
+		self.ontology.mask(foodToken)
 
 		# compare entries now that the mask is applied
 		result = self.compareSpecificity(
@@ -101,21 +89,22 @@ class Analyzer(object):
 
 
 	def compareValenceSpecificity(
-		self, valence, subjectTreatment, basisTreatment, numToCompare=50):
+		self, valence, subjectTreatment, basisTreatment, numToCompare=50, 
+		images=['test0']):
 
 		assert(valence in ['overall', 'cultural', 'food'])
 
 		if valence == 'overall':
 			return self.compareSpecificity(
-				subjectTreatment, basisTreatment, numToCompare)
+				subjectTreatment, basisTreatment, numToCompare, images)
 
 		elif valence == 'cultural':
 			return self.compareCulturalSpecificity(
-				subjectTreatment, basisTreatment, numToCompare)
+				subjectTreatment, basisTreatment, numToCompare, images)
 
 		elif valence == 'food':
 			return self.compareFoodSpecificity(
-				subjectTreatment, basisTreatment, numToCompare)
+				subjectTreatment, basisTreatment, numToCompare, images)
 
 		else:
 			raise ValueError("In Analyzer.compareValenceSpecificity: valence "\
@@ -124,16 +113,18 @@ class Analyzer(object):
 
 
 	def compareFoodSpecificity(
-		self, treatment1, treatment2, numToCompare=50):
+		self, treatment1, treatment2, numToCompare=50, images=['image0']):
 
 		# Mask all except food
+		foodToken = self.ontology.getSynonym('food')
 		for token in self.ontology.model['ROOT']:
-			if token != 'food':
+			token = self.ontology.getSynonym(token)
+			if token != foodToken:
 				self.ontology.mask(token)
 
 		# compare entries now that the mask is applied
 		result = self.compareSpecificity(
-			treatment1, treatment2, numToCompare)
+			treatment1, treatment2, numToCompare, images)
 
 		# remove mask
 		self.ontology.clearMask()
@@ -142,16 +133,18 @@ class Analyzer(object):
 
 
 	def compareCulturalSpecificity(
-		self, treatment1, treatment2, numToCompare=50):
+		self, treatment1, treatment2, numToCompare=50, images=['image0']):
 
 		# Mask all except cultural
+		cultureToken = self.ontology.getSynonym('cultural')
 		for token in self.ontology.model['ROOT']:
-			if token != 'cultural':
+			token = self.ontology.getSynonym(token)
+			if token != cultureToken:
 				self.ontology.mask(token)
 
 		# compare entries now that the mask is applied
 		result = self.compareSpecificity(
-			treatment1, treatment2, numToCompare)
+			treatment1, treatment2, numToCompare, images)
 
 		# remove mask
 		self.ontology.clearMask()
@@ -159,7 +152,7 @@ class Analyzer(object):
 		return result
 
 
-	def percentValence(self, treatment, image=None, 
+	def percentValence(self, treatments, images=None, 
 		significanceLevel=CONFIDENCE_95):
 		'''
 		Determine the percentage of culture-related tokens found in entries
@@ -179,76 +172,94 @@ class Analyzer(object):
 
 		# counters
 		treatmentCounts = {'cultural':0, 'food':0, 'both':0, 'overall':0}
-		percentages = {'cultural': [], 'food': [], 'both': []}
+		percentages = {
+			'cultural': [], 'excessCultural': [], 
+			'food': [], 'both': []
+		}
 
-		entries = self.dataSet.entries[treatment]
-		for entry in entries:
+		for treatment in treatments:
+			entries = self.dataSet.entries[treatment]
+			for entry in entries:
 
-			# Figure out which tokens we're interested in
-			tokenKeys = []
+				# Figure out which tokens we're interested in
+				tokenKeys = []
 
-			# if the image wasn't specified, just get all the keys that specify
-			# words entered for any test image
-			if image is None:
-				tokenKeys = filter(
-					lambda tokenKey: tokenKey[0].startswith('test'), 
-					entry.keys())
+				# if the image wasn't specified, just get all the keys that specify
+				# words entered for any test image
+				if images is None:
+					tokenKeys = filter(
+						lambda tokenKey: tokenKey[0].startswith('test'), 
+						entry.keys())
 
-			# But if the image was specified, just use that one
-			else:
-				tokenKeys = filter(
-					lambda tokenKey: tokenKey[0] == image, entry.keys())
+				# But if the images are specified, just use that one
+				else:
+					tokenKeys = filter(
+						lambda tokenKey: tokenKey[0] in images, entry.keys())
 
-			if not len(tokenKeys):
-				raise Exception('Bad key for image')
-
-
-			entryCounts = {'cultural': 0, 'food': 0, 'both': 0, 'overall': 0}
-
-			for tokenKey in tokenKeys:
-
-				treatmentCounts['overall'] += 1
-				entryCounts['overall'] += 1
-
-				isCultural = self.isCultural(entry[tokenKey])
-				isFood = self.isFood(entry[tokenKey])
-
-				if isCultural:
-					entryCounts['cultural'] += 1
-
-				if isFood:
-					entryCounts['food'] += 1
-
-				if isCultural and isFood:
-					entryCounts['both'] += 1
-
-					# we want these to count "strictly cultural", etc.
-					entryCounts['cultural'] -= 1
-					entryCounts['food'] -= 1
+				if not len(tokenKeys):
+					raise Exception('Bad key for image')
 
 
-			percentages['cultural'].append(
-				100 * entryCounts['cultural']/float(entryCounts['overall']))
+				entryCounts = {
+					'cultural': 0, 'food': 0, 'both': 0, 
+					'excessCultural':0, 'overall': 0
+				}
 
-			percentages['food'].append(
-				100 * entryCounts['food']/float(entryCounts['overall']))
+				for tokenKey in tokenKeys:
 
-			percentages['both'].append(
-				100 * entryCounts['both']/float(entryCounts['overall']))
+					treatmentCounts['overall'] += 1
+					entryCounts['overall'] += 1
+
+					isCultural = self.isCultural(entry[tokenKey])
+					isFood = self.isFood(entry[tokenKey])
+
+					if isCultural:
+						entryCounts['cultural'] += 1
+						entryCounts['excessCultural'] += 1
+
+					if isFood:
+						entryCounts['food'] += 1
+						entryCounts['excessCultural'] -= 1
+
+					if isCultural and isFood:
+						entryCounts['both'] += 1
+
+						# we want these to count "strictly cultural", etc.
+						entryCounts['cultural'] -= 1
+						entryCounts['food'] -= 1
+
+
+				percentages['cultural'].append(
+					100 * entryCounts['cultural']/float(entryCounts['overall']))
+
+				percentages['excessCultural'].append(
+					100 * entryCounts['cultural']/float(entryCounts['overall']))
+
+				percentages['food'].append(
+					100 * entryCounts['food']/float(entryCounts['overall']))
+
+				percentages['both'].append(
+					100 * entryCounts['both']/float(entryCounts['overall']))
 
 
 		meanPercentage = {
 			'cultural': np.mean(percentages['cultural'])
+			, 'excessCultural': np.mean(percentages['excessCultural'])
 			, 'food': np.mean(percentages['food'])
 			, 'both': np.mean(percentages['both'])
 		}
 
 		# To get the standard deviation of the mean, 
 		# take the standard deviation of the samples 
-		# and divide by square root of number of samples
+		# and divide by square root of number of samples.
+		# Then, multiply by the number of standard deviations needed to 
+		# generate the desired significance level.
 		stdPercentage = {
 			'cultural': significanceLevel * (
 				np.std(percentages['cultural']) / np.sqrt(len(entries)))
+
+			, 'excessCultural': significanceLevel * (
+				np.std(percentages['excessCultural']) / np.sqrt(len(entries)))
 
 			, 'food': significanceLevel * (
 				np.std(percentages['food']) / np.sqrt(len(entries)))
@@ -261,46 +272,62 @@ class Analyzer(object):
 
 
 	def isCultural(self, token):
-		if 'cultural' in self.ontology.getAncesters(token):
+		cultureToken = self.ontology.getSynonym('cultural')
+		if cultureToken in self.ontology.getAncesters(token):
 			return True
 
 		return False
 
 
 	def isFood(self, token):
-		if 'food' in self.ontology.getAncesters(token):
+		foodToken = self.ontology.getSynonym('food')
+		if foodToken in self.ontology.getAncesters(token):
 			return True
 
 		return False
 
 
 	def compareSpecificity(
-		self, treatment1, treatment2, numToCompare=50):
+		self, treatment1, treatment2, numToCompare=50, images=['test0']):
 		'''
 		Compare entries sampled randomly from two treatments, based on the
-		relative locations of the words in the entries in the ontology tree
+		relative locations of the words in the entries in the ontology tree.
+
+		Note, an entry i from treatment 1 gets compared against all entries j
+		from treatment 2, and this creates the result for that entry i.
+		The results for all entries in treatment 1 (which involves all pairs
+		being compared) are averaged and reported as the comparison results.
 		'''
 
-		# Randomly sample desired number of entries the indicated treatments
-		# TODO deal with the case where treatment1 is the same as treatment2
+
+		# If the two treatments are the same, randomly partition them so we
+		# don't get any overlaps.  Each entry is the output of one worker.
 		if treatment1 == treatment2:
 			entries1, entries2 = util.randomPartition(
 				self.dataSet.entries[treatment1], numToCompare, numToCompare)
 
+		# Otherwise, simply randomly sample from the two treatments
 		else:
 			entries1 = random.sample(
 				self.dataSet.entries[treatment1], numToCompare)
 			entries2 = random.sample(
 				self.dataSet.entries[treatment2], numToCompare)
 
+		# Declare some variables to keep count during the comparison
 		firstMoreSpecificCounts = []
 		firstLessSpecificCounts = []
 		firstMoreMinusLess = []
 		uncomparableCounts = []
 
+		util.writeNow('         carrying out comparison ' + str([images]))
+		
+		# Make all pairwise comparisons between the workers subsampled from 
+		# in treatment 1 and those subsampled from treatment 2
 		for i in range(len(entries1)):
 
 			entry1 = entries1[i]
+
+			util.writeNow('.')
 
 			# Counters that characterize i's comparison to all j entries
 			numFirstMoreSpecific = 0
@@ -311,7 +338,11 @@ class Analyzer(object):
 
 				entry2 = entries2[j]
 
-				lessSpec, moreSpec, uncomp = self.compareEntries(entry1, entry2)
+				# Now compale the two workers.  All pairs of words are 
+				# tried. Words can only be compared if one is the ancestor of
+				# the other
+				lessSpec, moreSpec, uncomp = self.compareEntries(
+					entry1, entry2, images)
 
 				numUncomparable += uncomp
 				numFirstLessSpecific += lessSpec
@@ -322,6 +353,7 @@ class Analyzer(object):
 			firstMoreMinusLess.append(numFirstMoreSpecific - numFirstLessSpecific)
 			uncomparableCounts.append(numUncomparable)
 
+		print ''
 		return {
 			'avgFirstLessSpecific': np.mean(firstLessSpecificCounts),
 			'stdFirstLessSpecific': (
@@ -341,7 +373,7 @@ class Analyzer(object):
 		}
 
 
-	def compareEntries(self, entry1, entry2):
+	def compareEntries(self, entry1, entry2, images=['test0']):
 		'''
 		Input: two entries from the dataset, which represent the words entered
 		by two different workers.
@@ -351,28 +383,30 @@ class Analyzer(object):
 		word from the first worker's set is higher / lower in the ontology
 		'''
 
-		# get each entry's words for the first picture
-		words1 = []
-		words2 = []
-		for wordPosition in range(self.dataSet.NUM_WORDS_PER_IMAGE):
-			words1.append(entry1[('test0', wordPosition)])
-			words2.append(entry2[('test0', wordPosition)])
-
 		num_w1_gt_w2 = 0	# number of times word1 is lower than word2
 		num_w1_lt_w2 = 0	# number of times word1 is lower than word2
 		num_comparisons = 0
 
-		# For every word pairing between these sets of words, check if
-		# one is higher than the other in the ontology of test0 words
-		for w1 in words1:
-			for w2 in words2:
-				num_comparisons += 1
-				relation = self.ontology.compare(w1,w2)
-				if relation > 0:
-					num_w1_gt_w2 += 1
-				elif relation < 0:
-					num_w1_lt_w2 += 1
+		for image in images:
 
+			# get each entry's words for the picture
+			words1 = []
+			words2 = []
+			for wordPosition in range(self.dataSet.NUM_WORDS_PER_IMAGE):
+				words1.append(entry1[(image, wordPosition)])
+				words2.append(entry2[(image, wordPosition)])
+
+			# For every word pairing for words in this image, check if 
+			# one is higher than the other in the ontology 
+			for w1 in words1:
+				for w2 in words2:
+					num_comparisons += 1
+					relation = self.ontology.compare(w1,w2)
+
+					if relation > 0:
+						num_w1_gt_w2 += 1
+					elif relation < 0:
+						num_w1_lt_w2 += 1
 
 		return (num_w1_gt_w2, num_w1_lt_w2,
 			num_comparisons - num_w1_gt_w2 - num_w1_lt_w2)
@@ -404,7 +438,25 @@ class Analyzer(object):
 		self.dataSet.calc_ktop(5)
 
 
+
+
 class NBCAnalyzer(object):
+	'''
+	This class is used to assess the ability of a naive bayes classifier in
+	being able to distinguish between different treatments.  So for example
+	`testNBC()` takes in a set of treatments, and builds a classifier that
+	by subsampling labelled points from this projects dataset, and then 
+	tests the classifier against unused data from each treatment.  It 
+	builds a `ClassifierPerformanceResult` to summarize the performance.
+
+	Another method, `longitudinal()` assesses the classifier performance at 
+	distinguishing 
+	between treatments, but as a function of the image used (that is using
+	only a subset of the features for every data point -- the labels attributed
+	to a specific image).
+
+	See the method descriptions for more details!
+	'''
 
 	def __init__(self):
 		self.readDataset()
@@ -512,8 +564,8 @@ class NBCAnalyzer(object):
 			f1ScoreDevs[comparison] = np.std(thisComparisonF1Scores)
 
 		return f1Scores, f1ScoreDevs
-			
-			
+
+
 	def longitudinal(self, numReplicates, treatments):
 		'''
 		Run the classifier to do pairwise classification between the cultural
@@ -569,4 +621,57 @@ class NBCAnalyzer(object):
 				np.std(thisTreatmentf1Scores['withoutPosition']))
 
 		return f1Scores, f1ScoreStdevs
+
+
+class ClassifierPerformanceResult(object):
+	'''
+	This class is used to represent the performance of the classifier
+	when it has been trained on a subset of the data, and then tested on a
+	data not used in training.
+
+	The reason for using a class to represent it is that there are many ways
+	to characterise the performance, such as accuracy, precision, F1 score,
+	but they are all calculable from the raw hits vs misses outcomes when the
+	classifier is tested.
+	'''
+
+	def __init__(self, treatments):
+		self.treatments = treatments
+		self.results = {}
+		
+		for treatment in treatments:
+			self.results[treatment] = {
+				'numCorrect':0
+				, 'numIdentified':0
+				, 'numTested':0
+			}
+
+
+	def getPrecision(self, treatment):
+		numerator = self.results[treatment]['numCorrect']
+		denominator = float(self.results[treatment]['numIdentified'])
+		return numerator / denominator
+
+
+	def getRecall(self, treatment):
+		numerator = self.results[treatment]['numCorrect']
+		denominator = float(self.results[treatment]['numTested'])
+		return numerator / denominator
+
+
+	def getOverallAccuracy(self):
+		numCorrectOverall = 0
+		numTestedOverall = 0
+		for treatment, result in self.results.items():
+			numCorrectOverall += result['numCorrect']
+			numTestedOverall += result['numTested']
+
+		return numCorrectOverall / float(numTestedOverall)
+
+	def getF1(self, treatment):
+		recall = self.getRecall(treatment)
+		precision = self.getPrecision(treatment)
+		return 2*recall*precision / (recall + precision)
+
+
 

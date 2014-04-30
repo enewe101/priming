@@ -1,0 +1,10 @@
+ROOT	adj
+ROOT	culture
+
+adj	colorful
+culture	religion
+religion	god
+god	ganesh
+food	bread
+bread	naan
+

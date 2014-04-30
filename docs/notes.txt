@@ -1,2 +1,54 @@
-Document Motivating crowds using social facilitation and social transparency 
-The multidimensional wisdom of crowds
+About valence comparisons across images.
+
+Overall, all images get more food-related words than culture-related ones.
+This is not surprising because food is the central concrete object in the
+images, whereas culture is abstract and only implied by the kinds of food.
+It doesn't seem likely that a worker would fail to identify the images as 
+containing food, but it seems likely that many would not be aware of the
+culture implied by the specific dishes and symbols in the images.
+
+Looking at the numbers of food- and culture-related words for each image, its
+clear that on the whole, some images elecit more words of a particular 
+orientation than others, regardless of which treatment we look at.  
+For example, the first test image is closest to having balanced number of 
+cultur- and food-oriented words,  while image 4 elicits the greatest absolute
+excess of food-related words. 
+
+It is 
+intuitively appealing to say that these images are `inherently more cultural',
+but of course, the relative culture- and food-signal in the labels is a 
+property of both the images and overall population of workers.  With the 
+understanding that it is shorthand, we will refer to images that elicit more 
+cultural labels in the context of this experiment as having 
+``more cultural signal''.
+
+As one might expect, when comparing the CULT_img,x to the
+other treatments, with respect to labels for the first test image, we see a 
+dramatic excess of culture-orieted words, and a relative lack of food-related 
+words.  But to what degree is this sustained throughout the test images?  
+The CULT_img,x treatments do produce consistently less food-signal 
+than and consistently more culture-signal compared to the AMBG treatment for 
+all images.  But after the first image, these differences are slight, and 
+taken individually do not give a $\alpha=0.95$ significance level. However when
+pooled together, owing to the consistent direction of deviation
+ (having always more culture- and less food-signal), these differences 
+\textit{are} significant when pooled even if when we leave out the first image.
+\td{verify, make fig}
+
+We take this to indicate that the main priming effect which drew the attention
+of CULT_img,x workers toward culture is nearly erased after exposure to one
+test image, although a residual effect remains.  One obstruction to this 
+conclusion.
+
+Having observed a strong effect due to image-based priming, do we see a
+comparable effect for workers primed by being shown a fictitious funder name? 
+Remarkably, the CULT_fund treatment produced consistently \textit{less} 
+culture-signal as compared to AMBG for \textit{all} images.  This deviation is 
+significant for images 3 and 4 as well as when we pool the labels for all 
+images together \td{verify, make fig}.
+
+The INGR_x,y treatments do not show significant deviations from AMBG in terms
+of amount of cultural- or food-signal on a per image basis, but we do observe
+significant differences when looking at the labels for all test images taken 
+together.
+\td{verify, make fig}

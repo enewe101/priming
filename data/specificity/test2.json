@@ -1,0 +1,305 @@
+[
+   {
+      "valence": "overall", 
+      "results": [
+         {
+            "null": {
+               "stdev": 0.0, 
+               "avg": 0.0, 
+               "subject": "null"
+            }, 
+            "results": [
+               {
+                  "stdev": 0.0, 
+                  "avg": -3.0, 
+                  "avgNorm": -Infinity, 
+                  "subject": "treatment1"
+               }, 
+               {
+                  "stdev": 0.0, 
+                  "avg": 2.0, 
+                  "avgNorm": Infinity, 
+                  "subject": "treatment5"
+               }, 
+               {
+                  "stdev": 0.0, 
+                  "avg": -1.0, 
+                  "avgNorm": -Infinity, 
+                  "subject": "treatment6"
+               }, 
+               {
+                  "stdev": 0.0, 
+                  "avg": -9.0, 
+                  "avgNorm": -Infinity, 
+                  "subject": "treatment2"
+               }, 
+               {
+                  "stdev": 0.0, 
+                  "avg": 0.0, 
+                  "avgNorm": NaN, 
+                  "subject": "treatment3"
+               }, 
+               {
+                  "stdev": 0.0, 
+                  "avg": -3.0, 
+                  "avgNorm": -Infinity, 
+                  "subject": "treatment4"
+               }
+            ], 
+            "basis": "treatment0"
+         }, 
+         {
+            "null": {
+               "stdev": 0.0, 
+               "avg": -5.0, 
+               "subject": "null"
+            }, 
+            "results": [
+               {
+                  "stdev": 0.0, 
+                  "avg": 4.0, 
+                  "avgNorm": Infinity, 
+                  "subject": "treatment5"
+               }, 
+               {
+                  "stdev": 0.0, 
+                  "avg": 2.0, 
+                  "avgNorm": Infinity, 
+                  "subject": "treatment6"
+               }, 
+               {
+                  "stdev": 0.0, 
+                  "avg": 11.0, 
+                  "avgNorm": Infinity, 
+                  "subject": "treatment2"
+               }
+            ], 
+            "basis": "treatment1"
+         }, 
+         {
+            "null": {
+               "stdev": 0.0, 
+               "avg": 1.0, 
+               "subject": "null"
+            }, 
+            "results": [
+               {
+                  "stdev": 0.0, 
+                  "avg": -1.0, 
+                  "avgNorm": -Infinity, 
+                  "subject": "treatment3"
+               }, 
+               {
+                  "stdev": 0.0, 
+                  "avg": 4.0, 
+                  "avgNorm": Infinity, 
+                  "subject": "treatment4"
+               }
+            ], 
+            "basis": "treatment2"
+         }
+      ]
+   }, 
+   {
+      "valence": "cultural", 
+      "results": [
+         {
+            "null": {
+               "stdev": 0.0, 
+               "avg": 0.0, 
+               "subject": "null"
+            }, 
+            "results": [
+               {
+                  "stdev": 0.0, 
+                  "avg": 0.0, 
+                  "avgNorm": NaN, 
+                  "subject": "treatment1"
+               }, 
+               {
+                  "stdev": 0.0, 
+                  "avg": -1.0, 
+                  "avgNorm": -Infinity, 
+                  "subject": "treatment5"
+               }, 
+               {
+                  "stdev": 0.0, 
+                  "avg": 0.0, 
+                  "avgNorm": NaN, 
+                  "subject": "treatment6"
+               }, 
+               {
+                  "stdev": 0.0, 
+                  "avg": 0.0, 
+                  "avgNorm": NaN, 
+                  "subject": "treatment2"
+               }, 
+               {
+                  "stdev": 0.0, 
+                  "avg": 0.0, 
+                  "avgNorm": NaN, 
+                  "subject": "treatment3"
+               }, 
+               {
+                  "stdev": 0.0, 
+                  "avg": 0.0, 
+                  "avgNorm": NaN, 
+                  "subject": "treatment4"
+               }
+            ], 
+            "basis": "treatment0"
+         }, 
+         {
+            "null": {
+               "stdev": 0.0, 
+               "avg": 1.0, 
+               "subject": "null"
+            }, 
+            "results": [
+               {
+                  "stdev": 0.0, 
+                  "avg": 0.0, 
+                  "avgNorm": NaN, 
+                  "subject": "treatment5"
+               }, 
+               {
+                  "stdev": 0.0, 
+                  "avg": 0.0, 
+                  "avgNorm": NaN, 
+                  "subject": "treatment6"
+               }, 
+               {
+                  "stdev": 0.0, 
+                  "avg": -1.0, 
+                  "avgNorm": -Infinity, 
+                  "subject": "treatment2"
+               }
+            ], 
+            "basis": "treatment1"
+         }, 
+         {
+            "null": {
+               "stdev": 0.0, 
+               "avg": 0.0, 
+               "subject": "null"
+            }, 
+            "results": [
+               {
+                  "stdev": 0.0, 
+                  "avg": 0.0, 
+                  "avgNorm": NaN, 
+                  "subject": "treatment3"
+               }, 
+               {
+                  "stdev": 0.0, 
+                  "avg": 0.0, 
+                  "avgNorm": NaN, 
+                  "subject": "treatment4"
+               }
+            ], 
+            "basis": "treatment2"
+         }
+      ]
+   }, 
+   {
+      "valence": "food", 
+      "results": [
+         {
+            "null": {
+               "stdev": 0.0, 
+               "avg": 0.0, 
+               "subject": "null"
+            }, 
+            "results": [
+               {
+                  "stdev": 0.0, 
+                  "avg": 0.0, 
+                  "avgNorm": NaN, 
+                  "subject": "treatment1"
+               }, 
+               {
+                  "stdev": 0.0, 
+                  "avg": -2.0, 
+                  "avgNorm": -Infinity, 
+                  "subject": "treatment5"
+               }, 
+               {
+                  "stdev": 0.0, 
+                  "avg": 0.0, 
+                  "avgNorm": NaN, 
+                  "subject": "treatment6"
+               }, 
+               {
+                  "stdev": 0.0, 
+                  "avg": 0.0, 
+                  "avgNorm": NaN, 
+                  "subject": "treatment2"
+               }, 
+               {
+                  "stdev": 0.0, 
+                  "avg": 0.0, 
+                  "avgNorm": NaN, 
+                  "subject": "treatment3"
+               }, 
+               {
+                  "stdev": 0.0, 
+                  "avg": 0.0, 
+                  "avgNorm": NaN, 
+                  "subject": "treatment4"
+               }
+            ], 
+            "basis": "treatment0"
+         }, 
+         {
+            "null": {
+               "stdev": 0.0, 
+               "avg": 0.0, 
+               "subject": "null"
+            }, 
+            "results": [
+               {
+                  "stdev": 0.0, 
+                  "avg": 0.0, 
+                  "avgNorm": NaN, 
+                  "subject": "treatment5"
+               }, 
+               {
+                  "stdev": 0.0, 
+                  "avg": 0.0, 
+                  "avgNorm": NaN, 
+                  "subject": "treatment6"
+               }, 
+               {
+                  "stdev": 0.0, 
+                  "avg": 0.0, 
+                  "avgNorm": NaN, 
+                  "subject": "treatment2"
+               }
+            ], 
+            "basis": "treatment1"
+         }, 
+         {
+            "null": {
+               "stdev": 0.0, 
+               "avg": 0.0, 
+               "subject": "null"
+            }, 
+            "results": [
+               {
+                  "stdev": 0.0, 
+                  "avg": 0.0, 
+                  "avgNorm": NaN, 
+                  "subject": "treatment3"
+               }, 
+               {
+                  "stdev": 0.0, 
+                  "avg": 1.0, 
+                  "avgNorm": Infinity, 
+                  "subject": "treatment4"
+               }
+            ], 
+            "basis": "treatment2"
+         }
+      ]
+   }
+]
