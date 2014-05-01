@@ -62,8 +62,12 @@ def plotAllSpecificityComparisons(readFname='specificity/all.json',
 	data = json.loads(open(readFname).read())
 
 	subplotLabels = ['A','B','C','D','E','F','G','H','I']
+	basisLabels = []
 
-	fig = plt.figure(figsize=(10,11))
+	
+	figWidth = 17.8 / 2.54 			# convert from PNAS spec in cm to inches
+	figHeight = (10/11.)*figWidth 	# a reasonable aspect ratio
+	fig = plt.figure(figsize=(figWidth,figHeight))
 	gs = gridspec.GridSpec(3,3, width_ratios=[25,13,9])
 	subplotCounter = 0
 
@@ -123,18 +127,8 @@ def plotAllSpecificityComparisons(readFname='specificity/all.json',
 			ypadding = (ylims[1] - ylims[0]) * 0.05
 			plt.ylim(ylims[0] - ypadding, ylims[1] + ypadding)
 
-			# Label each pannel
-			letterLabel = subplotLabels[subplotCounter]
-			ax.text(len(comparisonData) - 0.2, 9.9, letterLabel, 
-					va='top', ha='right', size=20)
-
-			# Label the basis treatment as an inset
-			basisTreatmentName = TREATMENT_NAMES[basis]
-			bbox_props =  {'facecolor': 'white'}
-			if subplotCounter%3 == 0:
-				bbox_props['pad'] = 8
-			ax.text(len(Y)-0.3,-9.4,basisTreatmentName, 
-					ha='right', va='bottom', bbox=bbox_props)
+			# determine the basis-treatment label, but don't apply it yet
+			basisLabels.append(TREATMENT_NAMES[basis])
 
 			# handle x-axis labelling
 			if subplotCounter > 5:
@@ -163,7 +157,38 @@ def plotAllSpecificityComparisons(readFname='specificity/all.json',
 			if subplotCounter < 6 :
 				plt.tight_layout()
 
-	plt.subplots_adjust(bottom=.10)
+	# We need to apply some labels after everything is plotted, once the
+	# axis limits are stable
+	for i, ax in enumerate(fig.axes):
+		# get the axes limits to position labels well
+		xmin, xmax, ymin, ymax = ax.axis()
+		x_range = xmax - xmin
+		y_range = ymax - ymin
+		x_shim = 0.2
+		y_inset_shim_factor = 0.05
+		y_letter_shim_factor = 0.03
+
+		# Label each pannel with a letter
+		letterLabel = subplotLabels[i]
+		ax.text(xmin + x_shim, ymax - y_range*y_letter_shim_factor, 
+			letterLabel, va='top', ha='left', size=9)
+
+		# Label the basis treatment as an inset
+		basisTreatmentName = basisLabels[i]
+		bbox_props =  {'facecolor': 'white'}
+		if i%3 == 0:
+			pad = 10
+			bbox_props['pad'] = pad
+			new_x_shim = x_shim + pad*x_range/800.
+			new_y_shim = y_range*y_inset_shim_factor + pad*y_range/400.
+		else:
+			new_x_shim = x_shim
+			new_y_shim = y_range*y_inset_shim_factor
+		ax.text(xmax - new_x_shim, ymin + new_y_shim,
+			basisTreatmentName, ha='right', va='bottom', bbox=bbox_props,
+			size=9)
+
+	plt.subplots_adjust(bottom=.14)
 	fig.savefig(writeFname)
 	plt.show()
 
@@ -236,7 +261,7 @@ def computeSpecificityComparisons(
 			# Now compare the basis treatment to each subject treatment
 			for subjectTreatment in comparisonSchedule[basisTreatment]:
 
-				print '      subjectTreatment: %s' % basisTreatment
+				print '      subjectTreatment: %s' % subjectTreatment
 
 				# compare basis treatment to subject treatment
 				rslt = a.compareValenceSpecificity(
@@ -761,7 +786,7 @@ def plotValenceComparison(
 	print percentValences
 
 
-def computeAllDisting(numReplicates=50, fname='f1scores/all.json'):
+def computeAllF1Accuracy(numReplicates=50, fname='f1scores/all.json'):
 	'''
 	Computes the F1 score for a naive bayes classifier built to distinguish
 	between all the interesting pairings of treatments.
@@ -795,7 +820,8 @@ def computeAllDisting(numReplicates=50, fname='f1scores/all.json'):
 		thisSubplotData = {
 			'basis': comp['basis']
 			, 'subjects': comp['subjects']
-			, 'results':[]
+			, 'f1':[]
+			, 'accuracy':[]
 		}
 		results.append(thisSubplotData)
 
@@ -805,28 +831,34 @@ def computeAllDisting(numReplicates=50, fname='f1scores/all.json'):
 		# NBCAnalyzer() will perform all these comparisons as a batch
 		comparisons = [(basisTreatment, subjectTreatment) for
 				subjectTreatment in comp['subjects']]
+		
 
 		# Compute the results for the batch of comparisons
-		f1Results, stdevResults = a.crossComparison(
+		comparisonResults = a.crossComparison(
 			numReplicates, comparisons)
 
 		# Unpack, and then then repack the batch so it can be saved
 		# -- sort of inconvenient isn't it?
-		thisSubplotData['results'] = map(lambda c: f1Results[c], comparisons)
+		thisSubplotData['f1'] = map(
+			lambda c: comparisonResults[c]['f1']['avg'], comparisons)
+
+		thisSubplotData['accuracy'] = map(
+			lambda c: comparisonResults[c]['accuracy']['avg'], comparisons)
 
 	fh.write(json.dumps(results, indent=3))
 	fh.close()
 	return results
 
+def plotAllF1Theta(
+	readFname='f1scores/all.json', writeFname='figs/f1-thetas.pdf'):
 
-def plotAllDisting(
-	readFname='f1scores/all.json', writeFname='figs/f1scores.pdf'):
 	'''
-	Plots the F1 score for a naive bayes classifier built to distinguish
-	between all the interesting pairings of treatments.
+	Plots the theta value for a naive bayes classifier built to distinguish
+	between all the interesting pairings of treatments.  See the manuscript
+	in <project-root>/docs/drafts for an explanation of theta.
 
 	This function only plots; the data must first be generated by running
-	`computeAllDisting()`
+	`computeAllF1Accuracy()`
 	'''
 
 	subplotLabels = ['A','B','C']
@@ -835,8 +867,108 @@ def plotAllDisting(
 	f1scores = json.loads(open(readFname, 'r').read())
 
 	# Start a figure 
-	# -- Assumes specific shape of data produced by computeAllDisting()!
-	fig = plt.figure(figsize=(10,4))
+	figWidth = 17.8 / 2.54 	# conversion from PNAS spec in cm to inches
+	figHeight = figWidth * 10/4.	# a reasonable aspect ratio
+	fig = plt.figure(figsize=(figWidth,figHeight))
+	gs = gridspec.GridSpec(1,3, width_ratios=[25,21,17])
+
+	width = 0.325
+
+	for i, subplotData in enumerate(f1scores):
+
+		# Unpack the data for this subplot
+		basisTreatment = subplotData['basis']
+		Y_F1s = subplotData['f1']
+		X_F1s = range(len(Y_F1s))
+
+		# Convert from accuracy to theta
+		Y_thetas = map(lambda t: t*2 - 1, subplotData['accuracy'])
+		X_thetas = map(lambda x: x+width, X_F1s)
+
+		# Make a set of axes.  
+		# Manage axis-sharing directives, and whether ytick-labels are visible
+		if i == 0:
+			ax = plt.subplot(gs[i])
+			ax0 = ax
+		else:
+			ax = plt.subplot(gs[i], sharey=ax0)
+			plt.setp(ax.get_yticklabels(), visible=False)
+
+		# Plot the bar plot
+		f1_series = ax.bar(X_F1s, Y_F1s, width, color='0.25')
+		theta_series = ax.bar(X_thetas, Y_thetas, width, color='0.55')
+
+		# Label the y-axis, only on the left-most subplot
+		#if i == 0:
+		#	ax.set_ylabel(r'$\theta_{NB}$', size=14)
+
+		# Let the plot breathe horizontally
+		padding = 0.25
+		xlims = (-padding, len(Y_thetas) - 1 + 2*width + padding)
+		plt.xlim(xlims)
+
+		# Label each pannel
+		letterLabel = subplotLabels[i]
+		ax.text(-0.05,0.98,letterLabel, 
+				va='top', ha='left', size=20)
+
+		# Label the basis treatment as an inset
+		basisTreatmentName = TREATMENT_NAMES[basisTreatment]
+		bbox_props =  {'facecolor': 'white'}
+
+		height= 0.05
+		if i== len(f1scores)-1:
+			height= 0.24
+
+		if not i:
+			bbox_props['pad'] = 8
+
+		ax.text(len(Y_thetas)-0.28,height,basisTreatmentName, 
+				va='bottom', ha='right', bbox=bbox_props)
+
+		# Put together intelligible labels for the x-axis
+		xlabels = [TREATMENT_NAMES[t] for t in subplotData['subjects']]
+		ax.set_xticks(map(lambda x: x + width, X_F1s))
+		ax.set_xticklabels(xlabels, rotation=45, size=12,
+			horizontalalignment='right')
+
+		# Add a legend if this is the last panel
+		if i == len(f1scores)-1:
+			legend = ax.legend( 
+				(f1_series[0], theta_series[0]), 
+				(r'$F_1$ score', r'$\theta_{NB}$'), 
+				loc='lower right', prop={'size':10})
+
+		# Tighten up the layout
+		plt.draw()
+		if i < 1:
+			plt.tight_layout()
+	
+	fig.savefig(writeFname)
+	plt.show()
+
+
+def plotAllTheta(
+	readFname='f1scores/all.json', writeFname='figs/thetas.pdf'):
+
+	'''
+	Plots the theta value for a naive bayes classifier built to distinguish
+	between all the interesting pairings of treatments.  See the manuscript
+	in <project-root>/docs/drafts for an explanation of theta.
+
+	This function only plots; the data must first be generated by running
+	`computeAllF1Accuracy()`
+	'''
+
+	subplotLabels = ['A','B','C']
+
+	# Read the data from file
+	f1scores = json.loads(open(readFname, 'r').read())
+
+	# Start a figure 
+	figWidth = 17.8 / 2.54 	# conversion from PNAS spec in cm to inches
+	figHeight = figWidth * 10/4.	# a reasonable aspect ratio
+	fig = plt.figure(figsize=(figWidth,figHeight))
 	gs = gridspec.GridSpec(1,3, width_ratios=[25,21,17])
 	subplotCounter = 0
 
@@ -844,7 +976,90 @@ def plotAllDisting(
 
 		# Unpack the data for this subplot
 		basisTreatment = subplotData['basis']
-		Y_f1scores = subplotData['results']
+		# Convert from accuracy to theta
+		Y_thetas = map(lambda t: t*2 - 1, subplotData['accuracy'])
+		X = range(len(Y_thetas))
+
+		# Make a set of axes.  
+		# Manage axis-sharing directives, and whether ytick-labels are visible
+		if subplotCounter == 0:
+			ax = plt.subplot(gs[subplotCounter])
+			ax0 = ax
+		else:
+			ax = plt.subplot(gs[subplotCounter], sharey=ax0)
+			plt.setp(ax.get_yticklabels(), visible=False)
+
+		# Do a bar plot
+		width = 0.75
+		series = ax.bar(X, Y_thetas, width, color='0.25')
+
+		# Label the y-axis, only on the left-most subplot
+		if subplotCounter == 0:
+			ax.set_ylabel(r'$\theta_{NB}$', size=14)
+
+		# Let the plot breathe horizontally
+		padding = 0.25
+		xlims = (-padding, len(Y_thetas) - 1 + width + padding)
+		plt.xlim(xlims)
+
+		# Label each pannel
+		letterLabel = subplotLabels[subplotCounter]
+		ax.text(-0.05,0.98,letterLabel, 
+				va='top', ha='left', size=20)
+
+		# Label the basis treatment as an inset
+		basisTreatmentName = TREATMENT_NAMES[basisTreatment]
+		bbox_props =  {'facecolor': 'white'}
+		if not subplotCounter:
+			bbox_props['pad'] = 8
+		ax.text(len(Y_thetas)-0.4,0.1,basisTreatmentName, 
+				ha='right', bbox=bbox_props)
+
+		# Put together intelligible labels for the x-axis
+		xlabels = [TREATMENT_NAMES[t] for t in subplotData['subjects']]
+		ax.set_xticks(map(lambda x: x + width /2., X))
+		ax.set_xticklabels(xlabels, rotation=45, size=12,
+			horizontalalignment='right')
+
+		# Increment the subplotCounter, 
+		# helps us make the subplots display well
+		subplotCounter += 1
+
+		# Tighten up the layout
+		plt.draw()
+		if subplotCounter < 2:
+			plt.tight_layout()
+	
+	fig.savefig(writeFname)
+	plt.show()
+
+def plotAllF1(
+	readFname='f1scores/all.json', writeFname='figs/f1scores.pdf'):
+	'''
+	Plots the F1 score for a naive bayes classifier built to distinguish
+	between all the interesting pairings of treatments.
+
+	This function only plots; the data must first be generated by running
+	`computeAllF1Accuracy()`
+	'''
+
+	subplotLabels = ['A','B','C']
+
+	# Read the data from file
+	f1scores = json.loads(open(readFname, 'r').read())
+
+	# Start a figure 
+	figWidth = 17.8 / 2.54 	# conversion from PNAS spec in cm to inches
+	figHeight = figWidth * 10/4.	# a reasonable aspect ratio
+	fig = plt.figure(figsize=(figWidth,figHeight))
+	gs = gridspec.GridSpec(1,3, width_ratios=[25,21,17])
+	subplotCounter = 0
+
+	for subplotData in f1scores:
+
+		# Unpack the data for this subplot
+		basisTreatment = subplotData['basis']
+		Y_f1scores = subplotData['f1']
 		X = range(len(Y_f1scores))
 
 		# Make a set of axes.  
@@ -901,57 +1116,80 @@ def plotAllDisting(
 	plt.show()
 
 
-
-# TODO: make similar plots for theta
-def plotClassificationVsImage(numReplicates=50, 
+def calcClassificationVsImage(numReplicates=50, 
 	treatments=('treatment1','treatment2'), 
-	fname='figs/longitudinalF1scores.pdf'):
+	writeFname='f1scores/longitudinal-t1-t2.pdf'):
+	'''
+	Measures the F1 score for a classifier built to distingiush between
+	<treatments> based on the labels attributed to a specific image, 
+	as a function of the images for all 5 test images.
+	'''
+	fh = open(writeFname, 'w')
+
+	# Assess the classifier's ability to classify as a function of the image 
+	# from which the labels used for classification are derived
+	a = analysis.NBCAnalyzer()
+
+	results = a.longitudinal(numReplicates, treatments)
+	fh.write(json.dumps(results, indent=3))
+	fh.close()
+
+
+def plotClassificationVsImage(
+	readFname='f1scores/longitudinal-t1-t2.pdf',
+	writeFname='figs/longitudinalF1scores-t1-t2.pdf'):
 	'''
 	Measures the F1 score for a classifier built to distingiush between
 	<treatments> based on the labels attributed to a specific image, 
 	as a function of the images for all 5 test images.
 	'''
 
-	# Assess the classifier's ability to classify as a function of the image 
-	# from which the labels used for classification are derived
-	a = analysis.NBCAnalyzer()
-	f1Results, stdevResults = a.longitudinal(
-			numReplicates, treatments)
+	results = json.loads(open(readFname, 'r').read())
 
 	# Plot the result
 	numPics = 5
-	width = 0.375						# width of bars
-	X1 = range(numPics + 1)				# x-position of series1 bars
-	X2 = map(lambda x: x + width, X1)	# x-position of series2 bars
-	xlabels = ['all images'] + ['image %d' % (i+1) for i in range(numPics)]
+	width = 0.375	# width of bars
+
+
+	# Unpack the data for this subplot
+	Y_F1s = results['f1']['avg']
+	X_F1s = range(len(Y_F1s))
+
+	# Convert from accuracy to theta
+	Y_thetas = map(lambda t: t*2 - 1, results['accuracy']['avg'])
+	X_thetas = map(lambda x: x+width, X_F1s)
+
 
 	# Make a plot
-	fig = plt.figure(figsize=(5,5))
+	figWidth = 8.7 / 2.54 		# convert from PNAS spec in cm to inches
+	figHeight = figWidth
+	fig = plt.figure(figsize=(figWidth,figHeight))
 	ax = plt.subplot(111)
 
-	# Plot the performance with position-based labels
-	series1 = ax.bar(
-		X1, f1Results['withPosition'], width, color='0.25')
-
-	# Plot the performance without position-less labels
-	series1 = ax.bar(
-		X2, 
-		f1Results['withoutPosition'], width, color='0.55')
+	# Plot classifier performance, as F1 and theta
+	f1_series = ax.bar(X_F1s, Y_F1s, width, color='0.25')
+	theta_series = ax.bar(X_thetas, Y_thetas, width, color='0.55')
 
 	# Do some labelling business with the plot
-	ax.set_ylabel("$F_1$-score", size=14)
-	ax.set_xticks(X2)
+	ax.set_xticks(X_thetas)
+	xlabels = ['all images'] + ['image %d' % (i+1) for i in range(numPics)]
 	ax.set_xticklabels( xlabels, ha='right', rotation=45 )
 
 	padding = 0.25
 	plt.xlim((-padding, numPics + 2*width + padding))
 	plt.ylim((0,1))
+
+	# add a legend
+	legend = ax.legend( 
+		(f1_series[0], theta_series[0]), 
+		(r'$F_1$ score', r'$\theta_{NB}$'), 
+		loc='lower right', prop={'size':10})
 	
 	plt.draw()
 	plt.tight_layout()
-	plt.subplots_adjust(bottom=.16)
+	plt.subplots_adjust(bottom=.22)
 
-	fig.savefig(fname)
+	fig.savefig(writeFname)
 	plt.show()
 
 #CROSS_COMPARISONS = [

@@ -319,7 +319,7 @@ class Analyzer(object):
 		firstMoreMinusLess = []
 		uncomparableCounts = []
 
-		util.writeNow('         carrying out comparison ' + str([images]))
+		util.writeNow('         carrying out comparison ' + str(images))
 		
 		# Make all pairwise comparisons between the workers subsampled from 
 		# in treatment 1 and those subsampled from treatment 2
@@ -543,27 +543,37 @@ class NBCAnalyzer(object):
 		'''
 		util.writeNow('\nPerforming cross-comparison') 
 
-		f1Scores = {}
-		f1ScoreDevs = {}
+		results = {}
 
 		for comparison in comparisons:
 
 			util.writeNow('.')
-			thisComparisonF1Scores = []
+			comparisonF1Scores = []
+			comparisonAccuracies = []
+
 			firstTreatment, secondTreatment = comparison
 
 			for i in range(numReplicates):
 				allImages = ['test%d' % i for i in range(5)]
 				result = self.testNBC(80, 20, comparison, allImages, True)
 				try:
-					thisComparisonF1Scores.append(result.getF1(firstTreatment))
+					comparisonF1Scores.append(result.getF1(firstTreatment))
+					comparisonAccuracies.append(result.getOverallAccuracy())
 				except KeyError:
 					return result
 
-			f1Scores[comparison] = np.mean(thisComparisonF1Scores)
-			f1ScoreDevs[comparison] = np.std(thisComparisonF1Scores)
+			results[comparison] = {
+				'f1': {
+					'avg': np.mean(comparisonF1Scores),
+					'std': np.std(comparisonF1Scores)
+				},
+				'accuracy': {
+					'avg': np.mean(comparisonAccuracies),
+					'std': np.std(comparisonAccuracies)
+				}
+			}
 
-		return f1Scores, f1ScoreDevs
+		return results
 
 
 	def longitudinal(self, numReplicates, treatments):
@@ -582,6 +592,17 @@ class NBCAnalyzer(object):
 		f1ScoreStdevs = {'withPosition':[], 'withoutPosition':[]}
 		f1Scores = {'withPosition':[], 'withoutPosition':[]}
 
+		results = {
+			'f1': {
+				'avg': [],
+				'std': []
+			},
+			'accuracy': {
+				'avg': [],
+				'std': []
+			},
+		}
+
 		#  We'll run the classifier on various images.  First we run it on 
 		# the set of all images, and then on each image on its own
 		allImageSet = ['test%d' % i for i in range(5)]
@@ -593,34 +614,34 @@ class NBCAnalyzer(object):
 		for imageSet in imageSets:	
 			util.writeNow('.')
 
-			thisTreatmentf1Scores = {'withPosition':[], 'withoutPosition':[]}
+			# Accumulate results accross replicates for this imageSet
+			thisImageSetF1Scores = []
+			thisImageSetAccuracies = []
+
+			# Test the classsifier for this imageSet. Do many replicates.
 			for j in range(numReplicates):
 
-				# Run classification with position-based features
+				# Run and test classification
 				result = self.testNBC(
 					80, 20, treatments, imageSet, True)
 
-				thisTreatmentf1Scores['withPosition'].append(
-					result.getF1(firstTreatment))
-
-				# Run classification with positionless features
-				result = self.testNBC(
-					80, 20, treatments, imageSet, False)
-				thisTreatmentf1Scores['withoutPosition'].append(
-					result.getF1(firstTreatment))
-
+				# Extract the results we're interested in
+				thisImageSetF1Scores.append(result.getF1(firstTreatment))
+				thisImageSetAccuracies.append(result.getOverallAccuracy())
 		
-			f1Scores['withPosition'].append(
-				np.mean(thisTreatmentf1Scores['withPosition']))
-			f1ScoreStdevs['withPosition'].append(
-				np.std(thisTreatmentf1Scores['withPosition']))
+			# record average and standard deviation for classifier F1 score
+			results['f1']['avg'].append(
+				np.mean(thisImageSetF1Scores))
+			results['f1']['std'].append(
+				np.std(thisImageSetF1Scores))
 
-			f1Scores['withoutPosition'].append(
-				np.mean(thisTreatmentf1Scores['withoutPosition']))
-			f1ScoreStdevs['withoutPosition'].append(
-				np.std(thisTreatmentf1Scores['withoutPosition']))
+			# record average and standard deviation for classifier accuracy
+			results['accuracy']['avg'].append(
+				np.mean(thisImageSetAccuracies))
+			results['accuracy']['std'].append(
+				np.std(thisImageSetAccuracies))
 
-		return f1Scores, f1ScoreStdevs
+		return results
 
 
 class ClassifierPerformanceResult(object):

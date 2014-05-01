@@ -4,45 +4,45 @@
       "results": [
          {
             "null": {
-               "stdev": 0.0, 
-               "avg": 3.0, 
+               "stdev": 8.4751748108606755, 
+               "avg": -15.815384615384616, 
                "subject": "null"
             }, 
             "results": [
                {
-                  "stdev": 0.0, 
-                  "avg": 0.0, 
-                  "avgNorm": NaN, 
+                  "stdev": 9.1748535240118834, 
+                  "avg": -19.415384615384614, 
+                  "avgNorm": -2.2908535869377462, 
                   "subject": "treatment1"
                }, 
                {
-                  "stdev": 0.0, 
-                  "avg": 0.0, 
-                  "avgNorm": NaN, 
+                  "stdev": 6.0868231843067457, 
+                  "avg": -6.5846153846153843, 
+                  "avgNorm": -0.77692974263815806, 
                   "subject": "treatment5"
                }, 
                {
-                  "stdev": 0.0, 
-                  "avg": -3.0, 
-                  "avgNorm": -Infinity, 
+                  "stdev": 10.426524419488338, 
+                  "avg": -24.969230769230769, 
+                  "avgNorm": -2.9461611502376881, 
                   "subject": "treatment6"
                }, 
                {
-                  "stdev": 0.0, 
-                  "avg": 0.0, 
-                  "avgNorm": NaN, 
+                  "stdev": 7.1841189342308605, 
+                  "avg": 2.6461538461538461, 
+                  "avgNorm": 0.31222410218168967, 
                   "subject": "treatment2"
                }, 
                {
-                  "stdev": 0.0, 
-                  "avg": -1.0, 
-                  "avgNorm": -Infinity, 
+                  "stdev": 3.9854692832053913, 
+                  "avg": 1.8615384615384616, 
+                  "avgNorm": 0.21964602537200265, 
                   "subject": "treatment3"
                }, 
                {
-                  "stdev": 0.0, 
-                  "avg": 1.0, 
-                  "avgNorm": Infinity, 
+                  "stdev": 7.0265394550732099, 
+                  "avg": -0.81538461538461537, 
+                  "avgNorm": -0.096208589625753224, 
                   "subject": "treatment4"
                }
             ], 
@@ -50,27 +50,27 @@
          }, 
          {
             "null": {
-               "stdev": 0.0, 
-               "avg": -1.0, 
+               "stdev": 10.33884896428204, 
+               "avg": 13.307692307692308, 
                "subject": "null"
             }, 
             "results": [
                {
-                  "stdev": 0.0, 
-                  "avg": 0.0, 
-                  "avgNorm": NaN, 
+                  "stdev": 5.6436300245805304, 
+                  "avg": 7.9230769230769234, 
+                  "avgNorm": 0.76634032961009846, 
                   "subject": "treatment5"
                }, 
                {
-                  "stdev": 0.0, 
-                  "avg": 0.0, 
-                  "avgNorm": NaN, 
+                  "stdev": 12.283047811565032, 
+                  "avg": 2.7692307692307692, 
+                  "avgNorm": 0.26784710549479168, 
                   "subject": "treatment6"
                }, 
                {
-                  "stdev": 0.0, 
-                  "avg": 0.0, 
-                  "avgNorm": NaN, 
+                  "stdev": 8.1315156991093112, 
+                  "avg": -2.7692307692307692, 
+                  "avgNorm": -0.26784710549479168, 
                   "subject": "treatment2"
                }
             ], 
@@ -78,21 +78,21 @@
          }, 
          {
             "null": {
-               "stdev": 0.0, 
-               "avg": 2.0, 
+               "stdev": 8.0260967159261227, 
+               "avg": 17.123076923076923, 
                "subject": "null"
             }, 
             "results": [
                {
-                  "stdev": 0.0, 
-                  "avg": -1.0, 
-                  "avgNorm": -Infinity, 
+                  "stdev": 4.2227724316565407, 
+                  "avg": 21.615384615384617, 
+                  "avgNorm": 2.6931378203421561, 
                   "subject": "treatment3"
                }, 
                {
-                  "stdev": 0.0, 
-                  "avg": 0.0, 
-                  "avgNorm": NaN, 
+                  "stdev": 9.0656104412127281, 
+                  "avg": 9.953846153846154, 
+                  "avgNorm": 1.2401851742073844, 
                   "subject": "treatment4"
                }
             ], 
@@ -105,45 +105,45 @@
       "results": [
          {
             "null": {
-               "stdev": 0.0, 
-               "avg": 1.0, 
+               "stdev": 0.68149077530957336, 
+               "avg": 2.6769230769230767, 
                "subject": "null"
             }, 
             "results": [
                {
-                  "stdev": 0.0, 
-                  "avg": 0.0, 
-                  "avgNorm": NaN, 
+                  "stdev": 0.99370068732261341, 
+                  "avg": -1.5692307692307692, 
+                  "avgNorm": -2.3026441825539488, 
                   "subject": "treatment1"
                }, 
                {
-                  "stdev": 0.0, 
-                  "avg": 0.0, 
-                  "avgNorm": NaN, 
+                  "stdev": 1.1014187895722312, 
+                  "avg": -2.2923076923076922, 
+                  "avgNorm": -3.3636665019660619, 
                   "subject": "treatment5"
                }, 
                {
-                  "stdev": 0.0, 
-                  "avg": 1.0, 
-                  "avgNorm": Infinity, 
+                  "stdev": 0.99160977245507409, 
+                  "avg": -2.7999999999999998, 
+                  "avgNorm": -4.1086396198511625, 
                   "subject": "treatment6"
                }, 
                {
-                  "stdev": 0.0, 
-                  "avg": 0.0, 
-                  "avgNorm": NaN, 
+                  "stdev": 0.45795055118230282, 
+                  "avg": 0.44615384615384618, 
+                  "avgNorm": 0.6546733460202403, 
                   "subject": "treatment2"
                }, 
                {
-                  "stdev": 0.0, 
-                  "avg": 0.0, 
-                  "avgNorm": NaN, 
+                  "stdev": 0.84393253348487063, 
+                  "avg": -0.16923076923076924, 
+                  "avgNorm": -0.24832437262836701, 
                   "subject": "treatment3"
                }, 
                {
-                  "stdev": 0.0, 
-                  "avg": 0.0, 
-                  "avgNorm": NaN, 
+                  "stdev": 1.9915195717905365, 
+                  "avg": 1.7846153846153847, 
+                  "avgNorm": 2.6186933840809612, 
                   "subject": "treatment4"
                }
             ], 
@@ -151,27 +151,27 @@
          }, 
          {
             "null": {
-               "stdev": 0.0, 
-               "avg": 0.0, 
+               "stdev": 1.2843570586736275, 
+               "avg": -2.0923076923076924, 
                "subject": "null"
             }, 
             "results": [
                {
-                  "stdev": 0.0, 
-                  "avg": 0.0, 
-                  "avgNorm": NaN, 
+                  "stdev": 1.6060377658749116, 
+                  "avg": 1.4153846153846155, 
+                  "avgNorm": 1.1020180142477682, 
                   "subject": "treatment5"
                }, 
                {
-                  "stdev": 0.0, 
-                  "avg": 0.0, 
-                  "avgNorm": NaN, 
+                  "stdev": 1.2704204573173814, 
+                  "avg": -0.12307692307692308, 
+                  "avgNorm": -0.09582765341284942, 
                   "subject": "treatment6"
                }, 
                {
-                  "stdev": 0.0, 
-                  "avg": 0.0, 
-                  "avgNorm": NaN, 
+                  "stdev": 1.0891010520158577, 
+                  "avg": -0.90769230769230769, 
+                  "avgNorm": -0.70672894391976449, 
                   "subject": "treatment2"
                }
             ], 
@@ -179,21 +179,21 @@
          }, 
          {
             "null": {
-               "stdev": 0.0, 
-               "avg": 0.0, 
+               "stdev": 1.0692099099748977, 
+               "avg": -1.4461538461538461, 
                "subject": "null"
             }, 
             "results": [
                {
-                  "stdev": 0.0, 
-                  "avg": 0.0, 
-                  "avgNorm": NaN, 
+                  "stdev": 0.99916396549812181, 
+                  "avg": -0.43076923076923079, 
+                  "avgNorm": -0.402885557597707, 
                   "subject": "treatment3"
                }, 
                {
-                  "stdev": 0.0, 
-                  "avg": 0.0, 
-                  "avgNorm": NaN, 
+                  "stdev": 2.4754003184250437, 
+                  "avg": -0.63076923076923075, 
+                  "avgNorm": -0.58993956648235668, 
                   "subject": "treatment4"
                }
             ], 
@@ -206,45 +206,45 @@
       "results": [
          {
             "null": {
-               "stdev": 0.0, 
-               "avg": 1.0, 
+               "stdev": 1.9570685815430684, 
+               "avg": -0.1076923076923077, 
                "subject": "null"
             }, 
             "results": [
                {
-                  "stdev": 0.0, 
-                  "avg": 0.0, 
-                  "avgNorm": NaN, 
+                  "stdev": 2.247414738905162, 
+                  "avg": -4.569230769230769, 
+                  "avgNorm": -2.3347320642325768, 
                   "subject": "treatment1"
                }, 
                {
-                  "stdev": 0.0, 
-                  "avg": 0.0, 
-                  "avgNorm": NaN, 
+                  "stdev": 1.5026555161992823, 
+                  "avg": 3.9692307692307693, 
+                  "avgNorm": 2.0281510861010266, 
                   "subject": "treatment5"
                }, 
                {
-                  "stdev": 0.0, 
-                  "avg": 0.0, 
-                  "avgNorm": NaN, 
+                  "stdev": 3.219561286080654, 
+                  "avg": -7.7384615384615385, 
+                  "avgNorm": -3.9541085128248694, 
                   "subject": "treatment6"
                }, 
                {
-                  "stdev": 0.0, 
-                  "avg": -1.0, 
-                  "avgNorm": -Infinity, 
+                  "stdev": 2.7783505321616717, 
+                  "avg": -4.8615384615384611, 
+                  "avgNorm": -2.4840920279376908, 
                   "subject": "treatment2"
                }, 
                {
-                  "stdev": 0.0, 
-                  "avg": 1.0, 
-                  "avgNorm": Infinity, 
+                  "stdev": 1.3819250655023347, 
+                  "avg": 6.3384615384615381, 
+                  "avgNorm": 3.2387528971845847, 
                   "subject": "treatment3"
                }, 
                {
-                  "stdev": 0.0, 
-                  "avg": 0.0, 
-                  "avgNorm": NaN, 
+                  "stdev": 2.0404770654258537, 
+                  "avg": 0.98461538461538467, 
+                  "avgNorm": 0.50310724616459568, 
                   "subject": "treatment4"
                }
             ], 
@@ -252,27 +252,27 @@
          }, 
          {
             "null": {
-               "stdev": 0.0, 
-               "avg": 1.0, 
+               "stdev": 2.7949978076291573, 
+               "avg": -2.1384615384615384, 
                "subject": "null"
             }, 
             "results": [
                {
-                  "stdev": 0.0, 
-                  "avg": -1.0, 
-                  "avgNorm": -Infinity, 
+                  "stdev": 1.9017142447618371, 
+                  "avg": 10.184615384615384, 
+                  "avgNorm": 3.6438724054865834, 
                   "subject": "treatment5"
                }, 
                {
-                  "stdev": 0.0, 
-                  "avg": 0.0, 
-                  "avgNorm": NaN, 
+                  "stdev": 2.4460057266010882, 
+                  "avg": 4.569230769230769, 
+                  "avgNorm": 1.6347886773859748, 
                   "subject": "treatment6"
                }, 
                {
-                  "stdev": 0.0, 
-                  "avg": 0.0, 
-                  "avgNorm": NaN, 
+                  "stdev": 3.470206635337953, 
+                  "avg": 6.953846153846154, 
+                  "avgNorm": 2.4879612194560963, 
                   "subject": "treatment2"
                }
             ], 
@@ -280,21 +280,21 @@
          }, 
          {
             "null": {
-               "stdev": 0.0, 
-               "avg": -1.0, 
+               "stdev": 3.0520557254275609, 
+               "avg": 6.4461538461538463, 
                "subject": "null"
             }, 
             "results": [
                {
-                  "stdev": 0.0, 
-                  "avg": 0.0, 
-                  "avgNorm": NaN, 
+                  "stdev": 1.8532074325052186, 
+                  "avg": 6.8923076923076927, 
+                  "avgNorm": 2.2582509339150918, 
                   "subject": "treatment3"
                }, 
                {
-                  "stdev": 0.0, 
-                  "avg": 0.0, 
-                  "avgNorm": NaN, 
+                  "stdev": 2.4947537124075465, 
+                  "avg": 2.2307692307692308, 
+                  "avgNorm": 0.73090711030734001, 
                   "subject": "treatment4"
                }
             ], 

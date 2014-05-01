@@ -5,6 +5,7 @@ Given the ontologies have been built for all of the images
 
 Other stuff
 - The classifier stuff should be reported in terms of theta (as well as F1)
+	- am I using a consistent training and test size?
 
 - Do I need to take into account the variance of both the basis and subject
 	population in the specificity comparisons?
