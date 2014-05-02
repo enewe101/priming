@@ -76,12 +76,15 @@ def plotAllSpecificityComparisons(readFname='specificity/all.json',
 		
 		for basisComparison in valenceComparison['results']:
 			basis = basisComparison['basis']
+			normStdev = basisComparison['null']['stdev']
 
 			comparisonData = basisComparison['results']
 
 			width=0.75
 			X = range(len(comparisonData))
 			Y = map(lambda x: x['avgNorm'], comparisonData)
+			Y_err = map(lambda x: x['stdev']/normStdev, comparisonData)
+
 			treatmentNames = map(lambda x: x['subject'], comparisonData)
 
 			if subplotCounter == 0:
@@ -105,7 +108,8 @@ def plotAllSpecificityComparisons(readFname='specificity/all.json',
 			elif subplotCounter % 3 == 2:
 				ax = plt.subplot(gs[subplotCounter], sharey=ax0, sharex=ax2)
 
-			series = ax.bar(X, Y, width, color='0.25')
+			series = ax.bar(X, Y, width, color='0.25', ecolor='0.55', 
+				yerr=Y_err)
 
 			padding = 0.25
 			xlims = (-padding, len(comparisonData) - 1 + width + padding)
@@ -124,8 +128,8 @@ def plotAllSpecificityComparisons(readFname='specificity/all.json',
 
 			
 			ylims = plt.ylim()
-			ypadding = (ylims[1] - ylims[0]) * 0.05
-			plt.ylim(ylims[0] - ypadding, ylims[1] + ypadding)
+			ypadding = (ylims[1] - ylims[0]) * 0.1
+			plt.ylim(ylims[0], 10 + ypadding)
 
 			# determine the basis-treatment label, but don't apply it yet
 			basisLabels.append(TREATMENT_NAMES[basis])
@@ -540,7 +544,6 @@ def computeOrientationVsTreatment(
 
 def plotExcessCultureVsImage(readFname='orientation/orientation.json',
 	writeFname='figs/excessCultureVsTreatment.pdf'):
-	pass
 
 	images = ['image %d' % i for i in range(1,6)]
 
@@ -551,11 +554,11 @@ def plotExcessCultureVsImage(readFname='orientation/orientation.json',
 	subplotLabels = ['A', 'B']
 
 	fig = plt.figure(figsize=(5,5))
-	gs = gridspec.GridSpec(1,1)
+	gs = gridspec.GridSpec(1,2)
 
 	X = range(len(images))
 
-	subplots = [0]
+	subplots = [0,1]
 
 	for subplot in subplots:
 
@@ -1116,9 +1119,9 @@ def plotAllF1(
 	plt.show()
 
 
-def calcClassificationVsImage(numReplicates=50, 
+def computeClassificationVsImage(numReplicates=50, 
 	treatments=('treatment1','treatment2'), 
-	writeFname='f1scores/longitudinal-t1-t2.pdf'):
+	writeFname='f1scores/longitudinal-t1-t2.json'):
 	'''
 	Measures the F1 score for a classifier built to distingiush between
 	<treatments> based on the labels attributed to a specific image, 
