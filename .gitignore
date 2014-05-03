@@ -2,6 +2,7 @@
 *.pyc
 *.swp
 *.swo
+*.log
 ingredients.png
 cultural.png
 ambiguous.png

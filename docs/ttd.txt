@@ -1,13 +1,20 @@
-Given the ontologies have been built for all of the images
-- Do the orientation analysis on a per-image basis, as well as overall
-- Do the specificity analysis on a per-image basis, as well as overall
-	- should do proper significance tests.
+Do Now
+======
+- references
+- rework discussion of \theta as a lower bound
+
 
 Other stuff
-- The classifier stuff should be reported in terms of theta (as well as F1)
-	- am I using a consistent training and test size?
+===========
+- am I using a consistent training and test size?
 
-- Do I need to take into account the variance of both the basis and subject
-	population in the specificity comparisons?
+- the excess cultural orientation should be calculated with a fixed subsample
+	from each treatment, because the treatments aren't the exact same size.
 
 
+Might include
+============
+* never compared total vocab...
+* compare total vocabulary between different treatments, and between a 
+	population comprised of 50 users from cultural and 50 users from 
+	ingredients

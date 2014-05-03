@@ -48,7 +48,7 @@ TREATMENT_NAMES = {
 
 
 def plotAllSpecificityComparisons(readFname='specificity/all.json', 
-	writeFname='figs/specificity.pdf'):
+	writeFname='figs/specificity-allImages.pdf'):
 	'''
 	Computes all of the interesting specificity comparisons between different
 	treatments, such that they can be plotted  in a big multi-pannel figure.
@@ -129,12 +129,15 @@ def plotAllSpecificityComparisons(readFname='specificity/all.json',
 			
 			ylims = plt.ylim()
 			ypadding = (ylims[1] - ylims[0]) * 0.1
-			plt.ylim(ylims[0], 10 + ypadding)
+			#plt.ylim(-13, 8)
+			plt.ylim(-12, 10)
+			#plt.ylim(ylims[0], 10 + ypadding)
 
 			# determine the basis-treatment label, but don't apply it yet
 			basisLabels.append(TREATMENT_NAMES[basis])
 
 			# handle x-axis labelling
+			ax.tick_params(axis='both', which='major', labelsize=9)
 			if subplotCounter > 5:
 				xlabels = [TREATMENT_NAMES[t] for t in treatmentNames]
 				ax.set_xticks(map(lambda x: x + width/2., X))
@@ -145,13 +148,13 @@ def plotAllSpecificityComparisons(readFname='specificity/all.json',
 
 			# handle y-axis labelling
 			if subplotCounter == 0:
-				ax.set_ylabel("overall specificity")
+				ax.set_ylabel("overall specificity", size=9)
 
 			elif subplotCounter == 3:
-				ax.set_ylabel("cultural specificity")
+				ax.set_ylabel("cultural specificity", size=9)
 
 			elif subplotCounter == 6:
-				ax.set_ylabel("food specificity")
+				ax.set_ylabel("food specificity", size=9)
 
 			else:
 				plt.setp(ax.get_yticklabels(), visible=False)
@@ -175,7 +178,7 @@ def plotAllSpecificityComparisons(readFname='specificity/all.json',
 		# Label each pannel with a letter
 		letterLabel = subplotLabels[i]
 		ax.text(xmin + x_shim, ymax - y_range*y_letter_shim_factor, 
-			letterLabel, va='top', ha='left', size=9)
+			letterLabel, va='top', ha='left', size=12)
 
 		# Label the basis treatment as an inset
 		basisTreatmentName = basisLabels[i]
@@ -192,7 +195,8 @@ def plotAllSpecificityComparisons(readFname='specificity/all.json',
 			basisTreatmentName, ha='right', va='bottom', bbox=bbox_props,
 			size=9)
 
-	plt.subplots_adjust(bottom=.14)
+	plt.subplots_adjust(left=0.07, top=0.99, right=0.99, 
+		bottom=.11, wspace=0.05, hspace=0.05)
 	fig.savefig(writeFname)
 	plt.show()
 
@@ -543,7 +547,7 @@ def computeOrientationVsTreatment(
 
 
 def plotExcessCultureVsImage(readFname='orientation/orientation.json',
-	writeFname='figs/excessCultureVsTreatment.pdf'):
+	writeFname='figs/excessCultureVsTreatment-t1.pdf'):
 
 	images = ['image %d' % i for i in range(1,6)]
 
@@ -553,12 +557,14 @@ def plotExcessCultureVsImage(readFname='orientation/orientation.json',
 
 	subplotLabels = ['A', 'B']
 
-	fig = plt.figure(figsize=(5,5))
-	gs = gridspec.GridSpec(1,2)
+	figWidth = 8.7/2.54
+	figHeight = figWidth*4/5.
+	fig = plt.figure(figsize=(figWidth, figHeight))
+	gs = gridspec.GridSpec(1,1)
 
 	X = range(len(images))
 
-	subplots = [0,1]
+	subplots = [0]
 
 	for subplot in subplots:
 
@@ -581,9 +587,10 @@ def plotExcessCultureVsImage(readFname='orientation/orientation.json',
 			X, thisPlotData['avg'], width, color='0.25', 
 			ecolor='0.55', yerr=thisPlotData['std'])
 
+		ax.tick_params(axis='both', which='major', labelsize=9)
 		# only label the y-axis of the first sub-plot
 		if subplot == (len(subplots)-1):
-			ax.set_ylabel("excess cultural orientation (%)", size=14)
+			ax.set_ylabel("excess cultural orientation (%)", size=9)
 
 		else:
 			plt.setp(ax.get_yticklabels(), visible=False)
@@ -630,7 +637,9 @@ def plotOrientationVsTreatment(readFname='orientation/orientation.json',
 
 	subplotLabels = ['A', 'B', 'C']
 
-	fig = plt.figure(figsize=(15,5))
+	figWidth = 17.8 / 2.54
+	figHeight = figWidth*4/10.
+	fig = plt.figure(figsize=(figWidth,figHeight))
 	gs = gridspec.GridSpec(1,3, width_ratios=[25,33,33])
 
 	for subplot in [0,1,2]:
@@ -676,18 +685,23 @@ def plotOrientationVsTreatment(readFname='orientation/orientation.json',
 
 		# only label the y-axis of the first sub-plot
 		if subplot == 0:
-			ax.set_ylabel("percent of labels having orientation", size=14)
+			ax.set_ylabel("% labels of orientation", size=9)
+			ax.tick_params(axis='both', which='major', labelsize=9)
+
 
 			# first subplot also has its own kind of x-axis
 			xlabels = images
 			ax.set_xticks(X2)
-			ax.set_xticklabels(xlabels, rotation=45, horizontalalignment='right')
+			ax.set_xticklabels(xlabels, rotation=45, 
+				horizontalalignment='right', size=9)
+
 		else:
 
 			# Other two subplots have different x-axis from first
 			xlabels = [TREATMENT_NAMES[t] for t in treatments]
 			ax.set_xticks(X2)
-			ax.set_xticklabels(xlabels, rotation=45, horizontalalignment='right')
+			ax.set_xticklabels(xlabels, rotation=45, 
+				horizontalalignment='right', size=9)
 			# only the first subplot gets y-axis labels
 			plt.setp(ax.get_yticklabels(), visible=False)
 
@@ -695,23 +709,25 @@ def plotOrientationVsTreatment(readFname='orientation/orientation.json',
 		if subplot == 2:
 			legend = ax.legend( 
 				(seriesCultural[0], seriesFood[0], seriesBoth1[0]), 
-				('cultural', 'food', 'both'), 
-				loc='upper right', prop={'size':10})
+				('culture', 'food', 'both'), 
+				loc='upper right', prop={'size':9}, labelspacing=0)
 
 		# Label each pannel
 		letterLabel = subplotLabels[subplot]
 		ax.text(0.2, 75, letterLabel, 
-				va='top', ha='left', size=20)
+				va='top', ha='left', size=12)
 
 		padding = 0.25
 		xlims = (-padding, len(X) - 1 + 2*width + padding)
 		plt.xlim(xlims)
 
-		plt.draw()
-		plt.tight_layout()
+		if subplot != 3:
+			plt.draw()
+			plt.tight_layout()
 
 	# Adjustments to figure placement and spacing
-	fig.subplots_adjust(bottom=.20)
+	fig.subplots_adjust(bottom=.25, wspace=0.05, right=0.99, top=0.98,
+		left=0.06)
 
 	#plt.ylim((0,55))
 
@@ -871,8 +887,8 @@ def plotAllF1Theta(
 
 	# Start a figure 
 	figWidth = 17.8 / 2.54 	# conversion from PNAS spec in cm to inches
-	figHeight = figWidth * 10/4.	# a reasonable aspect ratio
-	fig = plt.figure(figsize=(figWidth,figHeight))
+	figHeight = figWidth * 2/5.	# a reasonable aspect ratio
+	fig = plt.figure(figsize=(figWidth, figHeight))
 	gs = gridspec.GridSpec(1,3, width_ratios=[25,21,17])
 
 	width = 0.325
@@ -912,40 +928,49 @@ def plotAllF1Theta(
 
 		# Label each pannel
 		letterLabel = subplotLabels[i]
-		ax.text(-0.05,0.98,letterLabel, 
-				va='top', ha='left', size=20)
+		ax.text(-0.05,0.97,letterLabel, 
+				va='top', ha='left', size=12)
 
 		# Label the basis treatment as an inset
 		basisTreatmentName = TREATMENT_NAMES[basisTreatment]
 		bbox_props =  {'facecolor': 'white'}
 
-		height= 0.05
-		if i== len(f1scores)-1:
-			height= 0.24
+		if i == 0:
+			height= 0.32
+			left = len(Y_thetas) - 0.40
+
+		else:
+			height= 0.05
+			left = len(Y_thetas) - 0.32
 
 		if not i:
 			bbox_props['pad'] = 8
 
-		ax.text(len(Y_thetas)-0.28,height,basisTreatmentName, 
-				va='bottom', ha='right', bbox=bbox_props)
+		ax.text(left,height,basisTreatmentName, 
+				va='bottom', ha='right', bbox=bbox_props, size=12)
 
 		# Put together intelligible labels for the x-axis
+		ax.tick_params(axis='both', which='major', labelsize=9)
 		xlabels = [TREATMENT_NAMES[t] for t in subplotData['subjects']]
 		ax.set_xticks(map(lambda x: x + width, X_F1s))
-		ax.set_xticklabels(xlabels, rotation=45, size=12,
+		ax.set_xticklabels(xlabels, rotation=45, size=9,
 			horizontalalignment='right')
 
 		# Add a legend if this is the last panel
-		if i == len(f1scores)-1:
+		if i == 0:
 			legend = ax.legend( 
 				(f1_series[0], theta_series[0]), 
 				(r'$F_1$ score', r'$\theta_{NB}$'), 
-				loc='lower right', prop={'size':10})
+				loc='lower right', prop={'size':9}, labelspacing=0)
 
 		# Tighten up the layout
 		plt.draw()
 		if i < 1:
 			plt.tight_layout()
+
+	fig.subplots_adjust(wspace=0.05, top=0.98, right=0.99, left=0.04, 
+			bottom=0.24)
+	plt.draw()
 	
 	fig.savefig(writeFname)
 	plt.show()
@@ -1098,7 +1123,7 @@ def plotAllF1(
 		if not subplotCounter:
 			bbox_props['pad'] = 8
 		ax.text(len(Y_f1scores)-0.4,0.1,basisTreatmentName, 
-				ha='right', bbox=bbox_props)
+				ha='right', bbox=bbox_props, size=9)
 
 		# Put together intelligible labels for the x-axis
 		xlabels = [TREATMENT_NAMES[t] for t in subplotData['subjects']]
@@ -1165,7 +1190,7 @@ def plotClassificationVsImage(
 
 	# Make a plot
 	figWidth = 8.7 / 2.54 		# convert from PNAS spec in cm to inches
-	figHeight = figWidth
+	figHeight = figWidth * 4/5.
 	fig = plt.figure(figsize=(figWidth,figHeight))
 	ax = plt.subplot(111)
 
@@ -1174,9 +1199,10 @@ def plotClassificationVsImage(
 	theta_series = ax.bar(X_thetas, Y_thetas, width, color='0.55')
 
 	# Do some labelling business with the plot
+	ax.tick_params(axis='both', which='major', labelsize=9)
 	ax.set_xticks(X_thetas)
 	xlabels = ['all images'] + ['image %d' % (i+1) for i in range(numPics)]
-	ax.set_xticklabels( xlabels, ha='right', rotation=45 )
+	ax.set_xticklabels( xlabels, ha='right', rotation=45, size=9)
 
 	padding = 0.25
 	plt.xlim((-padding, numPics + 2*width + padding))
@@ -1186,7 +1212,7 @@ def plotClassificationVsImage(
 	legend = ax.legend( 
 		(f1_series[0], theta_series[0]), 
 		(r'$F_1$ score', r'$\theta_{NB}$'), 
-		loc='lower right', prop={'size':10})
+		loc='lower right', prop={'size':9}, labelspacing=0)
 	
 	plt.draw()
 	plt.tight_layout()
