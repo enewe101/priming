@@ -1,0 +1,535 @@
+%        File: pnas1.tex
+%     Created: Wed Apr 30 04:00 pm 2014 E
+% Last Change: Wed Apr 30 04:00 pm 2014 E
+%
+\documentclass[a4paper]{report}
+\usepackage[hmargin=1in,vmargin=1in]{geometry}
+
+\usepackage{graphicx}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{gensymb}
+\usepackage{algorithm2e}
+\usepackage{amsthm}
+
+\newtheorem*{mydef}{Definition}
+
+\usepackage{cite}
+
+\usepackage{framed, color}
+\usepackage{soul}
+\usepackage[colorlinks=true, urlcolor=blue]{hyperref}
+
+\newcommand{\td}[1]{{\color{blu}\hl{TODO: #1}}}
+
+\definecolor{shadecolor}{rgb}{.93,.93,.93}
+\definecolor{blu}{rgb}{0,0,1}
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{4mm plus1mm minus1mm}
+
+
+\title{The effects of priming in human computation}
+\author{Edward Newel, Derek Ruths}
+ 
+\parindent0pt \parskip8pt
+
+\begin{document}
+\maketitle
+\section*{Abstract}
+\section*{Significance Statement}
+\section*{Introduction}
+
+Platforms like Amazon Mechanical Turk (AMT) make it possible to submit 
+batches of ``microtasks'' to a large pool of human workers, who do these 
+tasks for fun and remuneration.  A typical task might be the flagging of
+innapropriate images, something that people are still better at than 
+computers.  
+
+AMT makes human cognition as fluid a
+resource as compute cycles: it is available on demand in small units, with low 
+transaction cost, from anywhere via the Internet. The result is that one can 
+treat AMT like a compute cluster, and seemlessly integrate human and machine
+intelligence in large-scale computations.
+
+This development invites a new perspective on human cognition itself.  Authors 
+have put forward the term HPU (Human Processing Unit) likening an AMT worker
+to her machine equivalent, the CPU.  Thinking of people as networked 
+processors is not new.  Allan Newell argued 
+that a prime function human organizations, such as companies or 
+governmental institutions, is actually information processing.  
+
+If we adopt this view, how do people differ from CPUs as processors?  
+Common sense suggests a major difference is that people do not respond 
+in a consistent way to given inputs.  Not only do people vary widely from 
+one another, but they differ in time due to mood, level of alertness, and 
+any number of other incidental factors. One expects this to be especially 
+pronounced for high-level, ill-defined tasks---precisely those for which 
+people are usually better-suited than computers.  
+
+Here we investigate an aspect of the variability of HPUs.  Specifically,
+we look at how a person's output during a task is influenced by the completion
+of earlier tasks.  In engineered systems, the phenomenon whereby a system's 
+output depends not only on current inputs, but also on the history of inputs,
+is called \textit{hysteresis}.  Thus, we investigate the hysteretic aspect
+of HPUs.
+\td{in psychology this is called priming}
+
+We test hysteresis by presenting AMT workers with
+five images that depict food with strong cultural overtones, and ask them to
+label each image with descriptive words.  Before the workers label the test
+images, we expose them to different priming treatments.  We then observe 
+whether and how this effects workers' labels, by looking at how
+often workers make explicit cultural references, and how specific their labels 
+are.
+
+We induce priming in two ways.  The first way consists of presenting 
+workers with different `priming images'.  The workers must also label these 
+images, and from the worker's perspective no distinction is
+made between the test and priming images.  We call this 
+priming modality \textit{in-task priming}, because it attempts to measure the
+effects that earlier parts of a task have on later ones.  
+
+All workers are exposed to 
+one of three priming image sets.  The set that we call \textit{ambiguous},
+consists of images of food chosen to avoid obvious connection to a 
+specific culture.  One could liken this treatment to a control, hovewer, as
+we discuss later, the notion of a control treatment in the context of a priming
+experiment is problematic.  The two other priming image sets are 
+\textit{ingredients}, consisting of images of separated ingredients, and 
+\textit{culture}, consisting of images of overt and specific cultural 
+activities which do not feature food.  
+
+The natural expectation is that workers
+shown the cultural images would provide more culture-oriented labels than
+either of the other two image sets.  In the case of the ingredients image set,
+beyond encouraging food-oriented labels, one might expect focus be drawn to 
+the \textit{constituents} of meals, eliciting labels of higher specificity than
+for the ambiguous set.
+
+The second way we induce priming is by presenting the workers with the name 
+of a (fictitious) research funder.  Workers are shown either the funder name  
+``The National Foundation for Nutritional Awarenes'' or ``The Global
+Foundation for Cultural Recognition'', or else they are shown no name.  These 
+names were
+chosen with the intent of biasing the workers to produce, respectively, more
+food- and culture-oriented labels.  We call the second priming method 
+\textit{framing}.
+
+Framing is intended to pesent a biasing factor somewhat resembling that which 
+the double-blind experimental design tries to avoid.  One might expect that, 
+given the overt nature of the funder names, which strongly imply a research
+intent, framing should have a strong effect.  We include it as reference point,
+for comparison to in-task priming.  This allows us
+to ask whether altering the first half of the task can have as strong an 
+influence as does revealing an intent-laden funder name.
+
+By taking a computational approach to human cognition, likening priming to
+hysteresis effects of physical systems, we gain traction on the notion of 
+priming itself. An important aspect of our contribution is to suggest
+an algorithmic definition of priming based on so-called 
+\textit{classifier algorithms}.  This definition makes the notion of priming
+rigorous, and provides a universal approach to detecting priming effects which
+can be implemented without knowing what the nature of the effects are.
+
+We present this definition in the next section.  Following, we present
+our results together with discussion, and describe our methodology last.
+
+\section*{Text}
+\subsection*{An algorithmic definition of priming}
+One difficulty with the notion of priming is that there appears to be no 
+defensible notion of an ``unprimed state''.  Consider the ambiguous image set 
+in our experiment.  Would we be better to include a treatment with no
+priming images at all?  We argue that, in that case, one would mainly observe  
+effects of \textit{primacy}.  
+Further, a participant always enters the experiment in \textit{some} state of 
+mind, depending on her exposures prior to the experiment, which cannot be 
+known by the experimenter.  By including a priming exposure that is in some 
+sense `neutral' for the purposes of an experiment, one at least makes the 
+priming of participants more uniform.  
+
+Because there
+can be no unprimed state, we define priming relatively, and speak of one
+treatment being \textit{differently primed} from another.
+
+Another factor that we must consider is that the effects of priming will
+depend on the task presented to the participant.  Two priming treatments that
+produce markedly different performance for one task might produce 
+indistinguishable performance for a diffirent task.  Thus, we define priming
+in relation to the task.
+
+A final factor that we must consider is the fact that, even when priming 
+treatments are taken into account, the performance of participants in a task 
+will differ due to the natural variance between people.  There would appear to
+be no hope of accounting for the myriad factors that drive this variance.  Thus
+to be practical, priming must be defined in relation to populations, not
+individuals.
+
+With these considerations, we propose the following algorithmic definition of
+priming:
+
+\begin{mydef}
+	Two populations of people $J$ and $K$ that produce respectively two 
+	populations of outputs $\mathcal{J}$ and $\mathcal{K}$ in the completion
+	of a task $\mathcal{T}$, are said to \emph{differ in priming by 
+	a degree at least $\theta$}, if there exists an algorithm $\mathcal{A}$ 
+	that can distinguish (classify)
+	a person drawn uniformly from $J$ or $K$ based on the outputs $x$ of the 
+	person during $\mathcal{T}$ with accuracy $\frac{1+\theta}{2}$.
+	$\mathcal{A}$ receives as input $\mathcal{J}$, $\mathcal{K}$, and $x$,
+	and must have a running time that is polynomial in the size of its input.
+\end{mydef}
+
+In the language of computer science, $\mathcal{A}$ is a classifier.  Thus,
+intuitively, if there exists a classifier that can distinguish two populations,
+then they are differently primed.
+
+Other than providing the usual running time constraint on $\mathcal{A}$, we
+leave it completely undefined.  This is intentional since we want the 
+definition to depend on the inherent distinguishability of populations, and
+restricting the basis of distinction would arbitrarily mask certain kinds of
+distinctness.
+
+One consequence of this choice is that empirical measures of $\theta$ always
+represent lower bounds on the theoretical value appearing in the definition.
+So, empirically demonstrating non-negligible $\theta$ establishes a priming 
+difference of \textit{at least} $\theta$, but on measuring a negligible 
+$\theta$, one might argue that $\theta$ is not really negligible, and rather 
+that a bad choice of classifier was made.
+
+In practice we do not expect any serious difficulty on choosing a classifier
+and establishing a meaningful value of $\theta$.  One of the simplest 
+classifier algoritms, the \textit{Naive Bayes classifier}, performs very 
+nearly as well as the most sophisticated classifiers in nearly all 
+applications.  Therefore, we submit $\theta_\text{NB}$, as determined by a 
+Naive Bayes classifier, to be a general-purpose measure of priming difference.
+
+\subsection*{Results}
+\paragraph{All treatments were differently primed.}
+We test for priming effects using our definition proposed in the introduction,
+implemented with a Naive Bayes classifier.  \textbf{Figure 1} shows
+the classifier performance in distinguishing between different pairs of 
+treatments, when provided workers' labels for the test images.
+
+The classifier distinguishes the various treatments from one another (pairwise)
+with high accuracy, confirming that both priming modalities 
+(in-task and framing) were effective.  It is perhaps not surprising that
+a Naive Bayes classifier can distinguish treatments tending toward a different 
+``orientation'', e.g. $\textsc{cult}_{img}$ and $\textsc{ingr}_{img}$
+(\textbf{Fig. 1A}).
+But it is remarkable that, based only on the labels provided for the five test 
+images, the classifier can distinguish workers from treatments of the 
+\textit{same} orientation, such as $\textsc{cult}_{img}$ and 
+$\textsc{cult}_{fund, img}$, with high accuracy (\textbf{Fig. 1B}).
+
+Next we look at the degree to which labels from individual test images reveal 
+priming.  It would stand to reason that, as workers proceed through 
+the test images, the effects of priming might be ``washed out''.  
+\textbf{Figure 2} shows the
+performance of the Naive Bayes classifier when using the labels workers provide
+for particular images.  This does show that, as we look to later test images, 
+the treatments' difference in priming, $\theta_\text{NB}$, declines.  
+
+\paragraph{Priming orients focus.} Having demonstrated differential 
+priming, we investigate the \textit{nature} of the priming.  To this
+end, we construct an ontology of all the labels produced by the workers
+for the five test images.  The ontology is a directed acyclic graph of terms,
+with directed edges drawn from abstractions toward instances.  For example,
+our ontology contains the path \texttt{food} $\to$ \texttt{ingredients} $\to$ 
+\texttt{vegetables} 
+$\to$ \texttt{tomato}.  In general, each of these terms is a label that
+occured in the corpus of labels provided, but in some cases we added 
+an abstraction when it was missing, to connect the ontology.
+
+At the root of the ontology are the abstract classes \texttt{activity}, 
+\texttt{adjective}, \texttt{culture}, \texttt{food}, and \texttt{thing}.
+By simply counting the number of labels descended from \texttt{culture}
+and \texttt{food}, we can guage effects on the orientation of workers's focus
+with respect to these concepts.
+
+\textbf{Figure 3} plots the composition of labels (fraction of culture- and 
+food-oriented labels) for different treatments and images.  In 
+panel \textbf{A}, we can see that, before considering the effects of 
+treatments, there is significant variance in the composition of the labels 
+for different images due to inherent differences in their content.  For our 
+purpose, we are interested in the differential of composition between 
+different treatments.
+
+In \textbf{Fig. 3B} we exhibit the composition of labels for the various 
+treatments (aggregating together the labels for all images for a given 
+treatment).  We can see that the treatments which expose workers to the
+cultural image sets do elicit significantly more culture-oriented and fewer
+food-oriented labels compared to the other treatments ($\alpha=0.05$).  It 
+also apperas that all the $\textsc{ingr}_x$ treatments produce more 
+food-oriented labels, but we cannot assert this at significance 
+$\alpha = 0.05$. 
+
+The effect size, however, is somewhat small.  Since we observed that priming 
+difference ``wears off'', it may be the case 
+that aggregating label compositions for all images actually masks the effects. 
+In \textbf{Fig. 3C}, we plot label compositions for only the first
+image.  This reveals that, in labeling the first test image, workers in the
+$\textsc{cult}_{img,x}$ were strongly influenced to favor culture- over 
+food-oriented labels.  The effect was strong enough to essentially reverse 
+the proportions of these labels compared to the other treatments.
+
+We next inspect this effect longitudinally, that is, as a function of 
+the test image.  To do so, we compute the ``excess cultural orientation'' 
+($\Delta_{cult}$) of
+the $\textsc{cult}_{img}$ relative to $\textsc{ambg}$ as follows: 
+\begin{align}
+	\Delta_{cult}(i) = \frac{1}{N}\left[ \sum_{w\in\textsc{cult}_{img}} \left(N_{w,cult}^{(i)} - N_{w,food}^{(i)}\right)
+	- \sum_{w\in\textsc{ambg}} \left(N_{w,cult}^{(i)} - N_{w,food}^{(i)}\right)\right],
+\end{align}
+where $N_{w,cult}^{(i)}$ stands for the number of culture-oriented labels 
+attributed by worker $w$ to image $i$, while $N_{w,food}^{(i)}$ similarly 
+counts food-oriented labels, and $N$ is the total number of labels in a 
+treatment (2500).  
+Intuitively, this is intended to capture how much 
+more culture-oriented $\textsc{cult}_{img}$ is than $\textsc{ambg}$.  
+\textbf{Figure 4} plots $\Delta_{cult}$ as a function of test image, $i$. It
+clearly shows the strong influence on the labels attributed to the first image,
+but this effect immediately drops below statistically measureable levels, while
+remaining always positive.
+
+\paragraph{Priming affects attention to detail.} Using the ontology described
+in the previous section, we compare treatments in their degree of specificity.
+When comparing two labels $\ell_1$ and $\ell_2$ produced by different workers,
+we say that $\ell_2$ is more specific than $\ell_1$ if there is a 
+\textit{directed path} from $\ell_1$ to $\ell_2$.  If there is no directed path
+between $\ell_1$ and $\ell_2$, then they are uncomparable.  As an example,
+\texttt{tomato} is more specific than \texttt{food}, while \texttt{statue}
+and \texttt{food} are uncomparable.
+
+We can compare the bulk specificity of two treatments by taking a subsample
+of workers from each, and the labels of the workers in one
+subsample to each of those in the other.  In drawing this comparison, we only 
+compare labels that were attributed to the same image.  Thus the relative 
+specificity of two treatments can then be computed as:
+\begin{align}
+	S(\textsc{x},\textsc{y}) = 
+		\sum_{i=1}^5 \; 
+		\sum_{\ell\in \mathcal{L}(\textsc{x},i)} \;
+		\sum_{m\in \mathcal{L}
+		(\textsc{y},i)} \left(\mathbf{1}[\ell > m] 
+		- \mathbf{1}[m>\ell]\right),
+\end{align}
+Where \textsc{x} and \textsc{y} are treatment subsamples,
+$\mathcal{L}(\textsc{x},i)$ is the set of all labels produced by workers in 
+$\textsc{x}$ for test image $i$, and $\mathbf{1}[\ell > m]$ evaluates to 1 if 
+$\ell$ is more specific than $m$, and 0 otherwise.  \textbf{Figure 5} 
+exhibits the results.
+
+In panel \textbf{A}, we see that when we compare each of the treatments to
+$\textsc{ambg}$, all treatments in which the non-ambiguous image set was 
+displayed have \textit{lower} specificity (though not all at $\alpha=0.05$).  
+In panels \textbf{D} and \textbf{G} we compare the same pairs of treatments, 
+but restrict to words of culture- and food-orientation respectively (words
+of both orientations are excluded).  These plots show that the relative lack of specificity is mainly attributable to food-oriented words.  
+
+Likewise, in panels \textbf{B}, and \textbf{C}, 
+wherever we see significant differences in specificity, it turns out that
+these differences appear to mainly be due to differences in food specificity,
+as can be seen by comparing to panels \textbf{E}, \textbf{F}, \textbf{H}, and 
+\textbf{I}.  In fact, looking to panels \textbf{D}, \textbf{E}, and \textbf{F},
+there are no significant differences in cultural specificity to speak of. 
+
+\subsection*{Discussion}
+
+\paragraph{In-task priming is strong.}  Perhaps the most unexpected result of 
+this study is the finding that the in-task priming was more influential than
+framing.  We expected that the funder names would provide an overt signal of 
+intent behind the task, and so would be stronger than in-task priming which 
+we expected would not signal intent.  Perhaps in applications where priming 
+is a concern, a certain portion of the task should be devoted to  
+``burn-in''.  During burn-in, the participant would acclimatize to the task, 
+while the effects of stimuli preceeding the task are washed out.
+
+\paragraph{The rate of priming wash-out depends on how it is measured}
+Seeing that $\theta_\text{NB}$ declines as one proceeds through the test 
+images (\textbf{Fig. 2}), one should ask whether this actually represents 
+priming wash-out.  One might also attribute this to 
+differences in the \textit{content} of the images.  Nevertheless, we can
+certainly assert that the effects of priming detected by the classifier 
+persisted through the labelling of all five test images.  
+
+It is interesting to compare this to the result in \textbf{Fig. 4}, which
+shows that the effect of priming on \textit{orientation} (culture vs food) 
+decays much more quickly than the overall effects detected by
+the classifier.  We take this to be the result of the complex network of 
+mechanisms likely to be at play in priming, wherein the orientation of focus
+is one mechanism that is particularly fast-responding.
+
+
+\paragraph{Priming effects can be subtle even when strong.}
+Just as the classifier continues to detect priming difference between 
+$\textsc{cult}_{img}$ and \textsc{ambg} after the first test image,
+it is able to differentiate both $\textsc{cult}_{fund}$ and 
+$\textsc{ingr}_{fund}$ from \textsc{ambg}, even though we find no significant
+differences in label orientation or specificity.  
+
+Clearly, the effects of
+priming, even when definitive, can be subtle. Adopting the classifier-based
+definition of priming allows one to detect effecs even if they are subtle or
+not of an expected nature.
+
+\paragraph{Priming did not affect cultural specificity.}
+It was quite surpising that the effects on workers' specificity was essentially
+confined to food-oriented labels, and that we observed no significant movements
+in cultural specificity.   This might simply reflect the different roles
+played by food and culture in the human lexicon.  This seems plausible when we 
+consider the vital role of food, and the known result that people are less
+discerning of characteristics of ``outsiders''.
+
+Even considering the above explanation, is surprising that 
+$\textsc{cult}_{img,x}$ could be strongly influenced to produce more 
+cultur-oriented labels, and yet not show increased 
+specificity in their use of culture-oriented labels.  Since effects on 
+label composition were only appreciable for the first test image 
+(see \textbf{Fig. 4}), we also
+performed the specificity analysis restricting to labels from the first
+test image (see \textbf{Fig. S1}).  But even focusing on the first test image
+shows no significant increase in cultural specificity for 
+$\textsc{cult}_{img,x}$.  Thus, we observe that orientation of focus and 
+label specificity do not necessarily.
+
+
+\paragraph{Similarity drives nuance.}
+We observed already that treatments primed with the 
+culture or ingredients image sets have less specificity compared to 
+\textsc{ambg}.  Actually, nearly all the difference in specificity
+can be explained by how different a treatment's priming images are from the 
+test images.  
+
+Recall that the ambigouous set featured prepared meals, and 
+was very similar to the test set.  The ingredients set at least featured 
+food, although as separate ingredients instead of prepared meals, while the
+culture image set was very different from the test images, containing no food
+at all.
+Indeed, not only is it true for comparisons to \textsc{ambg}, but in all the 
+comparisons between treatments, specificity is higher for the 
+treatments shown the ambiguous set than those shown ingredients set, 
+and higher for those shown the ingredients set than those shown the culture 
+set.
+
+An appealing explanation for 
+this is the notion of \textit{negative priming}, wherin the participant
+becomes desensitized to stimuli that do not seem salient.  According to this 
+argument, workers who have been shown successive images of prepared meals 
+would be much less inclined to provide generic terms such as \texttt{food} or 
+\texttt{meal} since these terms would no longer seem significant in the 
+context of their priming treatment.  
+
+This suggests that, in the serial image labelling task, the worker
+does not seek labels that are appropriate descriptors for the image so much 
+as labels that distinguish the images from others she has recently seen.
+It would be interesting to investigate whether this manifests other 
+categorization and labeling tasks.
+
+\paragraph{Priming for better HPU performance.}
+Thus, if one seeks very nuanced sorting or labeling from human workers, 
+we recommend assembling the HPUs in a hierarchical fashion, with the 
+HPUs at the top of the hierarchy performing coarse sorting (or labeling), 
+splitting objects into streams to be handled by HPUs performing more nuanced 
+work.  To implement this for an
+image-labeling task, one could first serve the images for coarse labelling,
+then cluster the images based on the labels and a language model, and then 
+reserve the images, ensuring that each HPU operates on images from a single 
+cluster.  The ``denser'' the image set in terms of coverage of certain
+regions of ``content space'', the more one might gain through repeated 
+clustering and labelling.
+
+This exhibits an interesting difference between HPUs and CPUs.  In general,
+whenever an aspect of a problem can be parallelized when employing CPUs, one
+gains efficiency.  But in the case of HPUs, which are hysteretic, we see an 
+example where one might lose efficiency through parallelization.
+
+\subsection*{Conclusion}
+We have demonstrated that in-task priming has a strong effect.  It is stronger
+in its direct effects on orientation of focus and specificity than is 
+disclosing a funder name that signals the intent of the study.  
+Rather than being a nuisance, in-task priming might be exploited to improve
+task output, for example, to drive more (or less) nuanced responses.
+
+Although the nature of the effects of framing were difficult to trace
+in this experiment, we nevertheless demonstrated that those effects exist
+and are strong, using our algorithmic definition of priming.  This exhibits
+one of the main advantages of this definition: the analyst need 
+not understand the details of \textit{how} priming influences a task to 
+quantify its effect.
+
+We advocate the view of priming as a form of hysteresis.  The notion of 
+hysteresis is already used in varied disciplines like physics, engineering,
+and economics.  This view invites the use of insights already gained from 
+other fields, and application-independant models, to help understand human 
+cognition.
+
+\section*{Acknowledgements}
+\section*{References}
+
+\section*{Figure Legends}
+\paragraph{Figure 1.}
+$F_1$ score and $\theta_\text{NB}$ for the various 
+priming treatments, as measured using a Naive Bayes classifier. Each panel 
+presents classifier performance results that indicate the difference in
+priming between a basis 
+treatment, indicated in the inset, and the other treatments, indicated on the
+abscissa.
+
+\paragraph{Figure 2.}
+$F_1$ score and $\theta_\text{NB}$ for the classification of 
+$\textsc{cult}_{img}$ and $\textsc{ingr}_{img}$ using a Naive Bayes 
+classifier.  The classifier is provided only the labels attributed to
+particular images as indicated on the abscissa.
+
+\paragraph{Figure 3.}
+Percent label composition (culture- vs food-oriented labels) for 
+various images and treatments.  Panel A shows the composition of 
+labels, aggregated over all treatments, as a function of test image.
+Panel B shows the composition of labels, aggregated over all images, as
+a function of treatment.  Panel C shows the composition of labels 
+attributed to the first test image by various treatments.
+
+\paragraph{Figure 4.}
+Excess culture-oriented label composition in the labels provided
+by $\textsc{cult}_{img}$ as compared to $\textsc{ambg}$, for various
+test images (see \textbf{Eq. 1} for calculation).
+
+\paragraph{Figure 5.}
+Relative specificity of various treatments.
+Each panel shows the comparison between a basis treatment (inset) and 
+target treatments (abscissa).
+Bar heights indicate relative specificity of the target 
+treatment compared to the basis (a positive quantity means the target 
+is more specific), and are normalized to units of standard 
+deviations of the null comparison.  Dotted horizontal lines indicate
+the 95\% confidence interval for the null comparison, which necessarily
+has zero relative specificity (see \textbf{Methods} 
+for an explanation of the null comparison).  Panels D, E, and F 
+represent relative specificity calculated using only culture-oriented
+labels, while panels G, H, and I using only food-oriented labels.
+Labels that are both culture- and food-oriented are excluded from the
+calculations for panels D through I.
+
+\paragraph{Figure S1}
+Relative specificity of various treatments, for labels attributed
+to the first test image.
+Each panel shows the comparison between a basis treatment (inset) and 
+target treatments (abscissa).
+Bar heights indicate relative specificity of the target 
+treatment compared to the basis (a positive quantity means the target 
+is more specific), and are normalized to units of standard 
+deviations of the null comparison.  Dotted horizontal lines indicate
+the 95\% confidence interval for the null comparison, which necessarily
+has zero relative specificity (see \textbf{Methods} 
+for an explanation of the null comparison).  Panels D, E, and F 
+represent relative specificity calculated using only culture-oriented
+labels, while panels G, H, and I using only food-oriented labels.
+Labels that are both culture- and food-oriented are excluded from the
+calculations for panels D through I.
+
+
+\end{document}
+
+
