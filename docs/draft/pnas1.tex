@@ -41,100 +41,167 @@
 \section*{Significance Statement}
 \section*{Introduction}
 
-Platforms like Amazon Mechanical Turk (AMT) make it possible to submit 
-batches of ``microtasks'' to a large pool of human workers, who do these 
-tasks for fun and remuneration.  A typical task might be the flagging of
-innapropriate images, something that people are still better at than 
-computers.  
+Microtask crowdsourcing platforms like Amazon Mechanical Turk (AMT) make it 
+possible to submit batches of small tasks to a large pool of human workers, 
+who do the tasks for fun and remuneration.  A typical task might be the 
+flagging of innapropriate images, something that people are still better at 
+than computers.
 
-AMT makes human cognition as fluid a
-resource as compute cycles: it is available on demand in small units, with low 
-transaction cost, from anywhere via the Internet. The result is that one can 
-treat AMT like a compute cluster, and seemlessly integrate human and machine
-intelligence in large-scale computations.
+Such platforms human cognition as fluid a resource as compute cycles: it is 
+available on demand in small units, with low transaction cost, from anywhere 
+via the Internet \footnote{\href{http://mturk.com}{http://mturk.com}}.  The 
+result is that one can treat AMT like a compute cluster, and seemlessly 
+integrate human and machine intelligence in large-scale computations.
 
-This development invites a new perspective on human cognition itself.  Authors 
-have put forward the term HPU (Human Processing Unit) likening an AMT worker
-to her machine equivalent, the CPU.  Thinking of people as networked 
-processors is not new.  Allan Newell argued 
-that a prime function human organizations, such as companies or 
-governmental institutions, is actually information processing.  
+This development invites a new perspective on the role of human cognition 
+itself in technical systems.  Researchers have put forward the term HPU 
+(Human co-Processing Unit)\footnote{We acknowledge the irony of this term:
+the original meaning of `computer' was a person who performs computations,
+its reference to machines being a personification brought into usage some time
+after 1900}, viewing the introduction of 
+microtask represents a fundamentally new computing architecture, in the same
+way that the GPUs differ from CPUs \cite{5543192}.  Thinking of networked 
+people as computate systems is not new.  Working in operations research, Simon 
+and Newell held the primary activity of human organizations to be 
+computation\cite{Simon:1958fp}. 
 
-If we adopt this view, how do people differ from CPUs as processors?  
-Common sense suggests a major difference is that people do not respond 
-in a consistent way to given inputs.  Not only do people vary widely from 
-one another, but they differ in time due to mood, level of alertness, and 
-any number of other incidental factors. One expects this to be especially 
-pronounced for high-level, ill-defined tasks---precisely those for which 
-people are usually better-suited than computers.  
+In adopting this view, we must contend with a stark difference between 
+people and CPUs: even when given the same instructions, people do not produce
+the same output.  In other words, one pays for the ``high level instructions 
+set'' of HPUs by accepting variability in outputs.
 
-Here we investigate an aspect of the variability of HPUs.  Specifically,
-we look at how a person's output during a task is influenced by the completion
-of earlier tasks.  In engineered systems, the phenomenon whereby a system's 
-output depends not only on current inputs, but also on the history of inputs,
-is called \textit{hysteresis}.  Thus, we investigate the hysteretic aspect
-of HPUs.
-\td{in psychology this is called priming}
+Variability raises a quality control issue. There have been many studies 
+into how user interface design, payments, social reputation schemes, and the 
+disclosure of the wider purpose of tasks affect worker outputs. We will 
+review the prior work in the section following this one.
+{\em Here, we report our investigation of worker {\em hysteresis}, that is, 
+the tendency of a worker's output during one task to be influenced by other 
+recently completed tasks}. 
 
 We test hysteresis by presenting AMT workers with
-five images that depict food with strong cultural overtones, and ask them to
-label each image with descriptive words.  Before the workers label the test
-images, we expose them to different priming treatments.  We then observe 
-whether and how this effects workers' labels, by looking at how
-often workers make explicit cultural references, and how specific their labels 
-are.
+five images that depict meals with strong cultural overtones, and ask them to
+label each image with descriptive words.  Before presenting test images,
+we expose the workers to different priming treatments.  We observe how priming
+treatments effect the workers' subsequent choice of labels, by looking at 
+how specific the labels are in their meaning, and how often workers make 
+cultural references.
 
-We induce priming in two ways.  The first way consists of presenting 
-workers with different `priming images'.  The workers must also label these 
-images, and from the worker's perspective no distinction is
-made between the test and priming images.  We call this 
-priming modality \textit{in-task priming}, because it attempts to measure the
-effects that earlier parts of a task have on later ones.  
+We employ two priming modalities in this study.  
+In the first modality, which we call \textit{in-task priming}, workers are 
+shown one of three sets of priming images.  The \textit{cultural}
+image set, \textbf{Fig. 2}, shows images chosen for their clear depiction of a 
+iconic cultural scene.  The \textit{ingredients} image set, \textbf{Fig. 3}, 
+shows separated food ingredients, as opposed to the prepared meals shown in 
+the test set, and avoids strong cultural signal.  The \textit{ambiguous} 
+image set contains images of prepared meals, similar to the test set, but 
+traces of cultural references are not prominent.  These images are shown right
+before the test images, and they must be labeled in the same way.  From the 
+workers' view-point there is no distinction between the priming and test 
+images. 
 
-All workers are exposed to 
-one of three priming image sets.  The set that we call \textit{ambiguous},
-consists of images of food chosen to avoid obvious connection to a 
-specific culture.  One could liken this treatment to a control, hovewer, as
-we discuss later, the notion of a control treatment in the context of a priming
-experiment is problematic.  The two other priming image sets are 
-\textit{ingredients}, consisting of images of separated ingredients, and 
-\textit{culture}, consisting of images of overt and specific cultural 
-activities which do not feature food.  
-
-The natural expectation is that workers
-shown the cultural images would provide more culture-oriented labels than
-either of the other two image sets.  In the case of the ingredients image set,
-beyond encouraging food-oriented labels, one might expect focus be drawn to 
-the \textit{constituents} of meals, eliciting labels of higher specificity than
-for the ambiguous set.
-
-The second way we induce priming is by presenting the workers with the name 
-of a (fictitious) research funder.  Workers are shown either the funder name  
+The second priming modality, which we call \textit{framing}, consists of
+presenting the workers with the name of a (fictitious) research funder before
+presenting any images to be labeled.  Workers are shown either the funder 
+name  
 ``The National Foundation for Nutritional Awarenes'' or ``The Global
 Foundation for Cultural Recognition'', or else they are shown no name.  These 
-names were
-chosen with the intent of biasing the workers to produce, respectively, more
-food- and culture-oriented labels.  We call the second priming method 
-\textit{framing}.
+names were chosen to signal interest, on the part of the requester, in the
+cultural or food-related aspects of the images.
 
-Framing is intended to pesent a biasing factor somewhat resembling that which 
-the double-blind experimental design tries to avoid.  One might expect that, 
-given the overt nature of the funder names, which strongly imply a research
-intent, framing should have a strong effect.  We include it as reference point,
-for comparison to in-task priming.  This allows us
-to ask whether altering the first half of the task can have as strong an 
-influence as does revealing an intent-laden funder name.
+Our primary interest lays in the hysteretic effects of in-task priming.  We
+include framing mainly as a point of comparison.  A defensible expectation is
+that the framing would produce a much stronger effect, because it clearly 
+signals the requester's interest in a specific aspect of image content. 
+Remarkably, with respect to the specificity of labels, and their content 
+(either food- or culture-orineted), in-task priming produces much stronger 
+effects.
 
-By taking a computational approach to human cognition, likening priming to
-hysteresis effects of physical systems, we gain traction on the notion of 
-priming itself. An important aspect of our contribution is to suggest
-an algorithmic definition of priming based on so-called 
-\textit{classifier algorithms}.  This definition makes the notion of priming
-rigorous, and provides a universal approach to detecting priming effects which
-can be implemented without knowing what the nature of the effects are.
+The measurement of priming effects, however, traditionally involves a prior
+assumption of what those effects will be.  At risk of circularity, but lacking
+alternatives, the definition of priming itself traditionally becomes 
+operationalized in terms of these effects\cite{}.  We seek to alleviate this 
+situation by providing an application-independant definition of priming 
+suitable for use in studying the computational properties of HPUs.
 
-We present this definition in the next section.  Following, we present
-our results together with discussion, and describe our methodology last.
+In the remainder of the introduction, we review prior work in human 
+computation and priming.  In the next section, \textbf{Analytical Framework},
+we introduce our definition of priming, before presenting our experimental 
+\textbf{Results}, \textbf{Discussion}, and \textbf{Conclusion}.  
+We present our \textbf{Methods} in detail at the end of the paper.
+
+\subsection*{Prior Work}
+- human computation pioneered by von Ahn and L Dabbish when they demonstrated
+	that images could be labeled by people via a game platform
+	\cite{von2004labeling}
+
+- Human computation is generally thought of in the context of crowdsourcing,
+	which implies soliciting work in the form of an open call to an 
+	unstructured pool of workers, general without any longterm engagement and 
+	limited ability to screen workers screening of workers. 
+	\cite{howe2008crowdsourcing}
+
+- As such, quality assurance has received a lot of attention.
+	- varying levels of attention and success \cite{kazai2013analysis}
+	- Widely varying reports on accuracy from very negative 
+	\cite{marsden2009crowdsourcing}, to positive 
+	\cite{alonso2009can, grady2010crowdsourcing}
+	- quality control \cite{lease2011quality}
+		o filtering 
+			- honeypots	\cite{snow2008cheap}
+		o averaging
+		- \cite{alonso2009can}, \cite{paolacci2010running}
+
+	- training \cite{le2010ensuring}
+
+	- prescreening, even for cultural effects
+		\cite{paolacci2010running}
+			- worker rep
+			
+	- game theoretic treatments
+	- worker qualification 					  |	
+	- price									  | \cite{kazai2013analysis}
+	- task complexity						  |
+	- spam, variability, adversarial behavior |
+
+
+- effects of motivation
+	for fun does badly, for money does well
+	claimed expertize does badly
+	interest does better than boring, and boring performs faster, 
+	difficult does worse
+	pay 'ok' does best
+
+- studied effects of autonomy, skill use, and meaningfullness, in 
+- other studies study the effects of reputation and social standing
+- studied effect of giving workflow context\cite{Kinnaird2012281}
+- studied effects of task design (user interface): \cite{Finnerty2013}
+
+NOTES ON PRIMING
+- when shown an image, a person is better at recognizing the image in a 
+	tachistoscope up to 45 min later.\cite{BJOP:BJOP1796}
+	* the mechanisms are complex: showing an image of something that had the
+		same name also helps recognition, but being presented with a word and
+		reading it aloud does not
+
+
+- priming can be auditory(\cite{BJOP:BJOP1826}) or visual(\cite{BJOP:BJOP1796})
+
+- priming has been detected for words sharing morphemes 
+	(reflects vs reflecting) but not for semantically related words that such 
+	as held and holding.\cite{BJOP:BJOP1826}
+	- suggests stimulus encoding \cite{beller1971priming}\cite{BJOP:BJOP1826}
+	\cite{BJOP:BJOP1796} and memory access \cite{beller1971priming} priming 
+	effects exist.  Other studies provide definitive evidence that priming
+	leads to better application of object knowledge and top-down processes
+	\cite{Ghuman17062008}
+
+- existing work suggests that there are separble verbal- and image-based
+	semantic systems, as shown through studies of event-related brain 
+	potentials in response to high and low imageable words \cite{Swaab200299} 
+- priming is an effect whereby previous exposure to a stimulus leads to 
+	faster, more accurate responses to similar stimuli \cite{Ghuman17062008}, 
+	or lower response thresholds \cite{BJOP:BJOP1826}
+	
 
 \section*{Text}
 \subsection*{An algorithmic definition of priming}
@@ -467,6 +534,11 @@ cognition.
 
 \section*{Acknowledgements}
 \section*{References}
+\begingroup
+\renewcommand{\chapter}[2]{}
+\bibliography{newbib.bib}
+\endgroup
+\bibliographystyle{plain} 
 
 \section*{Figure Legends}
 \paragraph{Figure 1.}
@@ -528,7 +600,6 @@ represent relative specificity calculated using only culture-oriented
 labels, while panels G, H, and I using only food-oriented labels.
 Labels that are both culture- and food-oriented are excluded from the
 calculations for panels D through I.
-
 
 \end{document}
 
