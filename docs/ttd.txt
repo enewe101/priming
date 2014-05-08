@@ -1,7 +1,8 @@
 Do Now
 ======
-- references
-- rework discussion of \theta as a lower bound
+- methods
+- create the table of treatments
+- how to describe construction of ontology or make it available?
 
 
 Other stuff
