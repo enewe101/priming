@@ -71,7 +71,8 @@ people and CPUs: even when given the same instructions, people do not produce
 the same output.  In other words, one pays for the ``high level instructions 
 set'' of HPUs by accepting variability in outputs.
 
-Variability raises a quality control issue. There have been many studies 
+Variability raises a quality control issue \cite{kazai2013analysis}. There 
+have been many studies 
 into how user interface design, payments, social reputation schemes, and the 
 disclosure of the wider purpose of tasks affect worker outputs. We will 
 review the prior work in the section following this one.
@@ -127,51 +128,68 @@ suitable for studying HPUs hysteresis.  We
 present this definition following the section on prior work.
 
 \subsection*{Prior Work}
-- human computation pioneered by von Ahn and L Dabbish when they demonstrated
-	that images could be labeled by people via a game platform
-	\cite{von2004labeling}
 
-- Human computation is generally thought of in the context of crowdsourcing,
-	which implies soliciting work in the form of an open call to an 
-	unstructured pool of workers, general without any longterm engagement and 
-	limited ability to screen workers screening of workers. 
-	\cite{howe2008crowdsourcing}
+The notion of human computation in its modern form is attributed to von Ahn 
+and L Dabbish for their demonstration of the \textit{ESP Game}, a system 
+through which people label images by trying to guess the labels given by 
+others \cite{von2004labeling}.  In this form, and on platforms like AMT,
+is a kind of Crowdsourcing.  
 
-- As such, quality assurance has received a lot of attention.
-	- varying levels of attention and success \cite{kazai2013analysis}
-	- Widely varying reports on accuracy from very negative 
-	\cite{marsden2009crowdsourcing}, to positive 
-	\cite{alonso2009can, grady2010crowdsourcing}
-	- quality control \cite{lease2011quality}
-		o filtering 
-			- honeypots	\cite{snow2008cheap}
-		o averaging
-		- \cite{alonso2009can}, \cite{paolacci2010running}
+In crowdsourcing, an open call to is made an unstructured pool of workers 
+\cite{howe2008crowdsourcing}.  There is generally no long-term engagement 
+between worker and employer, and the ability 
+to screen workers (say, for expertise) is usually very limited 
+\cite{howe2008crowdsourcing}.  This raises its own quality issue 
+\cite{lease2011quality}, distinct from the effects of hysteresis. 
 
-	- training \cite{le2010ensuring}
+Reports on the reliability of crowdsourced output using AMT vary from very
+bad \cite{marsden2009crowdsourcing} to quite good 
+\cite{alonso2009can, grady2010crowdsourcing}. Kazai et al find that 
+crowdsourced workers vary
+greatly in their levels of attentiveness and accuracy, and that this 
+variability in part depends on how interesting they find the task, whether they
+judge
+themselves to have expertise in the task domain, and whether they feel they
+are being paid enough \cite{kazai2013analysis}.  Interestingly, workers that
+indicated having expertise in the task were less likely to find it interesting,
+spent less time on the task, and did more poorly.
 
-	- prescreening, even for cultural effects
-		\cite{paolacci2010running}
-			- worker rep
-			
-	- game theoretic treatments
-	- worker qualification 					  |	
-	- price									  | \cite{kazai2013analysis}
-	- task complexity						  |
-	- spam, variability, adversarial behavior |
+Generally, some portion of responses appear to be random probably because
+the worker is not bothering to actually perform the work as intended
+\cite{lease2011quality}(check).  By including honeypots (traps that workers who are
+catch workers who are not paying attention) such cheating can be screened out 
+to some degree \cite{snow2008cheap}, as can filtering out repsonses
+that have a very short completion time \cite{kazai2013analysis}.
+
+The above methods could be considered post-processing, but pre-screening 
+workers can be done as well. AMT provides the requester the ability to screen
+workers based on their history of accepted task completions. But Paolacci et al
+report good success in screening workers other attributes, even cultural ones
+\cite{paolacci2010running}.  Training workers is another straightforward way 
+to improve overall worker profficiency \cite{le2010ensuring}. 
+
+Other researchers have investigated how motivation, context, framing, and 
+social factors affect worker performance.  Kazai et al found that workers 
+motivated by payment were more accurate \cite{kazai2013analysis}, especially
+if payment was neither too high nor too low.
+A carefully designed user interface also improves worker performance 
+\cite{Finnerty2013} as does telling the worker the wider workflow context that
+of which their task is a part \cite{Kinnaird2012281}. Chandler and Kapelner
+studied the effect of telling workers that their results would be used for
+medical research, and found that workers were more likely to participate, but
+did not provide more accurate work than when told nothing 
+\cite{chandler2013breaking}.
+
+Despite the wealth of research investigating the factors influencing 
+performance in crowdsourcing, we are unable to find any work showing the 
+effects of in-task priming as we have described it.  This is concerning 
+because, in the psychology literature, it is well known that priming can have 
+powerful effects especially for perceptual tasks related to recognizing 
+words, gender, and affect---precisely the types of tasks for which AMT is used
+\cite{yuen2011survey, snow2008cheap}.
 
 
-- effects of motivation
-	for fun does badly, for money does well
-	claimed expertize does badly
-	interest does better than boring, and boring performs faster, 
-	difficult does worse
-	pay 'ok' does best
 
-- studied effects of autonomy, skill use, and meaningfullness, in 
-- other studies study the effects of reputation and social standing
-- studied effect of giving workflow context\cite{Kinnaird2012281}
-- studied effects of task design (user interface): \cite{Finnerty2013}
 
 NOTES ON PRIMING
 - when shown an image, a person is better at recognizing the image in a 
