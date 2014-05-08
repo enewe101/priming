@@ -184,38 +184,46 @@ Despite the wealth of research investigating the factors influencing
 performance in crowdsourcing, we are unable to find any work showing the 
 effects of in-task priming as we have described it.  This is concerning 
 because, in the psychology literature, it is well known that priming can have 
-powerful effects especially for perceptual tasks related to recognizing 
-words, gender, and affect---precisely the types of tasks for which AMT is used
-\cite{yuen2011survey, snow2008cheap}.
+powerful effects for perceptual tasks related to visual 
+recognition of objects \cite{BJOP:BJOP1796}, auditory recognition of words 
+\cite{BJOP:BJOP1826}, and the recognition
+of gender* and affect*.  These are, of course, precisely the types of tasks 
+for which AMT is used \cite{yuen2011survey, snow2008cheap}.
 
 
+In psychology, priming is a phenomenon whereby previous exposure to a 
+stimulus leads to faster, or more accurate responses to similar stimuli 
+\cite{Ghuman17062008}, or to lower response thresholds \cite{BJOP:BJOP1826}.
+Priming works through various mechanisms.  
 
+One mechanism appears to be 
+closely related to stimulus encoding \cite{BJOP:BJOP1826}.
+Participants are better able to recognize a word in a noisy background when 
+primed with a word that shares morphemes 
+(e.g. ``reflects'' and ``reflecting'').  However, priming 
+with a word that is semantically related, but does not share morphemes doesn't 
+help (e.g. ``held'' and ``holding'')\cite{BJOP:BJOP1826}.  Other studies seem
+to provide definitive evidence that priming leads to better 
+application of object knowledge and top-down processes \cite{Ghuman17062008},
+and can also act to facilitate memory access \cite{beller1971priming}.  
 
-NOTES ON PRIMING
-- when shown an image, a person is better at recognizing the image in a 
-	tachistoscope up to 45 min later.\cite{BJOP:BJOP1796}
-	* the mechanisms are complex: showing an image of something that had the
-		same name also helps recognition, but being presented with a word and
-		reading it aloud does not
+But the the underlying mechanisms in priming
+can be exceedingly subtle \cite{BJOP:BJOP1796}.  As one expects exposing 
+participants to an image hels them subsequently recognise that 
+image when seen in a tachistoscope.  The researches demonstrated that priming 
+using an image that was visually different but of an object having the same 
+name also helped participants subsequently identify the image in the 
+tachistoscope.  But surprisingly, being presented with related word and 
+reading it aloud did not help.  On the basis of these 
+results, the researchers suggest the existence of a visual-semantic system,
+distinct from the linguistic one \cite{BJOP:BJOP1796}.
 
-
-- priming can be auditory(\cite{BJOP:BJOP1826}) or visual(\cite{BJOP:BJOP1796})
-
-- priming has been detected for words sharing morphemes 
-	(reflects vs reflecting) but not for semantically related words that such 
-	as held and holding.\cite{BJOP:BJOP1826}
-	- suggests stimulus encoding \cite{beller1971priming}\cite{BJOP:BJOP1826}
-	\cite{BJOP:BJOP1796} and memory access \cite{beller1971priming} priming 
-	effects exist.  Other studies provide definitive evidence that priming
-	leads to better application of object knowledge and top-down processes
-	\cite{Ghuman17062008}
-
-- existing work suggests that there are separble verbal- and image-based
-	semantic systems, as shown through studies of event-related brain 
-	potentials in response to high and low imageable words \cite{Swaab200299} 
-- priming is an effect whereby previous exposure to a stimulus leads to 
-	faster, more accurate responses to similar stimuli \cite{Ghuman17062008}, 
-	or lower response thresholds \cite{BJOP:BJOP1826}
+Based on the compelling evidence for priming effects in task types often 
+employed on AMT, we hypothesize that workers' performance may be impacted
+by the very work they have recently performed.  However, we adapt the 
+operationalization of priming from one based on speed, accuracy, and 
+response threshold, to an algorithmic definition that makes no particular
+assumptions about the nature of priming effects.
 	
 
 \section*{Text}
@@ -456,6 +464,7 @@ priming, even when definitive, can be subtle. Adopting the classifier-based
 definition of priming allows one to detect effecs even if they are subtle or
 not of an expected nature.
 
+
 \paragraph{Priming did not affect cultural specificity.}
 It was quite surpising that the effects on workers' specificity was essentially
 confined to food-oriented labels, and that we observed no significant movements
@@ -464,10 +473,17 @@ played by food and culture in the human lexicon.  This seems plausible when we
 consider the vital role of food, and the known result that people are less
 discerning of characteristics of ``outsiders''.
 
-Even considering the above explanation, is surprising that 
-$\textsc{cult}_{img,x}$ could be strongly influenced to produce more 
-cultur-oriented labels, and yet not show increased 
-specificity in their use of culture-oriented labels.  Since effects on 
+Another explanation is that food is more so-called \textit{imageable} than 
+culture, because although aspects of culture can be depicted in an image,
+culture itself cannot.  Studies show that the brain processes high- and 
+low-imageable words differently \cite{Swaab200299}, and it would not be 
+surprising if the effects of priming on image labeling were modulated by how 
+imageable the labels are.
+
+Even with the above explanations, is surprising that 
+$\textsc{cult}_{img,x}$ simultaneously could be strongly influenced to 
+produce a higher quantity of culture-oriented labels, and yet not a higher
+specificity of culture-oriented labels.  Since effects on 
 label composition were only appreciable for the first test image 
 (see \textbf{Fig. 4}), we also
 performed the specificity analysis restricting to labels from the first
