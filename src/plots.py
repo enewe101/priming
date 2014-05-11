@@ -262,6 +262,8 @@ def computeSpecificity(
 	valence are computed at a time.
 	'''
 
+	start = time.time()
+
 	# Make an analyzer object -- it performs the actual comparisons
 	a = analysis.Analyzer()
 
@@ -323,7 +325,8 @@ def computeSpecificity(
 	fh.write(json.dumps(results, indent=3))
 	fh.close
 
-	return results
+	print '   that took %d min.\n' % int((time.time() - start)/60)
+	return
 
 
 def computeSpecificityComparisons(
