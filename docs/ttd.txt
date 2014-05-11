@@ -7,6 +7,18 @@ Do Now
 
 Other stuff
 ===========
+- Recalculate specificity
+	- use 134 as the U sample size, and 67 as the V sample size
+	- make sure to print running times, this will be long
+
+- Change the specificity plots
+	- plot on a meaningful scale # words more specific - # words less
+	- plot the standard error (sqare root of eq8), not the 95% condfidence 
+		interval
+	- indicate significant measurements with stars -- calculate Stdev using
+		eq 8!
+	- discuss my hypothesis test with Derek
+
 - am I using a consistent training and test size?
 
 - the excess cultural orientation should be calculated with a fixed subsample

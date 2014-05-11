@@ -43,195 +43,105 @@
 
 Microtask crowdsourcing platforms like Amazon Mechanical Turk (AMT) make it 
 possible to submit batches of small tasks to a large pool of human workers, 
-who do the tasks for fun and remuneration.  A typical task might be the 
-flagging of innapropriate images, something that people are still better at 
-than computers.
+who do the tasks for fun and remuneration.  Tasks involving qualitative
+judgment (e.g. flagging innapropriate images), natural language annotation,
+and object recognition are commonplace, since people still outperform  
+computers in these areas.
 
 Such platforms render human cognition as fluid a resource as compute cycles: 
 it is available on demand in small units, with low transaction cost, from 
-anywhere 
-via the Internet \footnote{\href{http://mturk.com}{http://mturk.com}}.  The 
-result is that one can treat AMT like a compute cluster, and seemlessly 
-integrate human and machine intelligence in large-scale computations.
-
-This development invites a new perspective on the role of human cognition 
-in technical systems.  Researchers have put forward the term HPU 
-(Human co-Processing Unit)\footnote{We acknowledge the irony of this term:
-the original meaning of `computer' was a person who performs computations,
-its reference to machines being a personification brought into usage in the 
-late 1800s\cite{Dictionary:hl}.}, viewing the introduction of 
+anywhere via the Internet \footnote{\href{http://mturk.com}{http://mturk.com}}.
+The task requestor can interact with the platform like a compute server, 
+seemlessly 
+integrating human and machine computation.  Researchers have put forward the 
+term HPU (Human co-Processing Unit)\footnote{We acknowledge the irony of this 
+term: the original meaning of `computer' was a person who performs 
+computations, its reference to machines being a personification brought into 
+usage in the late 1800s\cite{Dictionary:hl}.}, viewing the introduction of 
 microtask platforms as a fundamentally new computing architecture
-\cite{5543192}.  Thinking of networked 
-people as compute systems is not new.  Working in operations research, Simon 
-and Newell viewed the primary activity of human organizations to be 
-computation\cite{Simon:1958fp}. 
+\cite{5543192}.  
 
-In adopting this view, we must contend with a stark difference between 
-people and CPUs: even when given the same instructions, people do not produce
-the same output.  In other words, one pays for the ``high level instructions 
-set'' of HPUs by accepting variability in outputs.
+Originally used to distribute clerical work, these platforms 
+increasingly serve as a cheap and fast means to engage experimental 
+participants and provide qualitative annotations of datasets in a research 
+setting.  Given the limited ability to screen workers, and their transient 
+low-commitment engagement with the employer, researchers have criticised the
+reliability of crowdsourced output \cite{marsden2009crowdsourcing}.  
 
-Variability raises a quality control issue \cite{kazai2013analysis}. There 
-have been many studies 
-into how user interface design, payments, social reputation schemes, and the 
-disclosure of the wider purpose of tasks affect worker outputs. We will 
-review the prior work in the section following this one.
-{\em Here, we report our investigation of worker {\em hysteresis}, that is, 
-the tendency of a worker's output during one task to be influenced by other 
-recently completed tasks}. 
-
-We test hysteresis by presenting AMT workers with
-five images that depict meals with strong cultural overtones 
-(see \textbf{Fig. A}), and ask them to
-label each image with descriptive words.  Before presenting test images,
-we expose the workers to different priming treatments.  We observe how priming
-treatments effect the workers' subsequent choice of labels, by looking at 
-how specific the labels are, and how often workers make 
-cultural references.
-
-We employ two priming modalities in this study.  
-In the first modality, which we call \textit{in-task priming}, workers are 
-shown one of three sets of priming images.  The \textit{cultural}
-image set, \textbf{Fig. B}, shows images chosen for their clear depiction of an
-iconic cultural scene.  The \textit{ingredients} image set, \textbf{Fig. C}, 
-shows separated food ingredients, as opposed to the prepared meals shown in 
-the test set, and avoids strong cultural signal.  The \textit{ambiguous} 
-image set contains images of prepared meals (\textbf{Fig D}), and is most 
-similar to the test set, but there are no prominent traces of cultural 
-reference.  These images are shown right
-before the test images, and they must be labeled in the same way.  From the 
-workers' view-point there is no distinction between the priming and test 
-images. 
-
-The second priming modality, which we call \textit{framing}, consists of
-presenting the workers with the name of a (fictitious) research funder before
-presenting any images to be labeled.  Workers are shown either the funder 
-name  
-``The National Foundation for Nutritional Awarenes'' or ``The Global
-Foundation for Cultural Recognition'', or else they are shown no name.  These 
-names were chosen to signal interest, on the part of the requester, in the
-cultural or food-related aspects of the images.
-
-We also test interaction effects between framing and in-task priming.  The
-various treatments are listed in \textbf{Table 1}.
-
-Our primary interest lays in the hysteretic effects of in-task priming.  We
-include framing mainly as a point of comparison.  A defensible expectation is
-that the framing would produce a much stronger effect, because it clearly 
-signals the requester's interest in a specific aspect of image content. 
-Remarkably, with respect to the specificity of labels, and their content 
-(either food- or culture-orineted), in-task priming produces much stronger 
-effects.
-
-However, to measure the effects of priming, one generally has to make an 
-assumption about what those effects will be.  At risk of circularity, the 
-definition of priming itself is traditionally operationalized in terms 
-of these effects \cite{}.  We seek to alleviate this 
-situation by providing an application-independant definition of priming 
-suitable for studying HPUs hysteresis.  We 
-present this definition following the section on prior work.
-
-\subsection*{Prior Work}
-
-The notion of human computation in its modern form is attributed to von Ahn 
-and L Dabbish for their demonstration of the \textit{ESP Game}, a system 
-through which people label images by trying to guess the labels given by 
-others \cite{von2004labeling}.  In this form, and on platforms like AMT,
-is a kind of Crowdsourcing.  
-
-In crowdsourcing, an open call to is made an unstructured pool of workers 
-\cite{howe2008crowdsourcing}.  There is generally no long-term engagement 
-between worker and employer, and the ability 
-to screen workers (say, for expertise) is usually very limited 
-\cite{howe2008crowdsourcing}.  This raises its own quality issue 
-\cite{lease2011quality}, distinct from the effects of hysteresis. 
-
-Reports on the reliability of crowdsourced output using AMT vary from very
-bad \cite{marsden2009crowdsourcing} to quite good 
-\cite{alonso2009can, grady2010crowdsourcing}. Kazai et al find that 
-crowdsourced workers vary
-greatly in their levels of attentiveness and accuracy, and that this 
-variability in part depends on how interesting they find the task, whether they
-judge
-themselves to have expertise in the task domain, and whether they feel they
-are being paid enough \cite{kazai2013analysis}.  Interestingly, workers that
-indicated having expertise in the task were less likely to find it interesting,
-spent less time on the task, and did more poorly.
-
-Generally, some portion of responses appear to be random probably because
-the worker is not bothering to actually perform the work as intended
-\cite{lease2011quality}(check).  By including honeypots (traps that workers who are
-catch workers who are not paying attention) such cheating can be screened out 
-to some degree \cite{snow2008cheap}, as can filtering out repsonses
-that have a very short completion time \cite{kazai2013analysis}.
-
-The above methods could be considered post-processing, but pre-screening 
-workers can be done as well. AMT provides the requester the ability to screen
-workers based on their history of accepted task completions. But Paolacci et al
-report good success in screening workers other attributes, even cultural ones
-\cite{paolacci2010running}.  Training workers is another straightforward way 
-to improve overall worker profficiency \cite{le2010ensuring}. 
-
-Other researchers have investigated how motivation, context, framing, and 
-social factors affect worker performance.  Kazai et al found that workers 
-motivated by payment were more accurate \cite{kazai2013analysis}, especially
-if payment was neither too high nor too low.
-A carefully designed user interface also improves worker performance 
-\cite{Finnerty2013} as does telling the worker the wider workflow context that
-of which their task is a part \cite{Kinnaird2012281}. Chandler and Kapelner
-studied the effect of telling workers that their results would be used for
-medical research, and found that workers were more likely to participate, but
-did not provide more accurate work than when told nothing 
+For 
+example, cheating
+is a problem \cite{lease2011quality}, but straightforward methods have been 
+developped to screen out cheaters \cite{snow2008cheap, kazai2013analysis}.
+Still, there is a great deal of variance in worker attention and 
+accuracy \cite{kazai2013analysis}.  Researchers have found many factors that 
+modulate worker performance, such as level of pay\cite{kazai2013analysis}, 
+training\cite{le2010ensuring}, pre-screening 
+workers\cite{paolacci2010running},  user-interface design
+\cite{Finnerty2013}, providing context for the task in the wider workflow
+\cite{Kinnaird2012281}, and disclosing the purpose of the task 
 \cite{chandler2013breaking}.
 
-Despite the wealth of research investigating the factors influencing 
-performance in crowdsourcing, we are unable to find any work showing the 
-effects of in-task priming as we have described it.  This is concerning 
-because, in the psychology literature, it is well known that priming can have 
-powerful effects for perceptual tasks related to visual 
-recognition of objects \cite{BJOP:BJOP1796}, auditory recognition of words 
-\cite{BJOP:BJOP1826}, and the recognition
-of gender* and affect*.  These are, of course, precisely the types of tasks 
-for which AMT is used \cite{yuen2011survey, snow2008cheap}.
+Here we are concerned with effects of a more subtle origin: the influence that
+prior tasks have on subsequent ones.  Psychology experiments document the 
+strong effects that a prior exposure to stimulus can have on participants' 
+performance in related tasks, a phenomenon known as \textit{priming}.  Strong 
+priming effects have been demonstrated for
+perceptual tasks such as the visual recognition of 
+objects \cite{BJOP:BJOP1796},
+auditory recognition of words \cite{BJOP:BJOP1826}, and the recognition
+of gender* and affect*: precisely the kinds of tasks well-served by microtask 
+platforms \cite{yuen2011survey, snow2008cheap}.  
 
+Reserearchers 
+have investigated various effects due to \textit{framing}, at the outset of 
+the task.  But psychological experiments show that priming is strongest when 
+delivered through the same modality as the task.  This suggests that it might
+be more important to investigate the effects of priming that occurs 
+\textit{during} tasks.  We call such effects \textit{in-task priming}.  
+Whereas requestors can take measures to frame 
+their task as they see fit, in-task priming would be unavoidable in many 
+contexts, with consequences for the validity of microtask platforms as a 
+research tool.
 
-In psychology, priming is a phenomenon whereby previous exposure to a 
-stimulus leads to faster, or more accurate responses to similar stimuli 
-\cite{Ghuman17062008}, or to lower response thresholds \cite{BJOP:BJOP1826}.
-Priming works through various mechanisms.  
+We investigate the effects of in-task priming on using an image-labeling task
+on the AMT platform.  Each worker is required to label a \textit{prior set} of
+images followed by a \textit{posterior set}, but no distinction is made between
+these sets from the perspective of the worker.  The posterior set is
+always the same, but workers are randomly assigned one of three prior sets.
+We analyze effects on the labels given to the the posterior set in terms of 
+what aspects the workers focus on (``orientation of labels''), and the degree 
+of specificity of the labels, both of direct consequence to the quality of 
+labeling and classification.
 
-One mechanism appears to be 
-closely related to stimulus encoding \cite{BJOP:BJOP1826}.
-Participants are better able to recognize a word in a noisy background when 
-primed with a word that shares morphemes 
-(e.g. ``reflects'' and ``reflecting'').  However, priming 
-with a word that is semantically related, but does not share morphemes doesn't 
-help (e.g. ``held'' and ``holding'')\cite{BJOP:BJOP1826}.  Other studies seem
-to provide definitive evidence that priming leads to better 
-application of object knowledge and top-down processes \cite{Ghuman17062008},
-and can also act to facilitate memory access \cite{beller1971priming}.  
+As a point of comparison, we subject some groups of workers to a kind of
+framing, by disclosing a semantically-loaded (fictitious) name of the 
+funder of the research.  Remarkably, we find that in-task priming has a much 
+stronger effect
+on label orientation and specificity.  This has major implications for the 
+design of qualitative labeling and classification tasks.  Our results show that
+significant bias in worker labelling can be introduced by the progression of 
+tasks.  On the other hand, our results suggest the progression of tasks can 
+alse be used to tune workers to produce more nuanced output.
 
-But the the underlying mechanisms in priming
-can be exceedingly subtle \cite{BJOP:BJOP1796}.  As one expects exposing 
-participants to an image hels them subsequently recognise that 
-image when seen in a tachistoscope.  The researches demonstrated that priming 
-using an image that was visually different but of an object having the same 
-name also helped participants subsequently identify the image in the 
-tachistoscope.  Surprisingly, being presented with related word and 
-reading it aloud did not help.  On the basis of these 
-results, the researchers suggest the existence of a visual-semantic system,
-distinct from the linguistic one \cite{BJOP:BJOP1796}.
-
-Based on the compelling evidence for priming effects in task types often 
-employed on AMT, we hypothesize that workers' performance may be impacted
-by the very work they have recently performed.  However, we adapt the 
-operationalization of priming from one based on speed, accuracy, and 
-response threshold, to an algorithmic definition that makes no particular
-assumptions about the nature of priming effects.
-	
+Traditionally, priming effects are
+measured using methods chosen to elucidate the underlying psychological 
+mechanisms.  For the human computation context, we seek general 
+methods that detect any hysteresis effects in HPUs, whatever they may be.  
+Here we present a novel general-purpose method for detecting priming, based on 
+a rigorous algorithmic definition. 
+This method provides a powerful new tool for detecting priming in populations
+without having to know anything about how the priming was carried out, nor the 
+effects that it might be expected to have.
+We demonstrate the utility of this method by showing that
+it can detect priming effects of all treatments in our experiment, even when 
+they fail to be detected through their effects on label orientation and 
+specificity. This method has the potential for a wide range of applications 
+outside computer science.  
 
 \section*{Text}
 \subsection*{An algorithmic definition of priming}
+Motivate the need for this kind of instrumentalization.
+
 One difficulty with the notion of priming is that there appears to be no 
 defensible notion of an ``unprimed state''.  Consider the ambiguous image set 
 in our experiment.  Would we be better to include a treatment with no
@@ -298,6 +208,43 @@ classifier algoritms, the \textit{Naive Bayes classifier}, performs very
 nearly as well as the most sophisticated classifiers in nearly all 
 applications.  Therefore, we submit $\theta_\text{NB}$, as determined by a 
 Naive Bayes classifier, to be a general-purpose measure of priming difference.
+
+\subsection{Experimental Setup}
+We test hysteresis by presenting AMT workers with
+five images that depict meals with strong cultural overtones 
+(see \textbf{Fig. A}), and ask them to
+label each image with descriptive words.  Before presenting test images,
+we expose the workers to different priming treatments.  We observe how priming
+treatments effect the workers' subsequent choice of labels, by looking at 
+how specific the labels are, and how often workers make 
+cultural references.
+
+We employ two priming modalities in this study.  
+In the first modality, which we call \textit{in-task priming}, workers are 
+shown one of three sets of priming images.  The \textit{cultural}
+image set, \textbf{Fig. B}, shows images chosen for their clear depiction of an
+iconic cultural scene.  The \textit{ingredients} image set, \textbf{Fig. C}, 
+shows separated food ingredients, as opposed to the prepared meals shown in 
+the test set, and avoids strong cultural signal.  The \textit{ambiguous} 
+image set contains images of prepared meals (\textbf{Fig D}), and is most 
+similar to the test set, but there are no prominent traces of cultural 
+reference.  These images are shown right
+before the test images, and they must be labeled in the same way.  From the 
+workers' view-point there is no distinction between the priming and test 
+images. 
+
+The second priming modality, which we call \textit{framing}, consists of
+presenting the workers with the name of a (fictitious) research funder before
+presenting any images to be labeled.  Workers are shown either the funder 
+name  
+``The National Foundation for Nutritional Awarenes'' or ``The Global
+Foundation for Cultural Recognition'', or else they are shown no name.  These 
+names were chosen to signal interest, on the part of the requester, in the
+cultural or food-related aspects of the images.
+
+We also test interaction effects between framing and in-task priming.  The
+various treatments are listed in \textbf{Table 1}.
+
 
 \subsection*{Results}
 \paragraph{All treatments were differently primed.}

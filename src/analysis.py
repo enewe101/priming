@@ -299,7 +299,6 @@ class Analyzer(object):
 		being compared) are averaged and reported as the comparison results.
 		'''
 
-
 		# If the two treatments are the same, randomly partition them so we
 		# don't get any overlaps.  Each entry is the output of one worker.
 		if treatment1 == treatment2:
@@ -330,9 +329,9 @@ class Analyzer(object):
 			util.writeNow('.')
 
 			# Counters that characterize i's comparison to all j entries
-			numFirstMoreSpecific = 0
-			numFirstLessSpecific = 0
-			numUncomparable = 0
+			subFirstMoreSpecificCounts = []
+			subFirstLessSpecificCounts = []
+			subUncomparableCounts = []
 
 			for j in range(len(entries2)):
 
@@ -344,13 +343,20 @@ class Analyzer(object):
 				lessSpec, moreSpec, uncomp = self.compareEntries(
 					entry1, entry2, images)
 
-				numUncomparable += uncomp
-				numFirstLessSpecific += lessSpec
-				numFirstMoreSpecific += moreSpec
+				# Record results for this comparison
+				subUncomparableCounts.append(uncomp)
+				subFirstLessSpecificcounts.append(lessSpec)
+				subFirstMoreSpecificCounts.append(moreSpec)
 				
+			# Compute and record results for all comparisons of ith worker
+			numFirstMoreSpecific = np.mean(subFirstMoreSpecificCounts
+			numFirstLessSpecific = np.mean(subFirstLessSpecificCounts
+			numUncomparable = np.mean(subUncomparableCounts)
+
 			firstMoreSpecificCounts.append(numFirstMoreSpecific)
 			firstLessSpecificCounts.append(numFirstLessSpecific)
-			firstMoreMinusLess.append(numFirstMoreSpecific - numFirstLessSpecific)
+			firstMoreMinusLess.append(
+				numFirstMoreSpecific - numFirstLessSpecific)
 			uncomparableCounts.append(numUncomparable)
 
 		print ''

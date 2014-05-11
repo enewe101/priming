@@ -200,16 +200,18 @@ def plotAllSpecificityComparisons(readFname='specificity/all.json',
 	fig.savefig(writeFname)
 	plt.show()
 
-def computeAllSpecificityComparisons(numToCompare=65):
+def computeAllSpecificityComparisons(sampleSize=134, nullSampleSize=67):
 
 	for image in ['test%d' % i for i in range(5)]:
 		computeSpecificityComparisons(
 			fname='specificity/%s.json' % image,
-			numToCompare=numToCompare, images=[image])
+			sampleSize=sampleSize, nullSampleSize=nullSampleSize,
+			images=[image])
 
 
 def computeSpecificityComparisons(
-	fname='specificity/all.json', numToCompare=50, images=['test0']):
+	fname='specificity/allImages.json', sampleSize=134, nullSampleSize=67, 
+	images=['test%d'%i for i in range(5)]):
 	'''
 	Computes all of the interesting specificity comparisons between different
 	treatments, such that they can be plotted  in a big multi-pannel figure.
@@ -255,7 +257,7 @@ def computeSpecificityComparisons(
 			# observed when comparing samples when they are both taken from 
 			# the basis treatment, and establishes confidence intervals
 			rslt = a.compareValenceSpecificity(
-				valence, basisTreatment, basisTreatment, numToCompare, 
+				valence, basisTreatment, basisTreatment, nullSampleSize, 
 				images)
 
 			nullComparison = {
@@ -273,7 +275,7 @@ def computeSpecificityComparisons(
 
 				# compare basis treatment to subject treatment
 				rslt = a.compareValenceSpecificity(
-					valence, subjectTreatment, basisTreatment, numToCompare,
+					valence, subjectTreatment, basisTreatment, sampleSize,
 					images)
 
 				# express the avg specificity in terms of the standard 
@@ -294,106 +296,6 @@ def computeSpecificityComparisons(
 
 	return results
 
-
-def plotSpecificityComparison(basisTreatment, treatmentsToBeCompared, 
-	numToCompare, fname, dimension='overall'):
-	'''
-	This is like plotAllSpecificityComparisons(), except that it only produces
-	one pannel.  I'm keeping it around because it may be fun to be able to
-	separate out these plots.
-	'''
-
-	# The dimension specifies whether we are comparing specificity overall, or
-	# in only with respect to cultural- or food-related tokens
-	assert(dimension in ['overall', 'cultural', 'food'])
-
-	# Make an analyzer to carry out the analysis
-	a = analysis.Analyzer()
-
-	# Make some containers to aggregate the results
-	avgSpecificities = []
-	stdSpecificities = []
-
-	# For each treatment to be compared, do the comparison, and record the results
-	# A comparison is made for food-words, cultural-words, and overall specificity
-	for treatment in treatmentsToBeCompared:
-
-		if dimension == 'overall':
-			result = a.compareSpecificity(treatment, basisTreatment, numToCompare)
-
-		elif dimension == 'cultural':
-			result = a.compareCulturalSpecificity(
-				treatment, basisTreatment, numToCompare)
-
-		elif dimension == 'food':
-			result = a.compareFoodSpecificity(
-				treatment, basisTreatment, numToCompare)
-
-		avgSpecificities.append(result['avgMoreMinusLess'])
-		stdSpecificities.append(result['stdMoreMinusLess'])
-	
-	# In order to show statistical significance, we do a null-comparison of 
-	# the basis treatment to itself
-
-	# null overall comparison
-	if dimension == 'overall':
-		result = a.compareSpecificity(basisTreatment, basisTreatment, numToCompare)
-
-	elif dimension == 'cultural':
-		result = a.compareCulturalSpecificity(
-			basisTreatment, basisTreatment, numToCompare)
-
-	elif dimension == 'food':
-		result = a.compareFoodSpecificity(
-			basisTreatment, basisTreatment, numToCompare)
-
-	avgNullSpecificities = result['avgMoreMinusLess']
-	stdNullSpecificities = result['stdMoreMinusLess']
-
-	# convert the specificities into numbers of standard deviations of the null
-	# comparison
-
-	avgSpecificities = map(lambda s: s/stdNullSpecificities, avgSpecificities)
-
-
-	width=0.7
-	X = range(len(treatmentsToBeCompared))
-
-
-	fig = plt.figure(figsize=(5,5))
-	ax = fig.add_subplot(1,1,1)
-
-	series = ax.bar(X, avgSpecificities, width, color='0.25')
-
-
-	padding = len(treatmentsToBeCompared) * 0.05
-	xlims = (-padding, len(treatmentsToBeCompared) - 1 + width + padding)
-	plt.xlim(xlims)
-
-	zero = ax.plot(
-		xlims, [0, 0], color='0.35', linestyle='-')
-
-	confidenceIntervalUpper = ax.plot(
-		xlims, [CONFIDENCE_95, CONFIDENCE_95], color='0.35', linestyle=':')
-
-	confidenceIntervalLower = ax.plot(
-		xlims, [-CONFIDENCE_95, -CONFIDENCE_95], color='0.35', linestyle=':')
-
-	xlabels = [TREATMENT_NAMES[t] for t in treatmentsToBeCompared]
-
-	
-	ylims = plt.ylim()
-	ypadding = (ylims[1] - ylims[0]) * 0.05
-	plt.ylim(ylims[0] - ypadding, ylims[1] + ypadding)
-
-	ax.set_xticks(map(lambda x: x + width/2., X))
-	ax.set_xticklabels(xlabels, rotation=45, horizontalalignment='right')
-	ax.set_ylabel("excess specific words")
-
-	fig.subplots_adjust(bottom=.20)
-	fig.savefig(fname)
-
-	plt.show()
 
 
 def plotValenceVsImage():
