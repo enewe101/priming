@@ -12,6 +12,7 @@ import naive_bayes
 import ontology
 import data_processing
 import numpy as np
+import time
 
 try:
 	import matplotlib.pyplot as plt
@@ -207,13 +208,122 @@ def plotAllSpecificityComparisons(readFname='specificity/all.json',
 	fig.savefig(writeFname)
 	plt.show()
 
-def computeAllSpecificityComparisons(sampleSize=134, nullSampleSize=67):
+#def computeAllSpecificityComparisons(sampleSize=134, nullSampleSize=67):
+#
+#	for image in ['test%d' % i for i in range(5)]:
+#		computeSpecificityComparisons(
+#			fname='specificity/%s.json' % image,
+#			sampleSize=sampleSize, nullSampleSize=nullSampleSize,
+#			images=[image])
 
-	for image in ['test%d' % i for i in range(5)]:
-		computeSpecificityComparisons(
-			fname='specificity/%s.json' % image,
-			sampleSize=sampleSize, nullSampleSize=nullSampleSize,
-			images=[image])
+def computeAllSpecificities(sampleSize=134, nullSampleSize=67,
+		images=['test%d'%i for i in range(5)] ):
+	valences = ['overall', 'cultural', 'food']
+
+	comparisonSchedule = {
+		'treatment0': ['treatment1', 'treatment5', 'treatment6',
+			'treatment2', 'treatment3', 'treatment4']
+
+		, 'treatment1': ['treatment5', 'treatment6', 'treatment2']
+
+		, 'treatment2': ['treatment3', 'treatment4']
+	}
+
+	for valence in ['overall', 'cultural', 'food']:
+		for basis in ['treatment0', 'treatment1', 'treatment2']:
+			subjects = comparisonSchedule[basis]
+			
+			start = time.time()
+
+			#TODO print time tracking
+			computeSpecificity(
+				basis=basis,
+				subjects=subjects,
+				valence=valence,
+				sampleSize=sampleSize,
+				nullSampleSize=nullSampleSize,
+				images=images)
+
+			print '   that took %d min.\n' % int((time.time() - start)/60)
+
+
+
+def computeSpecificity(
+	basis='treatment0', 
+	subjects=['treatment%d'%i for i in range(1,7)],
+	valence='overall',
+	sampleSize=134,
+	nullSampleSize=67,
+	images=['test%d'%i for i in range(5)]
+	):
+
+	'''
+	Similar to computeSpecificityComparisons, but only one basis and 
+	valence are computed at a time.
+	'''
+
+	# Make an analyzer object -- it performs the actual comparisons
+	a = analysis.Analyzer()
+
+	# A results object to aggregate all the data
+	fname = 'specificity/%s-%s-%s.json' %(
+		basis, ''.join(subjects), ''.join(images))
+
+	fh = open(fname, 'w')
+	results = []
+
+	# For the valence passed,
+	thisValenceResults = {'valence': valence, 'results': []}
+	results.append(thisValenceResults)
+
+	print '   valence: %s' % valence
+
+	# And for the basis treatment passed, 
+	print '      basis: %s' % basis
+
+	thisBasisResults = {'basis': basis, 'results':[]}
+	thisValenceResults['results'].append(thisBasisResults)
+
+	# first compute the null comparison.  This determines the variance
+	# observed when comparing samples when they are both taken from 
+	# the basis treatment, and establishes confidence intervals
+	rslt = a.compareValenceSpecificity(
+		valence, basis, basis, nullSampleSize, images)
+
+	nullComparison = {
+		'subject':'null',
+		'stdev':rslt['stdMoreMinusLess'],
+		'avg':rslt['avgMoreMinusLess']
+	}
+
+	thisBasisResults['null'] = nullComparison
+
+	# And for each subject treatment
+	for subject in subjects:
+
+		print '      subject: %s' % subject
+
+		# compare basis treatment to subject treatment
+		rslt = a.compareValenceSpecificity(
+			valence, subject, basis, sampleSize, images)
+
+		# express the avg specificity in terms of the standard 
+		# deviations of the null comparison.  Store the result
+		avgNorm = rslt['avgMoreMinusLess'] / nullComparison['stdev']
+
+		subjectComparison = {
+			'subject': subject,
+			'stdev': rslt['stdMoreMinusLess'],
+			'avg': rslt['avgMoreMinusLess'],
+			'avgNorm': avgNorm
+		}
+
+		thisBasisResults['results'].append(subjectComparison)
+
+	fh.write(json.dumps(results, indent=3))
+	fh.close
+
+	return results
 
 
 def computeSpecificityComparisons(
