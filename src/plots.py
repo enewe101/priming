@@ -12,10 +12,17 @@ import naive_bayes
 import ontology
 import data_processing
 import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib 
-import matplotlib.gridspec as gridspec
-from matplotlib.ticker import FixedLocator, LinearLocator, FixedFormatter
+
+try:
+	import matplotlib.pyplot as plt
+	import matplotlib 
+	import matplotlib.gridspec as gridspec
+	from matplotlib.ticker import FixedLocator, LinearLocator, FixedFormatter
+
+except:
+	print 'matplotlib not installed.  You can do computations but not '\
+		'plotting functions.'
+	
 
 #
 #TODO: Review whether the computeAllSpecificityComparisons() function does
