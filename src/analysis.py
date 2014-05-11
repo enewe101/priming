@@ -345,12 +345,12 @@ class Analyzer(object):
 
 				# Record results for this comparison
 				subUncomparableCounts.append(uncomp)
-				subFirstLessSpecificcounts.append(lessSpec)
+				subFirstLessSpecificCounts.append(lessSpec)
 				subFirstMoreSpecificCounts.append(moreSpec)
 				
 			# Compute and record results for all comparisons of ith worker
-			numFirstMoreSpecific = np.mean(subFirstMoreSpecificCounts
-			numFirstLessSpecific = np.mean(subFirstLessSpecificCounts
+			numFirstMoreSpecific = np.mean(subFirstMoreSpecificCounts)
+			numFirstLessSpecific = np.mean(subFirstLessSpecificCounts)
 			numUncomparable = np.mean(subUncomparableCounts)
 
 			firstMoreSpecificCounts.append(numFirstMoreSpecific)
