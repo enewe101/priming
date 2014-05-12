@@ -208,7 +208,7 @@ def plotAllSpecificityComparisons(readFname='specificity/all.json',
 	fig.savefig(writeFname)
 	plt.show()
 
-#def computeAllSpecificityComparisons(sampleSize=134, nullSampleSize=67):
+#def computeAllSpecificityComparisons(sampleSize=126, nullSampleSize=63):
 #
 #	for image in ['test%d' % i for i in range(5)]:
 #		computeSpecificityComparisons(
@@ -216,7 +216,7 @@ def plotAllSpecificityComparisons(readFname='specificity/all.json',
 #			sampleSize=sampleSize, nullSampleSize=nullSampleSize,
 #			images=[image])
 
-def computeAllSpecificities(sampleSize=134, nullSampleSize=67,
+def computeAllSpecificities(sampleSize=126, nullSampleSize=63,
 		images=['test%d'%i for i in range(5)] ):
 	valences = ['overall', 'cultural', 'food']
 
@@ -252,8 +252,8 @@ def computeSpecificity(
 	basis='treatment0', 
 	subjects=['treatment%d'%i for i in range(1,7)],
 	valence='overall',
-	sampleSize=134,
-	nullSampleSize=67,
+	sampleSize=126,
+	nullSampleSize=63,
 	images=['test%d'%i for i in range(5)]
 	):
 
@@ -330,7 +330,7 @@ def computeSpecificity(
 
 
 def computeSpecificityComparisons(
-	fname='specificity/allImages.json', sampleSize=134, nullSampleSize=67, 
+	fname='specificity/allImages.json', sampleSize=126, nullSampleSize=63, 
 	images=['test%d'%i for i in range(5)]):
 	'''
 	Computes all of the interesting specificity comparisons between different
