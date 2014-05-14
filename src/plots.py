@@ -247,10 +247,29 @@ def computeAllSpecificities(sampleSize=126, nullSampleSize=63,
 			print '   that took %d min.\n' % int((time.time() - start)/60)
 
 
+def computeSpecificityAllImages(
+	basis='treatment0', 
+	subjects=['treatment%d'%i for i in [1,5,6,2,3,4]],
+	valence='overall',
+	sampleSize=126,
+	nullSampleSize=63
+	):
+
+	'''
+	Runs computeSpecificity with images equal to the set of all images,
+	as well as each image in isolation.
+	'''
+	computeSpecificity(basis, subjects, valence, sampleSize, 
+		nullSampleSize, ['test%d'%i for i in range(5)])
+
+	for i in range(5):
+		computeSpecificity(basis, subjects, valence, sampleSize, 
+			nullSampleSize, ['test%d'%i])
+
 
 def computeSpecificity(
 	basis='treatment0', 
-	subjects=['treatment%d'%i for i in range(1,7)],
+	subjects=['treatment%d'%i for i in [1,5,6,2,3,4]],
 	valence='overall',
 	sampleSize=126,
 	nullSampleSize=63,

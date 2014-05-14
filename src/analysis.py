@@ -313,8 +313,6 @@ class Analyzer(object):
 				self.dataSet.entries[treatment2], numToCompare)
 
 		# Declare some variables to keep count during the comparison
-		firstMoreSpecificCounts = []
-		firstLessSpecificCounts = []
 		firstMoreMinusLess = []
 		uncomparableCounts = []
 
@@ -329,8 +327,7 @@ class Analyzer(object):
 			util.writeNow('.')
 
 			# Counters that characterize i's comparison to all j entries
-			subFirstMoreSpecificCounts = []
-			subFirstLessSpecificCounts = []
+			subRelativeSpecificities = []
 			subUncomparableCounts = []
 
 			for j in range(len(entries2)):
@@ -344,38 +341,22 @@ class Analyzer(object):
 					entry1, entry2, images)
 
 				# Record results for this comparison
+				subRelativeSpecificities.append(moreSpec - lessSpec)
 				subUncomparableCounts.append(uncomp)
-				subFirstLessSpecificCounts.append(lessSpec)
-				subFirstMoreSpecificCounts.append(moreSpec)
-				
-			# Compute and record results for all comparisons of ith worker
-			numFirstMoreSpecific = np.mean(subFirstMoreSpecificCounts)
-			numFirstLessSpecific = np.mean(subFirstLessSpecificCounts)
-			numUncomparable = np.mean(subUncomparableCounts)
 
-			firstMoreSpecificCounts.append(numFirstMoreSpecific)
-			firstLessSpecificCounts.append(numFirstLessSpecific)
-			firstMoreMinusLess.append(
-				numFirstMoreSpecific - numFirstLessSpecific)
-			uncomparableCounts.append(numUncomparable)
+			# Compute and record results for all comparisons of ith worker
+			uncomparableCounts.append(np.mean(subUncomparableCounts))
+			firstMoreMinusLess.append(np.mean(subRelativeSpecificities))
 
 		print ''
 		return {
-			'avgFirstLessSpecific': np.mean(firstLessSpecificCounts),
-			'stdFirstLessSpecific': (
-				np.std(firstLessSpecificCounts)/np.sqrt(numToCompare)),
-
-			'avgFirstMoreSpecific': np.mean(firstMoreSpecificCounts),
-			'stdFirstMoreSpecific': (
-				np.std(firstMoreSpecificCounts)/np.sqrt(numToCompare)),
-
 			'avgMoreMinusLess': np.mean(firstMoreMinusLess),
-			'stdMoreMinusLess': (
-				np.std(firstMoreMinusLess)/np.sqrt(numToCompare)),
-
+			'stdMoreMinusLess': (np.std(firstMoreMinusLess) 
+				/ np.sqrt(numToCompare)),
+			
 			'avgUncomparable': np.mean(uncomparableCounts),
-			'stdUncomparable': (
-				np.std(uncomparableCounts)/np.sqrt(numToCompare)),
+			'stdUncomparable': (np.std(uncomparableCounts)
+				/ np.sqrt(numToCompare)),
 		}
 
 
