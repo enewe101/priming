@@ -45,7 +45,7 @@ Microtask crowdsourcing platforms like Amazon Mechanical Turk (AMT) make it
 possible to submit batches of small tasks to a large pool of human workers, 
 who do the tasks for fun and remuneration \cite{kazai2013analysis}.  Tasks 
 involving qualitative
-judgment (e.g. flagging innapropriate images), natural language annotation,
+judgment (e.g. flagging inappropriate images), natural language annotation,
 and object recognition are commonplace, since people still outperform  
 computers in these areas \cite{yuen2011survey}.
 
@@ -53,7 +53,7 @@ Such platforms render human cognition as fluid a resource as compute cycles:
 it is available on demand in small units, with low transaction cost, from 
 anywhere via the Internet \footnote{\href{http://mturk.com}{http://mturk.com}}.
 The task requestor can interact with the platform like a compute server, 
-seemlessly 
+seamlessly 
 integrating human and machine computation.  Researchers have put forward the 
 term HPU (Human co-Processing Unit)\footnote{We acknowledge the irony of this 
 term: the original meaning of `computer' was a person who performs 
@@ -66,12 +66,12 @@ Originally used to distribute clerical work, these platforms
 increasingly serve as a cheap and fast means to engage experimental 
 participants and provide qualitative annotations of datasets in a research 
 setting \cite{snow2008cheap}.  Given the limited ability to screen workers, and their transient 
-low-commitment engagement with the employer, researchers have criticised the
+low-commitment engagement with the employer, researchers have criticized the
 reliability of crowdsourced output \cite{marsden2009crowdsourcing}.  
 
 For one, cheating
 is a problem \cite{lease2011quality}, but straightforward methods have been 
-developped to screen out cheaters \cite{snow2008cheap, kazai2013analysis}.
+developed to screen out cheaters \cite{snow2008cheap, kazai2013analysis}.
 Still, there is a great deal of variance in worker attention and 
 accuracy \cite{kazai2013analysis}.  Researchers have found many factors that 
 modulate worker performance, such as level of pay\cite{kazai2013analysis}, 
@@ -90,7 +90,7 @@ auditory recognition of words \cite{BJOP:BJOP1826}, and the recognition
 of gender* and affect*: precisely the kinds of tasks well-served by microtask 
 platforms \cite{yuen2011survey, snow2008cheap}.  
 
-In this direction, reserearchers have investigated various effects due to 
+In this direction, researchers have investigated various effects due to 
 \textit{framing}, by describing the larger workflow context in which the 
 workers task is a part \cite{Kinnaird2012281}, or by describing the ultimate 
 purpose of the project to provide meaning \cite{chandler2013breaking}.
@@ -115,15 +115,15 @@ judgments.
 As a point of comparison, we subject some groups of workers to a kind of
 framing: we disclose a fictitious, semantically-loaded name for the 
 task-requestor, chosen to signal an interest in a specific aspect of the 
-image content.  One might expect that this would strongly sway the labelling 
+image content.  One might expect that this would strongly sway the labeling 
 of the workers.  We detect the effects of these priming treatments, but 
 remarkably, we find that in-task priming has a much stronger effect on label 
 orientation and specificity.  
 
 This has major implications for the design of qualitative labeling and 
 classification tasks.  Our results show that prior tasks can introduce 
-significant bias in subsequent worker labelling.  On the other hand, our 
-results suggest that the progression of tasks can alse be used to tune 
+significant bias in subsequent worker labeling.  On the other hand, our 
+results suggest that the progression of tasks can also be used to tune 
 workers to produce more nuanced output.
 
 In psychology, priming is defined as the effect in which a prior stimulus leads
@@ -204,7 +204,7 @@ supports the conclusion that two populations are differently
 primed, up to the statistical significance of the measurement.  However, if 
 $\theta$ is not found to be statistically different from zero, one cannot 
 directly
-conlude that two populations are the same in priming.  Rather, the definition
+conclude that two populations are the same in priming.  Rather, the definition
 admits the possibility that there exists some other $\mathcal{A}'$ capable of 
 generating a measure of $\theta$ greater than zero. Interpreting a result
 that $\mathcal{A}$ fails to achieve accuracy significantly better than 
@@ -213,7 +213,7 @@ of classifier algorithms.
 
 In practice we do not anticipate serious difficulty in choosing a classifier
 and establishing a meaningful value of $\theta$.  One of the simplest 
-classifier algoritms, the \textit{Naive Bayes classifier}, performs very 
+classifier algorithms, the \textit{Naive Bayes classifier}, performs very 
 nearly as well as the most sophisticated classifiers in nearly all 
 applications [**].  Therefore, we submit $\theta_\text{NB}$, as determined by 
 a Naive Bayes classifier, to be a general-purpose measure of priming 
@@ -287,7 +287,7 @@ with directed edges drawn from abstractions toward instances.  For example,
 our ontology contains the path \texttt{food} $\to$ \texttt{ingredients} $\to$ 
 \texttt{vegetables} 
 $\to$ \texttt{tomato}.  In general, each of these terms is a label that
-occured in the corpus of labels provided, but in some cases we added 
+occurred in the corpus of labels provided, but in some cases we added 
 an abstraction when it was missing, to connect the ontology.  We provide more
 detail about the construction of the ontology in the 
 \textbf{Materials and Methods} section.
@@ -304,7 +304,7 @@ ambiguous (e.g. \texttt{bread}), and there are culture-related labels without
 a direct connection to food (e.g. \texttt{ganesha}).  The many words that are 
 both food and culture-related (e.g. \texttt{dim sum}) receive an inbound edge 
 (or path) from both \texttt{food} and \texttt{culture}.
-This allows us to guage effects on the orientation of workers' focus
+This allows us to gauge effects on the orientation of workers' focus
 with respect to the concepts of food and culture by simply counting the number 
 of labels they provide that descend from \texttt{food} and \texttt{culture}. 
 
@@ -321,7 +321,7 @@ treatments (aggregating together the labels for all images for a given
 treatment).  We can see that the treatments which expose workers to the
 cultural image sets do elicit significantly more culture-oriented and fewer
 food-oriented labels compared to the other treatments ($\alpha=0.05$).  It 
-also apperas that all the $\textsc{ingr}_x$ treatments produce more 
+also appeas that all the $\textsc{ingr}_x$ treatments produce more 
 food-oriented labels, but we cannot assert this at significance 
 $\alpha = 0.05$. 
 
@@ -360,9 +360,9 @@ in the previous section, we compare treatments in their degree of specificity.
 When comparing two labels $\ell_1$ and $\ell_2$ produced by different workers,
 we say that $\ell_2$ is more specific than $\ell_1$ if there is a 
 \textit{directed path} from $\ell_1$ to $\ell_2$.  If there is no directed path
-between $\ell_1$ and $\ell_2$, then they are uncomparable.  As an example,
+between $\ell_1$ and $\ell_2$, then they are non-comparable.  As an example,
 \texttt{tomato} is more specific than \texttt{food}, while \texttt{statue}
-and \texttt{food} are uncomparable.
+and \texttt{food} are non-comparable.
 
 We can compare the specificity of two workers by comparing, for each image,
 the labels given by one worker with those of the other.  Thus, we define the
@@ -446,7 +446,7 @@ priming wash-out.  One might also attribute this to
 differences in the \textit{content} of the images. It is interesting to 
 compare this to the result in \textbf{Fig. 8}, which
 shows that the effect of exposure to the prior image set on 
-\textit{orientation} (culture vs food) certainly
+\textit{orientation} (culture vs. food) certainly
 decays much more quickly than the overall effects detected by
 the classifier.  This appears to be consistent with the notion that the 
 mechanisms of priming are multiple and complex [***].  Here we again see an
@@ -468,7 +468,8 @@ is a strong argument in support of using $\theta_\text{NB}$ to supplement
 methods designed to measure specific priming effects.
 
 \paragraph{Priming did not affect cultural specificity.}
-It was quite surpising that the effects on workers' specificity was essentially
+It was quite surprising that the effects on workers' specificity was 
+essentially
 confined to food-oriented labels, and that we observed no significant movements
 in cultural specificity.   This might reflect the different roles
 played by food and culture in the human lexicon.  This seems plausible when we 
@@ -479,7 +480,7 @@ differences between members of an outgroup than between members of their
 ingroup \cite{Boldry2007157}.  One manifestation is that people 
 spend less time observing outgroup members when asked to make a character 
 judgment \cite{Vala2012491}.  This phenomenon can be explained in terms of 
-adaptiveness: social cognition regarding one's ingroup is more consequencial
+adaptiveness: social cognition regarding one's ingroup is more consequential
 \cite{Vala2012491}.  Thus, it would not be surprising to find that people had 
 less nuanced vocabulary for culture than for food, where a nuanced vocabulary 
 would be of direct survival benefit.
@@ -523,13 +524,13 @@ ingredients set at least features food prominently.  Although similarity
 between the cultural set and the posterior set could be argued on the basis
 of cultural content, this content is less imageable, more abstract, and
 and according to the theory of \cite{Jaimes20002} should require more 
-knowledge to acertain.
+knowledge to ascertain.
 
 Under our measure of similarity based on shared labels, our results show that
 more specific labels are provided to the posterior images when the prior and
 posterior image sets are more similar.
 An appealing explanation for 
-this is the notion of \textit{negative priming}, wherin the participant
+this is the notion of \textit{negative priming}, wherein the participant
 becomes desensitized to stimuli that do not seem salient [***].  Thus, workers 
 who have been shown successive images of prepared meals 
 would be much less inclined to provide generic terms such as \texttt{food} or 
@@ -542,7 +543,7 @@ we recommend assembling the HPUs in a hierarchical fashion, with the
 HPUs at the top of the hierarchy performing coarse sorting (or labeling), 
 splitting objects into streams to be handled by HPUs performing more nuanced 
 work.  To implement this for an
-image-labeling task, one could first serve the images for coarse labelling,
+image-labeling task, one could first serve the images for coarse labeling,
 then cluster the images based on the labels and a language model, and then 
 reserve the images, ensuring that each HPU operates on images from a single 
 cluster.  The more homogeneous that a cluster of images is in terms of 
@@ -588,13 +589,13 @@ images, nor the funder names when previewing the task.
 The features provided to the Naive Bayes classifier consisted of the labels
 that the worker provided along with the image and specific location in which 
 the label was entered
-(each image had five distinct label inputs).  Thus, \texttt{wine} ocurring in 
+(each image had five distinct label inputs).  Thus, \texttt{wine} occurring in 
 position 1 of image 2 would be considered as a distinct feature from 
-\texttt{wine} occuring in position 2 of image 2. The classifier 
+\texttt{wine} occurring in position 2 of image 2. The classifier 
 had better performance when this distinction was made.
 
 \textbf{Building the ontology of terms.}  The ontology was built manually
-by the experimenters, starting from the corpus of labels. Labels occuring only 
+by the experimenters, starting from the corpus of labels. Labels occurring only 
 once were discarded.  We created the root classes \texttt{activity}, 
 \texttt{adjective}, \texttt{culture}, 
 \texttt{food}, and \texttt{thing}. \texttt{culture} and \texttt{food} were 
@@ -623,7 +624,8 @@ $\mathcal{V}$:
 \end{align}
 where $V$ is a random, uniformly sampled worker from $\mathcal{V}$.  We 
 subscript the expectation operator with $V$ to indicate 
-that the expectation is taken over the distribution of $V$.  Then, the relative specificity of two treatmens, $S(\mathcal{U},{V})$, can be 
+that the expectation is taken over the distribution of $V$.  Then, the 
+relative specificity of two treatments, $S(\mathcal{U},{V})$, can be 
 written as:
 \begin{align}
 	S(\mathcal{U},\mathcal{V}) = 
@@ -651,7 +653,7 @@ equivalent to \textbf{Eq.~\ref{eq:specificity}}):
 		\label{eq:treatment-specificity-variance}
 \end{align}
 $\text{Var}_V{s(u,V)}$ can be directly calculated as a sample variance, so
-\textbf{Eq.~\ref{eq:basis-specificity-estimator}} through \textbf{\ref{eq:treatment-specificity-variance}} provide enough information to test the hypothesese:
+\textbf{Eq.~\ref{eq:basis-specificity-estimator}} through \textbf{\ref{eq:treatment-specificity-variance}} provide enough information to test the hypotheses:
 \begin{align}
 	\begin{matrix}
 		\mathbf{H_0}: S(\mathcal{U}, \mathcal{V}) = 0 \\[0.5em]
@@ -672,7 +674,7 @@ $\text{Var}_V{s(u,V)}$ can be directly calculated as a sample variance, so
 \paragraph{Table 1.}
 	Experimental treatments.  Workers were uniformly randomly
 	assigned to one of the treatments listed above.  The full funder 
-	names used were ``The Glodal Foundation
+	names used were ``The Global Foundation
 	for Cultural Recognition'' and ``The National Foundation for 
 	Nutritional Awareness''.  The ambiguous, cultural, and ingredients 
 	priming images used are shown in \textbf{Figs. B}, \textbf{C}, and 
@@ -684,15 +686,15 @@ $\text{Var}_V{s(u,V)}$ can be directly calculated as a sample variance, so
 
 \paragraph{Figure 2.}
 	Ambiguous image set. These images were presented to workers from certain
-	treatements (see \textbf{Table 1}) in the order shown.  
+	treatments (see \textbf{Table 1}) in the order shown.  
 
 \paragraph{Figure 3.}
 	Cultural image set. These images were presented to workers from certain
-	treatements (see \textbf{Table 1}) in the order shown.  
+	treatments (see \textbf{Table 1}) in the order shown.  
 
 \paragraph{Figure 4.}
 	Ingredients image set. These images were presented to workers from certain
-	treatements (see \textbf{Table 1}) in the order shown.  
+	treatments (see \textbf{Table 1}) in the order shown.  
 
 \paragraph{Figure 5.}
 $F_1$ score and $\theta_\text{NB}$ for the various 
