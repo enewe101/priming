@@ -268,8 +268,8 @@ def computeSpecificity(
 	a = analysis.Analyzer()
 
 	# A results object to aggregate all the data
-	fname = 'specificity/%s-%s-%s.json' %(
-		basis, ''.join(subjects), ''.join(images))
+	fname = 'specificity/%s-%s-%s-%s.json' %(
+		basis, ''.join(subjects), ''.join(images), valence)
 
 	fh = open(fname, 'w')
 	results = []
