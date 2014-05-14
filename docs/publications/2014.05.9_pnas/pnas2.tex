@@ -379,18 +379,23 @@ where $u(i)$ denotes the set of labels attributed by worker $u$ to image $i$,
 and $\mathbf{1}_{[\ell > m]}$ evaluates to 1 if $\ell$ is more specific than 
 $m$, and 0 otherwise.
 
-We can then calculate the relative specificity of two treatments to be the
-average relative specificity of workers drawn uniformly from the treatments:
+We can then define the relative specificity of two treatments, 
+$S(\mathcal{U},\mathcal{V})$ to be the average
+relative specificity of workers drawn uniformly from the treatments.  
+$\hat{S}({\mathcal{U}, \mathcal{V}})$ estimates this using the sample mean:
 
 \begin{align}
-	S(U,V) = 
-		\frac{1}{|U \times V|}
-		\sum_{(u,v) \; \in \; U \times V} \;
+	\hat{S}(\mathcal{U},\mathcal{V}) = 
+	\frac{1}{|\mathcal{U} \times \mathcal{V}|}
+	\sum_{(u,v) \; \in \; \mathcal{U} \times \mathcal{V}} \;
 		s(u,v),
 		\label{eq:specificity}
 \end{align}
 
-where $U$ and $V$ are treatments, taken as sets of workers. \textbf{Figure 9} 
+where $\mathcal{U}$ and $\mathcal{V}$ are treatments, taken as sets of workers.
+See \textbf{Materials and Methods} for statistical analysis of the relative 
+specificity of two treatments. 
+\textbf{Figure 9} 
 exhibits the results.
 
 In panel \textbf{9A}, we see that when we compare each of the treatments to
@@ -594,74 +599,65 @@ once were discarded.  We created the root classes \texttt{activity},
 \texttt{adjective}, \texttt{culture}, 
 \texttt{food}, and \texttt{thing}. \texttt{culture} and \texttt{food} were 
 given top-level status because they were prominently represented in the corpus.
-Whenever one label was judged be regarded as a more specific case of another, a
-directed edge was drawn from the more general to the more specific. This was a 
+Whenever one label was judged to be a more specific case of another, a
+directed edge was drawn from the more general to the more specific. This
 judgment call was made by the experimenters.  However, the labels from all 
-treatments were aggregated before assembling the ontology.  This was done to 
-ensure that the construction of the ontology would not be affected by 
-information about the treatments from which a label originated. 
+treatments were aggregated before assembling the ontology,  to 
+ensure that the ontology construction would not be affected by 
+knowledge of the treatments from which labels originated. 
 Labels which were judged to be roughly synonymous were treated as identical,
 and labels judged to be misspellings were corrected. 
 
 \textbf{Statistical significance for relative specificity.}
 We used \textbf{Eq.~\ref{eq:specificity}} to compute the relative specificity
 of two treatments.  To analyze relative specificity statistically,
-we first provide an equivalent rephrasing of \textbf{Eq.~\ref{eq:specificity}}.
-Let the specificity of a worker $u$ relative to a 
-\textit{basis treatment} $V$, denoted $S_V(u)$, be the expected relative 
-specificity between $u$ and a worker uniformly sampled from $V$:
+we first develop \textbf{Eq.~\ref{eq:specificity}} from an intermediate 
+definition.  Let the specificity of a worker $u$ relative to a 
+\textit{basis treatment} $\mathcal{V}$, denoted $S_V(u)$, to be the expected 
+relative specificity between $u$ and a worker uniformly sampled from 
+$\mathcal{V}$:
 
 \begin{align}
-	S_V(u) =  \text{E}\{s(u,v)\}, \quad v \in_R V.
+	S_V(u) =  \text{E}_V\{s(u,V)\}, \quad V \in_R \mathcal{V},
+		\label{eq:basis-specificity}
 \end{align}
-Then, the relative specificity of two treatmens, $S(U,V)$, can be defined as:
+where $V$ is a random, uniformly sampled worker from $\mathcal{V}$.  We 
+subscript the expectation operator with $V$ to indicate 
+that the expectation is taken over the distribution of $V$.  Then, the relative specificity of two treatmens, $S(\mathcal{U},{V})$, can be 
+written as:
 \begin{align}
-	S(U,V) = \text{E}\{S_V(u)\} \quad u \in_R U.
+	S(\mathcal{U},\mathcal{V}) = 
+		\text{E}_U\{S_V(U)\}, \quad U \in_R \mathcal{U},
+		\label{eq:treatment-specificity}
 \end{align}
+where $U$ is a uniformly sampled worker from $\mathcal{U}$.  This yields 
+estimators for $S_V(u)$ and $S(\mathcal{U}, \mathcal{V})$, and their variances
+as shown below (note that 
+\textbf{Eq.~\ref{eq:treatment-specificity-estimator}} is
+equivalent to \textbf{Eq.~\ref{eq:specificity}}):
 
-We can estimate this using the sample mean calculated from our treatments:
 \begin{align}
-	\hat{S}_V(u) &= \frac{1}{|V|} \sum_{v \in V} s(u,v), \\
-	\hat{S}(U,V) &= \frac{1}{|U|} \sum_{u \in V} S_V(u), \\
-	\text{Var}\{\hat{S}_V(u)\} &= \frac{\text{Var}\{s(u,v)\}}{|V|},\\
-	\text{Var}\{\hat{S}(U,V)\} &= \sum_{u\in U}\text{Var}\{\hat{S}_V(u)\}
+	\hat{S}_V(u) &= \frac{1}{|\mathcal{V}|} \sum_{v \in \mathcal{V}} s(u,v), 
+		\label{eq:basis-specificity-estimator} \\
+		\hat{S}(\mathcal{U},\mathcal{V}) 
+			&= \frac{1}{|\mathcal{U}|} \sum_{u \in \mathcal{V}} S_V(u),
+		\label{eq:treatment-specificity-estimator} \\
+		\text{Var}_V\{\hat{S}_V(u)\} 
+			&= \frac{1}{|\mathcal{V}|}\text{Var}_V\{s(u,V)\},
+		\label{eq:basis-specificity-variance} \\
+		\text{Var}_{U,V}\{\hat{S}(\mathcal{U},\mathcal{V})\} 
+			&= \frac{1}{|\mathcal{V}|\cdot|\mathcal{U}|^2} 
+			\sum_{u\in U}\text{Var}_V\{{s}(u,V)\}.
+		\label{eq:treatment-specificity-variance}
 \end{align}
-
-And rewrite the relative specificity of $U$ and $V$ as the expected value of
-$S_V(u)$ for workers in $U$:
+$\text{Var}_V{s(u,V)}$ can be directly calculated as a sample variance, so
+\textbf{Eq.~\ref{eq:basis-specificity-estimator}} through \textbf{\ref{eq:treatment-specificity-variance}} provide enough information to test the hypothesese:
 \begin{align}
-	S(U,V) &= E\{S_V(u)\}, \\
-	\text{with} \quad\quad \text{Var}\{S(U,V)\} 
-		&= \frac{\text{Var}\{S_V(u)\}}{|U|}.
+	\begin{matrix}
+		\mathbf{H_0}: S(\mathcal{U}, \mathcal{V}) = 0 \\[0.5em]
+		\mathbf{H_1}: S(\mathcal{U}, \mathcal{V}) \neq 0
+	\end{matrix}
 \end{align}
-To decide if $U$ is significantly more (less) specific than $V$, we do
-a null comparison of $V$ to itself: $S(V,V)$.  This value is in principle zero,
-but the comparison yields $\text{Var}\{S(V,V)\}$ which we use to state and 
-test the null hypothesis that $U$ and $V$ are equally specific:
-\begin{align}
-	\mathbf{H_0}: \quad S(U,V)-S(V,V)=0
-\end{align}
-Note that since $S(V,V)=0$, $\mathbf{H_0}$ essentially states that $S(U,V)=0$,
-however, it is more stringent since we consider variance due to sampling both
-$U$ and $V$:
-\begin{align}
-\text{Var}\{S(U,V) - S(V,V)\} &= \text{Var}\{S(U,V)\} + \text{Var}\{S(V,V)\}\\
-						&> \text{Var}\{S(U,V)\}
-\end{align}
-Therefore, we find $U$ to be significantly more (less) specific than $V$ when:
-\begin{align}
-z = \frac{S(U,V)}{ \sqrt{ \text{Var}\{S(U,V)\} + \text{Var}\{S(V,V)\} }} 
-	> 1.96.
-\end{align}
-
-Due to 
-computational intensity, we randomly subsampled 63 workers from each treatment.
-To compute the relative food- or culture-specificity, we alter the calculation
-in \textbf{Eq.~\ref{eq:worker-specificity}} by only including labels 
-respectively of food- or culture-orientation, while excluding all labels that
-aro both food- and culture-oriented.
-
-
 
 \section*{Acknowledgements}
 \section*{References}
