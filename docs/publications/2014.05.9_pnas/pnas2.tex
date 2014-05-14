@@ -52,7 +52,7 @@ computers in these areas \cite{yuen2011survey}.
 Such platforms render human cognition as fluid a resource as compute cycles: 
 it is available on demand in small units, with low transaction cost, from 
 anywhere via the Internet \footnote{\href{http://mturk.com}{http://mturk.com}}.
-The task requestor can interact with the platform like a compute server, 
+The task requester can interact with the platform like a compute server, 
 seamlessly 
 integrating human and machine computation.  Researchers have put forward the 
 term HPU (Human co-Processing Unit)\footnote{We acknowledge the irony of this 
@@ -66,7 +66,7 @@ Originally used to distribute clerical work, these platforms
 increasingly serve as a cheap and fast means to engage experimental 
 participants and provide qualitative annotations of datasets in a research 
 setting \cite{snow2008cheap}.  Given the limited ability to screen workers, and their transient 
-low-commitment engagement with the employer, researchers have criticized the
+low-commitment engagement with the requester, researchers have criticized the
 reliability of crowdsourced output \cite{marsden2009crowdsourcing}.  
 
 For one, cheating
@@ -82,43 +82,44 @@ workers\cite{paolacci2010running}, and user-interface design
 Here we are concerned with effects of a more subtle origin: the influence that
 prior tasks have on subsequent ones.  Psychology experiments document the 
 strong effects that a prior exposure to stimulus can have on participants' 
-performance in related tasks, a phenomenon known as \textit{priming}.  Strong 
+performance in related tasks, a phenomenon known as \textit{priming}[***].  
+Strong 
 priming effects have been demonstrated for
 perceptual tasks such as the visual recognition of 
 objects \cite{BJOP:BJOP1796},
 auditory recognition of words \cite{BJOP:BJOP1826}, and the recognition
-of gender* and affect*: precisely the kinds of tasks well-served by microtask 
-platforms \cite{yuen2011survey, snow2008cheap}.  
+of gender[***] and affect[***]: precisely the kinds of tasks well-serviced by 
+microtask platforms \cite{yuen2011survey, snow2008cheap}.  
 
-In this direction, researchers have investigated various effects due to 
-\textit{framing}, by describing the larger workflow context in which the 
-workers task is a part \cite{Kinnaird2012281}, or by describing the ultimate 
-purpose of the project to provide meaning \cite{chandler2013breaking}.
-It is certainly of value to investigate this kind of priming, but 
-psychological experiments show that priming is strongest when 
+In the direction of priming, researchers have investigated various effects 
+due to \textit{framing}, by disclosing to the worker the functional role of
+their task in the workflow context \cite{Kinnaird2012281}, 
+or describing a meaningful ultimate purpose of the project in which their
+task is a part \cite{chandler2013breaking}.
+However, psychological experiments show that priming is strongest when 
 delivered through the same modality as the task [***].  This leads us to 
-investigate priming that occurs \textit{during} one task, influencing output
+investigate how priming that occurs \textit{during} a task influences output
 of subsequent similar tasks. We call such effects \textit{in-task priming}.  
 
-We investigate the effects of in-task priming on using an image-labeling task
+We investigate the effects of in-task priming for an image-labeling task
 on the AMT platform.  Each worker is required to label a \textit{prior set} of
 images followed by a \textit{posterior set}, but no distinction is made between
 these sets from the perspective of the worker.  The posterior set is
 always the same, but workers are randomly assigned one of three prior sets.
 We analyze the labels workers attribute to the posterior set to see if it is 
-affected by the prior set.  We consider what aspects of image content the 
-workers choose to label (the \textit{label orientation}), and on how specific 
-the labels are (the \textit{label specificity}), both of which have direct 
-consequence on the validity of using human computation to make qualitative 
-judgments.
+affected by the prior set.  As effects, we consider what aspects of image 
+content the workers choose to label (the \textit{label orientation}), and how 
+specific the labels are (the \textit{label specificity}), both of which have 
+direct consequence on the validity of using human computation to make 
+qualitative judgments.
 
 As a point of comparison, we subject some groups of workers to a kind of
 framing: we disclose a fictitious, semantically-loaded name for the 
-task-requestor, chosen to signal an interest in a specific aspect of the 
+task-requester, chosen to signal an interest in a specific aspect of the 
 image content.  One might expect that this would strongly sway the labeling 
-of the workers.  We detect the effects of these priming treatments, but 
-remarkably, we find that in-task priming has a much stronger effect on label 
-orientation and specificity.  
+of the workers.  We do detect the effects of framing, but, remarkably, we find 
+that in-task priming has a much stronger effect on label orientation and 
+specificity.  
 
 This has major implications for the design of qualitative labeling and 
 classification tasks.  Our results show that prior tasks can introduce 
@@ -130,12 +131,9 @@ In psychology, priming is defined as the effect in which a prior stimulus leads
 to faster or more accurate responses in a subsequent task than without the
 stimulus, or where the stimulus allows the experimenter to the elicit 
 responses from subsequent stimuli that are less intense or noisier [***].
-We are interested in studying the effects of priming in a human computation
-context, so we wish to adopt a more general view of priming as a kind of 
-HPU hysteresis.  In our view, priming might have many effects other than
-those normally measured.  We therefore require a more general definition and a 
-more general tool for quantifying priming, suited to detecting general 
-hysteresis effects.
+However priming might have many effects other than those traditionally 
+measured.  We are interested in studying the effects of priming in a human 
+computation, we adopt a more general view of priming as HPU hysteresis.
 
 For this purpose, we present an algorithmic definition of priming that
 yields a powerful method for detecting priming without knowing ahead of time 
