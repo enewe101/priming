@@ -247,7 +247,7 @@ def computeAllSpecificities(sampleSize=126, nullSampleSize=63,
 			print '   that took %d min.\n' % int((time.time() - start)/60)
 
 
-def computeSpecificityAllImages(
+def csa(	# "csa" = "computesSpecificityAllImages"
 	basis='treatment0', 
 	subjects=['treatment%d'%i for i in [1,5,6,2,3,4]],
 	valence='overall',
