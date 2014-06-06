@@ -598,14 +598,16 @@ def plotExcessCultureVsImage(readFname='orientation/orientation.json',
 
 	subplotLabels = ['A', 'B']
 
-	figWidth = 8.7/2.54
-	figHeight = figWidth*4/5.
+	figWidth = 17.4/2.54
+	figHeight = figWidth*2/5.
+	#figWidth = 8.7/2.54
+	#figHeight = figWidth*4/5.
 	fig = plt.figure(figsize=(figWidth, figHeight))
-	gs = gridspec.GridSpec(1,1)
+	gs = gridspec.GridSpec(1,2)
 
 	X = range(len(images))
 
-	subplots = [0]
+	subplots = [0,1]
 
 	for subplot in subplots:
 
@@ -650,7 +652,8 @@ def plotExcessCultureVsImage(readFname='orientation/orientation.json',
 		xlims = (-padding, len(X) - 1 + width + padding)
 		plt.xlim(xlims)
 
-		plt.ylim((0, plt.ylim()[1]))
+		#plt.ylim((0, plt.ylim()[1]))
+		plt.ylim((-20, plt.ylim()[1]))
 
 		plt.draw()
 		plt.tight_layout()

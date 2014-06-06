@@ -22,6 +22,12 @@
 \setlength{\parindent}{0cm}
 \setlength{\parskip}{4mm plus1mm minus1mm}
 \usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+\usepackage[figurewithin=none]{caption}
+\usepackage{dcolumn}
+\usepackage{multirow}
+\usepackage{booktabs}
+\newcolumntype{d}{D{.}{.}{4.0}}
+\newcolumntype{s}{D{.}{.}{1.4}}
 
 \begin{document}
 \begin{table}[t]
@@ -52,32 +58,65 @@
 	\label{table:1}
 \end{table}
 
+
+\begin{table}
+\centering
+\begin{tabular}{ l  d  s }
+
+\toprule    
+\multirow{2}{*}{Image set} & \multicolumn{1}{c}{\# of unique} & 
+\multicolumn{1}{c}{Similarity } \\
+&  \multicolumn{1}{c}{labels} & \multicolumn{1}{c}{with test set} \\
+  
+\midrule
+
+Ambiguous & 799 & 0.1661
+\\
+
+Cultural & 693 & 0.0576
+\\
+
+Ingredients & 728 & 0.1169
+\\
+
+Test & 1785 & 1.00 
+\\
+\bottomrule
+
+\end{tabular}
+\caption{Number of unique labels attributed to each image set, and their
+	similarity the test set based on \textbf{Eq. 4} }
+\label{table:2}
+\end{table}
+
+
+
 \begin{figure}
-	\includegraphics[scale=1.00]{../figs/taskImages/testImages.png}
+	\includegraphics[scale=1.00]{figs/taskImages/testImages.png}
 	\caption{Testing image set. These images were presented to all workers in 
 		the order shown after the priming set of images.}
 \end{figure}
 
 \begin{figure}
-	\includegraphics[scale=1.00]{../figs/taskImages/ambiguous.png}
+	\includegraphics[scale=1.00]{figs/taskImages/ambiguous.png}
 	\caption{ Ambiguous image set. These images were presented to workers from 
 		certain treatements (see \textbf{Table 1}) in the order shown.}
 \end{figure}
 
 \begin{figure}
-	\includegraphics[scale=1.00]{../figs/taskImages/cultural.png}
+	\includegraphics[scale=1.00]{figs/taskImages/cultural.png}
 	\caption{Cultural image set. These images were presented to workers from 
 		certain treatements (see \textbf{Table 1}) in the order shown.}
 \end{figure}
 
 \begin{figure}
-	\includegraphics[scale=1.00]{../figs/taskImages/ingredients.png}
+	\includegraphics[scale=1.00]{figs/taskImages/ingredients.png}
 	\caption{ Ingredients image set. These images were presented to workers 
 		from certain treatements (see \textbf{Table 1}) in the order shown.}
 \end{figure}
 
 \begin{figure}
-	\includegraphics{../figs/f1-thetas.pdf}
+	\includegraphics{figs/f1-thetas.pdf}
 	\caption{ $F_1$ score and $\theta_\text{NB}$ for the various 
 priming treatments, as measured using a Naive Bayes classifier. Each panel 
 presents classifier performance results that indicate the difference in
@@ -87,7 +126,7 @@ abscissa. }
 \end{figure}
 
 \begin{figure}
-	\includegraphics{../figs/longitudinalF1scores-t1-t2.pdf}
+	\includegraphics{figs/longitudinalF1scores-t1-t2.pdf}
 	\caption{ $F_1$ score and $\theta_\text{NB}$ for the classification of 
 	$\textsc{cult}_{img}$ and $\textsc{ingr}_{img}$ using a Naive Bayes 
 	classifier.  The classifier is provided only the labels attributed to
@@ -95,7 +134,7 @@ abscissa. }
 \end{figure}
 
 \begin{figure}
-	\includegraphics{../figs/orientationVsTreatment.pdf}
+	\includegraphics{figs/orientationVsTreatment.pdf}
 	\caption{Percent label composition (culture- vs food-oriented labels) for 
 		various images and treatments.  Panel A shows the composition of 
 		labels, aggregated over all treatments, as a function of test image.
@@ -105,7 +144,7 @@ abscissa. }
 \end{figure}
 
 \begin{figure}
-	\includegraphics{../figs/excessCultureVsTreatment-t1.pdf}
+	\includegraphics{figs/excessCultureVsTreatment-t1.pdf}
 	\caption{Excess culture-oriented label composition in the labels provided
 		by $\textsc{cult}_{img}$ as compared to $\textsc{ambg}$, for various
 		test images (see \textbf{Eq. 1} for calculation).
@@ -113,7 +152,7 @@ abscissa. }
 \end{figure}
 
 \begin{figure}
-	\includegraphics{../figs/specificity-allImages.pdf}
+	\includegraphics{figs/specificity-allImages.pdf}
 	\caption{Relative specificity of various treatments.
 		Each panel shows the comparison between a basis treatment (inset) and 
 		target treatments (abscissa).
@@ -132,8 +171,8 @@ abscissa. }
 \end{figure}
 
 \begin{figure}
-	\includegraphics{../figs/specificity-test0.pdf}
-	\caption{Relative specificity of various treatments, for labels attributed
+	\includegraphics{figs/specificity-test0.pdf}
+	\caption*{Figure S1: Relative specificity of various treatments, for labels attributed
 		to the first test image.
 		Each panel shows the comparison between a basis treatment (inset) and 
 		target treatments (abscissa).
