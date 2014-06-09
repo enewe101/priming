@@ -535,7 +535,7 @@ class NBCAnalyzer(object):
 		self.dataSet = data_processing.readDataset()
 
 
-	def testNBC(self, pTrainingSize=80, pTestSize=20, 
+	def testNBC(self, pTrainingSize=106, pTestSize=20, 
 		treatments=['treatment1', 'treatment2'], 
 		images=['test0'], pDoConsiderPosition=False, show=False):
 		'''

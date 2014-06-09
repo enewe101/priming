@@ -1,10 +1,12 @@
 Do Now
 ======
+- check back for my math stack exchange answer
 - statistical significance for theta B
 - hypothesis testing for orientation and excess culture
 - hypothesis testing for specificity
 - methods
 - plot 8 should compare cult_img and ingr_img instead of cult_img and ambg
+- read *the future of crowd work*
 
 Other stuff
 ===========
