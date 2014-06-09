@@ -10,7 +10,6 @@ a classifier to distinguish between treatments as a function of the image
 used (i.e., taking into consideration only the labels that worker instances
 attribute to a particular image, and varying the image).
 
-
 `Analyzer` is used to analyze the difference between treatments on the basis
 of an ontology of the words used.  So, for example, it can assess to what 
 degree the workers in one treatment are using more specific words than the 
@@ -37,6 +36,16 @@ CONFIDENCE_95 = 1.96
 CONFIDENCE_99 = 2.975
 
 
+def theta_NB_significance(n,k_star):
+	significance = 0
+
+	for k in range(k_star, n+1):
+		significance += util.choose(n,k) * (0.5**n)
+	
+	print significance
+
+
+
 class Analyzer(object):
 
 	# Constants
@@ -52,6 +61,88 @@ class Analyzer(object):
 			self.readOntology()
 		else:
 			self.ontology = ontology
+
+
+	def compare_image_sets(self, fname='data/similarity.txt'):
+
+		fh = open(fname, 'w')
+
+		# collect the bag of words for each image set
+		ambiguous_labels = self.get_bag_of_labels(
+			treatments=['treatment0'],
+			images=['prime%d' %i for i in range(5)])
+
+		fh.write('ambg: %d\n' % len(ambiguous_labels))
+
+		cultural_labels = self.get_bag_of_labels(
+			treatments=['treatment1'],
+			images=['prime%d' %i for i in range(5)])
+
+		fh.write('cult: %d\n' % len(cultural_labels))
+
+		ingredients_labels = self.get_bag_of_labels(
+			treatments=['treatment2'],
+			images=['prime%d' %i for i in range(5)])
+
+		fh.write('ingr: %d\n' % len(ingredients_labels))
+
+		test_labels = self.get_bag_of_labels(
+			treatments=['treatment0', 'treatment1', 'treatment2'],
+			images=['test%d' %i for i in range(5)])
+
+		fh.write('test: %d\n' % len(test_labels))
+
+		# print the size of intersection for each
+		ambg_intersection = len(ambiguous_labels & test_labels)
+		ambg_union = len(ambiguous_labels | test_labels)
+		ambg_jacc = ambg_intersection / float(ambg_union) * 100
+
+		fh.write('ambg & test: %d / %d = %2.2f\n' % (
+			ambg_intersection, ambg_union, ambg_jacc))
+
+		cult_intersection = len(cultural_labels & test_labels)
+		cult_union = len(cultural_labels | test_labels)
+		cult_jacc = cult_intersection / float(cult_union) * 100
+
+		fh.write('cult & test: %d / %d = %2.2f\n' % (
+			cult_intersection, cult_union, cult_jacc))
+
+		ingr_intersection = len(ingredients_labels & test_labels)
+		ingr_union = len(ingredients_labels | test_labels)
+		ingr_jacc = ingr_intersection / float(ingr_union) * 100
+
+		fh.write('ingr & test: %d / %d = %2.2f\n' % (
+			ingr_intersection, ingr_union, ingr_jacc))
+
+		fh.close()
+
+
+	def get_bag_of_labels(
+		self,
+		treatments=['treatment0', 'treatment3', 'treatment5'],
+		images=['prime%d' %i for i in range(5)]
+		):
+
+		label_set = set()
+
+		for treatment in treatments:
+			for entry in self.dataSet.entries[treatment]:
+				for image_id, label in entry.items():
+
+					# image labels have keys that are tuples
+					# but other entry properties exist
+					if not isinstance(image_id, tuple):
+						continue;
+
+					# only include the labels specified by the images param
+					if not image_id[0] in images:
+						continue
+
+					label_set.add(label)
+
+		return label_set
+
+
 
 
 	def compareNonCulturalSpecificity(
@@ -113,7 +204,7 @@ class Analyzer(object):
 
 
 	def compareFoodSpecificity(
-		self, treatment1, treatment2, numToCompare=50, images=['image0']):
+		self, treatment1, treatment2, numToCompare=50, images=['test0']):
 
 		# Mask all except food
 		foodToken = self.ontology.getSynonym('food')
@@ -133,7 +224,7 @@ class Analyzer(object):
 
 
 	def compareCulturalSpecificity(
-		self, treatment1, treatment2, numToCompare=50, images=['image0']):
+		self, treatment1, treatment2, numToCompare=50, images=['test0']):
 
 		# Mask all except cultural
 		cultureToken = self.ontology.getSynonym('cultural')
@@ -453,7 +544,7 @@ class NBCAnalyzer(object):
 		self.dataSet = data_processing.readDataset()
 
 
-	def testNBC(self, pTrainingSize=80, pTestSize=20, 
+	def testNBC(self, pTrainingSize=106, pTestSize=20, 
 		treatments=['treatment1', 'treatment2'], 
 		images=['test0'], pDoConsiderPosition=False, show=False):
 		'''
@@ -542,7 +633,7 @@ class NBCAnalyzer(object):
 
 			for i in range(numReplicates):
 				allImages = ['test%d' % i for i in range(5)]
-				result = self.testNBC(80, 20, comparison, allImages, True)
+				result = self.testNBC(86, 40, comparison, allImages, True)
 				try:
 					comparisonF1Scores.append(result.getF1(firstTreatment))
 					comparisonAccuracies.append(result.getOverallAccuracy())

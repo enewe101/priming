@@ -1,9 +1,19 @@
 Do Now
 ======
-- methods
-- create the table of treatments
-- how to describe construction of ontology or make it available?
+- check back for my math stack exchange answer
 
+- statistical significance for theta_NB
+	- re-calculate for testing set of 40 
+
+- hypothesis testing for orientation and excess culture
+
+- hypothesis testing for specificity
+
+- methods
+
+- plot 8 should compare cult_img and ingr_img instead of cult_img and ambg
+
+- read *the future of crowd work*
 
 Other stuff
 ===========

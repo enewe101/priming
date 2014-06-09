@@ -122,6 +122,31 @@ class AnalysisTestCase(unittest.TestCase):
 		self.a = analysis.Analyzer(self.dataset)
 
 
+	def test_get_bag_of_labels(self):
+		labels = self.a.get_bag_of_labels(
+			treatments=['treatment1'], 
+			images=['prime%d' % i for i in range(5)])
+
+		self.assertEqual(
+			labels, 
+			set(['chinese', 'mexico', 'dance', 'mariatchi', 'blue', 
+				'sombrero', 'fox', 'asia', 'hang on', 'horses', 'guitar', 
+				'hours', 'russian', 'sing', 'tradition', 'stage', 'buck', 
+				'new year', 'ride', 'hunt', 'dragon', 'rodeo', 'yeehaw']
+			)
+		)
+
+		labels = self.a.get_bag_of_labels(
+			treatments=['treatment1'], 
+			images=['test0'])
+
+		self.assertEqual(
+			labels,
+			set(['food', 'shiva', 'vishnu', 'ganesh', 'yogurt', 'x'])
+		)
+
+
+
 	def test_isCultural(self):
 		# 'ganesha' is certainly a cultural word (an Indian god)
 		self.assertTrue(self.a.isCultural('ganesha'))
@@ -155,24 +180,22 @@ class AnalysisTestCase(unittest.TestCase):
 		# In the testing dataset, treatment 3 has strictly more general terms
 		# than treatment 4
 		result = self.a.compareSpecificity('treatment3','treatment4', 2)
-		self.assertEqual(result['avgFirstMoreSpecific'], 0)
-		self.assertGreater(
-			result['avgFirstLessSpecific'], result['avgFirstMoreSpecific'])
+		self.assertEqual(result['avgMoreMinusLess'], -6.25)
 
 
 	def test_CompareCulturalSpecificity(self):
+		# note that "ganesh" gets eliminated in the cultural specificity
+		# because of association to "thing" via "elephant"
 
 		result = self.a.compareCulturalSpecificity(
 			'treatment1', 'treatment2', 2)
-		self.assertEqual(result['avgFirstMoreSpecific'], 6.0)
-		self.assertEqual(result['avgFirstLessSpecific'], 0.0)
+		self.assertEqual(result['avgMoreMinusLess'], 3.0)
 
 
 	def test_CompareFoodSpecificity(self):
 
 		result = self.a.compareFoodSpecificity('treatment1', 'treatment2', 2)
-		self.assertLess(
-			result['avgFirstMoreSpecific'], result['avgFirstLessSpecific'])
+		self.assertLess(result['avgMoreMinusLess'], 0)
 
 
 

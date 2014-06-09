@@ -1,0 +1,21 @@
+points:
+- priming changes crowdsourcing answers
+- Priming effects are relatively persistent
+- Priming can be detected
+- priming can happend through diff mechs
+- in-task priming can be more severe than overt set-up priming
+- Priming can be levraged
+
+Comparisons:
+x culture vs ingredients -- vocab -- img / funder
+- culture vs ingredients -- specificity -- img / funder
+- culture vs ingredients vs ambiguous -- specificity
+x culture vs ingredients -- classification -- img / funder
+		-- img by image
+- img vs funder for cultur vs img -- specificity, vocab, classifier
+
+- img vs funder -- specificity
+- img vs funder -- vocab
+x img vs funder -- classifier
+
+

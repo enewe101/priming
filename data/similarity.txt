@@ -1,0 +1,7 @@
+ambg: 799
+cult: 693
+ingr: 728
+test: 1785
+ambg & test: 368 / 2216 = 16.61
+cult & test: 135 / 2343 = 5.76
+ingr & test: 263 / 2250 = 11.69

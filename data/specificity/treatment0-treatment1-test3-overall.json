@@ -1,0 +1,23 @@
+[
+   {
+      "valence": "overall", 
+      "results": [
+         {
+            "null": {
+               "stdev": 0.20707486568871655, 
+               "avg": 0.55999999999999994, 
+               "subject": "null"
+            }, 
+            "results": [
+               {
+                  "stdev": 0.28186876378910802, 
+                  "avg": 0.34999999999999998, 
+                  "avgNorm": 1.6902099578136844, 
+                  "subject": "treatment1"
+               }
+            ], 
+            "basis": "treatment0"
+         }
+      ]
+   }
+]
