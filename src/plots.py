@@ -849,7 +849,11 @@ def plotValenceComparison(
 	print percentValences
 
 
-def computeAllF1Accuracy(numReplicates=50, fname='f1scores/all.json'):
+def computeAllF1Accuracy(
+	numReplicates=50,
+	fname='f1scores/all.json',
+	subplotComparisons=None
+	):
 	'''
 	Computes the F1 score for a naive bayes classifier built to distinguish
 	between all the interesting pairings of treatments.
@@ -859,19 +863,20 @@ def computeAllF1Accuracy(numReplicates=50, fname='f1scores/all.json'):
 	'''
 	fh = open(fname, 'w')
 
-	subplotComparisons = [
-		{'basis': 'treatment0', 
-		'subjects' : ['treatment1', 'treatment5', 'treatment6', 
-			'treatment2', 'treatment3', 'treatment4']}
+	if subplotComparisons is None:
+		subplotComparisons = [
+			{'basis': 'treatment0', 
+			'subjects' : ['treatment1', 'treatment5', 'treatment6', 
+				'treatment2', 'treatment3', 'treatment4']}
 
-		, {'basis': 'treatment1', 
-		'subjects' : ['treatment5', 'treatment6', 
-			'treatment2', 'treatment3', 'treatment4']}
+			, {'basis': 'treatment1', 
+			'subjects' : ['treatment5', 'treatment6', 
+				'treatment2', 'treatment3', 'treatment4']}
 
-		, {'basis': 'treatment2', 
-		'subjects' : ['treatment5', 'treatment6', 
-			'treatment3', 'treatment4']}
-	]
+			, {'basis': 'treatment2', 
+			'subjects' : ['treatment5', 'treatment6', 
+				'treatment3', 'treatment4']}
+		]
 
 
 	results = []
