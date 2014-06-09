@@ -632,7 +632,39 @@ knowledge of the treatments from which labels originated.
 Labels which were judged to be roughly synonymous were treated as identical,
 and labels judged to be misspellings were corrected. 
 
-\textbf{Statistical significance for relative specificity.}
+\textbf{Statistical significance of $\theta_\text{NB}$.}
+We test the significance two population's measured $\theta_\text{NB}$ against 
+the null hypothesis that that the two populations are in fact identical:
+\begin{align}
+	\mathbf{H_0}: \theta_\text{NB} = 0 \\
+	\mathbf{H_1}: \theta_\text{NB} > 0
+\end{align}
+If the populations are in fact identical, then the probability that the 
+classifier correctly classifies a worker is $\frac{1}{2}$, and the probability 
+of getting $k$ classifications during a cross-validation with $n$ 
+test-classifications is:
+\begin{align}
+	\text{Pr}\{K = k | n \} = { n \choose k } \left(\frac{1}{2}\right)^n.
+\end{align}
+Then, we have statistical significance if 
+$\theta_\text{NB}$ is greater than a critical value, 
+$\theta_\text{NB}^*$:
+\begin{align}
+	\theta_\text{NB} \geq 2k^* - 1
+\end{align}
+where $k^*$ is the minimum value required to satisfy
+\begin{align}
+	\sum_{k \in \{k^*, \dots, n\}} \text{Pr}\{K = k | n \} < \alpha.
+\end{align}
+For a test-set of $n=40$ workers, and a significance of $\alpha = 0.05$, we
+have $k^*=26 \implies \theta_\text{NB}^* = 0.65$.
+
+
+
+
+
+
+\textbf{Statistical significance of relative specificity.}
 We used \textbf{Eq.~\ref{eq:specificity}} to compute the relative specificity
 of two treatments.  To analyze relative specificity statistically,
 we first develop \textbf{Eq.~\ref{eq:specificity}} from an intermediate 

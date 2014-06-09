@@ -10,7 +10,6 @@ a classifier to distinguish between treatments as a function of the image
 used (i.e., taking into consideration only the labels that worker instances
 attribute to a particular image, and varying the image).
 
-
 `Analyzer` is used to analyze the difference between treatments on the basis
 of an ontology of the words used.  So, for example, it can assess to what 
 degree the workers in one treatment are using more specific words than the 
@@ -35,6 +34,16 @@ import numpy as np
 # normal variate
 CONFIDENCE_95 = 1.96
 CONFIDENCE_99 = 2.975
+
+
+def theta_NB_significance(n,k_star):
+	significance = 0
+
+	for k in range(k_star, n+1):
+		significance += util.choose(n,k) * (0.5**n)
+	
+	print significance
+
 
 
 class Analyzer(object):
@@ -624,7 +633,7 @@ class NBCAnalyzer(object):
 
 			for i in range(numReplicates):
 				allImages = ['test%d' % i for i in range(5)]
-				result = self.testNBC(80, 20, comparison, allImages, True)
+				result = self.testNBC(86, 40, comparison, allImages, True)
 				try:
 					comparisonF1Scores.append(result.getF1(firstTreatment))
 					comparisonAccuracies.append(result.getOverallAccuracy())
