@@ -707,7 +707,6 @@ def plotExcessCultureVsImage(readFname='orientation/orientation.json',
 	plt.show()
 	
 
-
 def plotOrientationVsTreatment(readFname='orientation/orientation.json',
 	writeFname='figs/orientationVsTreatment.pdf'):
 
@@ -890,8 +889,8 @@ def plotValenceComparison(
 
 
 def computeAllF1Accuracy(
-	fname='f1scores/f1-thetas_full_pairwise50_img1',
-	testSetSize=50,
+	fname='f1scores/f1-thetas_full_pairwise25_img1',
+	testSetSize=25,
 	subplotComparisons=None,
 	image_nums=[0]
 	):
@@ -968,9 +967,11 @@ def computeAllF1Accuracy(
 	return results
 
 def plotAllF1Theta(
-	readFname='f1scores/full_pairwise50_img1.json',
-	writeFname='figs/f1-thetas_full_pairwise50_img1.pdf',
-	theta_only=True
+	readFname='f1scores/full_pairwise25_img1.json',
+	writeFname='figs/f1-thetas_full_pairwise25_img1.pdf',
+	theta_only=True,
+	n=125,
+	alpha=0.05
 	):
 
 	'''
@@ -1003,6 +1004,7 @@ def plotAllF1Theta(
 	else:
 		width = 0.75
 
+	theta_star = analysis.get_theta_star(n, alpha)
 
 	for i, subplotData in enumerate(f1scores):
 
@@ -1048,16 +1050,6 @@ def plotAllF1Theta(
 		#ax.text(-0.05,0.97,letterLabel, 
 		#		va='top', ha='left', size=12)
 
-		# Label the basis treatments above the subplots
-		basisTreatmentName = TREATMENT_NAMES[basisTreatment]
-		left = len(Y_thetas)/2.0 - width
-		if not theta_only:
-			height= 0.82 if i else 0.86
-		else:
-			height= 0.62 if i else 0.66
-
-		ax.text(left, height, basisTreatmentName, 
-				va='bottom', ha='left', size=9, rotation=45)
 
 		# Put together intelligible labels for the x-axis
 		ax.tick_params(axis='both', which='major', labelsize=9)
@@ -1077,12 +1069,28 @@ def plotAllF1Theta(
 		#		loc='lower right', prop={'size':9}, labelspacing=0)
 
 		significance_bar = ax.plot(
-			xlims, [0.17, 0.17], color='0.35', linestyle=':', zorder=0)
+			xlims, [theta_star, theta_star], color='0.35', linestyle=':', zorder=0)
 
 		# Tighten up the layout
 		plt.draw()
 		if i < 1:
 			plt.tight_layout()
+
+	# After plots are made, put labels along the top.  This needs to wait
+	# until now so that the axes limits are stable
+	for i, (ax, subplotData) in enumerate(zip(fig.axes, f1scores)):
+
+		# Label the basis treatments above the subplots
+		basisTreatment = subplotData['basis']
+		basisTreatmentName = TREATMENT_NAMES[basisTreatment]
+		left = len(subplotData['accuracy'])/2.0 - width
+		ylims = plt.ylim()
+		# put the label directly above the plot.  
+		# The first label needs to be put a bit higher.
+		height= ylims[1] + (0.02 if i else 0.06)
+		ax.text(left, height, basisTreatmentName, 
+				va='bottom', ha='left', size=9, rotation=45)
+
 
 	y_low, y_high = plt.ylim()
 	plt.ylim(y_low-0.04, y_high)
@@ -1267,9 +1275,9 @@ def plotAllF1(
 
 
 def computeClassificationVsImage(
-	testSetSize=50,
+	testSetSize=25,
 	treatments=('treatment0','treatment1'), 
-	writeFname='f1scores/longitudinal-t0-t1_50.json'):
+	writeFname='f1scores/longitudinal-t0-t1_25.json'):
 	'''
 	Measures the F1 score for a classifier built to distingiush between
 	<treatments> based on the labels attributed to a specific image, 
@@ -1287,15 +1295,19 @@ def computeClassificationVsImage(
 
 
 def plotClassificationVsImage(
-	readFname='f1scores/longitudinal-t0-t1_50.json',
-	writeFname='figs/longitudinalF1scores-t0-t1_50.pdf',
-	theta_only=True
+	readFname='f1scores/longitudinal-t0-t1_25.json',
+	writeFname='figs/longitudinalF1scores-t0-t1_25.pdf',
+	theta_only=True,
+	n=125,
+	alpha=0.05
 	):
 	'''
 	Measures the F1 score for a classifier built to distingiush between
 	<treatments> based on the labels attributed to a specific image, 
 	as a function of the images for all 5 test images.
 	'''
+
+	theta_star = analysis.get_theta_star(n, alpha)
 
 	results = json.loads(open(readFname, 'r').read())
 
@@ -1356,8 +1368,8 @@ def plotClassificationVsImage(
 	#	loc='lower right', prop={'size':9}, labelspacing=0)
 
 	xlims = plt.xlim()
-	significance_bar = ax.plot(
-		xlims, [0.17, 0.17], color='0.35', linestyle=':', zorder=0)
+	significance_bar = ax.plot(xlims, [theta_star, theta_star],
+		color='0.35', linestyle=':', zorder=0)
 	
 	plt.draw()
 	plt.tight_layout()

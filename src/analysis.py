@@ -45,6 +45,28 @@ def theta_NB_significance(n,k_star):
 	print significance
 
 
+def get_theta_star(n, alpha):
+	k_star = get_k_star(n,alpha)
+	return 2 * k_star / float(n) - 1
+
+
+def get_k_star(n, alpha):
+
+	k = n
+	prob_tot = prob_k_successes(n,k)
+	k_star = None
+
+	while prob_tot < alpha:
+		k_star = k
+		k -= 1
+		prob_tot += prob_k_successes(n,k)
+
+	return k_star
+
+
+def prob_k_successes(n,k):
+	return util.choose(n,k) * (0.5**n)
+
 
 class Analyzer(object):
 
@@ -250,7 +272,7 @@ class Analyzer(object):
 		of a given treatment.  If image is specified, restrict counts to
 		a specific image
 		Input: 
-			treatmen (str): key for identifying a treatment, e.g.
+			treatment (str): key for identifying a treatment, e.g.
 				'treatment0'.
 
 			image (str): key identifying an image, e.g. 'test0'.

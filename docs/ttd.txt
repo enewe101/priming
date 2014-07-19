@@ -24,6 +24,7 @@ Manuscript Notes
 	this, and that the result is predictive too, and that besides, we're 
 	interested in the effect on output of an algorithm, hence using classifier.
 
+- We can reject the null hypothesis if thetaNB is *at least* theta star
 - Results re cross-comparison of classifier competance:
 	- against the ambiguous, we can only distinguish the treatments using
 		cultural imaging.  When the cultural funder is added, it doesn't seem
@@ -62,10 +63,13 @@ Do Now
 			other
 	x make new longitudinal plot of \theta_NB and check for significance
 		- compare cult_img and ambg
-	[] Check where the 95% confidence level is for binary classification with
-		test set of 50
+	x Check where the 95% confidence level is for binary classification with
+		test set of 25
 
 	[] assess significance tests for the orientation composition measures
+		- I would feel better about using the stdev of 'food_nx' (food non 
+			exclusive)... maybe...
+		- also check if the mask is working correctly for the ontology
 	[] re-plot the longitudinal excess cutural orientation
 	[] crossComparison got rid of numReplicates -- propogate
 
