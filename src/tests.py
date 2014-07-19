@@ -4,7 +4,7 @@ import analysis
 import naive_bayes as nb
 import data_processing as dp
 import ontology
-
+import copy
 
 class OntologyTestCase(unittest.TestCase):
 	def setUp(self):
@@ -202,7 +202,13 @@ class AnalysisTestCase(unittest.TestCase):
 
 class DataProcessingTestCase(unittest.TestCase):
 	def setUp(self):
-		self.dataset = dp.readDataset()
+		self.dataset = dp.CleanDataset()
+		self.dataset.read_csv('amt_csv/test100.csv', False)
+
+		self.dataset.aggregateCounts()
+		self.dataset.calc_ktop(5)
+		self.dataset.uniform_truncate(10)
+
 
 	def test_NoDuplicates(self):
 		seenWorkers = set()
@@ -224,39 +230,172 @@ class DataProcessingTestCase(unittest.TestCase):
 			treatments.append(treatment)
 			originalSizes[treatment] = len(entries)
 
-		# do the subsampling, first specifying only a training sample size
-		self.dataset.subsample(80)
+		# do the subsampling, specify a testSet of 20
+		self.dataset.subsample(2)
 
 		for treatment in treatments:
 			# We expect 80 entries in each training set
-			self.assertEqual(len(self.dataset.trainEntries[treatment]), 80)
-
-			# There shouldn't be any unused entries
-			self.assertEqual(len(self.dataset.unusedEntries[treatment]), 0)
+			self.assertEqual(len(self.dataset.trainEntries[treatment]), 8)
 
 			# The sum of entries in partitions should be the original total
 			totalInTreatment = (
 				len(self.dataset.trainEntries[treatment])
-				+ len(self.dataset.testEntries[treatment])
-				+ len(self.dataset.unusedEntries[treatment]))
+				+ len(self.dataset.testEntries[treatment]))
 			self.assertEqual(totalInTreatment, originalSizes[treatment])
+			self.assertEqual(len(self.dataset.testEntries[treatment]),2)
 
-		# Subsample again, this time specifying a test sample size too
-		self.dataset.subsample(80, 20)
 
-		for treatment in treatments:
-			# We expect 80 entries in each training set
-			self.assertEqual(len(self.dataset.trainEntries[treatment]), 80)
+	def test_subSampleTooLarge(self):
 
-			# We expect 20 entries in each test set
-			self.assertEqual(len(self.dataset.testEntries[treatment]), 20)
+		'''Specifying a testSetSize that is larger than the dataset --- should
+		raise an exception'''
 
-			# The sum of entries in partitions should be the original total
-			totalInTreatment = (
-				len(self.dataset.trainEntries[treatment])
-				+ len(self.dataset.testEntries[treatment])
-				+ len(self.dataset.unusedEntries[treatment]))
-			self.assertEqual(totalInTreatment, originalSizes[treatment])
+		with self.assertRaises(dp.CleanDatasetException):
+			self.dataset.subsample(127)
+
+
+	def test_areTreatmensEqual(self):
+
+		# Test reading data having equally-sized treatments
+		data = dp.CleanDataset()
+		data.read_csv('amt_csv/test.csv')
+		self.assertTrue(data.areTreatmentsEqual)
+
+		# Test reading data having unequally-sized treatments
+		data = dp.CleanDataset()
+		data.read_csv('amt_csv/test100.csv')
+		self.assertFalse(data.areTreatmentsEqual)
+
+
+	def test_uniformTruncate(self):	
+		''' ensure that after running uniform truncate, treatments have
+		the same size, and that this size is size of the smallest treatment
+		truncate
+		'''
+		# read the dataset
+		data = dp.CleanDataset()
+		data.read_csv('amt_csv/test100.csv')
+
+		# Verify that treatments are being reported as equal
+		self.assertFalse(data.areTreatmentsEqual)
+
+		# get the size of the smallest treatment
+		min_treatment_size = min([len(t) for t in data.entries.values()])
+
+		# copy the all the entries for each treatment.  This is to check that
+		# all entries can be accounted for after truncation
+		record_entries = {}
+		for treatment, entries in data.entries.items():
+			record_entries[treatment] = [e['workerId'] for e in entries]
+
+		# run the function
+		data.uniform_truncate()
+
+		# find the min and max treatment size now
+		min_t_size = min([len(t) for t in data.entries.values()])
+		max_t_size = max([len(t) for t in data.entries.values()])
+
+		# all treatments should be equal in size to the original smallest
+		self.assertEqual(min_t_size, min_treatment_size)
+		self.assertEqual(max_t_size, min_treatment_size)
+		self.assertTrue(data.areTreatmentsEqual)
+
+		self.maxDiff=None
+
+		# The entries removed from each treatment should be found in the
+		# unused entries
+		for treatment in data.entries.keys():
+			treatment_entries = (
+				[e['workerId'] for e in data.entries[treatment]]
+				+ [e['workerId'] for e in data.unusedEntries[treatment]])
+			self.assertItemsEqual(treatment_entries, record_entries[treatment])
+
+	def test_uniformTruncateCustomSize(self):
+		'''ensure that you can specify a desired truncation size, and that
+		it must not be larger than the size of the smallest treatment'''
+
+		# read the dataset
+		data = dp.CleanDataset()
+		data.read_csv('amt_csv/test100.csv')
+
+		min_treatment_size = min([len(t) for t in data.entries.values()])
+
+		data.uniform_truncate(min_treatment_size - 1)
+
+		max_treatment_size = max([len(t) for t in data.entries.values()])
+		new_min_treatment_size = min([len(t) for t in data.entries.values()])
+		
+		# The new max and min treatment sizes should be the requested size
+		self.assertEqual(max_treatment_size, min_treatment_size - 1)
+		self.assertEqual(new_min_treatment_size, min_treatment_size - 1)
+
+
+	def test_uniformTruncateCustomSizeTooSmall(self):
+		'''ensure that you can specify a desired truncation size, and that
+		it must not be larger than the size of the smallest treatment'''
+
+		# read the dataset
+		data = dp.CleanDataset()
+		data.read_csv('amt_csv/test100.csv')
+
+		min_treatment_size = min([len(t) for t in data.entries.values()])
+
+		with self.assertRaises(dp.CleanDatasetException):
+			data.uniform_truncate(min_treatment_size + 1)
+
+
+	def test_subsampleUnequalTreatments(self):
+		'''For simpler implementation, subsampling, and sample rotation are
+		implemented under the assumption that all treatments are of equal
+		size.  This verifies that the assumption is being checked'''
+
+		data = dp.CleanDataset()
+		data.read_csv('amt_csv/test100.csv')
+		with self.assertRaises(dp.CleanDatasetException):
+			data.subsample(80)
+	
+
+	def test_subsampleRotation(self):
+		data = dp.CleanDataset()
+		data.read_csv('amt_csv/test100.csv')
+		data.uniform_truncate()
+		treatment_size = len(data.entries.values()[0])
+		test_set_size = 3
+		train_set_size = treatment_size - test_set_size
+		k = treatment_size / test_set_size
+
+		used_test_entries = {}
+		for treatment in data.entries.keys():
+			used_test_entries[treatment] = set()
+
+		first = True
+		for fold in range(k):
+			if first:
+				data.subsample(test_set_size)
+				first = False
+			else:
+				data.rotateSubsample()
+
+			for treatment in data.entries.keys():
+
+				# Each treatment's test set should be the correct size
+				self.assertEqual(
+					len(data.testEntries[treatment]), test_set_size)
+
+				# test set should not overlap with test set from previous fold
+				thisTestSet = set(
+					[e['workerId'] for e in data.testEntries[treatment]])
+				overlap = (used_test_entries[treatment] & thisTestSet)
+				self.assertEqual(len(overlap), 0)
+
+				# add the new test set to the used_test_entries
+				used_test_entries[treatment] |= thisTestSet
+
+
+		# We should not have enough remaining entries that have never been
+		# used in a test set, so an error is raised if we try to rotate again
+		with self.assertRaises(dp.CleanDatasetRotationException):
+			data.rotateSubsample()
 
 
 
@@ -285,16 +424,88 @@ class NaiveBayesDatasetTestCase(unittest.TestCase):
 
 	def test_getTestInstances(self):
 		nbDataset = nb.NBDataset(self.dataset, ['treatment1','treatment2'], 
-			[0], False, 80, 20)
+			[0], False, 25)
 		testSet = nbDataset.getTestSet()
 		
 		# The test set should only contain entries from the treatments listed
 		# in the NBDataset constructor
 		self.assertItemsEqual(testSet.keys(), ['treatment1', 'treatment2']) 
 
+		# The test sets should have 25
 		for treatment, entries in testSet.items():
-			self.assertEqual(len(entries), 20)
+			self.assertEqual(len(entries), 25)
 			
+
+	def test_rotateSubsample(self):
+		datasetSize = len(self.dataset.entries.values()[0])
+		testsetSize = 25
+		numFolds = datasetSize / testsetSize
+
+		treatments = ['treatment0','treatment1']
+
+		# First, we will test running multiple validations without using the
+		# rotate function.  This is not true cross-validation, because the
+		# test sets from alternate folds should overlap somewhat, since they
+		# are randomly sampled.
+		hasOverlap = False
+		testSet = dict([(t,set()) for t in treatments])
+		for fold in range(numFolds):
+
+			nbDataset = nb.NBDataset(self.dataset,
+				treatments, [0], True, testsetSize)
+
+			newTestSet = nbDataset.getTestSet()
+
+			for t in treatments:
+
+				if len(testSet[t] & 
+					set([entry.underlyingInstance['workerId'] 
+					for entry in newTestSet[t]])):
+					hasOverlap = True
+
+				testSet[t] |= set([entry.underlyingInstance['workerId'] 
+					for entry in newTestSet[t]])
+
+		self.assertTrue(hasOverlap)
+
+		# Next we try using the rotateSubsample function, which alows us to
+		# do true cross-validation.  Test sets from alternate folds should not
+		# overlap, because they are sampled without replacement. 
+		hasOverlap = False
+		testSet = dict([(t,set()) for t in treatments])
+		nbDataset = nb.NBDataset(self.dataset,
+			treatments, [0], True, testsetSize)
+
+		while True:
+
+			newTestSet = nbDataset.getTestSet()
+
+			for t in treatments:
+
+				if len(testSet[t] & 
+					set([entry.underlyingInstance['workerId'] 
+					for entry in newTestSet[t]])):
+					hasOverlap = True
+
+				testSet[t] |= set([entry.underlyingInstance['workerId'] 
+					for entry in newTestSet[t]])
+
+			# continue processing folds until there are no more folds
+			try:
+				nbDataset.rotateSubsample()
+			except dp.CleanDatasetRotationException:
+				break
+
+		# alternate test sets should not overlap
+		self.assertFalse(hasOverlap)
+
+		# the total number of testentries should be the number of folds times
+		# the size of a test set
+		for t in treatments:
+			self.assertEqual(len(testSet[t]), numFolds*testsetSize)
+
+
+
 
 if __name__ == '__main__':
 	unittest.main()

@@ -28,6 +28,8 @@ import json
 import csv
 
 
+
+
 def readDataset():
 	'''
 	Factory method that builds a CleanDataset from the original Amazon
@@ -48,8 +50,16 @@ def readDataset():
 	dataSet.aggregateCounts()
 	dataSet.calc_ktop(5)
 
+	dataSet.uniform_truncate(125)
 	return dataSet
 
+
+class CleanDatasetException(Exception):
+	pass
+
+
+class CleanDatasetRotationException(Exception):
+	pass
 
 class CleanDataset(object):
 
@@ -67,44 +77,131 @@ class CleanDataset(object):
 		# Data
 		self.dictionary = set()		# a list of all words that occur 
 		self.entries = {}			# an entry holds the data for one worker
-		self.testEntries = {}		# holds the unused entries when sub-sampled
+		self.testEntries = {}		# holds the entries for testing when 
+									# sub-sampled
+		self.unusedForTest = {}	# keeps track of which entries have 
+										# been used for testing so far
+
+		self.unusedEntries = {}		# used to hold entries that are removed
+									# during truncation
 		self.trainEntries = {}
 		self.workerIds = set()		# to prevent duplicates
 		self.counts = {}			# stores words and frequency of occurrence
 		self.ktops = {}
+		self.areTreatmentsEqual = False	# boolean, indicates whether all 
+										# treatments have the same number of 
+										# entries
 
 
-	# In principle This should be moved to the NBDataset class, because this 
-	# separation
-	# is really a concern introduced by the desire to train a Naive Bayes
-	# Classifier on the data.  But for now it is here.  The reason is because
-	# I had written the function aggregateCounts also here, but really both
-	# should be moved to Naive Bayes Classifier.
-	def subsample(self, trainingSetSize, testSetSize=None):
+	# Use this to make all of the treatments have the same size 
+	def uniform_truncate(self, truncateSize=None):
+
+		# Figure out size of smallest treatment
+		min_treatment_size = min(
+			[len(treatment) for treatment in self.entries.values()])
+
+		# if treatment size isn't specified, use size of smallest treatment
+		if truncateSize is None:
+			truncateSize = min_treatment_size
+
+		# else check that treatment size is not bigger than smallest treatment
+		else:
+			if truncateSize > min_treatment_size:
+				raise CleanDatasetException('CleanDataset.uniform_truncate: '\
+					'truncateSize must not be larger than smallest '\
+					'treatment size in data set.')
+
+		# Make all treatments the same size
+		for treatment in self.entries.keys():
+			
+			remaining = len(self.entries[treatment]) - truncateSize
+			subsampled_treatment, unused_from_treatment = util.randomPartition(
+				self.entries[treatment], truncateSize, remaining)
+
+			self.entries[treatment] = subsampled_treatment
+			self.unusedEntries[treatment] = unused_from_treatment
+
+		self.areTreatmentsEqual = True
+
+
+	def subsample(self, testSetSize):
 		'''
 		Partitions the dataset into a training set, and test set.  
+		The treatments must be of uniform size.  If they are not, then run
+		uniform_truncate() with no arguments to make them all the size of 
+		the smallest treatment.
 		'''
+
+		# State Validation
+		if not self.areTreatmentsEqual:
+			raise CleanDatasetException('The treatments are not all of the '\
+				'same size')
+
+		# Input Validation
+		treatment_size = len(self.entries.values()[0])
+		if testSetSize > treatment_size:
+			raise CleanDatasetException('The test set size cannot be '\
+				'larger than the size of the treatments')
+
 		self.trainEntries = {}
 		self.testEntries = {}
-		self.unusedEntries = {}
+		self.unusedForTest = {}
+
+		# the testSetSize is everything outside the training set 
+		trainingSetSize = treatment_size - testSetSize
+
+		self.testSetSize = testSetSize
+		self.trainingSetSize = trainingSetSize
+
+		# when we begin, no treatments have yet been used for testing
+		# we'll track which entries have been used based on their workerId
+		for treatment, entries in self.entries.items():
+			self.unusedForTest[treatment] = set(
+				[e['workerId'] for e in entries])
+
+
+		# set up the first partition of the dataset into training and
+		# test set.  Further calls to rotateSubsample will give partitions
+		# whose test set is non-overlapping with prior test sets since calling
+		# subsample()
+		self.rotateSubsample()
+
+
+	def rotateSubsample(self):
+
+		# clear the existing data partition: we are now re-partitioning the
+		# data
+		self.trainEntries = {}
+		self.testEntries = {}
+
+		# Make sure that we have enough entries that haven't been used for a
+		# previous test set, in order to make the next test set
+		if len(self.unusedForTest.values()[0]) < self.testSetSize:
+			raise CleanDatasetRotationException('cannot rotateSubsample: not '\
+				'enough entries available that have not been used before in '\
+				'a test set.')
 
 		# Split the entries of each treatment into testing and training sets
-		for treatment, entries in self.entries.items():
+		for treatment, entries in self.unusedForTest.items():
 
-			if testSetSize is None:
-				lTestSetSize = len(entries) - trainingSetSize
-				unusedSize = 0
+			# create a place to put the training and test entries for this
+			# treatment
+			self.trainEntries[treatment] = []
+			self.testEntries[treatment] = []
 
-			else:
-				lTestSetSize = testSetSize
-				unusedSize = len(entries) - trainingSetSize - testSetSize
+			# pick out which entries to include in the test partition for
+			# this treatment
+			test = random.sample(entries, self.testSetSize)
 
-			train, test, unused = util.randomPartition(
-				entries, trainingSetSize, lTestSetSize, unusedSize)
+			# partition the entries based on the choice of test partition
+			for e in self.entries[treatment]:
+				if e['workerId'] in test:
+					self.testEntries[treatment].append(e)
+				else:
+					self.trainEntries[treatment].append(e)
 
-			self.trainEntries[treatment] = train
-			self.testEntries[treatment] = test
-			self.unusedEntries[treatment] = unused
+			# The entries used for test can't be used in the future
+			self.unusedForTest[treatment] -= set(test)
 
 		# Now that partitioning is done, recalculate aggregates
 		self.aggregateCounts()
@@ -115,33 +212,31 @@ class CleanDataset(object):
 		return self.testEntries
 
 
-	def clearAggregateCounts(self):
-		
-		# We want to clear all the aggregated counts.  But we don't want to
-		# clear the counts that are specific to a treatment-image-position
-		for treatment, image, position in self.counts.keys():
-
-			# We can tell that a count is aggregated if the 
-			# position coordinate is None.  If so, delete it.
-			if position is None:
-				del self.counts[(treatment, image, position)]
-
-
 	def aggregateCounts(self):
 
 		# First we need to clear out stale counts
-		self.clearAggregateCounts()
+		self.counts = {}
 
-		# We are going to iterate over all the counts that are associated
-		# to a specific treatment, image, and word-position, and aggregate
-		# these counts 
+		# Next, we package up note all unique intstances of features
+		for treatment, entries in self.trainEntries.items():
+			for entry in entries:
+				features = filter(lambda (k,v): isinstance(k, tuple),
+					entry.items())
+
+				for ((image, position), word) in features:
+					self._aggregateCount((treatment, image, position), word, 1)
+
+		# Finally, we roll up the counts to aggregate counts
+		# For example, if the same word occurs in different positions of the
+		# same image, we would now be able to access the aggregate count for
+		# that image, regardless of position
 		for treatment, image, position in self.counts.keys():
 			count_dict = self.counts[(treatment, image, position)]
 
-			# Don't consider counts that are themselves aggregate.  These are
-			# recognizeable because the word-position in the key is None
+			# This should never happen, it was a quick check. Replace with a 
+			# test
 			if position is None:
-				continue
+				assert(False)
 
 			for word, frequency in count_dict.items():
 
@@ -173,10 +268,14 @@ class CleanDataset(object):
 			self.counts[key][word] += count
 
 
+	def read_csv(
+		self,
+		fname,
+		hold=False):
 
-	def read_csv(self, fname, hold=False):
 		self.hasKtop = False
 		self.isAggregated = False
+		self.areTreatmentsEqual = False
 
 		fh = open(fname, 'r')
 		reader = csv.DictReader(fh)
@@ -237,17 +336,28 @@ class CleanDataset(object):
 						newEntry[(img_id, word_pos)] = word
 						self.dictionary.add(word)
 
-						# If there is no entry in self.counts for this 
-						# treatment, image, and word-position, make one
-						self._aggregateCount(
-							(tmt_id, img_id, word_pos), word, 1)
-
 		# Make the training entry set be the full entry set, and make the
 		# test set empty.  Subsampling changes this partitioning
 		for treatment, entries in self.entries.items():
 			self.trainEntries[treatment] = list(entries)
 			self.testEntries[treatment] = []
 
+		# Check if the treatments all have the same size
+		last_treatment_size = None
+		areTreatmentsEqual = True
+		for treatment, entries in self.entries.items():
+
+			# for the first treatment, just record its size
+			if last_treatment_size is None:
+				last_treatment_size = len(entries)
+
+			# for subsequent treatments, check if they have the same size
+			else:
+				if len(entries) != last_treatment_size:
+					areTreatmentsEqual = False
+
+		self.areTreatmentsEqual = areTreatmentsEqual
+				
 		# Update the aggregated counts and the k-top words (except if held)
 		if not hold:
 			self.aggregateCounts()

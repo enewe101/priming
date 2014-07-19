@@ -1,0 +1,80 @@
+[
+   {
+      "treatment_name": "CULT$_{img}$", 
+      "excessCultural_var_mean": 5.566289537566938, 
+      "food_zscore": -3.4778013224736148, 
+      "food_var_mean": 2.9449983403120195, 
+      "excessCultural_difference": 10.444444444444443, 
+      "cultural_var_mean": 1.4815534679480256, 
+      "treatment_id": 1, 
+      "cultural_zscore": 3.6774763984548362, 
+      "excessCultural_zscore": 4.4269278884105017, 
+      "cultural_difference": 4.4761904761904745, 
+      "food_difference": -5.968253968253968
+   }, 
+   {
+      "treatment_name": "CULT$_{fund}$", 
+      "excessCultural_var_mean": 5.038316796442269, 
+      "food_zscore": 2.0146998685548847, 
+      "food_var_mean": 2.896047543061904, 
+      "excessCultural_difference": -5.079365079365083, 
+      "cultural_var_mean": 1.3162165512883575, 
+      "treatment_id": 5, 
+      "cultural_zscore": -1.4388950414934301, 
+      "excessCultural_zscore": -2.2629069339548682, 
+      "cultural_difference": -1.650793650793652, 
+      "food_difference": 3.4285714285714306
+   }, 
+   {
+      "treatment_name": "CULT$_{fund,img}$", 
+      "excessCultural_var_mean": 5.544461641211454, 
+      "food_zscore": 0.96790188491795159, 
+      "food_var_mean": 3.254180214119744, 
+      "excessCultural_difference": -3.301587301587304, 
+      "cultural_var_mean": 1.355209220666515, 
+      "treatment_id": 6, 
+      "cultural_zscore": -1.336233490088949, 
+      "excessCultural_zscore": -1.4021455368055915, 
+      "cultural_difference": -1.5555555555555554, 
+      "food_difference": 1.746031746031747
+   }, 
+   {
+      "treatment_name": "INGR$_{img}$", 
+      "excessCultural_var_mean": 5.126436229988762, 
+      "food_zscore": 0.28175122381749895, 
+      "food_var_mean": 3.250028994549024, 
+      "excessCultural_difference": -2.444444444444443, 
+      "cultural_var_mean": 1.325358832539483, 
+      "treatment_id": 2, 
+      "cultural_zscore": -1.6821028354068706, 
+      "excessCultural_zscore": -1.0796236553522891, 
+      "cultural_difference": -1.9365079365079367, 
+      "food_difference": 0.5079365079365061
+   }, 
+   {
+      "treatment_name": "INGR$_{fund}$", 
+      "excessCultural_var_mean": 5.484608893528016, 
+      "food_zscore": -3.7784109191969124, 
+      "food_var_mean": 2.995676812759201, 
+      "excessCultural_difference": 9.80952380952381, 
+      "cultural_var_mean": 1.4553184001407726, 
+      "treatment_id": 3, 
+      "cultural_zscore": 2.7104890725930626, 
+      "excessCultural_zscore": 4.1886598497370686, 
+      "cultural_difference": 3.269841269841269, 
+      "food_difference": -6.539682539682538
+   }, 
+   {
+      "treatment_name": "INGR$_{fund,img}$", 
+      "excessCultural_var_mean": 5.179634228764993, 
+      "food_zscore": 1.136894193591921, 
+      "food_var_mean": 2.9972445180306093, 
+      "excessCultural_difference": -1.9682539682539684, 
+      "cultural_var_mean": 1.3448511679804196, 
+      "treatment_id": 4, 
+      "cultural_zscore": 0.0, 
+      "excessCultural_zscore": -0.86483167914277737, 
+      "cultural_difference": 0.0, 
+      "food_difference": 1.9682539682539684
+   }
+]

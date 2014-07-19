@@ -324,7 +324,7 @@ class Analyzer(object):
 					100 * entryCounts['cultural']/float(entryCounts['overall']))
 
 				percentages['excessCultural'].append(
-					100 * entryCounts['cultural']/float(entryCounts['overall']))
+					100 * entryCounts['excessCultural']/float(entryCounts['overall']))
 
 				percentages['food'].append(
 					100 * entryCounts['food']/float(entryCounts['overall']))
@@ -343,19 +343,17 @@ class Analyzer(object):
 		# To get the standard deviation of the mean, 
 		# take the standard deviation of the samples 
 		# and divide by square root of number of samples.
-		# Then, multiply by the number of standard deviations needed to 
-		# generate the desired significance level.
 		stdPercentage = {
-			'cultural': significanceLevel * (
+			'cultural': (
 				np.std(percentages['cultural']) / np.sqrt(len(entries)))
 
-			, 'excessCultural': significanceLevel * (
+			, 'excessCultural': (
 				np.std(percentages['excessCultural']) / np.sqrt(len(entries)))
 
-			, 'food': significanceLevel * (
+			, 'food': (
 				np.std(percentages['food']) / np.sqrt(len(entries)))
 
-			, 'both': significanceLevel * (
+			, 'both': (
 				np.std(percentages['both']) / np.sqrt(len(entries)))
 		}
 
@@ -502,18 +500,7 @@ class Analyzer(object):
 		'''
 
 		# Create a new priming-image-label-experiment dataset
-		self.dataSet = data_processing.CleanDataset()
-
-		# Read from the raw amt csv files.  
-		# Note: order matters!  The older files have duplicates workers that
-		# get ignored.  Make sure to read the newer file files earlier
-		self.dataSet.read_csv('amt_csv/amt1_cut.csv', True)
-		self.dataSet.read_csv('amt_csv/amt2_cut.csv', True)
-		self.dataSet.read_csv('amt_csv/amt3_cut.csv', True)
-
-		# The dataset needs to do some internal calts to refresh its state 
-		self.dataSet.aggregateCounts()
-		self.dataSet.calc_ktop(5)
+		self.dataSet = data_processing.readDataset()
 
 
 
@@ -544,9 +531,9 @@ class NBCAnalyzer(object):
 		self.dataSet = data_processing.readDataset()
 
 
-	def testNBC(self, pTrainingSize=106, pTestSize=20, 
+	def testNBC(self, testSetSize=25,
 		treatments=['treatment1', 'treatment2'], 
-		images=['test0'], pDoConsiderPosition=False, show=False):
+		images=['test0'], pDoConsiderPosition=True, show=False):
 		'''
 		Builds and trains a naive bayes classifier that classifies instances
 		into one of the categories keyed by the input treatments.  Tests
@@ -554,13 +541,10 @@ class NBCAnalyzer(object):
 		excluded from training), and returns performance metrics.
 
 		Inputs:
-			- pTrainingSize (int): The size of training set that will be
+			- testSetSize (int): The size of test set that will be
 				randomly sampled from all instances found in the dataset for 
 				in each treatment served.  The instances left out during random
-				sampling form a pool from which test instances are drawn.
-
-			- pTestSize (int): size of the test set, randomly sampled from
-				all instances in the dataset less the training set
+				sampling are used for training
 
 			- treatments (str): A key used to identify a set of instances
 				in the dataset that belong to a particular class.
@@ -571,11 +555,14 @@ class NBCAnalyzer(object):
 				object is understood by certain data visualization methods.
 		'''
 
+		# Temporary to catch if I am using a different training set
+		# size somewhere
+
 		# Wrap the dataset to make it understandable by the naive bayes 
 		# classifier
 		naiveBayesDataset = naive_bayes.NBDataset(
 			self.dataSet, treatments, images, pDoConsiderPosition,
-			pTrainingSize, pTestSize)
+			testSetSize)
 
 		# Make and train a naive bayes classifier
 		classifier = naive_bayes.NaiveBayesClassifier()
@@ -586,8 +573,6 @@ class NBCAnalyzer(object):
 
 		# Initialize a data structure to store classifier performance results
 		r = ClassifierPerformanceResult(treatments)
-
-		resultMsg = ''
 
 		# Test the classifier on the test instances to acertain its competence
 		for treatment, instances in testSet.items():
@@ -602,59 +587,124 @@ class NBCAnalyzer(object):
 
 				r.results[verdict]['numIdentified'] += 1
 
-				isMatch = '-'
 				if verdict == actual:
 					r.results[treatment]['numCorrect'] += 1
-					isMatch = '@'
-
-				resultMsg += '%s %s %s' % (verdict, actual, isMatch)
-		
-		if show:
-			print resultMsg
 
 		return r
 
+	def crossValidateNBC(self, 
+		testSetSize=50,
+		treatments=('treatment0', 'treatment1'),
+		images=['test0'],
+		pDoConsiderPosition=True):
 
-	def crossComparison(self, numReplicates, comparisons):
+		'''
+		Tests the naive bayes classifier using cross validation.  Given
+		the testSetSize, the set of labeled entries in the dataset will be
+		randomly partitioned into a test set and a training set.  After
+		training on the training set, the classifier is tested on the test
+		set, and statistics about its performance (accuracy, recall, precision,
+		F1) are collected.
+
+		This is then repeated, possibly several times, using different 
+		entries for the test set.  Test sets from different iterations are
+		guaranteed to be mutually exclusive. As many rounds ("folds") as 
+		possible are performed, given the dataset size and test set size.
+		'''
+
+		# Wrap the dataset to make it understandable by the naive bayes 
+		# classifier
+		naiveBayesDataset = naive_bayes.NBDataset(
+			self.dataSet, treatments, images, pDoConsiderPosition,
+			testSetSize)
+
+		# Initialize a data structure to store classifier performance results
+		r = ClassifierPerformanceResult(treatments)
+
+		foldNumber = 1
+		while True:
+			# This loop executes as long as cross-fold validation process has 
+			# not performed all folds
+			foldNumber += 1
+
+			# Make and train a naive bayes classifier
+			classifier = naive_bayes.NaiveBayesClassifier()
+			classifier.buildFromTrainingSet(naiveBayesDataset)
+
+			# Get test instances from the dataset
+			testSet = naiveBayesDataset.getTestSet()
+
+			# Test the classifier on the test instances to acertain its 
+			# competence
+			for treatment, instances in testSet.items():
+
+				# Test classification of instances from this treatment
+				for instance in instances:
+
+					r.results[treatment]['numTested'] += 1
+
+					verdict = classifier.classify(instance)
+					actual = instance.reveal()
+
+					r.results[verdict]['numIdentified'] += 1
+
+					if verdict == actual:
+						r.results[treatment]['numCorrect'] += 1
+
+			# Keep doing tests as long as another fold is available
+			try:
+				naiveBayesDataset.rotateSubsample()
+			except data_processing.CleanDatasetRotationException:
+				break
+				
+		return r
+
+
+	def crossComparison(
+		self,
+		comparisons,
+		testSetSize=50,
+		images=['test%d' % i for i in range(1)] 
+		):
 		'''
 		Run the classifier to do pairwise comparisons of various sorts
 		'''
+
 		util.writeNow('\nPerforming cross-comparison') 
 
+		dataSetSize = len(self.dataSet.entries.values()[0])
+		trainingSetSize = dataSetSize - testSetSize
+		numFolds = dataSetSize / testSetSize
+
+		# prepare a dataset to hold the classifier performance info
+		f1scores = {}
+		accuracies = {}
 		results = {}
 
+		# do cross-fold validation 
+		# this simultaneously tests several binary classifiers, one for each
+		# tuple of treatments in `comparisons'
+		first = True
 		for comparison in comparisons:
 
 			util.writeNow('.')
-			comparisonF1Scores = []
-			comparisonAccuracies = []
-
 			firstTreatment, secondTreatment = comparison
+			result = self.crossValidateNBC(
+				testSetSize, comparison, images, True)
 
-			for i in range(numReplicates):
-				allImages = ['test%d' % i for i in range(5)]
-				result = self.testNBC(86, 40, comparison, allImages, True)
-				try:
-					comparisonF1Scores.append(result.getF1(firstTreatment))
-					comparisonAccuracies.append(result.getOverallAccuracy())
-				except KeyError:
-					return result
+			f1scores[comparison] = result.getF1(firstTreatment)
+			accuracies[comparison] = result.getOverallAccuracy()
 
+		for comparison in comparisons:
 			results[comparison] = {
-				'f1': {
-					'avg': np.mean(comparisonF1Scores),
-					'std': np.std(comparisonF1Scores)
-				},
-				'accuracy': {
-					'avg': np.mean(comparisonAccuracies),
-					'std': np.std(comparisonAccuracies)
-				}
+				'f1': f1scores[comparison],
+				'accuracy': accuracies[comparison]
 			}
 
 		return results
 
 
-	def longitudinal(self, numReplicates, treatments):
+	def longitudinal(self, treatments, testSetSize=50):
 		'''
 		Run the classifier to do pairwise classification between the cultural
 		images and ingredients images priming, using only one picture as the
@@ -666,28 +716,22 @@ class NBCAnalyzer(object):
 		util.writeNow(
 			'\nAnylisis of classification competance as a function of image')
 
-		# Run it for the various classification combinations desired
-		f1ScoreStdevs = {'withPosition':[], 'withoutPosition':[]}
-		f1Scores = {'withPosition':[], 'withoutPosition':[]}
-
 		results = {
-			'f1': {
-				'avg': [],
-				'std': []
-			},
-			'accuracy': {
-				'avg': [],
-				'std': []
-			},
+			'f1': [],
+			'accuracy': []
 		}
 
-		#  We'll run the classifier on various images.  First we run it on 
+		# We'll run the classifier on various images.  First we run it on 
 		# the set of all images, and then on each image on its own
 		allImageSet = ['test%d' % i for i in range(5)]
 		eachImageSet = [['test%d' % i] for i in range(5)]
 		imageSets = [allImageSet] + eachImageSet
 
 		firstTreatment, secondTreatment = treatments
+
+		dataSetSize = len(self.dataSet.entries.values()[0])
+		trainingSetSize = dataSetSize - testSetSize
+		numFolds = dataSetSize / testSetSize
 
 		for imageSet in imageSets:	
 			util.writeNow('.')
@@ -696,28 +740,13 @@ class NBCAnalyzer(object):
 			thisImageSetF1Scores = []
 			thisImageSetAccuracies = []
 
-			# Test the classsifier for this imageSet. Do many replicates.
-			for j in range(numReplicates):
+			# Run and test classification
+			result = self.crossValidateNBC(
+				testSetSize, treatments, imageSet, True)
 
-				# Run and test classification
-				result = self.testNBC(
-					80, 20, treatments, imageSet, True)
-
-				# Extract the results we're interested in
-				thisImageSetF1Scores.append(result.getF1(firstTreatment))
-				thisImageSetAccuracies.append(result.getOverallAccuracy())
-		
 			# record average and standard deviation for classifier F1 score
-			results['f1']['avg'].append(
-				np.mean(thisImageSetF1Scores))
-			results['f1']['std'].append(
-				np.std(thisImageSetF1Scores))
-
-			# record average and standard deviation for classifier accuracy
-			results['accuracy']['avg'].append(
-				np.mean(thisImageSetAccuracies))
-			results['accuracy']['std'].append(
-				np.std(thisImageSetAccuracies))
+			results['f1'].append(result.getF1(firstTreatment))
+			results['accuracy'].append(result.getOverallAccuracy())
 
 		return results
 

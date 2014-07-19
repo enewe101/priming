@@ -640,24 +640,26 @@ the null hypothesis that that the two populations are in fact identical:
 	\mathbf{H_1}: \theta_\text{NB} > 0
 \end{align}
 If the populations are in fact identical, then the probability that the 
-classifier correctly classifies a worker is $\frac{1}{2}$, and the probability 
-of getting $k$ classifications during a cross-validation with $n$ 
-test-classifications is:
+classifier correctly classifies a worker is $\frac{1}{2}$. Let $K$ be a random
+variable which denotes the number of correct classifications when the 
+classifier is chalenged to classify a total of $n$ workers during 
+cross-validation.  Under $\mathbf{H_0}$, the probability distribution of $K$ 
+is:
 \begin{align}
 	\text{Pr}\{K = k | n \} = { n \choose k } \left(\frac{1}{2}\right)^n.
 \end{align}
-Then, we have statistical significance if 
-$\theta_\text{NB}$ is greater than a critical value, 
-$\theta_\text{NB}^*$:
+We can reject $\mathbf{H_0}$ at significance $\alpha$ if $\theta_\text{NB}$ 
+is greater than a critical value, $\theta_\text{NB}^*$:
 \begin{align}
-	\theta_\text{NB} \geq 2k^* - 1
+	\theta^*_\text{NB} = \frac{2k^*}{n} - 1
 \end{align}
-where $k^*$ is the minimum value required to satisfy
+where $k^*$ is the smallest integer in $\{0,\dots,n\}$ that satisfies 
 \begin{align}
 	\sum_{k \in \{k^*, \dots, n\}} \text{Pr}\{K = k | n \} < \alpha.
 \end{align}
-For a test-set of $n=40$ workers, and a significance of $\alpha = 0.05$, we
-have $k^*=26 \implies \theta_\text{NB}^* = 0.65$.
+For a 5-fold cross-validation with non-overlapping test sets containing 25 
+workers ($n = 125$), and a significance of $\alpha = 0.05$, we
+have $k^*=73 \implies \theta_\text{NB}^* = 0.168$.
 
 
 

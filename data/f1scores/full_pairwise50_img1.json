@@ -1,0 +1,119 @@
+[
+   {
+      "f1": [
+         0.7142857142857142, 
+         0.3777777777777778, 
+         0.6436781609195402, 
+         0.35000000000000003, 
+         0.4302325581395348, 
+         0.4772727272727273
+      ], 
+      "subjects": [
+         "treatment1", 
+         "treatment5", 
+         "treatment6", 
+         "treatment2", 
+         "treatment3", 
+         "treatment4"
+      ], 
+      "accuracy": [
+         0.74, 
+         0.44, 
+         0.69, 
+         0.48, 
+         0.51, 
+         0.54
+      ], 
+      "basis": "treatment0"
+   }, 
+   {
+      "f1": [
+         0.7123287671232876, 
+         0.46153846153846156, 
+         0.6346153846153846, 
+         0.78, 
+         0.6602870813397128
+      ], 
+      "subjects": [
+         "treatment5", 
+         "treatment6", 
+         "treatment2", 
+         "treatment3", 
+         "treatment4"
+      ], 
+      "accuracy": [
+         0.685, 
+         0.51, 
+         0.62, 
+         0.78, 
+         0.645
+      ], 
+      "basis": "treatment1"
+   }, 
+   {
+      "f1": [
+         0.5125628140703518, 
+         0.6666666666666666, 
+         0.5915492957746479, 
+         0.4367816091954023
+      ], 
+      "subjects": [
+         "treatment5", 
+         "treatment6", 
+         "treatment3", 
+         "treatment4"
+      ], 
+      "accuracy": [
+         0.515, 
+         0.685, 
+         0.565, 
+         0.51
+      ], 
+      "basis": "treatment2"
+   }, 
+   {
+      "f1": [
+         0.5833333333333334, 
+         0.47120418848167545, 
+         0.35135135135135137
+      ], 
+      "subjects": [
+         "treatment6", 
+         "treatment3", 
+         "treatment4"
+      ], 
+      "accuracy": [
+         0.65, 
+         0.495, 
+         0.52
+      ], 
+      "basis": "treatment5"
+   }, 
+   {
+      "f1": [
+         0.7487179487179486, 
+         0.5979381443298969
+      ], 
+      "subjects": [
+         "treatment6", 
+         "treatment4"
+      ], 
+      "accuracy": [
+         0.755, 
+         0.61
+      ], 
+      "basis": "treatment3"
+   }, 
+   {
+      "f1": [
+         0.6915887850467289
+      ], 
+      "subjects": [
+         "treatment4"
+      ], 
+      "accuracy": [
+         0.67
+      ], 
+      "basis": "treatment6"
+   }
+]

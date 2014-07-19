@@ -56,8 +56,7 @@ class NBDataset(object):
 
 	def __init__(self, 
 		pDataSet, pTreatments=['treatment1','treatment2'], 
-		pImages=['test0'], pDoConsiderPosition=False, pTrainingSize=80,
-		pTestingSize=20):
+		pImages=['test0'], pDoConsiderPosition=False, testSetSize=25):
 		'''
 		Specify the treatment ids to be included when building the classifier.
 		You may not always want to try to build a classifier that can 
@@ -72,14 +71,17 @@ class NBDataset(object):
 		self.doConsiderPosition = pDoConsiderPosition
 		self.images = pImages
 		
-		self.dataSet.subsample(pTrainingSize, pTestingSize)
+		self.dataSet.subsample(testSetSize)
 
 
 	def getCategories(self):
 		return list(self.treatments)
 
 
-	# Make this specific to the treatment and image passed in the constructor
+	def rotateSubsample(self):
+		self.dataSet.rotateSubsample()
+
+
 	def getFeatures(self):
 		features = set()
 		for treatment, image, position in self.dataSet.counts:
@@ -128,8 +130,6 @@ class NBDataset(object):
 		return frequency / float(len(self.dataSet.entries[pCategory]))
 
 	
-	# TODO: the subsample size for the test set should be passed to the 
-	# underlying dataset
 	def getTestSet(self):
 		'''
 		Returns a set of instances from the test set, i.e. which were not
@@ -191,7 +191,17 @@ class NaiveBayesClassifier(object):
 
 		for feature in instance.getFeatures():
 			for category in self.categories:
-				scores[category] += self.condProbs[(category, feature)]
+
+				# If the feature arises for the given category, use the
+				# add the conditional probability of its occurrence given the
+				# category to the score for that category.  Otherwise add 0
+				add_to_score = 0
+				try:
+					add_to_score = self.condProbs[(category, feature)]
+				except KeyError:
+					pass
+
+				scores[category] += add_to_score
 
 		verdict = sorted(scores.items(), None, lambda x: x[1], True)[0][0]
 

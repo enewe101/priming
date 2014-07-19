@@ -1,9 +1,81 @@
+Manuscript Notes
+================
+- We investigate the effects taht the content of earlier tasks have on workers
+	--> On microtask platforms, workers usually perform batches of tasks. We
+		investigate the effects that the tasks a worker has previously
+		preformed have on subsequent ones.
+
+- Define the words 'requester' and 'worker'
+- Semantically loaded name
+	--> First called it "name for the task-requester", then "funder name"
+		
+
+- Next, workers were shown ten images -- insert para break before
+	--> one at a time (.)  Workers were required to provide 5 descriptive
+		labels before moving on to the next image.
+
+- For the final image set --> (,)
+
+- We chose three different initial image sets, which we call "ambiguous", 
+	"cultural", and "ingredients".  The <em>ambiguous</em>...
+
+- Keep the algorithmic priming test, but talk about testing significance of
+	difference in distributions and how classifiers are an easier way to do
+	this, and that the result is predictive too, and that besides, we're 
+	interested in the effect on output of an algorithm, hence using classifier.
+
+- Results re cross-comparison of classifier competance:
+	- against the ambiguous, we can only distinguish the treatments using
+		cultural imaging.  When the cultural funder is added, it doesn't seem
+		to help.
+
+	# in-task priming is strong
+	# funder framing is not sufficient to enable distinction, but changing
+		funder framing does affect the ability to distinguish treatments that
+		differ in in-task priming.
+	- we can look at these comparisons to guage how effective image-based and
+		funder based effects are.
+		- the cultural image treatments can always be distinguished from other
+			treatments, except, of course, when cultural img is compared to 
+			cult fund image.
+		- none of the funding-only can be distinguished from ambg
+			- nor can the funding-img be distinguished from the img-only
+			- nor can the cultural-funding be distinguished from the 
+				ingredients-funding
+			- cult-fund can't be distinguished from ingr-fund
+			- when both the image set and the funder treatment differ,
+				the funder aspect does have an effect, sometimes decreasing,
+				and sometimes increasing the distinguishability
+
+
+	- the cultural images are easily distinguished from the ambiguous images, 
+		are distinguished (though less easily) from ingredients; while 
+		ingredients images are not distinguished from ambiguous.
+
 Do Now
 ======
+
+- Data Stuff
+	x implement k-fold cross-validation
+	x plot the new \theta_NB data and check for singificance
+		- include all comparisons (e.g. comparing one funding treatment to the 
+			other
+	x make new longitudinal plot of \theta_NB and check for significance
+		- compare cult_img and ambg
+	[] Check where the 95% confidence level is for binary classification with
+		test set of 50
+
+	[] assess significance tests for the orientation composition measures
+	[] re-plot the longitudinal excess cutural orientation
+	[] crossComparison got rid of numReplicates -- propogate
+
 - check back for my math stack exchange answer
+	=> added a bounty
+	=> posted on cross-validated
 
 - statistical significance for theta_NB
-	- re-calculate for testing set of 40 
+	- re-calculate for testing set of 40.  Wasn't enough
+	- re-calculate for testing set of 50.
 
 - hypothesis testing for orientation and excess culture
 

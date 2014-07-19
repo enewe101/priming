@@ -1,0 +1,54 @@
+Monday, 9 June 2014
+	- made treatment sizes standard for analysis.Analyzer()
+		= recalculated composition with properly sized sets
+		= found two issues in calculation of 
+			analysisAnalyzer.percentValence() 
+			1) not reporting %excessCulture properly (reporting %culture 
+				instead)
+			2) not reporting standard deviation properly (reporting 
+				significance cutoff instead)
+
+	- figured out how to calculate significance for \theta_NB
+		= some of the treatments turned out not to have significant priming
+			so I decided to increase the testing set of the classifier to
+			50 (training size of 76), which increases the statistical power 
+			in demonstrating significance of classification
+
+	- current issue: new function to test composition significance is not
+		matching treatments to data correctly
+
+
+Tuesday, 10 June 2014
+	- wrote a test for checking if the treatments are all the same size
+	- wrote a test for uniform_trunctate, which makes tests the same size
+	- wrote test to make sure that subsampling too large raises exception
+	- CleanDataset.subsample now partitions treatments fully into test and
+		training sets (no unused entries) and requires (enforces) that 
+		treatments must all be the same size
+	- wrote a function to allow rotation of subsamples for k-fold 
+		cross-validation.  Ensures that subsequent test sets are 
+		non-overlapping - tested.
+	- I started implementing k-fold cross-validation at the levels of 
+		crossComparison() and longitudinal(), but now I realize that these
+		need to be done under testNBC(), and in fact, deeper than that.  It
+		needs to be implemented at NBDataset, or NBDataset needs to provide
+		a rotate() wrapper to CleanDataset.rotateSubsample()
+
+Wednesday, 11 June 2014
+	- noticed that I am not respecting the training / test set partition when
+		returning word frequencies.  This might totally mess up results
+	- CleanDataset.self.dictionary -- usage?  is it affected by refactoring of counts?
+
+
+Friday, 18 July 2014
+	- I remade the plot of theta and f1 cross comparison.  I added in some 
+		missing comparisons and tried running the crosvalidations with test-
+		set sizes that were 25 and 50 workers in size.  (need to calculate 
+		what is the 95% significance level for theta in a test set of that
+		size...
+	- Re-read the manuscript.  Wrote down some light edits to make in my ttd.
+		I need to make some changes to the results section in light of non-
+		poluted cross-validation results.
+	- I plan to keep my algorithmic method for measuring priming, but I'll
+		need to add a few words to introduce it, in light of what David 
+		mentioned

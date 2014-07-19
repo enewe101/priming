@@ -472,6 +472,42 @@ def getTestDataset():
 	return dataset
 
 
+def checkOrientationSignificance(
+	readFname='orientation/orientation.json',
+	writeFname='orientation/significance.json',
+	populationSize = 126
+	):
+	''' Checks for a significant difference between the fraction of food-
+	and culture-oriented words for all treatments compared to AMBG.
+	'''
+
+	# Read the file.  We're interested in the data in panel 1, which corresponds
+	# To panel B of figure 7 in the manuscript
+	data = json.loads(open(readFname, 'r').read())['panel1']
+
+	results = []
+	for treatment in [1,5,6,2,3,4]:
+		result = {}
+		result['treatment_id'] = treatment
+		result['treatment_name'] = TREATMENT_NAMES['treatment%d'%treatment]
+		for valence in ['food', 'cultural', 'excessCultural']:
+			difference = (data['avg'][valence][treatment] 
+				- data['avg'][valence][0])
+			var_mean = (data['std'][valence][treatment]**2 
+				+ data['std'][valence][0]**2)
+			zscore = difference / np.sqrt(var_mean)
+
+			result['%s_difference'%valence] = difference
+			result['%s_var_mean'%valence] = var_mean
+			result['%s_zscore'%valence] = zscore
+
+		results.append(result)
+
+	fh = open(writeFname, 'w')
+	fh.write(json.dumps(results, indent=3))
+	fh.close()
+
+
 def computeOrientationVsTreatment(
 	fname='orientation/orientation.json', useTestData=False):
 	#fname='../docs/figs/valenceComparison.pdf'):
@@ -520,8 +556,8 @@ def computeOrientationVsTreatment(
 	]
 	for i, images in enumerate(imageSets):
 		plotData['panel%d'%(i+1)] = {
-			'avg':{'cultural':[], 'food':[], 'both':[]},
-			'std':{'cultural':[], 'food':[], 'both':[]}
+			'avg':{'cultural':[], 'food':[], 'both':[], 'excessCultural':[]},
+			'std':{'cultural':[], 'food':[], 'both':[], 'excessCultural':[]}
 		}
 		thisPlotData =  plotData['panel%d'%(i+1)]
 
@@ -532,10 +568,14 @@ def computeOrientationVsTreatment(
 			thisPlotData['avg']['cultural'].append(result['mean']['cultural'])
 			thisPlotData['avg']['food'].append(result['mean']['food'])
 			thisPlotData['avg']['both'].append(result['mean']['both'])
+			thisPlotData['avg']['excessCultural'].append(
+				result['mean']['excessCultural'])
 
 			thisPlotData['std']['cultural'].append(result['stdev']['cultural'])
 			thisPlotData['std']['food'].append(result['stdev']['food'])
 			thisPlotData['std']['both'].append(result['stdev']['both'])
+			thisPlotData['std']['excessCultural'].append(
+				result['stdev']['excessCultural'])
 
 	# Finally we make plots that examine the excess culture orientation
 	# as a function of image
@@ -850,9 +890,10 @@ def plotValenceComparison(
 
 
 def computeAllF1Accuracy(
-	numReplicates=50,
-	fname='f1scores/all.json',
-	subplotComparisons=None
+	fname='f1scores/f1-thetas_full_pairwise50_img1',
+	testSetSize=50,
+	subplotComparisons=None,
+	image_nums=[0]
 	):
 	'''
 	Computes the F1 score for a naive bayes classifier built to distinguish
@@ -861,7 +902,9 @@ def computeAllF1Accuracy(
 	This function only computes the data; to generate a plot, use 
 	`plotAllDisting()`
 	'''
+
 	fh = open(fname, 'w')
+	images = ['test%d' % i for i in image_nums]
 
 	if subplotComparisons is None:
 		subplotComparisons = [
@@ -876,8 +919,16 @@ def computeAllF1Accuracy(
 			, {'basis': 'treatment2', 
 			'subjects' : ['treatment5', 'treatment6', 
 				'treatment3', 'treatment4']}
-		]
 
+			, {'basis': 'treatment5', 
+			'subjects' : ['treatment6', 'treatment3', 'treatment4']}
+
+			, {'basis': 'treatment3', 
+			'subjects' : ['treatment6', 'treatment4']}
+
+			, {'basis': 'treatment6', 
+			'subjects' : ['treatment4']}
+		]
 
 	results = []
 
@@ -900,25 +951,27 @@ def computeAllF1Accuracy(
 		comparisons = [(basisTreatment, subjectTreatment) for
 				subjectTreatment in comp['subjects']]
 		
-
 		# Compute the results for the batch of comparisons
 		comparisonResults = a.crossComparison(
-			numReplicates, comparisons)
+			comparisons, testSetSize, images)
 
 		# Unpack, and then then repack the batch so it can be saved
 		# -- sort of inconvenient isn't it?
 		thisSubplotData['f1'] = map(
-			lambda c: comparisonResults[c]['f1']['avg'], comparisons)
+			lambda c: comparisonResults[c]['f1'], comparisons)
 
 		thisSubplotData['accuracy'] = map(
-			lambda c: comparisonResults[c]['accuracy']['avg'], comparisons)
+			lambda c: comparisonResults[c]['accuracy'], comparisons)
 
 	fh.write(json.dumps(results, indent=3))
 	fh.close()
 	return results
 
 def plotAllF1Theta(
-	readFname='f1scores/all.json', writeFname='figs/f1-thetas.pdf'):
+	readFname='f1scores/full_pairwise50_img1.json',
+	writeFname='figs/f1-thetas_full_pairwise50_img1.pdf',
+	theta_only=True
+	):
 
 	'''
 	Plots the theta value for a naive bayes classifier built to distinguish
@@ -929,7 +982,7 @@ def plotAllF1Theta(
 	`computeAllF1Accuracy()`
 	'''
 
-	subplotLabels = ['A','B','C']
+	subplotLabels = ['A','B','C', 'D', 'E', 'F', 'G']
 
 	# Read the data from file
 	f1scores = json.loads(open(readFname, 'r').read())
@@ -938,9 +991,18 @@ def plotAllF1Theta(
 	figWidth = 17.8 / 2.54 	# conversion from PNAS spec in cm to inches
 	figHeight = figWidth * 2/5.	# a reasonable aspect ratio
 	fig = plt.figure(figsize=(figWidth, figHeight))
-	gs = gridspec.GridSpec(1,3, width_ratios=[25,21,17])
 
-	width = 0.325
+	# calculate the gridspec.  The width ratios are based on the width of
+	# each bar-plot-group, spacing between them, and plot padding
+	num_subplots = len(f1scores)
+	width_ratios = [5 + s*4 for s in reversed(range(num_subplots))]
+	gs = gridspec.GridSpec(1,num_subplots, width_ratios=width_ratios)
+
+	if not theta_only:
+		width = 0.325
+	else:
+		width = 0.75
+
 
 	for i, subplotData in enumerate(f1scores):
 
@@ -963,8 +1025,11 @@ def plotAllF1Theta(
 			plt.setp(ax.get_yticklabels(), visible=False)
 
 		# Plot the bar plot
-		f1_series = ax.bar(X_F1s, Y_F1s, width, color='0.25')
-		theta_series = ax.bar(X_thetas, Y_thetas, width, color='0.55')
+		if not theta_only:
+			f1_series = ax.bar(X_F1s, Y_F1s, width, color='0.25')
+			theta_series = ax.bar(X_thetas, Y_thetas, width, color='0.55')
+		else:
+			theta_series = ax.bar(X_F1s, Y_thetas, width, color='0.55')
 
 		# Label the y-axis, only on the left-most subplot
 		#if i == 0:
@@ -972,52 +1037,57 @@ def plotAllF1Theta(
 
 		# Let the plot breathe horizontally
 		padding = 0.25
-		xlims = (-padding, len(Y_thetas) - 1 + 2*width + padding)
+		if not theta_only:
+			xlims = (-padding, len(Y_thetas) - 1 + 2*width + padding)
+		else:
+			xlims = (-padding, len(Y_thetas) - 1 + width + padding)
 		plt.xlim(xlims)
 
 		# Label each pannel
-		letterLabel = subplotLabels[i]
-		ax.text(-0.05,0.97,letterLabel, 
-				va='top', ha='left', size=12)
+		#letterLabel = subplotLabels[i]
+		#ax.text(-0.05,0.97,letterLabel, 
+		#		va='top', ha='left', size=12)
 
-		# Label the basis treatment as an inset
+		# Label the basis treatments above the subplots
 		basisTreatmentName = TREATMENT_NAMES[basisTreatment]
-		bbox_props =  {'facecolor': 'white'}
-
-		if i == 0:
-			height= 0.32
-			left = len(Y_thetas) - 0.40
-
+		left = len(Y_thetas)/2.0 - width
+		if not theta_only:
+			height= 0.82 if i else 0.86
 		else:
-			height= 0.05
-			left = len(Y_thetas) - 0.32
+			height= 0.62 if i else 0.66
 
-		if not i:
-			bbox_props['pad'] = 8
-
-		ax.text(left,height,basisTreatmentName, 
-				va='bottom', ha='right', bbox=bbox_props, size=12)
+		ax.text(left, height, basisTreatmentName, 
+				va='bottom', ha='left', size=9, rotation=45)
 
 		# Put together intelligible labels for the x-axis
 		ax.tick_params(axis='both', which='major', labelsize=9)
 		xlabels = [TREATMENT_NAMES[t] for t in subplotData['subjects']]
-		ax.set_xticks(map(lambda x: x + width, X_F1s))
+		if not theta_only:
+			ax.set_xticks(map(lambda x: x + width, X_F1s))
+		else:
+			ax.set_xticks(map(lambda x: x + width/2., X_F1s))
 		ax.set_xticklabels(xlabels, rotation=45, size=9,
 			horizontalalignment='right')
 
 		# Add a legend if this is the last panel
-		if i == 0:
-			legend = ax.legend( 
-				(f1_series[0], theta_series[0]), 
-				(r'$F_1$ score', r'$\theta_{NB}$'), 
-				loc='lower right', prop={'size':9}, labelspacing=0)
+		#if i == 0:
+		#	legend = ax.legend( 
+		#		(f1_series[0], theta_series[0]), 
+		#		(r'$F_1$ score', r'$\theta_{NB}$'), 
+		#		loc='lower right', prop={'size':9}, labelspacing=0)
+
+		significance_bar = ax.plot(
+			xlims, [0.17, 0.17], color='0.35', linestyle=':', zorder=0)
 
 		# Tighten up the layout
 		plt.draw()
 		if i < 1:
 			plt.tight_layout()
 
-	fig.subplots_adjust(wspace=0.05, top=0.98, right=0.99, left=0.04, 
+	y_low, y_high = plt.ylim()
+	plt.ylim(y_low-0.04, y_high)
+
+	fig.subplots_adjust(wspace=0.05, top=0.77, right=0.92, left=0.07, 
 			bottom=0.24)
 	plt.draw()
 	
@@ -1026,7 +1096,10 @@ def plotAllF1Theta(
 
 
 def plotAllTheta(
-	readFname='f1scores/all.json', writeFname='figs/thetas.pdf'):
+	readFname='f1scores/all.json', 
+	writeFname='figs/thetas.pdf',
+	theta_only=True
+	):
 
 	'''
 	Plots the theta value for a naive bayes classifier built to distinguish
@@ -1193,9 +1266,10 @@ def plotAllF1(
 	plt.show()
 
 
-def computeClassificationVsImage(numReplicates=50, 
-	treatments=('treatment1','treatment2'), 
-	writeFname='f1scores/longitudinal-t1-t2.json'):
+def computeClassificationVsImage(
+	testSetSize=50,
+	treatments=('treatment0','treatment1'), 
+	writeFname='f1scores/longitudinal-t0-t1_50.json'):
 	'''
 	Measures the F1 score for a classifier built to distingiush between
 	<treatments> based on the labels attributed to a specific image, 
@@ -1207,14 +1281,16 @@ def computeClassificationVsImage(numReplicates=50,
 	# from which the labels used for classification are derived
 	a = analysis.NBCAnalyzer()
 
-	results = a.longitudinal(numReplicates, treatments)
+	results = a.longitudinal(treatments, testSetSize)
 	fh.write(json.dumps(results, indent=3))
 	fh.close()
 
 
 def plotClassificationVsImage(
-	readFname='f1scores/longitudinal-t1-t2.pdf',
-	writeFname='figs/longitudinalF1scores-t1-t2.pdf'):
+	readFname='f1scores/longitudinal-t0-t1_50.json',
+	writeFname='figs/longitudinalF1scores-t0-t1_50.pdf',
+	theta_only=True
+	):
 	'''
 	Measures the F1 score for a classifier built to distingiush between
 	<treatments> based on the labels attributed to a specific image, 
@@ -1225,15 +1301,19 @@ def plotClassificationVsImage(
 
 	# Plot the result
 	numPics = 5
+	pre_space = 0.75
 	width = 0.375	# width of bars
+	if theta_only:
+		width = 0.75
 
 
 	# Unpack the data for this subplot
-	Y_F1s = results['f1']['avg']
+	Y_F1s = results['f1']
 	X_F1s = range(len(Y_F1s))
+	X_F1s[0] = X_F1s[0] - pre_space
 
 	# Convert from accuracy to theta
-	Y_thetas = map(lambda t: t*2 - 1, results['accuracy']['avg'])
+	Y_thetas = map(lambda t: t*2 - 1, results['accuracy'])
 	X_thetas = map(lambda x: x+width, X_F1s)
 
 
@@ -1244,24 +1324,40 @@ def plotClassificationVsImage(
 	ax = plt.subplot(111)
 
 	# Plot classifier performance, as F1 and theta
-	f1_series = ax.bar(X_F1s, Y_F1s, width, color='0.25')
-	theta_series = ax.bar(X_thetas, Y_thetas, width, color='0.55')
+	if not theta_only:
+		f1_series = ax.bar(X_F1s, Y_F1s, width, color='0.25')
+		theta_series = ax.bar(X_thetas, Y_thetas, width, color='0.55')
+	else:
+		theta_series = ax.bar(X_F1s, Y_thetas, width, color='0.55')
 
 	# Do some labelling business with the plot
 	ax.tick_params(axis='both', which='major', labelsize=9)
-	ax.set_xticks(X_thetas)
+	if not theta_only:
+		ax.set_xticks(X_thetas)
+	else:
+		ax.set_xticks([x + width/2. for x in X_F1s])
+
 	xlabels = ['all images'] + ['image %d' % (i+1) for i in range(numPics)]
 	ax.set_xticklabels( xlabels, ha='right', rotation=45, size=9)
 
+	# control the plot limits
 	padding = 0.25
-	plt.xlim((-padding, numPics + 2*width + padding))
-	plt.ylim((0,1))
+	xlims = plt.xlim()
+	if not theta_only:
+		plt.xlim((-pre_space - padding, numPics + 2*width + padding))
+	else:
+		plt.xlim((-pre_space - padding, numPics + width + padding))
+	# plt.ylim((0,1))
 
 	# add a legend
-	legend = ax.legend( 
-		(f1_series[0], theta_series[0]), 
-		(r'$F_1$ score', r'$\theta_{NB}$'), 
-		loc='lower right', prop={'size':9}, labelspacing=0)
+	#legend = ax.legend( 
+	#	(f1_series[0], theta_series[0]), 
+	#	(r'$F_1$ score', r'$\theta_{NB}$'), 
+	#	loc='lower right', prop={'size':9}, labelspacing=0)
+
+	xlims = plt.xlim()
+	significance_bar = ax.plot(
+		xlims, [0.17, 0.17], color='0.35', linestyle=':', zorder=0)
 	
 	plt.draw()
 	plt.tight_layout()
@@ -1269,111 +1365,4 @@ def plotClassificationVsImage(
 
 	fig.savefig(writeFname)
 	plt.show()
-
-#CROSS_COMPARISONS = [
-#	('treatment1', 'treatment0')
-#	, ('treatment2', 'treatment0')
-#	, ('treatment1', 'treatment2')
-#
-#	, ('treatment3', 'treatment5')
-#	, ('treatment4', 'treatment6')
-#]
-#
-#def plotDisting(numReplicates, fname, comparisons=CROSS_COMPARISONS):
-#	a = analysis.NBCAnalyzer()
-#
-#	f1Results, stdevResults = a.crossComparison(numReplicates, comparisons)
-#
-#	# Organize the results into arrays for the purpose of plotting
-#	PlotF1Results = map(lambda c: f1Results[c], comparisons)
-#	PlotF1Stdevs = map(lambda c: stdevResults[c], comparisons)
-#
-#	X = range(len(comparisons))
-#	width = 0.75
-#
-#	fig = plt.figure(figsize=(5,5))
-#	ax = plt.subplot(111)
-#
-#	series = ax.bar(X, PlotF1Results, width, color='0.25')
-#
-#	#series = ax.bar(X, PlotF1Results, width, color='0.25', ecolor='0.55',
-#	#	yerr=PlotF1Stdevs)
-#
-#	ax.set_ylabel("$F_1$-score")
-#
-#	padding = 0.25
-#	xlims = (-padding, len(comparisons) - 1 + width + padding)
-#	plt.xlim(xlims)
-#
-#	# Put together intelligible labels for the x-axis
-#	xlabels = [TREATMENT_NAMES[secondTreatment] 
-#		for firstTreatment, secondTreatment in comparisons]
-#	ax.set_xticks(map(lambda x: x + width /2., X))
-#	ax.set_xticklabels(xlabels, rotation=45, horizontalalignment='right')
-#
-#	fig.subplots_adjust(bottom=.20)
-#
-#	# fig.tight_layout()
-#
-#	fig.savefig(fname)
-#	plt.show()
-
-
-#def analyze():
-#
-#	# The effects of priming are persistent.  These plots show how the effect 
-#	# priming varies as we move from one picture to the next
-#	plotClassificationVsImage(
-#		5, ['treatment4', 'treatment6'], 
-#		'../docs/figs/longitude_cult-ing-img-fund.pdf')
-#
-#	plotClassificationVsImage(
-#		5, ['treatment3', 'treatment5'], 
-#		'../docs/figs/longitude_cult-ing-fund.pdf')
-#
-#	plotClassificationVsImage(
-#		5, ['treatment1', 'treatment2'], 
-#		'../docs/figs/longitude_cult-ing-img.pdf')
-#
-#	# Here we assess whether the cultural and ingredients treatments are
-#	# distinguishable, when priming takes place through different mechanisms
-#	plotDisting(5, '../docs/figs/cross-classification.pdf')
-#
-#	plotValenceComparison()
-#
-#	plotSpecificityComparison(
-#		'treatment1', 
-#		['treatment5', 'treatment6', 'treatment2'],
-#		10, 'figs/spec-treat0-overall.pdf', 'overall'
-#	)
-#
-#
-#def plotAllSpecificity():
-#	'''
-#	Produces many plots in the same style as `plotAllSpecificityComparisons()`,
-#	but intstead of being a single large figure with many pannels, its many
-#	small figures.  It is obsolete.
-#
-#	'''
-#
-#	for dimension in ['overall', 'cultural', 'food']:
-#		plotSpecificityComparison(
-#			'treatment1', 
-#			['treatment5', 'treatment6', 'treatment2'],
-#			50, 'figs/spec-treat1-%s.pdf'%dimension, 'overall'
-#		)
-#
-#		plotSpecificityComparison(
-#			'treatment2', 
-#			['treatment3', 'treatment4', 'treatment1'],
-#			50, 'figs/spec-treat2-%s.pdf'%dimension, 'overall'
-#		)
-#
-#		plotSpecificityComparison(
-#			'treatment0', 
-#			['treatment1', 'treatment5', 'treatment6', 'treatment2', 
-#				'treatment3','treatment4'],
-#			50, 'figs/spec-treat0-%s.pdf'%dimension, 'overall'
-#		)
-
 
