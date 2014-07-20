@@ -66,12 +66,18 @@ Do Now
 	x Check where the 95% confidence level is for binary classification with
 		test set of 25
 
-	[] assess significance tests for the orientation composition measures
+	x It would be best to plot averages for the cross-val data, because
+		different runs produce different levels: some look much better
+		than others, but it's not right to cherry pick!  An average would
+		be most representational
+
+	x assess significance tests for the orientation composition measures
 		- I would feel better about using the stdev of 'food_nx' (food non 
 			exclusive)... maybe...
-		- also check if the mask is working correctly for the ontology
-	[] re-plot the longitudinal excess cutural orientation
+	x re-plot the longitudinal excess cutural orientation
 	[] crossComparison got rid of numReplicates -- propogate
+	[] review the calculation of significance for the specificity comparisons
+		- also check if the mask is working correctly for the ontology
 
 - check back for my math stack exchange answer
 	=> added a bounty

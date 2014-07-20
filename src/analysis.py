@@ -284,15 +284,17 @@ class Analyzer(object):
 		'''
 
 		# counters
-		treatmentCounts = {'cultural':0, 'food':0, 'both':0, 'overall':0}
+		overall_counts = {'cultural':0, 'food':0, 'both':0, 'overall':0}
 		percentages = {
 			'cultural': [], 'excessCultural': [], 
 			'food': [], 'both': []
 		}
 
 		for treatment in treatments:
+			util.writeNow('\n\ttreatment: %s' % str(treatment))
 			entries = self.dataSet.entries[treatment]
 			for entry in entries:
+				util.writeNow('.')
 
 				# Figure out which tokens we're interested in
 				tokenKeys = []
@@ -320,7 +322,7 @@ class Analyzer(object):
 
 				for tokenKey in tokenKeys:
 
-					treatmentCounts['overall'] += 1
+					overall_counts['overall'] += 1
 					entryCounts['overall'] += 1
 
 					isCultural = self.isCultural(entry[tokenKey])
@@ -367,16 +369,20 @@ class Analyzer(object):
 		# and divide by square root of number of samples.
 		stdPercentage = {
 			'cultural': (
-				np.std(percentages['cultural']) / np.sqrt(len(entries)))
+				np.std(percentages['cultural']) / np.sqrt(
+				overall_counts['overall']))
 
 			, 'excessCultural': (
-				np.std(percentages['excessCultural']) / np.sqrt(len(entries)))
+				np.std(percentages['excessCultural']) / np.sqrt(
+				overall_counts['overall']))
 
 			, 'food': (
-				np.std(percentages['food']) / np.sqrt(len(entries)))
+				np.std(percentages['food']) / np.sqrt(
+				overall_counts['overall']))
 
 			, 'both': (
-				np.std(percentages['both']) / np.sqrt(len(entries)))
+				np.std(percentages['both']) / np.sqrt(
+				overall_counts['overall']))
 		}
 
 		return {'mean': meanPercentage, 'stdev':stdPercentage}

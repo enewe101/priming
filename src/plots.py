@@ -436,21 +436,6 @@ def computeSpecificityComparisons(
 	return results
 
 
-
-def plotValenceVsImage():
-	'''
-	This creates a figure with three pannels:
-	
-	1) Aggregation of all treatments orientation vs image
-	2) CULT_img treatment vs image
-	3) CULT_fund treatment vs image
-	'''
-
-	runs = [
-			
-			]
-
-
 def getTestDataset():
 	'''
 	Factory method that builds a CleanDataset from a small testing subset
@@ -477,8 +462,9 @@ def checkOrientationSignificance(
 	writeFname='orientation/significance.json',
 	populationSize = 126
 	):
-	''' Checks for a significant difference between the fraction of food-
-	and culture-oriented words for all treatments compared to AMBG.
+	''' 
+		Checks for a significant difference between the fraction of food-
+		and culture-oriented words for all treatments compared to AMBG.
 	'''
 
 	# Read the file.  We're interested in the data in panel 1, which corresponds
@@ -510,11 +496,13 @@ def checkOrientationSignificance(
 
 def computeOrientationVsTreatment(
 	fname='orientation/orientation.json', useTestData=False):
-	#fname='../docs/figs/valenceComparison.pdf'):
+
 	'''
-	This creates a figure with  X pannels:
-	1) Orientation vs treatment for image 1
-	2) Orientation vs treatment for all images
+	This computes the data for a figure with  3 pannels:
+
+	1) Orientation vs image (aggregating labels from all treatments)
+	2) Orientation vs treatment (aggregating all images)
+	3) Orientation vs treatment using labels from the image 'test0'
 	'''
 
 	fh = open(fname, 'w')
@@ -531,11 +519,13 @@ def computeOrientationVsTreatment(
 	plotData = {}
 
 	# First we will plot composition vs image, aggregating all treatments
+	print '\n\npreparing panel0 data: composition as a function of image'
 	plotData['panel0'] = {
 		'avg':{'cultural':[], 'food':[], 'both':[]},
 		'std':{'cultural':[], 'food':[], 'both':[]}
 	}
 	for image in ['test%d' % i for i in range(5)]:
+		print '\nImage: %s' %image
 		result = a.percentValence(treatments, [image])
 
 		plotData['panel0']['avg']['cultural'].append(
@@ -550,11 +540,15 @@ def computeOrientationVsTreatment(
 
 	# Next we will make plots that examine composition as a function of 
 	# treatment
+	print '\n\npreparing panel1 and 2 data: composition as a function of '\
+		'treatment, with labels from all images, and then only the first '\
+		'image.'
 	imageSets = [
 		['test%d' % i for i in range(5)],
 		['test0']
 	]
 	for i, images in enumerate(imageSets):
+		print ('\nAll images' if not i else '\nFirst image')
 		plotData['panel%d'%(i+1)] = {
 			'avg':{'cultural':[], 'food':[], 'both':[], 'excessCultural':[]},
 			'std':{'cultural':[], 'food':[], 'both':[], 'excessCultural':[]}
@@ -579,6 +573,8 @@ def computeOrientationVsTreatment(
 
 	# Finally we make plots that examine the excess culture orientation
 	# as a function of image
+	print '\n\npreparing panel3,4, and 5 data: excess cultural composition .'
+
 	plotData['panel5'] = {
 		'avg': [],
 		'std': []
@@ -612,23 +608,36 @@ def computeOrientationVsTreatment(
 
 
 	# Adjust the excess cultural values to use AMBG treatment as a baseline
+	# since we are subtracting means, the resulting std error is the sqrt of
+	# the sum of the squares of std errors
 	for i in range(5):
 		plotData['panel3']['avg'][i] = (
-				plotData['panel3']['avg'][i] - ambgData['avg'][i])
+			plotData['panel3']['avg'][i] - ambgData['avg'][i])
+
 		plotData['panel3']['std'][i] = (
-				plotData['panel3']['std'][i] + ambgData['std'][i])
+			np.sqrt(
+				plotData['panel3']['std'][i] + ambgData['std'][i]
+			)
+		)
 
 		plotData['panel4']['avg'][i] = ( 
 			plotData['panel4']['avg'][i] - ambgData['avg'][i])
+
 		plotData['panel4']['std'][i] = (
-			plotData['panel4']['std'][i] + ambgData['std'][i])
+			np.sqrt(
+				(plotData['panel4']['std'][i])**2 + (ambgData['std'][i])**2
+			)
+		)
 
 	fh.write(json.dumps(plotData, indent=3))
 	fh.close()
 
 
-def plotExcessCultureVsImage(readFname='orientation/orientation.json',
-	writeFname='figs/excessCultureVsTreatment-t1.pdf'):
+def plotExcessCultureVsImage(
+	readFname='orientation/orientation.json',
+	writeFname='figs/excessCultureVsTreatment-t1.pdf',
+	num_subplots=1
+	):
 
 	images = ['image %d' % i for i in range(1,6)]
 
@@ -638,16 +647,21 @@ def plotExcessCultureVsImage(readFname='orientation/orientation.json',
 
 	subplotLabels = ['A', 'B']
 
-	figWidth = 17.4/2.54
-	figHeight = figWidth*2/5.
-	#figWidth = 8.7/2.54
-	#figHeight = figWidth*4/5.
+	subplots = range(num_subplots)
+	gs = gridspec.GridSpec(1,len(subplots))
+	if len(subplots) == 1:
+		figWidth = 8.7/2.54
+		figHeight = figWidth*4/5.
+	elif len(subplots) == 2:
+		figWidth = 17.4/2.54
+		figHeight = figWidth*2/5.
+	else:
+		raise ValueError('Expected either 1 or 2 subplots')
+
 	fig = plt.figure(figsize=(figWidth, figHeight))
-	gs = gridspec.GridSpec(1,2)
 
 	X = range(len(images))
 
-	subplots = [0,1]
 
 	for subplot in subplots:
 
@@ -662,7 +676,9 @@ def plotExcessCultureVsImage(readFname='orientation/orientation.json',
 			ax = plt.subplot(gs[subplot], sharey=ax0)
 
 		X2 = map(lambda x: x + width/2.0, X)
-		panel = 'panel%d' % (subplot+3)
+
+		# first subplot plots panel 3, second plots panel 4
+		panel = 'panel%d' % (subplot+3) 
 
 		thisPlotData = plotData[panel]
 
@@ -692,8 +708,7 @@ def plotExcessCultureVsImage(readFname='orientation/orientation.json',
 		xlims = (-padding, len(X) - 1 + width + padding)
 		plt.xlim(xlims)
 
-		#plt.ylim((0, plt.ylim()[1]))
-		plt.ylim((-20, plt.ylim()[1]))
+		plt.ylim((0, plt.ylim()[1]+2.5))
 
 		plt.draw()
 		plt.tight_layout()
@@ -1273,15 +1288,61 @@ def plotAllF1(
 	fig.savefig(writeFname)
 	plt.show()
 
+CLASSIFICATION_VS_IMAGE_RESULT_WRITE_FNAME = (
+	'f1scores/longitudinal-t0-t1_25.json')
+
+def computeClassificationVsImage_multipass(
+		num_replicates=20,
+		writeFname=CLASSIFICATION_VS_IMAGE_RESULT_WRITE_FNAME
+		):
+	'''
+	This runs computeClassificationVsImage() many times, and accumulates
+	the results from each replicate.  It then averages these results, and
+	writes the averages to file.
+
+	Motivation: when computeClassificationVsImage is run, results can differ
+	substancially from run to run, due to different partitioning of the 
+	test and training set within the cross-validation subroutine of 
+	NBCAnalyzer.longitudinal().  Some results look better than others, but
+	its not right to cherry-pick.  Instead, take the average of many 
+	replicates to present a truly representational view on the results.
+	'''
+
+	fh = open(writeFname, 'w')
+
+	# Test the classifier's competance in longitudinal (per-image) mode
+	# Aggregate the results
+	results = []
+	for rep_num in range(num_replicates):
+		results.append(computeClassificationVsImage(return_result=True))
+
+	# Average the results
+	aggregate_result = {}
+	for key, val in results[0].items():
+
+		aggregate_result[key] = []
+		for position in range(len(val)):
+			aggregate_result[key].append(
+				np.mean([r[key][position] for r in results]))
+
+	# Write the averaged results to file
+	fh.write(json.dumps(aggregate_result, indent=4))
+	fh.close()
+
 
 def computeClassificationVsImage(
 	testSetSize=25,
 	treatments=('treatment0','treatment1'), 
-	writeFname='f1scores/longitudinal-t0-t1_25.json'):
+	writeFname=CLASSIFICATION_VS_IMAGE_RESULT_WRITE_FNAME,
+	return_result=False
+	):
 	'''
 	Measures the F1 score for a classifier built to distingiush between
 	<treatments> based on the labels attributed to a specific image, 
 	as a function of the images for all 5 test images.
+
+	`return_results`: if true, the results are returned to the calling context
+		rather than written to file
 	'''
 	fh = open(writeFname, 'w')
 
@@ -1290,8 +1351,13 @@ def computeClassificationVsImage(
 	a = analysis.NBCAnalyzer()
 
 	results = a.longitudinal(treatments, testSetSize)
-	fh.write(json.dumps(results, indent=3))
-	fh.close()
+
+	# return the results, or write them to file
+	if return_result:
+		return results
+	else:
+		fh.write(json.dumps(results, indent=3))
+		fh.close()
 
 
 def plotClassificationVsImage(
@@ -1319,61 +1385,124 @@ def plotClassificationVsImage(
 		width = 0.75
 
 
-	# Unpack the data for this subplot
-	Y_F1s = results['f1']
-	X_F1s = range(len(Y_F1s))
-	X_F1s[0] = X_F1s[0] - pre_space
-
-	# Convert from accuracy to theta
-	Y_thetas = map(lambda t: t*2 - 1, results['accuracy'])
-	X_thetas = map(lambda x: x+width, X_F1s)
 
 
 	# Make a plot
 	figWidth = 8.7 / 2.54 		# convert from PNAS spec in cm to inches
 	figHeight = figWidth * 4/5.
 	fig = plt.figure(figsize=(figWidth,figHeight))
-	ax = plt.subplot(111)
+
+	gs = gridspec.GridSpec(1,2, width_ratios=[5,21])
+
+
+	# *** In the first subplot, the datapoint for classification based on 
+	# label from *all* images
+	ax0 = plt.subplot(gs[0]) # plots performance using all images
+	
+	Y_F1s = results['f1'][:1]
+	X_F1s = [0]
+
+	Y_thetas = results['accuracy'][:1]
+	Y_thetas = [t*2 - 1 for t in  Y_thetas]
+
+	X_thetas_all_images = [width]
 
 	# Plot classifier performance, as F1 and theta
 	if not theta_only:
-		f1_series = ax.bar(X_F1s, Y_F1s, width, color='0.25')
-		theta_series = ax.bar(X_thetas, Y_thetas, width, color='0.55')
+		f1_series = ax0(X_F1s, Y_F1s, width, color='0.25')
+		theta_series = ax0.bar(X_thetas, Y_thetas, width, color='0.55')
 	else:
-		theta_series = ax.bar(X_F1s, Y_thetas, width, color='0.55')
+		theta_series = ax0.bar(X_F1s, Y_thetas, width, color='0.55')
 
 	# Do some labelling business with the plot
-	ax.tick_params(axis='both', which='major', labelsize=9)
+	ax0.tick_params(axis='both', which='major', labelsize=9)
 	if not theta_only:
-		ax.set_xticks(X_thetas)
+		ax0.set_xticks(X_thetas)
 	else:
-		ax.set_xticks([x + width/2. for x in X_F1s])
+		ax0.set_xticks([x + width/2. for x in X_F1s])
 
-	xlabels = ['all images'] + ['image %d' % (i+1) for i in range(numPics)]
-	ax.set_xticklabels( xlabels, ha='right', rotation=45, size=9)
+	xlabels = ['all images']
+	ax0.set_xticklabels(xlabels, ha='right', rotation=45, size=9)
 
 	# control the plot limits
 	padding = 0.25
 	xlims = plt.xlim()
 	if not theta_only:
-		plt.xlim((-pre_space - padding, numPics + 2*width + padding))
+		plt.xlim((-padding, 1))
 	else:
-		plt.xlim((-pre_space - padding, numPics + width + padding))
-	# plt.ylim((0,1))
+		plt.xlim((-padding, 1))
 
-	# add a legend
-	#legend = ax.legend( 
-	#	(f1_series[0], theta_series[0]), 
-	#	(r'$F_1$ score', r'$\theta_{NB}$'), 
-	#	loc='lower right', prop={'size':9}, labelspacing=0)
-
+	# plot a significance line
 	xlims = plt.xlim()
-	significance_bar = ax.plot(xlims, [theta_star, theta_star],
+	significance_bar = ax0.plot(xlims, [theta_star, theta_star],
+		color='0.35', linestyle=':', zorder=0)
+
+	# *** Done plotting classification based on labels from all images
+
+
+	# *** Now, plot the data points for classifications based on each image 
+	# seperately
+	ax1 = plt.subplot(gs[1], sharey=ax0)	# plots performance on per-image basis
+	plt.setp(ax1.get_yticklabels(), visible=False)
+
+	# Unpack the data for this subplot
+	Y_F1s = results['f1'][1:]
+	X_F1s = range(len(Y_F1s))
+
+	# Convert from accuracy to theta
+	Y_thetas = results['accuracy'][1:]
+	Y_thetas = [t*2 - 1 for t in Y_thetas]
+
+	X_thetas = map(lambda x: x+width, X_F1s)
+
+	# Plot classifier performance, as F1 and theta
+	if not theta_only:
+		f1_series = ax1(X_F1s, Y_F1s, width, color='0.25')
+		theta_series = ax1.bar(X_thetas, Y_thetas, width, color='0.55')
+	else:
+		theta_series = ax1.bar(X_F1s, Y_thetas, width, color='0.55')
+
+	# Do some labelling business with the plot
+	ax1.tick_params(axis='both', which='major', labelsize=9)
+	if not theta_only:
+		ax1.set_xticks(X_thetas)
+	else:
+		ax1.set_xticks([x + width/2. for x in X_F1s])
+
+	xlabels = ['image %d' % (i+1) for i in range(numPics)]
+	ax1.set_xticklabels(xlabels, ha='right', rotation=45, size=9)
+
+	# control the plot limits
+	padding = 0.25
+	xlims = plt.xlim()
+	if not theta_only:
+		plt.xlim((-padding, numPics -1 + 2*width + padding))
+	else:
+		plt.xlim((-padding, numPics -1 + width + padding))
+
+	if not theta_only:
+		# add a legend
+		legend = ax1.legend( 
+			(f1_series[0], theta_series[0]), 
+			(r'$F_1$ score', r'$\theta_{NB}$'), 
+			loc='lower right', prop={'size':9}, labelspacing=0)
+
+	# plot a significance line
+	xlims = plt.xlim()
+	significance_bar = ax1.plot(xlims, [theta_star, theta_star],
 		color='0.35', linestyle=':', zorder=0)
 	
+	# ** done plotting the results for each image **
+
+
+	# now make som adjustments
+	ylims = plt.ylim()
+	plt.ylim(ylims[0], ylims[1] + 0.05)
 	plt.draw()
 	plt.tight_layout()
-	plt.subplots_adjust(bottom=.22)
+	plt.subplots_adjust(wspace=0.05, bottom=.22)
+	#fig.subplots_adjust(wspace=0.05, top=0.77, right=0.92, left=0.07, 
+	#		bottom=0.24)
 
 	fig.savefig(writeFname)
 	plt.show()
