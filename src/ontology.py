@@ -50,6 +50,7 @@ class Ontology(object):
 		self.isTranslatorStale = False
 
 		self._mask = set()	# nodes in the mask affect how compare works
+		self._drop = set()	# nodes in the drop affect how compare works
 
 
 	def writeOntology(self, fname):
@@ -404,36 +405,48 @@ class Ontology(object):
 		self._mask.add(self.getSynonym(tokenToMask))
 
 
+	def drop(self, tokenToDrop):
+		self._drop.add(self.getSynonym(tokenToDrop))
+
+
 	def clearMask(self):
 		self._mask = set()
+
+
+	def clearDrop(self):
+		self._drop = set()
+
 
 	def unmask(self, tokenToUnmask):
 		self._mask.remove(self.getSynonym(tokenToUnmask))
 
+	
+	def undrop(self, tokenToUndrop):
+		self._drop.remove(self.getSynonym(tokenToUndrop))
 
-	def compare(self, token1, token2, strict=True):
+
+	def compare(self, token1, token2):
 
 		self.checkIfStale()
 
-		# Resolve synonyms, then get the ancesters for the tokens
+		# Resolve synonyms, then get the ancesters and top-level-parents 
+		# for the tokens
 		token1, token2 = map(self.getSynonym, [token1, token2])
 		ancesters1, ancesters2 = map(self.getAncesters, [token1, token2])
+		top_p1, top_p2 = [self.getTopParents(t) for t in [token1, token2]]
 
 
-		if strict:
-			# each token must have no masked ancesters at all
-			roots1 = (ancesters1 | set([token1])) & set(self.model['ROOT'])
-			roots2 = (ancesters2 | set([token2])) & set(self.model['ROOT'])
-			if (roots1 & self._mask) or (roots2 & self._mask):
-				return 0
+		# each token must have no masked ancesters at all
+		roots1 = (ancesters1 | set([token1])) & set(self.model['ROOT'])
+		roots2 = (ancesters2 | set([token2])) & set(self.model['ROOT'])
+		if (roots1 & self._mask) or (roots2 & self._mask):
+			return 0
 
-
-		else:
-			# each token has to have at least one non-masked ancester
-			roots1 = (ancesters1 | set([token1])) & set(self.model['ROOT'])
-			roots2 = (ancesters2 | set([token2])) & set(self.model['ROOT'])
-			if not (roots1 - self._mask) or not (roots2 - self._mask):
-				return 0
+		# each token must also have a non-dropped top level parent
+		roots1 = top_p1 - self._drop
+		roots2 = top_p2 - self._drop
+		if not(roots1 and roots2):
+			return 0
 
 		if token1 in self.getAncesters(token2):
 			return 1
@@ -460,6 +473,27 @@ class Ontology(object):
 				ancesters |= self.getAncesters(p)
 
 		return ancesters
+
+
+	def getTopParents(self, token):
+
+		self.checkIfStale()
+		top_parents = set()
+
+		# use the canonical synonym
+		token = self.getSynonym(token)
+
+		parents = self.getParents(token)
+
+		# A parent is a top parent if its parent is ROOT
+		if 'ROOT' in parents:
+			top_parents.add(token)
+
+		for p in parents:
+			if p!= 'ROOT':
+				top_parents |= self.getTopParents(p)
+
+		return top_parents
 
 
 	def getParents(self, token):

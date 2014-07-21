@@ -57,7 +57,8 @@ TREATMENT_NAMES = {
 
 def plotAllSpecificityComparisons(
 	readFname='specificity/allImages.json', 
-	writeFname='figs/specificity-allImages.pdf'
+	writeFname='figs/specificity-allImages.pdf',
+	normalize=False
 	):
 	'''
 	Computes all of the interesting specificity comparisons between different
@@ -67,6 +68,11 @@ def plotAllSpecificityComparisons(
 
 	This only does the computation and writes the results to file; you need
 	to run `plotAllSpecificityComparisons()` to generate the plot.
+
+	`normalize` controlls whether the plot is normalized into units of 
+	standard deviations of the null comparison.  This was used previously, as
+	part of a different way of approaching testing the significance of the 
+	spceficity results.
 	'''
 
 	data = json.loads(open(readFname).read())
@@ -92,8 +98,14 @@ def plotAllSpecificityComparisons(
 
 			width=0.75
 			X = range(len(comparisonData))
-			Y = map(lambda x: x['avgNorm'], comparisonData)
-			Y_err = map(lambda x: x['stdev']/normStdev, comparisonData)
+
+			if normalize:
+				Y = map(lambda x: x['avgNorm'], comparisonData)
+				Y_err = map(lambda x: x['stdev']/normStdev, comparisonData)
+
+			else:
+				Y = map(lambda x: x['avg'], comparisonData)
+				Y_err = map(lambda x: x['stdev'], comparisonData)
 
 			treatmentNames = map(lambda x: x['subject'], comparisonData)
 
@@ -121,27 +133,30 @@ def plotAllSpecificityComparisons(
 			series = ax.bar(X, Y, width, color='0.25', ecolor='0.55', 
 				yerr=Y_err)
 
+			# control the plot X limits
 			padding = 0.25
 			xlims = (-padding, len(comparisonData) - 1 + width + padding)
 			plt.xlim(xlims)
 
+			# Annotate the plot with a line at Y=0
 			zero = ax.plot(
 				xlims, [0, 0], color='0.35', linestyle='-')
 
-			confidenceIntervalUpper = ax.plot(
-				xlims, [CONFIDENCE_95, CONFIDENCE_95], color='0.35',
-				linestyle=':')
+			# for a normalized plot, annotatet the plot with 95% confidence
+			# interval for the null comparison
+			if normalize:
+				confidenceIntervalUpper = ax.plot(
+					xlims, [CONFIDENCE_95, CONFIDENCE_95], color='0.35',
+					linestyle=':')
 
-			confidenceIntervalLower = ax.plot(
-				xlims, [-CONFIDENCE_95, -CONFIDENCE_95], color='0.35',
-				linestyle=':')
-
+				confidenceIntervalLower = ax.plot(
+					xlims, [-CONFIDENCE_95, -CONFIDENCE_95], color='0.35',
+					linestyle=':')
 			
-			ylims = plt.ylim()
-			ypadding = (ylims[1] - ylims[0]) * 0.1
-			#plt.ylim(-13, 8)
-			plt.ylim(-12, 10)
-			#plt.ylim(ylims[0], 10 + ypadding)
+			# Control the Y limits
+			#ylims = plt.ylim()
+			#ypadding = (ylims[1] - ylims[0]) * 0.1
+			#plt.ylim(-12, 10)
 
 			# determine the basis-treatment label, but don't apply it yet
 			basisLabels.append(TREATMENT_NAMES[basis])

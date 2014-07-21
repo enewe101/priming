@@ -59,10 +59,10 @@ Do Now
 - Data Stuff
 	x implement k-fold cross-validation
 	x plot the new \theta_NB data and check for singificance
-		- include all comparisons (e.g. comparing one funding treatment to the 
+		x include all comparisons (e.g. comparing one funding treatment to the 
 			other
 	x make new longitudinal plot of \theta_NB and check for significance
-		- compare cult_img and ambg
+		x compare cult_img and ambg
 	x Check where the 95% confidence level is for binary classification with
 		test set of 25
 
@@ -72,12 +72,27 @@ Do Now
 		be most representational
 
 	x assess significance tests for the orientation composition measures
-		- I would feel better about using the stdev of 'food_nx' (food non 
+		o I would feel better about using the stdev of 'food_nx' (food non 
 			exclusive)... maybe...
 	x re-plot the longitudinal excess cutural orientation
 	[] crossComparison got rid of numReplicates -- propogate
-	[] review the calculation of significance for the specificity comparisons
-		- also check if the mask is working correctly for the ontology
+	x review the calculation of significance for the specificity comparisons
+		x I think I have the variance calculated correctly now
+		x have a look at the plots of specificity comparisons
+			[] one thing that has me concerned is that the variance didn't seem
+				to be lower in the plots, although the variance printouts
+				at runtime are lower...
+		[] perform all comparisons
+		x the mask approach is not working.  Desired behavior: e.g. for 
+			cultural specificity comparison, use any tokens that have a 
+			cultural ancestor and no food ancestor
+			x implemented a 'mask' and a 'drop' feature
+	[] re-plot the specificity comparisons
+		[] add all comparisons
+
+[] Ontology
+	- the ontology needs to be cleaned up
+	- I noticed that there are some orphans
 
 - check back for my math stack exchange answer
 	=> added a bounty

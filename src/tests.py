@@ -38,13 +38,52 @@ class OntologyTestCase(unittest.TestCase):
 
 		# Now make a cultural-food comparison.  
 		# Default behavior is to do strict comparison, meaning that naan gets
-		# masked since it descends from 'cultural' 
-		self.assertEqual(self.ont.compare('naan', 'bread'), 0)
+		# masked since it descends from both 'food' and 'cultural' 
+		self.assertEqual(self.ont.compare('bread', 'naan'), 0)
 
-		# Now make a cultural-food comparison, but with strict=False
-		# since naan also descends from food, which is not masked, it 
-		# passes under non-strict comparison
-		self.assertEqual(self.ont.compare('naan', 'bread', strict=False), -1)
+		# Now remove the mask for culture.  Naan compares again:
+		self.ont.unmask('cultural')
+		self.assertEqual(self.ont.compare('bread', 'naan'), 1)
+		# but statue still doesn't
+		self.assertEqual(self.ont.compare('thing', 'statue'), 0)
+
+		# Remove all masks.  Now statue compares.
+		self.ont.clearMask()
+		self.assertEqual(self.ont.compare('thing', 'statue'), 1)
+		self.assertEqual(self.ont.compare('adj', 'great'), 1)
+		
+		# Now test dropping tokens.  Compare will ignore tokens
+		# whose top-level parents are all dropped.  But, if a token has a 
+		# non-dropped top level parent, it would be included so long as at
+		# least one top-level-parent isn't dropped, and so long as none of 
+		# its top level parents are masked
+		self.ont.drop('adj')
+
+		# naan will compare, but something strictly cultural won't
+		# borsht
+			# food and adj  -- passes
+		self.assertEqual(self.ont.compare('food', 'orange'), 1)
+			# food and culture and adj -- passes
+		self.assertEqual(self.ont.compare('meal', 'indian buffet'), 1)
+			# culture -- passes
+		self.assertEqual(self.ont.compare('religious', 'buddist'), 1)
+			# adj -- fails
+		self.assertEqual(self.ont.compare('adj', 'great'), 0)
+
+		# Now we combine masks and drops
+		self.ont.mask('culture')
+
+		self.assertEqual(self.ont.compare('food', 'orange'), 1)
+		self.assertEqual(self.ont.compare('meal', 'indian buffet'), 0)
+		self.assertEqual(self.ont.compare('religious', 'buddist'), 0)
+		self.assertEqual(self.ont.compare('adj', 'great'), 0)
+
+		# finally, try removing the drop on adj:
+		self.ont.undrop('adj')
+		self.assertEqual(self.ont.compare('adj', 'great'), 1)
+
+		self.ont.clearDrop()
+		self.ont.clearMask()
 
 
 	def test_ontologyBuilding(self):
@@ -76,16 +115,21 @@ class OntologyTestCase(unittest.TestCase):
 		# read the edgelist
 		self.ont.readEdgeList('test/edgeList.txt')
 
-		# try a comparison based on the synonyms
-		self.assertEqual(self.ont.compare('food', 'braed'), 1)
-		self.assertEqual(self.ont.compare('braed', 'naan'), 1)
-
 		# There should be one orphan, 'food'
 		self.assertEqual(self.ont.findOrphans(), ['food'])
+
+		# orphans can't be compared...
+		self.assertEqual(self.ont.compare('food', 'bread'), 0)
 
 		# Adding the node 'ROOT', 'food' gets rid of this orphan
 		self.ont.addNode('ROOT', 'food')
 		self.assertEqual(self.ont.findOrphans(), [])
+
+		# Now bread can be compared.
+		# Also, test out the synonyms
+		self.assertEqual(self.ont.compare('food', 'bread'), 1)
+		self.assertEqual(self.ont.compare('food', 'braed'), 1)
+		self.assertEqual(self.ont.compare('braed', 'naan'), 1)
 
 		# There should be one un-placed word
 		self.assertEqual(self.ont.getWords(), [('ganesha', 3)])
