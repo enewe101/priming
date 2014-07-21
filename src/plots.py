@@ -55,8 +55,10 @@ TREATMENT_NAMES = {
 
 
 
-def plotAllSpecificityComparisons(readFname='specificity/all.json', 
-	writeFname='figs/specificity-allImages.pdf'):
+def plotAllSpecificityComparisons(
+	readFname='specificity/allImages.json', 
+	writeFname='figs/specificity-allImages.pdf'
+	):
 	'''
 	Computes all of the interesting specificity comparisons between different
 	treatments, such that they can be plotted  in a big multi-pannel figure.
@@ -208,13 +210,6 @@ def plotAllSpecificityComparisons(readFname='specificity/all.json',
 	fig.savefig(writeFname)
 	plt.show()
 
-#def computeAllSpecificityComparisons(sampleSize=126, nullSampleSize=63):
-#
-#	for image in ['test%d' % i for i in range(5)]:
-#		computeSpecificityComparisons(
-#			fname='specificity/%s.json' % image,
-#			sampleSize=sampleSize, nullSampleSize=nullSampleSize,
-#			images=[image])
 
 def computeAllSpecificities(sampleSize=126, nullSampleSize=63,
 		images=['test%d'%i for i in range(5)] ):
@@ -235,7 +230,6 @@ def computeAllSpecificities(sampleSize=126, nullSampleSize=63,
 			
 			start = time.time()
 
-			#TODO print time tracking
 			computeSpecificity(
 				basis=basis,
 				subjects=subjects,
@@ -349,8 +343,11 @@ def computeSpecificity(
 
 
 def computeSpecificityComparisons(
-	fname='specificity/allImages.json', sampleSize=126, nullSampleSize=63, 
-	images=['test%d'%i for i in range(5)]):
+	fname='specificity/allImages.json',
+	sampleSize=126,
+	nullSampleSize=63, 
+	images=['test%d'%i for i in range(5)]
+	):
 	'''
 	Computes all of the interesting specificity comparisons between different
 	treatments, such that they can be plotted  in a big multi-pannel figure.

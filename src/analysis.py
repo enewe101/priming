@@ -219,11 +219,6 @@ class Analyzer(object):
 			return self.compareFoodSpecificity(
 				subjectTreatment, basisTreatment, numToCompare, images)
 
-		else:
-			raise ValueError("In Analyzer.compareValenceSpecificity: valence "\
-				"must be one of 'overall', 'cultural', or 'food'. Found '"\
-				+ valence + "'.")
-
 
 	def compareFoodSpecificity(
 		self, treatment1, treatment2, numToCompare=50, images=['test0']):
@@ -434,7 +429,7 @@ class Analyzer(object):
 		uncomparableCounts = []
 
 		util.writeNow('         carrying out comparison ' + str(images))
-		
+
 		# Make all pairwise comparisons between the workers subsampled from 
 		# in treatment 1 and those subsampled from treatment 2
 		for i in range(len(entries1)):
@@ -451,7 +446,7 @@ class Analyzer(object):
 
 				entry2 = entries2[j]
 
-				# Now compale the two workers.  All pairs of words are 
+				# Now compare the two workers.  All pairs of words are 
 				# tried. Words can only be compared if one is the ancestor of
 				# the other
 				lessSpec, moreSpec, uncomp = self.compareEntries(
@@ -462,16 +457,74 @@ class Analyzer(object):
 				subUncomparableCounts.append(uncomp)
 
 			# Compute and record results for all comparisons of ith worker
-			uncomparableCounts.append(np.mean(subUncomparableCounts))
-			firstMoreMinusLess.append(np.mean(subRelativeSpecificities))
+			uncomparableCounts.append(subUncomparableCounts)
+			firstMoreMinusLess.append(subRelativeSpecificities)
+
+		# calculate the covariance of comparisons involving the same jth
+		# worker
+		cov_i_estimates = []
+		num_pairs = len(firstMoreMinusLess)/2 * 2 # guaranteed to be even
+		for i in range(0, num_pairs, 2):
+			avg_1 = np.mean(firstMoreMinusLess[i])
+			avg_2 = np.mean(firstMoreMinusLess[i+1])
+			cov_sum = 0
+			for j in range(len(firstMoreMinusLess[0])):
+				A = firstMoreMinusLess[i][j] - avg_1
+				B = firstMoreMinusLess[i+1][j] - avg_2
+				cov_sum += A*B
+
+			cov_i_estimate = cov_sum / float(len(firstMoreMinusLess[i]) - 1)
+			cov_i_estimates.append(cov_i_estimate)
+
+		cov_i = np.mean(cov_i_estimates)
+		print 'cov_i', cov_i
+
+		# calculate the covariance of comparisons involving the same ith
+		# worker
+		cov_j_estimates = []
+		num_pairs = len(firstMoreMinusLess[0])/2*2 # guaranteed to be even
+		for j in range(0, num_pairs, 2):
+
+			avg_1 = np.mean([f[j] for f in firstMoreMinusLess])
+			avg_2 = np.mean([f[j+1] for f in firstMoreMinusLess])
+
+			cov_sum = 0
+			for i in range(len(firstMoreMinusLess)):
+				A = firstMoreMinusLess[i][j] - avg_1
+				B = firstMoreMinusLess[i][j+1] - avg_2
+				cov_sum += A*B
+
+			cov_j_estimate = cov_sum / float(len(firstMoreMinusLess)-1)
+			cov_j_estimates.append(cov_j_estimate)
+
+		cov_j = np.mean(cov_j_estimates)
+		print 'cov_j', cov_j
+
+		# calculate the overall straight variance
+		all_comparisons = []
+		for comparison_column in firstMoreMinusLess:
+			all_comparisons.extend(comparison_column)
+
+		straight_var = np.std(all_comparisons)**2
+
+		N = float(len(firstMoreMinusLess))
+		M = float(len(firstMoreMinusLess[0]))
+		true_var = (straight_var + (N-1)*cov_i + (M-1)*cov_j) /(N*M)
+		old_var = np.std([np.mean(i) for i in firstMoreMinusLess])**2
+
+		print 'straight_var', straight_var
+		print 'true_var', true_var
+		print 'old_var', old_var
+
 
 		print ''
 		return {
-			'avgMoreMinusLess': np.mean(firstMoreMinusLess),
-			'stdMoreMinusLess': (np.std(firstMoreMinusLess) 
-				/ np.sqrt(numToCompare)),
-			
-			'avgUncomparable': np.mean(uncomparableCounts),
+			'avgMoreMinusLess': 
+				np.mean([np.mean(i) for i in firstMoreMinusLess]),
+			'stdMoreMinusLess': np.sqrt(true_var),
+
+			'avgUncomparable': 
+				np.mean([np.mean(i) for i in uncomparableCounts]),
 			'stdUncomparable': (np.std(uncomparableCounts)
 				/ np.sqrt(numToCompare)),
 		}
