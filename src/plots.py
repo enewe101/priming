@@ -61,7 +61,7 @@ def plotAllSpecificityComparisons(
 	normalize=False
 	):
 	'''
-	Computes all of the interesting specificity comparisons between different
+	Plots all of the interesting specificity comparisons between different
 	treatments, such that they can be plotted  in a big multi-pannel figure.
 	This does overall specificity comparisons as well as food-specific and
 	culture-specific specificity comparisons.
@@ -361,7 +361,8 @@ def computeSpecificityComparisons(
 	fname='specificity/allImages.json',
 	sampleSize=126,
 	nullSampleSize=63, 
-	images=['test%d'%i for i in range(5)]
+	images=['test%d'%i for i in range(5)],
+	return_results=False
 	):
 	'''
 	Computes all of the interesting specificity comparisons between different
@@ -372,14 +373,21 @@ def computeSpecificityComparisons(
 	This only does the computation and writes the results to file; you need
 	to run `plotAllSpecificityComparisons()` to generate the plot.
 	'''
-
 	comparisonSchedule = {
 		'treatment0': ['treatment1', 'treatment5', 'treatment6',
 			'treatment2', 'treatment3', 'treatment4']
 
-		, 'treatment1': ['treatment5', 'treatment6', 'treatment2']
+		, 'treatment1': ['treatment5', 'treatment6', 'treatment2', 
+			'treatment3', 'treatment4']
 
-		, 'treatment2': ['treatment3', 'treatment4']
+		, 'treatment2': ['treatment5', 'treatment6', 
+				'treatment3', 'treatment4']
+
+		, 'treatment5': ['treatment6', 'treatment3', 'treatment4']
+
+		, 'treatment3': ['treatment6', 'treatment4']
+
+		, 'treatment6': ['treatment4']
 	}
 
 	print '\nComparison based on images: ' + str(images)
@@ -391,15 +399,19 @@ def computeSpecificityComparisons(
 	fh = open(fname, 'w')
 	results = []
 
+	# ordered basis treatments -- used to control the order that each
+	# set of comparisons is performed
+	ordered_basis_treatments = ['treatment%d' % i for i in [0,1,2,5,3,6]]
+
 	for valence in ['overall', 'cultural', 'food']:
 		thisValenceResults = {'valence': valence, 'results': []}
 		results.append(thisValenceResults)
 
 		print '   Valence: %s' % valence
 
-		for basisTreatment in ['treatment0', 'treatment1', 'treatment2']:
+		for basisTreatment in ordered_basis_treatments:
 
-			print '      basisTreatment: %s' % basisTreatment
+			print '****basisTreatment: %s' % basisTreatment
 			
 			thisBasisResults = {'basis': basisTreatment, 'results':[]}
 			thisValenceResults['results'].append(thisBasisResults)
@@ -445,7 +457,8 @@ def computeSpecificityComparisons(
 	fh.write(json.dumps(results, indent=3))
 	fh.close
 
-	return results
+	if return_results:
+		return results
 
 
 def getTestDataset():
