@@ -77,19 +77,30 @@ def plotAllSpecificityComparisons(
 
 	data = json.loads(open(readFname).read())
 
-	subplotLabels = ['A','B','C','D','E','F','G','H','I']
+	subplotLabels = [
+		'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q',
+		'R','S'
+	]
 	basisLabels = []
 
 	
 	figWidth = 17.8 / 2.54 			# convert from PNAS spec in cm to inches
 	figHeight = (10/11.)*figWidth 	# a reasonable aspect ratio
 	fig = plt.figure(figsize=(figWidth,figHeight))
-	gs = gridspec.GridSpec(3,3, width_ratios=[25,13,9])
+
+	num_cols = len(data[0]['results'])
+	width_ratios = [5 + s*4 for s in reversed(range(num_cols))]
+
+	gs = gridspec.GridSpec(3,num_cols, width_ratios=width_ratios)
 	subplotCounter = 0
+
+	shared_x = []	# keeps references to x-axes for sharing
 
 	for valenceComparison in data:
 		valence = valenceComparison['valence']
 		
+		shared_y = None # keeps references to y-axes for sharing
+
 		for basisComparison in valenceComparison['results']:
 			basis = basisComparison['basis']
 			normStdev = basisComparison['null']['stdev']
@@ -109,26 +120,31 @@ def plotAllSpecificityComparisons(
 
 			treatmentNames = map(lambda x: x['subject'], comparisonData)
 
-			if subplotCounter == 0:
-				ax = plt.subplot(gs[subplotCounter])
-				ax0 = ax	# keep a reference for sharing y-axis
+			row = subplotCounter / num_cols
+			col = subplotCounter % num_cols
 
-			elif subplotCounter == 1:
-				ax = plt.subplot(gs[subplotCounter], sharey=ax0)
-				ax1 = ax
+			# create axes, and keep track of axis sharing, while you're at it
+			# if the subplot is on the first row, keep ref for x-sharing
+			if row == 0:
 
-			elif subplotCounter == 2:
-				ax = plt.subplot(gs[subplotCounter], sharey=ax0)
-				ax2 = ax
+				# if subplot is first within its row, keep ref for y-sharing
+				if col == 0:
+					ax = plt.subplot(gs[subplotCounter])
+					shared_x.append(ax)
+					shared_y = ax	# keep a reference for sharing y-axis
 
-			elif subplotCounter % 3 == 0:
-				ax = plt.subplot(gs[subplotCounter], sharey=ax0, sharex=ax0)
+				else:
+					ax = plt.subplot(gs[subplotCounter], sharey=shared_y)
+					shared_x.append(ax)
 
-			elif subplotCounter % 3 == 1:
-				ax = plt.subplot(gs[subplotCounter], sharey=ax0, sharex=ax1)
+			else:
+				if col == 0:
+					ax = plt.subplot(gs[subplotCounter], sharex=shared_x[col])
+					shared_y = ax
 
-			elif subplotCounter % 3 == 2:
-				ax = plt.subplot(gs[subplotCounter], sharey=ax0, sharex=ax2)
+				else:
+					ax = plt.subplot(gs[subplotCounter],
+						sharex=shared_x[col], sharey=shared_y)
 
 			series = ax.bar(X, Y, width, color='0.25', ecolor='0.55', 
 				yerr=Y_err)
@@ -163,7 +179,7 @@ def plotAllSpecificityComparisons(
 
 			# handle x-axis labelling
 			ax.tick_params(axis='both', which='major', labelsize=9)
-			if subplotCounter > 5:
+			if row == 2:
 				xlabels = [TREATMENT_NAMES[t] for t in treatmentNames]
 				ax.set_xticks(map(lambda x: x + width/2., X))
 				ax.set_xticklabels(xlabels, rotation=45, 
@@ -172,21 +188,22 @@ def plotAllSpecificityComparisons(
 				plt.setp(ax.get_xticklabels(), visible=False)
 
 			# handle y-axis labelling
-			if subplotCounter == 0:
-				ax.set_ylabel("overall specificity", size=9)
+			if col == 0:
+				if row == 0:
+					ax.set_ylabel("overall specificity", size=9)
 
-			elif subplotCounter == 3:
-				ax.set_ylabel("cultural specificity", size=9)
+				if row == 1:
+					ax.set_ylabel("cultural specificity", size=9)
 
-			elif subplotCounter == 6:
-				ax.set_ylabel("food specificity", size=9)
+				if row == 2:
+					ax.set_ylabel("food specificity", size=9)
 
 			else:
 				plt.setp(ax.get_yticklabels(), visible=False)
 
 			subplotCounter += 1
 			plt.draw()
-			if subplotCounter < 6 :
+			if row < 2 :
 				plt.tight_layout()
 
 	# We need to apply some labels after everything is plotted, once the
@@ -205,22 +222,40 @@ def plotAllSpecificityComparisons(
 		ax.text(xmin + x_shim, ymax - y_range*y_letter_shim_factor, 
 			letterLabel, va='top', ha='left', size=12)
 
-		# Label the basis treatment as an inset
-		basisTreatmentName = basisLabels[i]
-		bbox_props =  {'facecolor': 'white'}
-		if i%3 == 0:
-			pad = 10
-			bbox_props['pad'] = pad
-			new_x_shim = x_shim + pad*x_range/800.
-			new_y_shim = y_range*y_inset_shim_factor + pad*y_range/400.
-		else:
-			new_x_shim = x_shim
-			new_y_shim = y_range*y_inset_shim_factor
-		ax.text(xmax - new_x_shim, ymin + new_y_shim,
-			basisTreatmentName, ha='right', va='bottom', bbox=bbox_props,
-			size=9)
 
-	plt.subplots_adjust(left=0.07, top=0.99, right=0.99, 
+		# Label the basis treatments above the subplots
+		# only do this on the first row!
+		row = i / num_cols
+		col = i % num_cols
+		if row == 0:
+			basisTreatment = data[0]['results'][i]['basis']
+			basisTreatmentName = TREATMENT_NAMES[basisTreatment]
+			num_bars = len(data[0]['results'][i]['results'])
+			left = (num_bars -1)/2.0 + width
+			ylims = ax.get_ylim()
+			# put the label directly above the plot.  
+			# The first label needs to be put a bit higher.
+			height= ylims[1] + (0.02 if i else 0.3)
+			ax.text(left, height, basisTreatmentName, 
+					va='bottom', ha='right', size=9, rotation=-45)
+
+
+		# Label the basis treatment as an inset
+#		basisTreatmentName = basisLabels[i]
+#		bbox_props =  {'facecolor': 'white'}
+#		if i%3 == 0:
+#			pad = 10
+#			bbox_props['pad'] = pad
+#			new_x_shim = x_shim + pad*x_range/800.
+#			new_y_shim = y_range*y_inset_shim_factor + pad*y_range/400.
+#		else:
+#			new_x_shim = x_shim
+#			new_y_shim = y_range*y_inset_shim_factor
+#		ax.text(xmax - new_x_shim, ymin + new_y_shim,
+#			basisTreatmentName, ha='right', va='bottom', bbox=bbox_props,
+#			size=9)
+
+	plt.subplots_adjust(left=0.07, top=0.90, right=0.95, 
 		bottom=.11, wspace=0.05, hspace=0.05)
 	fig.savefig(writeFname)
 	plt.show()
