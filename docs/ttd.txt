@@ -90,6 +90,15 @@ Do Now
 	[] re-plot the specificity comparisons
 		[] add all comparisons
 
+	[] make a all-pairs classifier-theta plot for when treatments are taken
+		all together.  This will have lower distinguishability throughout.
+		Include it as supplementary material.
+	[] push together the longitudinal plots into one figure (for binary 
+		classification performance and excess cultural orientation).  Add a
+		separate subplot for the excess cultural orientation, calculated for
+		alltreatments.
+		
+
 [] Ontology
 	- the ontology needs to be cleaned up
 	- I noticed that there are some orphans

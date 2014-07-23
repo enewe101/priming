@@ -56,7 +56,7 @@ TREATMENT_NAMES = {
 
 
 def plotAllSpecificityComparisons(
-	readFname='specificity/allImages.json', 
+	readFname='specificity/allComps_allImages_50.json', 
 	writeFname='figs/specificity-allImages.pdf',
 	normalize=False
 	):
@@ -156,7 +156,7 @@ def plotAllSpecificityComparisons(
 
 			# Annotate the plot with a line at Y=0
 			zero = ax.plot(
-				xlims, [0, 0], color='0.35', linestyle='-')
+				xlims, [0, 0], color='0.35', linestyle='-', zorder=0)
 
 			# for a normalized plot, annotatet the plot with 95% confidence
 			# interval for the null comparison
@@ -169,11 +169,6 @@ def plotAllSpecificityComparisons(
 					xlims, [-CONFIDENCE_95, -CONFIDENCE_95], color='0.35',
 					linestyle=':')
 			
-			# Control the Y limits
-			#ylims = plt.ylim()
-			#ypadding = (ylims[1] - ylims[0]) * 0.1
-			#plt.ylim(-12, 10)
-
 			# determine the basis-treatment label, but don't apply it yet
 			basisLabels.append(TREATMENT_NAMES[basis])
 
@@ -209,24 +204,33 @@ def plotAllSpecificityComparisons(
 	# We need to apply some labels after everything is plotted, once the
 	# axis limits are stable
 	for i, ax in enumerate(fig.axes):
-		# get the axes limits to position labels well
-		xmin, xmax, ymin, ymax = ax.axis()
-		x_range = xmax - xmin
-		y_range = ymax - ymin
-		x_shim = 0.2
-		y_inset_shim_factor = 0.05
-		y_letter_shim_factor = 0.03
 
-		# Label each pannel with a letter
-		letterLabel = subplotLabels[i]
-		ax.text(xmin + x_shim, ymax - y_range*y_letter_shim_factor, 
-			letterLabel, va='top', ha='left', size=12)
+		row = i / num_cols
+		col = i % num_cols
+
+		# Make some adjustments to the scale of the yaxes.  This helps keep
+		# the y-tick-labels of vertically adjacent plots from running into 
+		# eachother
+		if col == 0:
+			ylims = ax.get_ylim()
+			y_range = ylims[1] - ylims[0]
+
+			if row == 0:
+				pad = y_range * -0.1
+
+			if row > 0:
+				pad = y_range * 0.04
+
+			ax.set_ylim(ylims[0]-pad, ylims[1]+pad)
+
+			
+		# Align the y-labels
+		if col == 0:
+			ax.yaxis.set_label_coords(-0.25,0.5)
 
 
 		# Label the basis treatments above the subplots
 		# only do this on the first row!
-		row = i / num_cols
-		col = i % num_cols
 		if row == 0:
 			basisTreatment = data[0]['results'][i]['basis']
 			basisTreatmentName = TREATMENT_NAMES[basisTreatment]
@@ -235,9 +239,24 @@ def plotAllSpecificityComparisons(
 			ylims = ax.get_ylim()
 			# put the label directly above the plot.  
 			# The first label needs to be put a bit higher.
-			height= ylims[1] + (0.02 if i else 0.3)
+			height= ylims[1] + (0.5 if i else 0.5)
 			ax.text(left, height, basisTreatmentName, 
 					va='bottom', ha='right', size=9, rotation=-45)
+
+
+		# get the axes limits to position labels well
+		xmin, xmax, ymin, ymax = ax.axis()
+		x_range = xmax - xmin
+		y_range = ymax - ymin
+		x_shim = 0.2
+		y_inset_shim_factor = 0.05
+		y_letter_shim_factor = 0.03
+
+
+		# Label each pannel with a letter
+		letterLabel = subplotLabels[i]
+		ax.text(xmin + x_shim, ymax - y_range*y_letter_shim_factor, 
+			letterLabel, va='top', ha='left', size=12)
 
 
 		# Label the basis treatment as an inset
@@ -255,7 +274,7 @@ def plotAllSpecificityComparisons(
 #			basisTreatmentName, ha='right', va='bottom', bbox=bbox_props,
 #			size=9)
 
-	plt.subplots_adjust(left=0.07, top=0.90, right=0.95, 
+	plt.subplots_adjust(left=0.10, top=0.90, right=0.98, 
 		bottom=.11, wspace=0.05, hspace=0.05)
 	fig.savefig(writeFname)
 	plt.show()
@@ -1143,6 +1162,9 @@ def plotAllF1Theta(
 		#		(r'$F_1$ score', r'$\theta_{NB}$'), 
 		#		loc='lower right', prop={'size':9}, labelspacing=0)
 
+		zero = ax.plot(
+			xlims, [0, 0], color='0.35', linestyle='-', zorder=0)
+
 		significance_bar = ax.plot(
 			xlims, [theta_star, theta_star], color='0.35', linestyle=':', zorder=0)
 
@@ -1158,13 +1180,14 @@ def plotAllF1Theta(
 		# Label the basis treatments above the subplots
 		basisTreatment = subplotData['basis']
 		basisTreatmentName = TREATMENT_NAMES[basisTreatment]
-		left = len(subplotData['accuracy'])/2.0 - width
+		left = len(subplotData['accuracy'])/2.0 + width - 2*padding
 		ylims = plt.ylim()
+
 		# put the label directly above the plot.  
 		# The first label needs to be put a bit higher.
 		height= ylims[1] + (0.02 if i else 0.06)
 		ax.text(left, height, basisTreatmentName, 
-				va='bottom', ha='left', size=9, rotation=45)
+				va='bottom', ha='right', size=9, rotation=-45)
 
 
 	y_low, y_high = plt.ylim()
