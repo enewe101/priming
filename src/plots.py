@@ -40,6 +40,80 @@ TREATMENT_NAMES = {
 	, 'treatment6': 'CULT$_{fund,img}$'
 }
 
+def plotSpecificityLongitudinal(
+		readFnames=[
+			'specificity/t0-t1-test%d-overall.json' % i for i in range(5)],
+		writeFname='figs/specificity-longitudinal.pdf'
+	):
+
+	'''
+	Plots the relative specificiy of ambg <-> cult_img for each of the 
+	test images.  Comparison uses full ontology (is not restricted to 'food' 
+	or 'culture').
+
+	Later, this should get added on to the other longitudinal plots.
+	'''
+
+	# we'll open up each file, (there is one per image), and pull out the
+	# data that we want.  Assert statements make sure that some assumptions
+	# that are built into how we're picking data are met
+	pick_data = []
+	for fname in readFnames:
+		data = json.loads(open(fname, 'r').read())
+		data = data[0]
+		assert(data['valence'] == 'overall')
+		data = data['results'][0]
+		assert(data['basis'] == 'treatment0')
+		data = data['results'][0]
+		assert(data['subject'] == 'treatment1')
+		pick_data.append(data)
+
+	Y = [pd['avg'] for pd in pick_data]
+	Y_err = [pd['stdev']*CONFIDENCE_95 for pd in pick_data]
+	X = range(len(Y))
+
+	width=0.75
+	figWidth = 8.7 / 2.54 			# convert from PNAS spec in cm to inches
+	figHeight = (4/5.)*figWidth 	# a reasonable aspect ratio
+	fig = plt.figure(figsize=(figWidth,figHeight))
+	gs = gridspec.GridSpec(1,1)
+
+	ax = plt.subplot(gs[0])
+	series = ax.bar(X, Y, width, color='0.25', ecolor='0.55', 
+		yerr=Y_err)
+
+
+	# control the plot X limits
+	padding = 0.25
+	xlims = (-padding, len(Y) - 1 + width + padding)
+	plt.xlim(xlims)
+
+	# Annotate the plot with a line at Y=0
+	zero = ax.plot(
+		xlims, [0, 0], color='0.35', linestyle='-', zorder=0)
+
+	
+	# handle axis labelling
+	xlabels = ['image%d' %i for i in range(1,6)]
+	ax.tick_params(axis='both', which='major', labelsize=9)
+	ax.set_xticks([x + width/2. for x in  X])
+	ax.set_xticklabels(xlabels, rotation=45, horizontalalignment='right')
+	ax.set_ylabel("relative specificity", size=9)
+
+	plt.draw()
+	plt.tight_layout()
+
+	# Post plot adjustments ...
+
+	# Align the y-labels
+	ax.yaxis.set_label_coords(-0.15,0.5)
+
+	plt.subplots_adjust(left=0.18, top=0.95, right=0.95, 
+		bottom=.18)
+
+	fig.savefig(writeFname)
+	plt.show()
+
 
 def plotSomeSpecificityComparisons(
 	readFname='specificity/allComps_allImages_50.json', 
@@ -94,9 +168,6 @@ def plotSomeSpecificityComparisons(
 	figWidth = 8.7 / 2.54 			# convert from PNAS spec in cm to inches
 	figHeight = (5/5.)*figWidth 	# a reasonable aspect ratio
 	fig = plt.figure(figsize=(figWidth,figHeight))
-
-	print (figWidth,figHeight)
-
 	gs = gridspec.GridSpec(1,1)
 
 	Y = [pd['avg'] for pd in picked_data]
@@ -359,20 +430,6 @@ def plotAllSpecificityComparisons(
 			letterLabel, va='top', ha='left', size=12)
 
 
-		# Label the basis treatment as an inset
-#		basisTreatmentName = basisLabels[i]
-#		bbox_props =  {'facecolor': 'white'}
-#		if i%3 == 0:
-#			pad = 10
-#			bbox_props['pad'] = pad
-#			new_x_shim = x_shim + pad*x_range/800.
-#			new_y_shim = y_range*y_inset_shim_factor + pad*y_range/400.
-#		else:
-#			new_x_shim = x_shim
-#			new_y_shim = y_range*y_inset_shim_factor
-#		ax.text(xmax - new_x_shim, ymin + new_y_shim,
-#			basisTreatmentName, ha='right', va='bottom', bbox=bbox_props,
-#			size=9)
 
 	plt.subplots_adjust(left=0.10, top=0.90, right=0.98, 
 		bottom=.11, wspace=0.05, hspace=0.05)
@@ -380,142 +437,29 @@ def plotAllSpecificityComparisons(
 	plt.show()
 
 
-def computeAllSpecificities(sampleSize=126, nullSampleSize=63,
-		images=['test%d'%i for i in range(5)] ):
-	valences = ['overall', 'cultural', 'food']
+def computeSpecificityLongitudinal():
 
-	comparisonSchedule = {
-		'treatment0': ['treatment1', 'treatment5', 'treatment6',
-			'treatment2', 'treatment3', 'treatment4']
+	for image_id in range(5):
 
-		, 'treatment1': ['treatment5', 'treatment6', 'treatment2']
+		image_name = 'test%d' % image_id
 
-		, 'treatment2': ['treatment3', 'treatment4']
-	}
-
-	for valence in ['overall', 'cultural', 'food']:
-		for basis in ['treatment0', 'treatment1', 'treatment2']:
-			subjects = comparisonSchedule[basis]
-			
-			start = time.time()
-
-			computeSpecificity(
-				basis=basis,
-				subjects=subjects,
-				valence=valence,
-				sampleSize=sampleSize,
-				nullSampleSize=nullSampleSize,
-				images=images)
-
-			print '   that took %d min.\n' % int((time.time() - start)/60)
-
-
-def csa(	# "csa" = "computesSpecificityAllImages"
-	basis='treatment0', 
-	subjects=['treatment%d'%i for i in [1,5,6,2,3,4]],
-	valence='overall',
-	sampleSize=126,
-	nullSampleSize=63
-	):
-
-	'''
-	Runs computeSpecificity with images equal to the set of all images,
-	as well as each image in isolation.
-	'''
-	computeSpecificity(basis, subjects, valence, sampleSize, 
-		nullSampleSize, ['test%d'%i for i in range(5)])
-
-	for i in range(5):
-		computeSpecificity(basis, subjects, valence, sampleSize, 
-			nullSampleSize, ['test%d'%i])
-
-
-def computeSpecificity(
-	basis='treatment0', 
-	subjects=['treatment%d'%i for i in [1,5,6,2,3,4]],
-	valence='overall',
-	sampleSize=126,
-	nullSampleSize=63,
-	images=['test%d'%i for i in range(5)]
-	):
-
-	'''
-	Similar to computeSpecificityComparisons, but only one basis and 
-	valence are computed at a time.
-	'''
-
-	start = time.time()
-
-	# Make an analyzer object -- it performs the actual comparisons
-	a = analysis.Analyzer()
-
-	# A results object to aggregate all the data
-	fname = 'specificity/%s-%s-%s-%s.json' %(
-		basis, ''.join(subjects), ''.join(images), valence)
-
-	fh = open(fname, 'w')
-	results = []
-
-	# For the valence passed,
-	thisValenceResults = {'valence': valence, 'results': []}
-	results.append(thisValenceResults)
-
-	print '   valence: %s' % valence
-
-	# And for the basis treatment passed, 
-	print '      basis: %s' % basis
-
-	thisBasisResults = {'basis': basis, 'results':[]}
-	thisValenceResults['results'].append(thisBasisResults)
-
-	# first compute the null comparison.  This determines the variance
-	# observed when comparing samples when they are both taken from 
-	# the basis treatment, and establishes confidence intervals
-	rslt = a.compareValenceSpecificity(
-		valence, basis, basis, nullSampleSize, images)
-
-	nullComparison = {
-		'subject':'null',
-		'stdev':rslt['stdMoreMinusLess'],
-		'avg':rslt['avgMoreMinusLess']
-	}
-
-	thisBasisResults['null'] = nullComparison
-
-	# And for each subject treatment
-	for subject in subjects:
-
-		print '      subject: %s' % subject
-
-		# compare basis treatment to subject treatment
-		rslt = a.compareValenceSpecificity(
-			valence, subject, basis, sampleSize, images)
-
-		# express the avg specificity in terms of the standard 
-		# deviations of the null comparison.  Store the result
-		avgNorm = rslt['avgMoreMinusLess'] / nullComparison['stdev']
-
-		subjectComparison = {
-			'subject': subject,
-			'stdev': rslt['stdMoreMinusLess'],
-			'avg': rslt['avgMoreMinusLess'],
-			'avgNorm': avgNorm
-		}
-
-		thisBasisResults['results'].append(subjectComparison)
-
-	fh.write(json.dumps(results, indent=3))
-	fh.close
-
-	print '   that took %d min.\n' % int((time.time() - start)/60)
-	return
+		computeSpecificityComparisons(
+			fname='specificity/t0-t1-%s-overall.json' % image_name,
+			sampleSize=4,
+			nullSampleSize=4,
+			comparisons='__first__',
+			images = [image_name],
+			valences=['overall'],
+		)
 
 
 def computeSpecificityComparisons(
 	fname='specificity/allImages.json',
-	sampleSize=126,
-	nullSampleSize=63, 
+	sampleSize=124,
+	nullSampleSize=62, 
+	comparisons='__all__',
 	images=['test%d'%i for i in range(5)],
+	valences=['overall', 'cultural', 'food'],
 	return_results=False
 	):
 	'''
@@ -527,22 +471,35 @@ def computeSpecificityComparisons(
 	This only does the computation and writes the results to file; you need
 	to run `plotAllSpecificityComparisons()` to generate the plot.
 	'''
-	comparisonSchedule = {
-		'treatment0': ['treatment1', 'treatment5', 'treatment6',
-			'treatment2', 'treatment3', 'treatment4']
 
-		, 'treatment1': ['treatment5', 'treatment6', 'treatment2', 
-			'treatment3', 'treatment4']
+	if comparisons == '__first__':
+		comparisonSchedule = {'treatment0': ['treatment1']}
 
-		, 'treatment2': ['treatment5', 'treatment6', 
+		# ordered basis treatments -- used to control the order that each
+		# set of comparisons is performed
+		ordered_basis_treatments = ['treatment%d' % i for i in [0]]
+
+	elif comparisons == '__all__':
+		comparisonSchedule = {
+			'treatment0': ['treatment1', 'treatment5', 'treatment6',
+				'treatment2', 'treatment3', 'treatment4']
+
+			, 'treatment1': ['treatment5', 'treatment6', 'treatment2', 
 				'treatment3', 'treatment4']
 
-		, 'treatment5': ['treatment6', 'treatment3', 'treatment4']
+			, 'treatment2': ['treatment5', 'treatment6', 
+					'treatment3', 'treatment4']
 
-		, 'treatment3': ['treatment6', 'treatment4']
+			, 'treatment5': ['treatment6', 'treatment3', 'treatment4']
 
-		, 'treatment6': ['treatment4']
-	}
+			, 'treatment3': ['treatment6', 'treatment4']
+
+			, 'treatment6': ['treatment4']
+		}
+
+		# ordered basis treatments -- used to control the order that each
+		# set of comparisons is performed
+		ordered_basis_treatments = ['treatment%d' % i for i in [0,1,2,5,3,6]]
 
 	print '\nComparison based on images: ' + str(images)
 
@@ -553,11 +510,8 @@ def computeSpecificityComparisons(
 	fh = open(fname, 'w')
 	results = []
 
-	# ordered basis treatments -- used to control the order that each
-	# set of comparisons is performed
-	ordered_basis_treatments = ['treatment%d' % i for i in [0,1,2,5,3,6]]
 
-	for valence in ['overall', 'cultural', 'food']:
+	for valence in valences:
 		thisValenceResults = {'valence': valence, 'results': []}
 		results.append(thisValenceResults)
 
@@ -570,19 +524,9 @@ def computeSpecificityComparisons(
 			thisBasisResults = {'basis': basisTreatment, 'results':[]}
 			thisValenceResults['results'].append(thisBasisResults)
 
-			# first compute the null comparison.  This determines the variance
-			# observed when comparing samples when they are both taken from 
-			# the basis treatment, and establishes confidence intervals
-			rslt = a.compareValenceSpecificity(
-				valence, basisTreatment, basisTreatment, nullSampleSize, 
-				images)
-
-			nullComparison = {
-				'subject':'null',
-				'stdev':rslt['stdMoreMinusLess'],
-				'avg':rslt['avgMoreMinusLess']
-			}
-
+			# we don't compute basis results anymore.  This is here to 
+			# not break the plotting function
+			nullComparison = {}
 			thisBasisResults['null'] = nullComparison
 
 			# Now compare the basis treatment to each subject treatment
@@ -595,15 +539,10 @@ def computeSpecificityComparisons(
 					valence, subjectTreatment, basisTreatment, sampleSize,
 					images)
 
-				# express the avg specificity in terms of the standard 
-				# deviations of the null comparison.  Store the result
-				avgNorm = rslt['avgMoreMinusLess'] / nullComparison['stdev']
-
 				subjectComparison = {
 					'subject': subjectTreatment,
 					'stdev': rslt['stdMoreMinusLess'],
-					'avg': rslt['avgMoreMinusLess'],
-					'avgNorm': avgNorm
+					'avg': rslt['avgMoreMinusLess']
 				}
 
 				thisBasisResults['results'].append(subjectComparison)
