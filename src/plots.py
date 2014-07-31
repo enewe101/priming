@@ -25,19 +25,6 @@ except:
 		'plotting functions.'
 	
 
-#
-#TODO: Review whether the computeAllSpecificityComparisons() function does
-#		so in a strict mode or not -- that is, whether calculating food
-#		specificity is done only for food words that are non-cultural, or 
-#		whether it does so for all words having food as a parent in the 
-#		ontology, or whether it does so for food words that are not just
-#		non-cultural, but also non-anything-else.  I think that the first
-#		way (food words that are non-cultural) is most informative.
-#
-#TODO: Create a plot that shows the deviation in number of cultural (food)
-#		references between each treatment and AMBG overall
-#
-
 # z-score for two-tailed 99-percent confidence interval
 CONFIDENCE_95 = 1.96
 CONFIDENCE_99 = 2.975
@@ -54,20 +41,132 @@ TREATMENT_NAMES = {
 }
 
 
-
-def plotAllSpecificityComparisons(
+def plotSomeSpecificityComparisons(
 	readFname='specificity/allComps_allImages_50.json', 
 	writeFname='figs/specificity-allImages.pdf',
 	normalize=False
 	):
 	'''
-	Plots all of the interesting specificity comparisons between different
-	treatments, such that they can be plotted  in a big multi-pannel figure.
-	This does overall specificity comparisons as well as food-specific and
-	culture-specific specificity comparisons.
+	Plots only the most interesting specificity comparisons between different
+	treatments.  It plots only overall specificity comparisons (neither 
+	food-specific nor culture-specific specificity comparisons are included).
+	'''
 
-	This only does the computation and writes the results to file; you need
-	to run `plotAllSpecificityComparisons()` to generate the plot.
+	# For this plot, we are interested in very particular data.  We'll be
+	# cherry picking the ones we want
+	data = json.loads(open(readFname).read())
+	picked_data = []
+	Y = []
+
+	# We're interested in just the 'overall' comparisons
+	data = data[0]
+	assert(data['valence'] == 'overall')
+
+	# now find a couple comparisons with the ambg treatment
+	with_ambg_as_basis = data['results'][0]
+	assert(with_ambg_as_basis['basis'] == 'treatment0')
+	with_ambg_as_basis = with_ambg_as_basis['results']
+
+	# ambg <--> cult_img
+	picked_data.extend(
+		filter(lambda d: d['subject'] == 'treatment1', with_ambg_as_basis))
+
+	# ambg <--> ingr_img
+	picked_data.extend(
+		filter(lambda d: d['subject'] == 'treatment2', with_ambg_as_basis))
+
+	# and we'll take the comparison between cult_img and ingr_img
+	with_cult_img_as_basis = data['results'][1]
+	assert(with_cult_img_as_basis['basis'] == 'treatment1')
+	with_cult_img_as_basis = with_cult_img_as_basis['results']
+
+	# cult_img <--> ingr_img
+	picked_data.extend(
+		filter(lambda d: d['subject'] == 'treatment2', 
+		with_cult_img_as_basis))
+
+	basisLabels = [TREATMENT_NAMES[basis] 
+		for basis in ['treatment0', 'treatment0', 'treatment1']]
+
+	subjectLabels = [TREATMENT_NAMES[basis] 
+		for basis in ['treatment1', 'treatment2', 'treatment2']]
+
+	figWidth = 8.7 / 2.54 			# convert from PNAS spec in cm to inches
+	figHeight = (5/5.)*figWidth 	# a reasonable aspect ratio
+	fig = plt.figure(figsize=(figWidth,figHeight))
+
+	print (figWidth,figHeight)
+
+	gs = gridspec.GridSpec(1,1)
+
+	Y = [pd['avg'] for pd in picked_data]
+	Y_err = [pd['stdev'] * CONFIDENCE_95 for pd in picked_data]
+	X = range(len(Y))
+
+	width=0.75
+
+	ax = plt.subplot(gs[0])
+
+	series = ax.bar(X, Y, width, color='0.25', ecolor='0.55', 
+		yerr=Y_err)
+
+	# control the plot X limits
+	padding = 0.25
+	xlims = (-padding, len(Y) - 1 + width + padding)
+	plt.xlim(xlims)
+
+	# Annotate the plot with a line at Y=0
+	zero = ax.plot(
+		xlims, [0, 0], color='0.35', linestyle='-', zorder=0)
+
+	
+	# handle x-axis labelling
+	ax.tick_params(axis='both', which='major', labelsize=9)
+	ax.set_xticks(map(lambda x: x + width/2., X))
+	ax.set_xticklabels(subjectLabels, rotation=45, 
+		horizontalalignment='right')
+
+	ax.set_ylabel("relative specificity", size=9)
+
+
+	plt.draw()
+	plt.tight_layout()
+
+
+	# Post plot adjustments ...
+
+	# Align the y-labels
+	ax.yaxis.set_label_coords(-0.12,0.5)
+
+
+	# Label the basis treatments above the subplots
+	for i, bl in enumerate(basisLabels):
+
+		left = i + width/2.
+		ylims = ax.get_ylim()
+		# put the label directly above the plot.  
+		# The first label needs to be put a bit higher.
+		height= ylims[1] + 0.5
+		ax.text(left, height, bl, va='bottom', ha='right', size=9, 
+			rotation=-45)
+
+	plt.subplots_adjust(left=0.15, top=0.83, right=0.95, 
+		bottom=.18)
+
+	fig.savefig(writeFname)
+	plt.show()
+
+
+def plotAllSpecificityComparisons(
+	readFname='specificity/allComps_allImages_50.json', 
+	writeFname='figs/specificity-full-allImages.pdf',
+	normalize=False
+	):
+	'''
+	Plots all of the interesting specificity comparisons between different
+	treatments, in a big multi-pannel figure.  This does overall specificity 
+	comparisons as well as food-specific and culture-specific specificity 
+	comparisons.
 
 	`normalize` controlls whether the plot is normalized into units of 
 	standard deviations of the null comparison.  This was used previously, as
@@ -116,7 +215,8 @@ def plotAllSpecificityComparisons(
 
 			else:
 				Y = map(lambda x: x['avg'], comparisonData)
-				Y_err = map(lambda x: x['stdev'], comparisonData)
+				Y_err = map(
+					lambda x: x['stdev']*CONFIDENCE_95, comparisonData)
 
 			treatmentNames = map(lambda x: x['subject'], comparisonData)
 
@@ -801,10 +901,138 @@ def plotExcessCultureVsImage(
 	plt.show()
 	
 
+def pick(picks, a):
+	if picks == '__all__':
+		return a
+	else:
+		return [a[p] for p in picks]
+
+
 def plotOrientationVsTreatment(readFname='orientation/orientation.json',
 	writeFname='figs/orientationVsTreatment.pdf'):
 
+	# within the dataset, panel2 and panel3 have data organized by treatment
+	# in this order
 	treatmentIds = [0,1,5,6,2,3,4]
+
+	# we only want treatments 0,1, and 2, and so we have to 'pick' the data
+	# at positions 0,1, and 4
+	PICKS = [0,1,4]
+	treatmentIds = pick(PICKS, treatmentIds)
+
+	treatments = ['treatment%d' % i for i in treatmentIds]
+	images = ['image %d' % i for i in range(1,6)]
+
+	plotData = json.loads(open(readFname, 'r').read())
+
+	width = 0.375
+
+	subplotLabels = ['A', 'B', 'C']
+
+	figWidth = 8.7 / 2.54
+	figHeight = figWidth*4/5.
+	fig = plt.figure(figsize=(figWidth,figHeight))
+
+	gs_ratio = 4 * (len(PICKS) + 1) 
+	gs = gridspec.GridSpec(1,1)
+
+	subplot = 2
+
+	ax = plt.subplot(gs[0])
+	X = range(len(treatments))
+
+	X2 = [x + width for x in X]
+	panel = 'panel%d' % subplot
+
+	thisPlotData = plotData[panel]
+
+	picks = PICKS
+
+	# as we plot, we adjust the error bars to plot the 95% confidence 
+	# intervals rather than standard errors
+	yerr_cult = pick(picks, thisPlotData['std']['cultural'])
+	yerr_cult = [y*1.95 for y in yerr_cult]
+	seriesCultural = ax.bar(
+		X, 
+		pick(picks, thisPlotData['avg']['cultural']),
+		width, color='0.25', 
+		ecolor='0.55', 
+		bottom=pick(picks, plotData[panel]['avg']['both']), 
+		yerr=yerr_cult)
+
+	yerr_food = pick(picks, thisPlotData['std']['food'])
+	yerr_food = [y*1.96 for y in yerr_food]
+	seriesFood = ax.bar(
+		X2,
+		pick(picks, thisPlotData['avg']['food']),
+		width, color='0.55',
+		ecolor='0.25', 
+		bottom=pick(picks, plotData[panel]['avg']['both']), 
+		yerr=yerr_food)
+		
+	seriesBoth1 =ax.bar(
+		X, 
+		pick(picks, thisPlotData['avg']['both']),
+		width, color='0.85', ecolor='0.55')
+
+	seriesBoth2 =ax.bar(
+		X2,
+		pick(picks, thisPlotData['avg']['both']),
+		width, color='0.85', ecolor='0.25')
+
+	# only label the y-axis of the first sub-plot
+	if subplot == 2:
+		ax.set_ylabel("% of labels", size=9)
+		ax.tick_params(axis='both', which='major', labelsize=9)
+
+
+		# Other two subplots have different x-axis from first
+		xlabels = [TREATMENT_NAMES[t] for t in treatments]
+		ax.set_xticks(X2)
+		ax.set_xticklabels(xlabels, rotation=45, 
+			horizontalalignment='right', size=9)
+
+	# only put the legend on the last sub-plot
+	if subplot == 2:
+
+		padding = 0.25
+		#ylims = plt.ylim()
+		#plt.ylim(ylims[0], ylims[1]*1.12)
+
+		xlims = (-padding, len(X) - 1 + 2*width + padding)
+		plt.xlim(xlims)
+
+		plt.draw()
+		plt.tight_layout()
+
+		legend = ax.legend( 
+			(seriesCultural[0], seriesFood[0], seriesBoth1[0]), 
+			('culture', 'food', 'both'), 
+			bbox_to_anchor=(0., 1.02, 1., .102), loc=3,
+			prop={'size':9}, labelspacing=0, mode='expand',
+			ncol=3, borderaxespad=0.
+		)
+
+	# Adjustments to figure placement and spacing
+	fig.subplots_adjust(bottom=.20, right=0.97, top=0.88, left=0.12)
+
+	#plt.ylim((0,55))
+
+	fig.savefig(writeFname)
+	plt.show()
+	
+def plotOrientationVsTreatment_full(readFname='orientation/orientation.json',
+	writeFname='figs/orientationVsTreatment_full.pdf'):
+
+	# within the dataset, panel2 and panel3 have data organized by treatment
+	# in this order
+	treatmentIds = [0,1,5,6,2,3,4]
+
+	# we only want treatments 0,1, and 2, and so we have to 'pick' the data
+	# at positions 0,1, and 4
+	PICKS = range(7)
+	treatmentIds = pick(PICKS, treatmentIds)
+
 	treatments = ['treatment%d' % i for i in treatmentIds]
 	images = ['image %d' % i for i in range(1,6)]
 
@@ -817,7 +1045,9 @@ def plotOrientationVsTreatment(readFname='orientation/orientation.json',
 	figWidth = 17.8 / 2.54
 	figHeight = figWidth*4/10.
 	fig = plt.figure(figsize=(figWidth,figHeight))
-	gs = gridspec.GridSpec(1,3, width_ratios=[25,33,33])
+
+	gs_ratio = 4 * (len(PICKS) + 1) 
+	gs = gridspec.GridSpec(1,3, width_ratios=[25, gs_ratio, gs_ratio])
 
 	for subplot in [0,1,2]:
 
@@ -828,37 +1058,50 @@ def plotOrientationVsTreatment(readFname='orientation/orientation.json',
 			ax0 = ax
 			X = range(len(images))
 
-		# If this is the second subplot, make it's y-axis linked to the first
+		# If not the first subplot, make it's y-axis linked to the first
 		else:
 			ax = plt.subplot(gs[subplot], sharey=ax0)
 			X = range(len(treatments))
 
-		X2 = map(lambda x: x + width, X)
+		X2 = [x + width for x in X]
 		panel = 'panel%d' % subplot
 
 		thisPlotData = plotData[panel]
 
-		seriesCultural =ax.bar(
-			X, thisPlotData['avg']['cultural'], width, color='0.25', 
-			ecolor='0.55', 
-			bottom=plotData[panel]['avg']['both'], 
-			yerr=thisPlotData['std']['cultural'])
+		if subplot == 0:
+			picks = '__all__'
+		else:
+			picks = PICKS
 
+		yerr_cult = pick(picks, thisPlotData['std']['cultural'])
+		yerr_cult = [y*1.96 for y in yerr_cult]
+		seriesCultural = ax.bar(
+			X, 
+			pick(picks, thisPlotData['avg']['cultural']),
+			width, color='0.25', 
+			ecolor='0.55', 
+			bottom=pick(picks, plotData[panel]['avg']['both']), 
+			yerr=yerr_cult)
+
+		yerr_food = pick(picks, thisPlotData['std']['food'])
+		yerr_food = [y*1.96 for y in yerr_food]
 		seriesFood = ax.bar(
-			X2, thisPlotData['avg']['food'], width, color='0.55',
+			X2,
+			pick(picks, thisPlotData['avg']['food']),
+			width, color='0.55',
 			ecolor='0.25', 
-			bottom=plotData[panel]['avg']['both'], 
-			yerr=thisPlotData['std']['food'])
+			bottom=pick(picks, plotData[panel]['avg']['both']), 
+			yerr=yerr_food)
 			
 		seriesBoth1 =ax.bar(
-			X, thisPlotData['avg']['both'], width, color='0.85',
-			ecolor='0.55')
-			#yerr=thisPlotData['std']['both'])
+			X, 
+			pick(picks, thisPlotData['avg']['both']),
+			width, color='0.85', ecolor='0.55')
 
 		seriesBoth2 =ax.bar(
-			X2, thisPlotData['avg']['both'], width, color='0.85',
-			ecolor='0.25')
-			#yerr=thisPlotData['std']['both'])
+			X2,
+			pick(picks, thisPlotData['avg']['both']),
+			width, color='0.85', ecolor='0.25')
 
 		# only label the y-axis of the first sub-plot
 		if subplot == 0:
@@ -1589,4 +1832,148 @@ def plotClassificationVsImage(
 
 	fig.savefig(writeFname)
 	plt.show()
+
+
+
+def longitudinal_theta_valence(
+	readFnames=[
+		'f1scores/longitudinal-t0-t1_25.json',
+		'orientation/orientation.json'
+	],
+	writeFname='figs/longitudinal_theta_excess-culture.pdf',
+	n=125,
+	alpha=0.05
+	):
+	'''
+	Measures the F1 score for a classifier built to distingiush between
+	<treatments> based on the labels attributed to a specific image, 
+	as a function of the images for all 5 test images.
+
+	This now plots the 95% confidence interval
+	'''
+
+	subplotLabels = ['A', 'B']
+	image_names = ['image %d' % i for i in range(1,6)]
+
+	# ** Make a shared figure
+	figWidth = 8.7 / 2.54 		# convert from PNAS spec in cm to inches
+	figHeight = figWidth * 4/5. * 2
+	fig = plt.figure(figsize=(figWidth,figHeight))
+	gs = gridspec.GridSpec(2,1)
+
+
+
+	# ** prepare to plot the classifier data.  
+	# Read the data to be plotted and define some constants
+	readFname = readFnames[0]
+	theta_star = analysis.get_theta_star(n, alpha)
+	results = json.loads(open(readFname, 'r').read())
+	numPics = 5
+	pre_space = 0.75
+	width = 0.375	# width of bars
+	width = 0.75
+
+	# ** Now, plot the classifier data
+	ax_theta = plt.subplot(gs[0])	# plots performance on per-image basis
+	plt.setp(ax_theta.get_xticklabels(), visible=False)
+
+	# Unpack the data for this subplot
+	Y_F1s = results['f1'][1:]
+	X_F1s = range(len(Y_F1s))
+
+	# Convert from accuracy to theta
+	Y_thetas = results['accuracy'][1:]
+	Y_thetas = [t*2 - 1 for t in Y_thetas]
+
+	X_thetas = map(lambda x: x+width, X_F1s)
+
+	# PLOT!!
+	theta_series = ax_theta.bar(X_F1s, Y_thetas, width, color='0.25')
+
+	# Do some labelling business with the plot
+	ax_theta.tick_params(axis='both', which='major', labelsize=9)
+	ax_theta.set_xticks([x + width/2. for x in X_F1s])
+
+	xlabels = ['image %d' % (i+1) for i in range(numPics)]
+	ax_theta.set_xticklabels(xlabels, ha='right', rotation=45, size=9)
+
+	# control the plot limits
+	padding = 0.25
+	xlims = plt.xlim()
+	plt.xlim((-padding, numPics -1 + width + padding))
+
+	# plot a significance line
+	xlims = plt.xlim()
+	significance_bar = ax_theta.plot(xlims, [theta_star, theta_star],
+		color='0.55', linestyle=':')
+	
+	ax_theta.set_ylabel(r'$\theta_{NB}$', size=9)
+
+	# adjust y axis
+	plt.ylim((0, plt.ylim()[1]*1.05))
+
+	# ** done plotting classifier performance
+
+	# ** prepare to plot the excess culture data
+
+	valenceFname = readFnames[1]
+	plotData = json.loads(open(valenceFname, 'r').read())
+
+	X = range(len(image_names))
+
+	# If this is the first subplot, keep a reference
+	# Also, the first plot has a different x-axis
+	ax_valence = plt.subplot(gs[1], sharex=ax_theta)
+
+	X2 = map(lambda x: x + width/2.0, X)
+
+	# first subplot plots panel 3, second plots panel 4
+	PANEL = 'panel3'
+
+	thisPlotData = plotData[PANEL]
+
+	yerr = [ye * 1.96 for ye in thisPlotData['std']]
+	series =ax_valence.bar(
+		X, thisPlotData['avg'], width, color='0.25', 
+		ecolor='0.55', yerr=yerr)
+
+	ax_valence.tick_params(axis='both', which='major', labelsize=9)
+
+	# label the y-axis 
+	ax_valence.set_ylabel("excess cultural orientation (%)", size=9)
+
+	# adjust y axis
+	plt.ylim((0, plt.ylim()[1]*1.05))
+
+	# first subplot also has its own kind of x-axis
+	xlabels = image_names
+	ax_valence.set_xticks(X2)
+	ax_valence.set_xticklabels(xlabels, rotation=45, horizontalalignment='right')
+
+	#Adjustments
+	padding = 0.25
+	xlims = (-padding, len(X) - 1 + width + padding)
+	plt.xlim(xlims)
+	ylims = plt.ylim()
+
+	ax_theta.yaxis.set_label_coords(-0.13,0.5)
+	ax_valence.yaxis.set_label_coords(-0.15,0.5)
+
+	plt.draw()
+
+
+
+	# Label each pannel
+	x_pos = 4.4
+	ax_theta.text(x_pos, 0.45, 'A', 
+			va='top', ha='left', size=20)
+	ax_valence.text(x_pos, 35, 'B', 
+			va='top', ha='left', size=20)
+
+	plt.tight_layout()
+	plt.subplots_adjust(hspace=0.05, left=0.18,bottom=.10)
+
+	fig.savefig(writeFname)
+	plt.show()
+
 

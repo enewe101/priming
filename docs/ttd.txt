@@ -87,16 +87,29 @@ Do Now
 			cultural specificity comparison, use any tokens that have a 
 			cultural ancestor and no food ancestor
 			x implemented a 'mask' and a 'drop' feature
-	[] re-plot the specificity comparisons
-		[] add all comparisons
 
-	[] make a all-pairs classifier-theta plot for when treatments are taken
-		all together.  This will have lower distinguishability throughout.
-		Include it as supplementary material.
-	[] push together the longitudinal plots into one figure (for binary 
+	x re-plot the specificity comparisons.  Done for pools of 50.  The one for 
+		pools of 124 runs forever
+
+	[] consider making the brief specificity comparison be based on only
+		first image
+
+	[] then the allpairs specificity comparison plot in the suppl mat'l shoul
+		maybe be based only on the first image
+
+	[] make a longitudinal specificity plot for ambg <-> cult_img
+
+	[] rework the ontology, and regenerate all data
+
+	x push together the longitudinal plots into one figure (for binary 
 		classification performance and excess cultural orientation).  Add a
 		separate subplot for the excess cultural orientation, calculated for
 		alltreatments.
+	x make a briefer plot in place of the plotAllSpecificityComparisons, which
+		just shows that the similarity of the initial image set to the final
+		image set dictates specificity
+
+	x make all plots show the 95% CI
 		
 
 [] Ontology
