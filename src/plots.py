@@ -444,9 +444,8 @@ def computeSpecificityLongitudinal():
 		image_name = 'test%d' % image_id
 
 		computeSpecificityComparisons(
-			fname='specificity/t0-t1-%s-overall.json' % image_name,
-			sampleSize=4,
-			nullSampleSize=4,
+			fname='specificity/t0-t1-%s-overall_50.json' % image_name,
+			sampleSize=50,
 			comparisons='__first__',
 			images = [image_name],
 			valences=['overall'],
@@ -456,7 +455,6 @@ def computeSpecificityLongitudinal():
 def computeSpecificityComparisons(
 	fname='specificity/allImages.json',
 	sampleSize=124,
-	nullSampleSize=62, 
 	comparisons='__all__',
 	images=['test%d'%i for i in range(5)],
 	valences=['overall', 'cultural', 'food'],
