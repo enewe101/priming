@@ -437,7 +437,7 @@ def plotAllSpecificityComparisons(
 	plt.show()
 
 
-def computeSpecificityLongitudinal():
+def computeSpecificityLongitudinal(sampleSize=124):
 
 	for image_id in range(5):
 
@@ -445,7 +445,7 @@ def computeSpecificityLongitudinal():
 
 		computeSpecificityComparisons(
 			fname='specificity/t0-t1-%s-overall_50.json' % image_name,
-			sampleSize=50,
+			sampleSize=sampleSize,
 			comparisons='__first__',
 			images = [image_name],
 			valences=['overall'],

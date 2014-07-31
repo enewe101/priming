@@ -1,3 +1,10 @@
+OOO
+===
+1) Use current figures to make an updated draft
+2) Clean up the ontology
+3) Re-run the analyses with cleaned ontology
+
+
 Manuscript Notes
 ================
 - We investigate the effects taht the content of earlier tasks have on workers
@@ -93,6 +100,7 @@ Do Now
 		[] once the ontology is reworked, do it on a per-image basis, and only
 			run the comparison of ambg <-> cult_img for the images other than
 			'test0' (for 'test0', run all comparisons).
+		~ I started running this even though ontology isn't worked out
 
 	[] consider making the brief specificity comparison be based on only
 		first image
@@ -141,17 +149,6 @@ Do Now
 
 Other stuff
 ===========
-- Recalculate specificity
-	- use 134 as the U sample size, and 67 as the V sample size
-	- make sure to print running times, this will be long
-
-- Change the specificity plots
-	- plot on a meaningful scale # words more specific - # words less
-	- plot the standard error (sqare root of eq8), not the 95% condfidence 
-		interval
-	- indicate significant measurements with stars -- calculate Stdev using
-		eq 8!
-	- discuss my hypothesis test with Derek
 
 - am I using a consistent training and test size?
 
