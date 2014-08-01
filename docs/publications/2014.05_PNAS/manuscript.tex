@@ -3,7 +3,7 @@
 % Last Change: Wed Apr 30 04:00 pm 2014 E
 %
 \documentclass[a4paper]{report}
-\usepackage[hmargin=1in,vmargin=1in]{geometry}
+\usepackage[hmargin=2cm,vmargin=2cm]{geometry}
 
 \usepackage{graphicx}
 
@@ -257,6 +257,58 @@ denote the measured differences in priming as $\theta_\text{NB}$ to distinguish
 them from the theoretical value, $\theta$.
 
 \subsection*{Experimental Setup}
+\begin{table}[t]
+\centering
+	\begin{tabular}{ l  l  l }
+		\hline                       
+		Treatment & Funder & Priming Image Set	\\ 
+		\hline                       
+		$\textsc{ambg}$ & None & Ambiguous\\
+		$\textsc{cult}_{img}$ & None & Cultural\\
+		$\textsc{cult}_{fund}$ & Cultural & Cultural\\
+		$\textsc{cult}_{fund,img}$ & Cultural & Cultural\\
+		$\textsc{ingr}_{img}$ & None & Ingredients\\
+		$\textsc{ingr}_{fund}$ & Nutritional & Ingredients\\
+		$\textsc{ingr}_{fund, img}$ & Nutritional & Ingredients\\
+		\hline  
+	\end{tabular}
+
+%\begin{addmargin}[11em]{11em}
+%	\vspace{2mm}
+%	$^a$\footnotesize{The full funder names used were ``The Glodal Foundation
+%		for Cultural Recognition'' and ``The National Foundation for 
+%		Nutritional Awareness''.}
+%\end{addmargin}
+
+	\caption{Workers were uniformly randomly
+		assigned to one of the treatments listed above.}
+	\label{table:1}
+\end{table}
+
+\begin{figure}
+	\includegraphics[scale=1.00]{figs/taskImages/testImages.jpg}
+	\caption{Testing image set. These images were presented to all workers in 
+		the order shown after the priming set of images.}
+\end{figure}
+
+\begin{figure}
+	\includegraphics[scale=1.00]{figs/taskImages/ambiguous.jpg}
+	\caption{ Ambiguous image set. These images were presented to workers from 
+		certain treatements (see \textbf{Table 1}) in the order shown.}
+\end{figure}
+
+\begin{figure}
+	\includegraphics[scale=1.00]{figs/taskImages/cultural.jpg}
+	\caption{Cultural image set. These images were presented to workers from 
+		certain treatements (see \textbf{Table 1}) in the order shown.}
+\end{figure}
+
+\begin{figure}
+	\includegraphics[scale=1.00]{figs/taskImages/ingredients.jpg}
+	\caption{ Ingredients image set. These images were presented to workers 
+		from certain treatements (see \textbf{Table 1}) in the order shown.}
+\end{figure}
+
 We solicited 900 AMT workers to perform an image-labeling task relating to
 food and culture.  The workers were randomly assigned to one of seven 
 treatments shown in \textbf{Table 1}.  Workers were first shown brief 
@@ -306,6 +358,16 @@ distinguishing $\textsc{ingr}_{img}$ and $\textsc{ingr}_{fund, img}$, both
 of which are primed for a focus on food 
 (see \textbf{Fig. 5B}).
 
+\begin{figure}
+	\includegraphics[scale=0.94]{figs/f1-thetas_full_pairwise25_img1.pdf}
+	\caption{ $F_1$ score and $\theta_\text{NB}$ for the various 
+priming treatments, as measured using a Naive Bayes classifier. Each panel 
+presents classifier performance results that indicate the difference in
+priming between a basis 
+treatment, indicated in the inset, and the other treatments, indicated on the
+abscissa. }
+\end{figure}
+
 Next we looked at the degree to which labels from individual final images 
 reveal priming.  It would stand to reason that, as workers proceed through 
 the final images, the effects of priming might be ``washed out''.  
@@ -315,8 +377,18 @@ in the final set were used, $\theta_\text{NB}$ was lower for later images (see
 Understanding the dynamics of priming wash-out in greater detail is an 
 important direction for future work.
 
-\paragraph{Earlier tasks orient focus during later tasks.} Having 
-demonstrated both inter-task and framing effects, we next
+\paragraph{Earlier tasks orient focus during later tasks.} 
+\begin{figure}
+	\includegraphics[scale=0.94]{figs/orientation_specificity.pdf}
+	\caption{Percent label composition (culture- vs food-oriented labels) for 
+		various images and treatments.  Panel A shows the composition of 
+		labels, aggregated over all treatments, as a function of test image.
+		Panel B shows the composition of labels, aggregated over all images, as
+		a function of treatment.  Panel C shows the composition of labels 
+		attributed to the first test image by various treatments.}
+\end{figure}
+
+Having demonstrated both inter-task and framing effects, we next
 investigated the \textit{nature} of these effects.  To this
 end, we constructed an ontology of all the labels attributed to
 the final images.   
@@ -398,6 +470,7 @@ initial image set on the labels attributed to the first image in the final set
 drops below statistically significant levels, while remaining always positive.
 
 \paragraph{Earlier tasks affect attention to detail during later tasks.} 
+
 Using the ontology described
 in the previous section, we compared treatments in their degree of specificity.
 When comparing two labels $\ell_1$ and $\ell_2$ produced by different workers,
@@ -468,6 +541,16 @@ This is likely to be a major quality factor in nearly all HPU-driven studies.
 \td{count the number of occurrences of cultural and food-oriented labels, 
 	to see if the non-responsiveness of culture had to do with restricted
 number of labels}.
+
+
+
+\begin{figure}
+	\includegraphics{figs/longitudinal_theta_excess-culture.pdf}
+	\caption{Excess culture-oriented label composition in the labels provided
+		by $\textsc{cult}_{img}$ as compared to $\textsc{ambg}$, for various
+		test images (see \textbf{Eq. 1} for calculation).
+	}
+\end{figure}
 
 
 \subsection*{Discussion}
