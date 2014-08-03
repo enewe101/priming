@@ -111,7 +111,7 @@ treatments.
 
 In the present work, we investigate inter-task priming using image-labeling 
 tasks on the AMT platform.  
-(***why we are using image labelling as prototypical task***) 
+(***why we are using image labeling as prototypical task***) 
 Each worker is required to label ten images 
 featuring 
 food and culture.  We regard these images as being made up of an 
@@ -123,7 +123,7 @@ of images is always the same.  We analyze the effect that the assignment of
 initial set has on workers' attribution of labels to the final set.  We 
 measure effects using our novel approach, as well as looking for changes in 
 the content of labels and label specificity based on an ontology we 
-developped for that purpose.
+developed for that purpose.
 
 As a point of comparison, we subject some groups of workers to a kind of
 \textit{framing}: we disclose a fictitious, semantically-loaded name for 
@@ -138,7 +138,7 @@ specificity are much stronger than those brought about by framing tasks with a
 funder name.  Our results show that initial tasks can introduce significant 
 bias in subsequent worker labeling.  Interestingly, we find that inter-task
 effects can be used to induce greater specificity.  Our results suggest that
-workers attribute more specific labels when labelling a series of images that
+workers attribute more specific labels when labeling a series of images that
 that are more similar to one another.  This suggests that careful 
 consideration should be given to the bundling of tasks when designing a study 
 using a microtask platform.
@@ -147,10 +147,10 @@ Our analysis also highlights important advantages of our novel definition of
 priming.  Our approach relies on no prior knowledge about the nature
 of the task task whatsoever.  In contrast, we also sought to detect priming
 based on its direct effects on label content and specificity, implicitly
-drawing on prior knowledge about the the images and label semantics.
+drawing on prior knowledge about the images and label semantics.
 Remarkably, while being more general, our novel approach was also more 
 sensitive.  This suggests that our measurement approach could be applied in 
-cases where one does not \emph{a priori} know whether any priming has occured, 
+cases where one does not \emph{a priori} know whether any priming has occurred, 
 nor what the effects might be.
 
 \subsection*{An algorithmic definition of priming}
@@ -229,7 +229,7 @@ In the language of computer science, $\mathcal{A}$ is a classifier performing
 a binary classification.  The measure $\theta$ can range between 0 and 1, and 
 indicates how much better the performance of the best possible classifier is 
 compared to a random guess. We intentionally leave the details of 
-$\mathcal{A}$ unrestricted because $\theta$ should depend on the pontential 
+$\mathcal{A}$ unrestricted because $\theta$ should depend on the potential 
 for two populations to be distinguished, based on their inherent differences, 
 rather than on the performance of a particular classifier.
 
@@ -240,11 +240,11 @@ theoretical value $\theta$ from the definition, because there might
 exist some other classifier $\mathcal{C}'$ with 
 $\hat{\theta}_\mathcal{C'}>\hat{\theta}_\mathcal{C}$.
 Here, we use a Naive Bayes classifier because it simple and performs well 
-accross a broad range of classification tasks[***].
+across a broad range of classification tasks[***].
 
 To interpret $\hat{\theta}_\mathcal{C}$, imagine that some choice is to be
 made between two options on the basis of worker outputs (e.g. whether or not 
-to flag an image as innappropriate). Any such binary choice has a formal 
+to flag an image as inappropriate). Any such binary choice has a formal 
 structure of a trained classifier (i.e. a distinguisher which discards the 
 first two inputs). This means that $\hat{\theta}_\mathcal{C}$ estimates a 
 lower bound for the worst-case bias introduced in such a binary decision when 
@@ -267,12 +267,6 @@ one failed to control for priming effects.
 		\hline  
 	\end{tabular}
 
-%\begin{addmargin}[11em]{11em}
-%	\vspace{2mm}
-%	$^a$\footnotesize{The full funder names used were ``The Glodal Foundation
-%		for Cultural Recognition'' and ``The National Foundation for 
-%		Nutritional Awareness''.}
-%\end{addmargin}
 
 	\begin{addmargin}[4em]{4em}
 	\caption{ \footnotesize{ 
@@ -336,11 +330,11 @@ for cross-validations involving each pair of treatments is shown in
 
 With some exceptions, the classifier performed significantly better 
 than chance when distinguishing treatments that had different initial image 
-sets.  This demonstrates that inter-task effects were strong for the labelling 
+sets.  This demonstrates that inter-task effects were strong for the labeling 
 tasks.  Of the sixteen treatment pairs having different initial images, there 
 were three cases where the classifier performance was on par with chance. 
 Each of these cases involved distinguishing workers shown the ambiguous set 
-from ones shown the the ingredients set.  The reason for the low 
+from ones shown the ingredients set.  The reason for the low 
 distinguishability of workers from these treatments might be because
 the ambiguous and ingredients sets are somewhat similar to one another.
 We will come back to this point later when we discuss the degree of similarity 
@@ -359,7 +353,7 @@ Thus, framing effects were rather weak.
 		was determined by cross-validation of a Naive Bayes classifier trained
 		to classify workers based on the labels they attributed to the first
 		image of the final image set. Each panel compares a basis treatment,
-		indicated above the pannel, to various treatments indicated on the
+		indicated above the panel, to various treatments indicated on the
 		abscissa.  We can conclude, with 95\% confidence, that the classifier
 		is performing better than chance when $\hat{\theta}_\text{NB}$ 
 		exceeds 0.168, indicated by the dotted line.  See \textbf{Methods} for
@@ -505,13 +499,13 @@ this with 95\% confidence).
 We can similarly look at how the inter-task effects on label composition
 (i.e. fraction of culture- and food-oriented words) play out as workers 
 progress through the final image set.  To do this, we define the 
-\textit{excess cultural orientation} as the number of culture-orientod labels 
+\textit{excess cultural orientation} as the number of culture-oriented labels 
 minus the number of food oriented ones.  Tracking the excess cultural 
 orientation across the images is, however, not in itself meaningful,
 because some images will inherently carry more cultural content than others. 
 To account for this, we calculate the excess cultural content for both 
 \textsc{AMBG} and $\textsc{CULT}_{img}$, and subtract the former from the 
-latter, yeilding the \textit{relative} excess cultural content, 
+latter, yielding the \textit{relative} excess cultural content, 
 $\Delta_{cult}$.  Formally,
 
 \begin{align}
@@ -549,7 +543,7 @@ workers' rather than the psychological details which lead to them (though
 these are interesting in their own right).  This allows us to sidestep the 
 complication in attributing similarity: we asses how similar two sets of 
 images are, 
-\textit{with respect to the labelling task}, by looking at the fraction of 
+\textit{with respect to the labeling task}, by looking at the fraction of 
 labels that they share.  Formally, we compute the similarity of two images
 sets $X$ and $Y$ by computing the Jacquard index between the sets of labels 
 attributed to them:
@@ -599,7 +593,7 @@ for additional details regarding the calculation of similarity.
 
 The similarities of the various image sets are presented in \textbf{Table 2}. 
 First, observe that the ambiguous and ingredients sets are much more similar 
-to eachother than either is to the culture set.  This is consistent with our
+to each other than either is to the culture set.  This is consistent with our
 finding that $\hat{\theta}_\text{NB}$ between \textsc{AMBG} and 
 $\textsc{INGR}_{img}$ was not significant (see \textbf{Fig 1}).
 
@@ -609,14 +603,14 @@ ingredients set, and the cultural set was most different from the test set.
 Observe that these levels of similarity mirror the label specificity for the 
 corresponding treatments (c.f. \textbf{Fig. 2B}).  
 
-This suggests that labelling a series of images that are similar to 
+This suggests that labeling a series of images that are similar to 
 one another might encourage workers to use more specific terminology.
 Such a phenomenon would be consistent with the psychological mechanism known 
 as \textit{negative priming}.  Negative priming occurs when a person becomes 
 desensitized to non-salient stimuli to which she is repeatedly 
 exposed [***].  Consider that workers who initially 
 labeled the ambiguous image set had already seen five images showing 
-prepared meals once they labelled the first test image.  At that point,
+prepared meals once they labeled the first test image.  At that point,
 a worker might not regard the labels \texttt{food} or \texttt{meal} to be 
 salient, since they do not distinguish the image from those she had seen 
 already.
@@ -655,9 +649,9 @@ of labels based on an ontology.  Of the three, measuring $
 \hat{\theta}_\text{NB}$ was the most sensitive.  
 
 In one sense, this is not surprising because the Naive 
-Bayes classifier takes into account the frequency of occurence of all labels 
+Bayes classifier takes into account the frequency of occurrence of all labels 
 encountered during training.  But it is remarkable that the 
-method which encorporates neither prior knowledge about the image contents nor 
+method which incorporates neither prior knowledge about the image contents nor 
 label semantics, outperforms those that do.  This is a powerful feature 
 because, given the outputs from two sets of workers, one can test whether they 
 have been differently primed without knowing how that priming might manifest.
@@ -671,16 +665,16 @@ effects.
 
 \paragraph{Batching tasks for better HPU performance.}
 Our proposed connection between similarity and specificity during 
-image-labelling might be used to tune the specificity of labels.  For example,
-If one seeks very nuanced labelling, our results suggest that the images 
+image-labeling might be used to tune the specificity of labels.  For example,
+If one seeks very nuanced labeling, our results suggest that the images 
 should first be sorted into batches based on their similarity. This could be 
 accomplished by beginning with a first, coarse characterization of unsorted 
 images, followed by batching based on the labels obtained. Then, the batches
-of similar images could be served for a second round of finer labelling. 
-The sorting and re-labelling could then in principle be repeated.
+of similar images could be served for a second round of finer labeling. 
+The sorting and re-labeling could then in principle be repeated.
 
 In effect, this creates a hierarchical workflow, where the first, 
-coarsely-characterizing HPUs provide a stream of labelled images that is 
+coarsely-characterizing HPUs provide a stream of labeled images that is 
 split (batched) and fed to other HPUs for finer characterization.  This 
 workflow exhibits an interesting difference between HPUs and CPUs.  In general,
 whenever an aspect of a problem can be parallelized when employing CPUs, one
@@ -750,7 +744,7 @@ the null hypothesis that that the two populations are in fact identical:
 If the populations are in fact identical, then the probability that the 
 classifier correctly classifies a worker is $\frac{1}{2}$. Let $K$ be a random
 variable which denotes the number of correct classifications when the 
-classifier is chalenged to classify a total of $n$ workers during 
+classifier is challenged to classify a total of $n$ workers during 
 cross-validation.  Under $\mathbf{H_0}$, the probability distribution of $K$ 
 is:
 \begin{align}
@@ -839,21 +833,21 @@ $\text{Var}_V\{s(u,V)\}$ can be directly calculated as a sample variance.
 \begin{figure}
 	\includegraphics[scale=1.00]{figs/taskImages/ambiguous.jpg}
 	\caption{ Ambiguous image set. These images were presented to workers from 
-		certain treatements (see \textbf{Table 1}) in the order shown.}
+		certain treatments (see \textbf{Table 1}) in the order shown.}
 \end{figure}
 
 \begin{figure}
 	\includegraphics[scale=1.00]{figs/taskImages/cultural.jpg}
 	\caption{Cultural image set. These images were presented to workers from 
-		certain treatements (see \textbf{Table 1}) in the order shown.}
+		certain treatments (see \textbf{Table 1}) in the order shown.}
 \end{figure}
 
 \begin{figure}
 	\includegraphics[scale=1.00]{figs/taskImages/ingredients.jpg}
 	\caption{ Ingredients image set. These images were presented to workers 
-		from certain treatements (see \textbf{Table 1}) in the order shown.}
+		from certain treatments (see \textbf{Table 1}) in the order shown.}
 \end{figure}
-\section*{Acknowledgements}
+\section*{Acknowledgments}
 \section*{References}
 \begingroup
 \renewcommand{\chapter}[2]{}
