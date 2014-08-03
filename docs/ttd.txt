@@ -1,37 +1,18 @@
 OOO
 ===
 1) Use current figures to make an updated draft
-2) Clean up the ontology
-3) Re-run the analyses with cleaned ontology
+2) Why do I get high variance for specificity comparisons?
+3) Clean up the ontology
+4) Re-run the analyses with cleaned ontology
 
 
 Manuscript Notes
 ================
-- We investigate the effects taht the content of earlier tasks have on workers
-	--> On microtask platforms, workers usually perform batches of tasks. We
-		investigate the effects that the tasks a worker has previously
-		preformed have on subsequent ones.
 
-- Define the words 'requester' and 'worker'
-- Semantically loaded name
-	--> First called it "name for the task-requester", then "funder name"
-		
+- address the heavy usage of data from the first image.
+- "we drop funding from the discussion"
+- continue to use the treatment symbols throughout, its more concise
 
-- Next, workers were shown ten images -- insert para break before
-	--> one at a time (.)  Workers were required to provide 5 descriptive
-		labels before moving on to the next image.
-
-- For the final image set --> (,)
-
-- We chose three different initial image sets, which we call "ambiguous", 
-	"cultural", and "ingredients".  The <em>ambiguous</em>...
-
-- Keep the algorithmic priming test, but talk about testing significance of
-	difference in distributions and how classifiers are an easier way to do
-	this, and that the result is predictive too, and that besides, we're 
-	interested in the effect on output of an algorithm, hence using classifier.
-
-- We can reject the null hypothesis if thetaNB is *at least* theta star
 - Results re cross-comparison of classifier competance:
 	- against the ambiguous, we can only distinguish the treatments using
 		cultural imaging.  When the cultural funder is added, it doesn't seem

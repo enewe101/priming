@@ -1,0 +1,30 @@
+{
+    "test": {
+        "test": 1.0, 
+        "ambiguous": 0.1665875652586616, 
+        "cultural": 0.056078959174517724, 
+        "ingredients": 0.10976179355441383, 
+        "size": 1695
+    }, 
+    "ambiguous": {
+        "test": 0.1665875652586616, 
+        "ambiguous": 1.0, 
+        "cultural": 0.041758241758241756, 
+        "ingredients": 0.14150197628458497, 
+        "size": 763
+    }, 
+    "cultural": {
+        "test": 0.056078959174517724, 
+        "ambiguous": 0.041758241758241756, 
+        "cultural": 1.0, 
+        "ingredients": 0.03474903474903475, 
+        "size": 659
+    }, 
+    "ingredients": {
+        "test": 0.10976179355441383, 
+        "ambiguous": 0.14150197628458497, 
+        "cultural": 0.03474903474903475, 
+        "ingredients": 1.0, 
+        "size": 681
+    }
+}

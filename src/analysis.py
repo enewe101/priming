@@ -28,7 +28,7 @@ import naive_bayes
 import ontology
 import data_processing
 import numpy as np
-
+import json
 
 # Number of stardard deviations equivalent to the % condifdence for a 
 # normal variate
@@ -85,58 +85,103 @@ class Analyzer(object):
 			self.ontology = ontology
 
 
-	def compare_image_sets(self, fname='data/similarity.txt'):
+	def compare_image_sets(self, fname='data/similarity_new.txt'):
+
+		print 'yo'
 
 		fh = open(fname, 'w')
+		label_sets = {}
+		similarities = {}
 
-		# collect the bag of words for each image set
-		ambiguous_labels = self.get_bag_of_labels(
-			treatments=['treatment0'],
-			images=['prime%d' %i for i in range(5)])
+		# first, collect the bag of labels for the initial image sets
 
-		fh.write('ambg: %d\n' % len(ambiguous_labels))
+		# The label specs indicate where to collect the labels for each 
+		# image set.  Each label spec has the form:
+		# ('image-set-name', [ <list of treatments> ], [ <list of images>])
+		label_specs = [
+			('ambiguous', ['treatment0'], ['prime%d' % i for i in range(5)]),
+			('cultural', ['treatment1'], ['prime%d' % i for i in range(5)]),
+			('ingredients', ['treatment2'], ['prime%d' % i for i in range(5)]),
+			('test', ['treatment%d' % i for i in range(3)], 
+				['test%d' % i for i in range(5)])
+		]
 
-		cultural_labels = self.get_bag_of_labels(
-			treatments=['treatment1'],
-			images=['prime%d' %i for i in range(5)])
+		# Get the bag of labels for each image set specified in label_specs
+		for set_name, treatments, images in label_specs:
+			print set_name, treatments, images
+			label_sets[set_name] = self.get_bag_of_labels(
+				treatments=treatments, images=images)
 
-		fh.write('cult: %d\n' % len(cultural_labels))
+		# Calculate the number of unique labels, and the similarity between 
+		# the bag of labels for each image_set
+		for set_name_i, treatments_i, images_i in label_specs:
 
-		ingredients_labels = self.get_bag_of_labels(
-			treatments=['treatment2'],
-			images=['prime%d' %i for i in range(5)])
+			# For each image set, record the number of unique labels
+			similarities[set_name_i] = {'size': len(label_sets[set_name_i])}
 
-		fh.write('ingr: %d\n' % len(ingredients_labels))
+			# In comparison with each other set, find the fraction of overlap
+			for set_name_j, treatments_j, images_j in label_specs:
+				union = len(label_sets[set_name_i] | label_sets[set_name_j])
+				intersection = len(
+					label_sets[set_name_i] & label_sets[set_name_j])
+				similarities[set_name_i][set_name_j] = (
+					intersection / float(union))
 
-		test_labels = self.get_bag_of_labels(
-			treatments=['treatment0', 'treatment1', 'treatment2'],
-			images=['test%d' %i for i in range(5)])
+		print similarities
 
-		fh.write('test: %d\n' % len(test_labels))
-
-		# print the size of intersection for each
-		ambg_intersection = len(ambiguous_labels & test_labels)
-		ambg_union = len(ambiguous_labels | test_labels)
-		ambg_jacc = ambg_intersection / float(ambg_union) * 100
-
-		fh.write('ambg & test: %d / %d = %2.2f\n' % (
-			ambg_intersection, ambg_union, ambg_jacc))
-
-		cult_intersection = len(cultural_labels & test_labels)
-		cult_union = len(cultural_labels | test_labels)
-		cult_jacc = cult_intersection / float(cult_union) * 100
-
-		fh.write('cult & test: %d / %d = %2.2f\n' % (
-			cult_intersection, cult_union, cult_jacc))
-
-		ingr_intersection = len(ingredients_labels & test_labels)
-		ingr_union = len(ingredients_labels | test_labels)
-		ingr_jacc = ingr_intersection / float(ingr_union) * 100
-
-		fh.write('ingr & test: %d / %d = %2.2f\n' % (
-			ingr_intersection, ingr_union, ingr_jacc))
-
+		fh.write(json.dumps(similarities, indent=4))
 		fh.close()
+
+
+
+
+#		ambiguous_labels = self.get_bag_of_labels(
+#			treatments=['treatment0'],
+#			images=['prime%d' %i for i in range(5)])
+#
+#		fh.write('ambg: %d\n' % len(ambiguous_labels))
+#
+#		cultural_labels = self.get_bag_of_labels(
+#			treatments=['treatment1'],
+#			images=['prime%d' %i for i in range(5)])
+#
+#		fh.write('cult: %d\n' % len(cultural_labels))
+#
+#		ingredients_labels = self.get_bag_of_labels(
+#			treatments=['treatment2'],
+#			images=['prime%d' %i for i in range(5)])
+#
+#		fh.write('ingr: %d\n' % len(ingredients_labels))
+#
+#		test_labels = self.get_bag_of_labels(
+#			treatments=['treatment0', 'treatment1', 'treatment2'],
+#			images=['test%d' %i for i in range(5)])
+#
+#		fh.write('test: %d\n' % len(test_labels))
+#
+#		# print the size of intersection for each
+#		ambg_intersection = len(ambiguous_labels & test_labels)
+#		ambg_union = len(ambiguous_labels | test_labels)
+#		ambg_jacc = ambg_intersection / float(ambg_union) * 100
+#
+#		fh.write('ambg & test: %d / %d = %2.2f\n' % (
+#			ambg_intersection, ambg_union, ambg_jacc))
+#
+#		cult_intersection = len(cultural_labels & test_labels)
+#		cult_union = len(cultural_labels | test_labels)
+#		cult_jacc = cult_intersection / float(cult_union) * 100
+#
+#		fh.write('cult & test: %d / %d = %2.2f\n' % (
+#			cult_intersection, cult_union, cult_jacc))
+#
+#		ingr_intersection = len(ingredients_labels & test_labels)
+#		ingr_union = len(ingredients_labels | test_labels)
+#		ingr_jacc = ingr_intersection / float(ingr_union) * 100
+#
+#		fh.write('ingr & test: %d / %d = %2.2f\n' % (
+#			ingr_intersection, ingr_union, ingr_jacc))
+#
+#		fh.close()
 
 
 	def get_bag_of_labels(

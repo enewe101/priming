@@ -68,7 +68,8 @@ def plotSpecificityLongitudinal(
 		assert(data['subject'] == 'treatment1')
 		pick_data.append(data)
 
-	Y = [pd['avg'] for pd in pick_data]
+	# Plotting the inverse (-) is more intuitive
+	Y = [-pd['avg'] for pd in pick_data]
 	Y_err = [pd['stdev']*CONFIDENCE_95 for pd in pick_data]
 	X = range(len(Y))
 
@@ -952,6 +953,10 @@ def plotOrientationAndSpecificity(
 		ncol=3, borderaxespad=0.
 	)
 
+	# Label the subplot
+	ax.text(-0.03, 48, 'A', 
+			va='top', ha='left', size=20)
+
 	ax.yaxis.set_label_coords(-0.10,0.5)
 
 	fig.savefig(writeFname)
@@ -1021,6 +1026,10 @@ def plotOrientationAndSpecificity(
 	zero = ax.plot(
 		xlims, [0, 0], color='0.35', linestyle='-', zorder=0)
 	
+	# label the subplot
+	ax.text(-0.03, 7.5, 'B', 
+			va='top', ha='left', size=20)
+
 	# handle x-axis labelling
 	ax.tick_params(axis='both', which='major', labelsize=9)
 	ax.set_xticks(map(lambda x: x + width/2., X))
@@ -1443,7 +1452,7 @@ def plotAllF1Theta(
 		if i == 0:
 			ax = plt.subplot(gs[i])
 			ax0 = ax
-			ax.set_ylabel(r'$\theta_{NB}$', size=9)
+			ax.set_ylabel(r'$\hat{\theta}_{NB}$', size=9)
 		else:
 			ax = plt.subplot(gs[i], sharey=ax0)
 			plt.setp(ax.get_yticklabels(), visible=False)
@@ -1497,7 +1506,7 @@ def plotAllF1Theta(
 
 
 	y_low, y_high = plt.ylim()
-	plt.ylim(y_low-0.04, y_high)
+	plt.ylim(-0.09, y_high)
 
 	fig.subplots_adjust(wspace=0.05, top=0.77, right=0.97, left=0.09, 
 			bottom=0.24)
@@ -1971,7 +1980,7 @@ def longitudinal_theta_valence(
 	significance_bar = ax_theta.plot(xlims, [theta_star, theta_star],
 		color='0.55', linestyle=':')
 	
-	ax_theta.set_ylabel(r'$\theta_{NB}$', size=9)
+	ax_theta.set_ylabel(r'$\hat{\theta}_{NB}$', size=9)
 
 	# adjust y axis
 	plt.ylim((0, plt.ylim()[1]*1.05))
@@ -2004,7 +2013,7 @@ def longitudinal_theta_valence(
 	ax_valence.tick_params(axis='both', which='major', labelsize=9)
 
 	# label the y-axis 
-	ax_valence.set_ylabel("excess cultural orientation (%)", size=9)
+	ax_valence.set_ylabel("$\Delta_{cult}$ (%)", size=9)
 
 	# adjust y axis
 	plt.ylim((0, plt.ylim()[1]*1.05))
@@ -2031,7 +2040,7 @@ def longitudinal_theta_valence(
 	x_pos = 4.4
 	ax_theta.text(x_pos, 0.45, 'A', 
 			va='top', ha='left', size=20)
-	ax_valence.text(x_pos, 35, 'B', 
+	ax_valence.text(x_pos, 39, 'B', 
 			va='top', ha='left', size=20)
 
 	plt.tight_layout()
