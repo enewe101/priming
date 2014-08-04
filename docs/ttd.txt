@@ -1,10 +1,137 @@
 OOO
 ===
-1) Use current figures to make an updated draft
-2) Why do I get high variance for specificity comparisons?
-3) Clean up the ontology
-4) Re-run the analyses with cleaned ontology
+1) Fill in abstract
+2) Fill in refs
+3) Fill in Methods
+4) Create suppl matl
+5) Why do I get high variance for specificity comparisons?
+6) Clean up the ontology
+7) Re-run the analyses with cleaned ontology
 
+Refs
+====
+
+- workers prefer to do tasks in batches
+- why our task is a canonical task.  Why choose image labeling for this 
+	investigation?
+- support for our implementation of framing -- why would we expect that to
+	cause workers to provide more labels for this "preferred content"?
+
+
+- existing work on priming focuses on the internal psychological mechanisms of 
+	priming
+- Typically priming is operationalized as a decrease in the liminal level of
+	stimuli / recognition
+- fMRI has been used 
+- definition of negative priming
+
+
+- object similarity is not transitive
+	
+
+
+- Naive Bayes is easy to implement and works accross a broad range of tasks
+
+
+
+% Priming
+	- Priming is based on matching *time* \cite{beller1971priming}
+	- Priming can be due to more rapid stimulus encoding and memory access.
+		for memory dep tasks, it may be due to putting LTM info into STM
+		\cite{beller1971priming}
+	- Stimulus encoding is a constructive process.  participants may be 
+		"using the advance information to preconstruct an internal structure"
+		"... which leaves just a small amount of filling in".
+		\cite{beller1971priming}
+
+% AMT
+	- motivations
+		- entertainment
+			- \cite{5543192}
+
+	- general concerns about quality and external validity
+		\cite{Berinsky2012351}
+		\cite{paolacci2010running}
+	- factors
+		- effects of ranking performance
+			probably Barankay, 2010 "Rankings and Social Tournaments: 
+				Evidence from a Field Experiment". University of Pennsylvania 
+				Mimeo.
+		- money
+			\cite{Finnerty2013}
+			\cite{5543192}
+			\cite{kazai2013analysis}
+
+		- bundling tasks
+			- for a colour-recognition task, HPUs performed like a 
+				3-way core procesor
+				
+
+		- UI and UX design (simple vs complex)
+			\cite{Finnerty2013}
+
+		- language used in instructions
+			\cite{Finnerty2013}
+
+		- task complexity / effort
+			\cite{kazai2013analysis}
+			\cite{Finnerty2013}
+
+		- screening / qualifications
+			\cite{kazai2013analysis}
+			\cite{paolacci2010running}
+
+	- image labeling is a "typical task"
+		\cite{chandler2013breaking}
+		\cite{Berinsky2012351}
+		\cite{Finnerty2013}
+		\cite{paolacci2010running}
+
+		- long term role of HPUs is in computer vision rleated tasks
+			\cite{5543192}
+
+		- Computer vision has many unsolved tasks for which CPU-based algs 
+			are not robust and are computationally intensive, yet for HPUs
+			these tasks are easy
+			\cite{5543192}
+			- e.g. quality assesment
+				
+
+		probably Barankay, 2010 "Rankings and Social Tournaments: 
+			Evidence from a Field Experiment". University of Pennsylvania 
+			Mimeo.
+		- for medical images
+			\cite{chandler2013breaking}
+		- "image labeling tasks are among the most commonly performed tasks 
+			on MTurk" \cite{chandler2013breaking}
+
+	- audio transcription and linguistic analysis
+		\cite{chandler2013breaking}
+		\cite{paolacci2010running}
+
+	- transcription of handwriting
+		\cite{Berinsky2012351}
+		\cite{Finnerty2013}
+
+	- categrizing / labeling data
+		\cite{Finnerty2013}
+		\cite{5543192}
+
+	- as a way to do online experiments
+		probably \cite{horton2010labor}
+		\cite{Berinsky2012351}
+		\cite{chandler2013breaking}
+		\cite{paolacci2010running}
+
+		- fast and cheap
+			\cite{Finnerty2013}
+			\cite{chandler2013breaking}
+			\cite{Berinsky2012351}**
+
+% Possibly related to inter-task effects:
+Transue, John E., Daniel J. Lee, and John H. Aldrich. 2009. Treatment spillover effects across survey experiments
+	
+	
 
 Manuscript Notes
 ================
@@ -12,34 +139,9 @@ Manuscript Notes
 - address the heavy usage of data from the first image.
 - "we drop funding from the discussion"
 - continue to use the treatment symbols throughout, its more concise
+- check that the two 'marginally significant' image-based distinctions really
+	are marginally significant
 
-- Results re cross-comparison of classifier competance:
-	- against the ambiguous, we can only distinguish the treatments using
-		cultural imaging.  When the cultural funder is added, it doesn't seem
-		to help.
-
-	# in-task priming is strong
-	# funder framing is not sufficient to enable distinction, but changing
-		funder framing does affect the ability to distinguish treatments that
-		differ in in-task priming.
-	- we can look at these comparisons to guage how effective image-based and
-		funder based effects are.
-		- the cultural image treatments can always be distinguished from other
-			treatments, except, of course, when cultural img is compared to 
-			cult fund image.
-		- none of the funding-only can be distinguished from ambg
-			- nor can the funding-img be distinguished from the img-only
-			- nor can the cultural-funding be distinguished from the 
-				ingredients-funding
-			- cult-fund can't be distinguished from ingr-fund
-			- when both the image set and the funder treatment differ,
-				the funder aspect does have an effect, sometimes decreasing,
-				and sometimes increasing the distinguishability
-
-
-	- the cultural images are easily distinguished from the ambiguous images, 
-		are distinguished (though less easily) from ingredients; while 
-		ingredients images are not distinguished from ambiguous.
 
 Do Now
 ======

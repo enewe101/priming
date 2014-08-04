@@ -46,7 +46,7 @@
 Microtask platforms like Amazon Mechanical Turk provide a cheap and fast means
 to engage participants for scientific reasearch.  
 Workers on such platforms prefer to work on batches of tasks of the same 
-type[***], so we investigate the potential for the content of earlier tasks 
+type, so we investigate the potential for the content of earlier tasks 
 to influence worker performance in later tasks, which we call ``inter-task'' 
 effects.  
 Existing research investigates the impact of various design factors, such as 
@@ -122,14 +122,13 @@ To characterize the effects of inter-task priming, we present a novel
 \textit{algorithmic definition of priming}, along with a general method 
 for measuring priming effects using machine learning algorithms.  
 Existing work on priming effects focuses on the internal psychological 
-mechanisms of priming[***], but here we are interested in how the treatment of 
+mechanisms of priming, but here we are interested in how the treatment of 
 workers can impact an application of human computation. This leads us to 
 quantify priming in terms of the algorithmic distinguishability of priming
 treatments.
 
 In the present work, we investigate inter-task priming using image-labeling 
 tasks on the AMT platform.  
-(***why we are using image labeling as prototypical task***) 
 Each worker is required to label ten images 
 featuring 
 food and culture.  We regard these images as being made up of an 
@@ -149,7 +148,7 @@ requester funding the tasks.
 The names were chosen to suggest the requester's interest in 
 a specific aspect of the image content.  One might reasonably expect that this 
 would orient workers to provide a greater quantity and specificity of labels 
-which relate to this ``preferred'' content[***].
+which relate to this ``preferred'' content.
 
 Surprisingly, we find that inter-task effects on label orientation and 
 specificity are much stronger than those brought about by framing tasks with a 
@@ -177,8 +176,8 @@ In psychology, the effects of priming are usually measured in terms of a
 change in the  
 speed or accuracy of responses in a task, or in the ability to recognize a 
 stimulus object (e.g. a spoken word or an image) when the object is noisier, 
-fainter, or briefer [***].  Methods are also employed to measure processes
-in the brain of the participant, such as by fMRI[***].  These approaches are 
+fainter, or briefer.  Methods are also employed to measure processes
+in the brain of the participant, such as by fMRI.  These approaches are 
 well-suited to studying the underlying psychological mechanisms at work.
 
 Our purpose is different: we are interested in assessing the ramifications
@@ -258,7 +257,7 @@ theoretical value $\theta$ from the definition, because there might
 exist some other classifier $\mathcal{C}'$ with 
 $\hat{\theta}_\mathcal{C'}>\hat{\theta}_\mathcal{C}$.
 Here, we use a Naive Bayes classifier because it simple and performs well 
-across a broad range of classification tasks[***].
+across a broad range of classification tasks.
 
 To interpret $\hat{\theta}_\mathcal{C}$, imagine that some choice is to be
 made between two options on the basis of worker outputs (e.g. whether or not 
@@ -380,6 +379,22 @@ In contrast, the classifier never performed significantly better than chance
 when distinguishing treatments that differed only in the funder name shown. 
 Thus, framing effects were rather weak.
 
+\paragraph{Earlier tasks influenced workers' level of specificity.} 
+\begin{figure*}
+	\centering{
+		\includegraphics[scale=0.70]{figs/orientation_specificity.pdf}
+	\caption{\footnotesize{
+		\textbf{A}) Percent label composition (culture- vs food-oriented 
+		labels) for 
+		various images and treatments.  
+		\textbf{B}) Relative specificities of treatments
+		indicated along the abscissa compared to those indicated above the 
+		plot.  The size of the bar indicates how much more specific
+		the labels from one treatment are compared to the other, and points 
+		toward in the direction of the more specific treatment.
+	}}
+}
+\end{figure*}
 
 \paragraph{Earlier tasks orient workers' focus during later tasks.} 
 We next investigated the \textit{nature} of the inter-task effects.  Since the
@@ -418,22 +433,6 @@ significantly different.
 
 
 
-\paragraph{Earlier tasks influenced workers' level of specificity.} 
-\begin{figure*}
-	\centering{
-		\includegraphics[scale=0.70]{figs/orientation_specificity.pdf}
-	\caption{\footnotesize{
-		\textbf{A}) Percent label composition (culture- vs food-oriented 
-		labels) for 
-		various images and treatments.  
-		\textbf{B}) Relative specificities of treatments
-		indicated along the abscissa compared to those indicated above the 
-		plot.  The size of the bar indicates how much more specific
-		the labels from one treatment are compared to the other, and points 
-		toward in the direction of the more specific treatment.
-	}}
-}
-\end{figure*}
 
 Using the ontology described in the previous section, we compared treatments 
 in their degree of specificity.  When comparing two labels $\ell_1$ and 
@@ -558,7 +557,7 @@ psychology\cite{Tversky1977327}, and information retrieval\cite{Jaimes20002}.
 Furthermore, the perception of \textit{similarity} is a particularly subtle 
 psychological phenomenon.  For example, a figure $A$ can appear simultaneously
 both \textit{more} and \textit{less} similar to an object $C$ than some other 
-object $B$[***].    
+object $B$.    
 
 In the present study, we are more interested in the ultimate outputs of 
 workers' rather than the psychological details which lead to them (though 
@@ -630,7 +629,7 @@ one another might encourage workers to use more specific terminology.
 Such a phenomenon would be consistent with the psychological mechanism known 
 as \textit{negative priming}.  Negative priming occurs when a person becomes 
 desensitized to non-salient stimuli to which she is repeatedly 
-exposed [***].  Consider that workers who initially 
+exposed.  Consider that workers who initially 
 labeled the ambiguous image set had already seen five images showing 
 prepared meals once they labeled the first test image.  At that point,
 a worker might not regard the labels \texttt{food} or \texttt{meal} to be 
@@ -725,157 +724,29 @@ effects are not understood.
 \subsection*{Materials and Methods}
 Omitted due to length.  This will be added to supplementary material.
 
-\textbf{AMT Tasks.} The task described in \textbf{Experimental Setup}
-was served to 900 workers, who were uniformly randomly assigned to
-treatments.  Each treatment had at least 126 task completions.  To obtain 
-uniformly sized treatments, we randomly selected 126 samples from each 
-treatment. Workers were
-only allowed to participate once and could not see the initial or final 
-images, nor the funder names when previewing the task.
-
-\textbf{Naive Bayes Classifier.}
-The features provided to the Naive Bayes classifier consisted of the labels
-that the worker provided along with the image and specific location in which 
-the label was entered
-(each image had five distinct label inputs).  Thus, \texttt{wine} occurring in 
-position 1 of image 2 would be considered as a distinct feature from 
-\texttt{wine} occurring in position 2 of image 2. The classifier 
-had better performance when this distinction was made.
-
-\textbf{Building the ontology of terms.}  The ontology was built manually
-by the experimenters, starting from the corpus of labels. Labels occurring only 
-once were discarded.  We created the root classes \texttt{activity}, 
-\texttt{adjective}, \texttt{culture}, 
-\texttt{food}, and \texttt{thing}. \texttt{culture} and \texttt{food} were 
-given top-level status because they were prominently represented in the corpus.
-Whenever one label was judged to be a more specific case of another, a
-directed edge was drawn from the more general to the more specific. This
-judgment call was made by the experimenters.  However, the labels from all 
-treatments were aggregated before assembling the ontology,  to 
-ensure that the ontology construction would not be affected by 
-knowledge of the treatments from which labels originated. 
-Labels which were judged to be roughly synonymous were treated as identical,
-and labels judged to be misspellings were corrected. 
-
-\textbf{Statistical significance of $\theta_\text{NB}$.}
-We test the significance two population's measured $\theta_\text{NB}$ against 
-the null hypothesis that that the two populations are in fact identical:
-\begin{align}
-	\mathbf{H_0}: \theta_\text{NB} = 0 \\
-	\mathbf{H_1}: \theta_\text{NB} > 0
-\end{align}
-If the populations are in fact identical, then the probability that the 
-classifier correctly classifies a worker is $\frac{1}{2}$. Let $K$ be a random
-variable which denotes the number of correct classifications when the 
-classifier is challenged to classify a total of $n$ workers during 
-cross-validation.  Under $\mathbf{H_0}$, the probability distribution of $K$ 
-is:
-\begin{align}
-	\text{Pr}\{K = k | n \} = { n \choose k } \left(\frac{1}{2}\right)^n.
-\end{align}
-We can reject $\mathbf{H_0}$ at significance $\alpha$ if $\theta_\text{NB}$ 
-is greater than or equal to a critical value, $\theta_\text{NB}^*$:
-\begin{align}
-	\theta^*_\text{NB} = \frac{2k^*}{n} - 1
-\end{align}
-where $k^*$ is the smallest integer in $\{0,\dots,n\}$ that satisfies 
-\begin{align}
-	\sum_{k \in \{k^*, \dots, n\}} \text{Pr}\{K = k | n \} < \alpha.
-\end{align}
-For a 5-fold cross-validation with non-overlapping test sets containing 25 
-workers ($n = 125$), and a significance of $\alpha = 0.05$, we
-have $k^*=73 \implies \theta_\text{NB}^* = 0.168$.
-
-
-
-
-
-
-\textbf{Statistical significance of relative specificity.}
-We used \textbf{Eq.~\ref{eq:specificity}} to compute the relative specificity
-of two treatments.  To analyze relative specificity statistically,
-we first develop \textbf{Eq.~\ref{eq:specificity}} from an intermediate 
-definition.  Let the specificity of a worker $u$ relative to a 
-\textit{basis treatment} $\mathcal{V}$, denoted $S_V(u)$, be the expected 
-relative specificity between $u$ and a worker uniformly sampled from 
-$\mathcal{V}$:
-
-\begin{align}
-	S_V(u) =  \text{E}_V\{s(u,V)\}, \quad V \in_R \mathcal{V},
-		\label{eq:basis-specificity}
-\end{align}
-where $V$ is a random, uniformly sampled worker from $\mathcal{V}$.  We 
-subscript the expectation operator with $V$ to indicate 
-that the expectation is taken over the distribution of $V$.  Then, the 
-relative specificity of two treatments, $S(\mathcal{U},{V})$, can be 
-written as:
-\begin{align}
-	S(\mathcal{U},\mathcal{V}) = 
-		\text{E}_U\{S_V(U)\}, \quad U \in_R \mathcal{U},
-		\label{eq:treatment-specificity}
-\end{align}
-where $U$ is a random, uniformly sampled worker from $\mathcal{U}$.  This 
-yields 
-estimators for $S_V(u)$ and $S(\mathcal{U}, \mathcal{V})$, and their variances
-as shown below (note that 
-\textbf{Eq.~\ref{eq:treatment-specificity-estimator}} is
-equivalent to \textbf{Eq.~\ref{eq:specificity}}):
-
-\begin{align}
-	\hat{S}_V(u) &= \frac{1}{|\mathcal{V}|} \sum_{v \in \mathcal{V}} s(u,v), 
-		\label{eq:basis-specificity-estimator} \\
-		\hat{S}(\mathcal{U},\mathcal{V}) 
-		&= \frac{1}{|\mathcal{U}|} \sum_{u \in \mathcal{V}} \hat{S}_V(u),
-		\label{eq:treatment-specificity-estimator} \\
-		\text{Var}_V\{\hat{S}_V(u)\} 
-			&= \frac{1}{|\mathcal{V}|}\text{Var}_V\{s(u,V)\},
-		\label{eq:basis-specificity-variance} \\
-		\text{Var}_{U,V}\{\hat{S}(\mathcal{U},\mathcal{V})\} 
-			&= \frac{1}{|\mathcal{V}|\cdot|\mathcal{U}|^2} 
-			\sum_{u\in U}\text{Var}_V\{{s}(u,V)\}.
-		\label{eq:treatment-specificity-variance}
-\end{align}
-$\text{Var}_V\{s(u,V)\}$ can be directly calculated as a sample variance.
-\textbf{Equations \ref{eq:basis-specificity-estimator}} through 
-\textbf{\ref{eq:treatment-specificity-variance}} provide enough information to test the hypotheses:
-\begin{align}
-	\begin{matrix}
-		\mathbf{H_0}: S(\mathcal{U}, \mathcal{V}) = 0 \\[0.5em]
-		\mathbf{H_1}: S(\mathcal{U}, \mathcal{V}) \neq 0
-	\end{matrix}
-\end{align}
-
-\begin{figure}
-	\includegraphics[scale=1.00]{figs/taskImages/testImages.jpg}
-	\caption{Testing image set. These images were presented to all workers in 
-		the order shown after the priming set of images.}
-\end{figure}
-
-\begin{figure}
-	\includegraphics[scale=1.00]{figs/taskImages/ambiguous.jpg}
-	\caption{ Ambiguous image set. These images were presented to workers from 
-		certain treatments (see \textbf{Table 1}) in the order shown.}
-\end{figure}
-
-\begin{figure}
-	\includegraphics[scale=1.00]{figs/taskImages/cultural.jpg}
-	\caption{Cultural image set. These images were presented to workers from 
-		certain treatments (see \textbf{Table 1}) in the order shown.}
-\end{figure}
-
-\begin{figure}
-	\includegraphics[scale=1.00]{figs/taskImages/ingredients.jpg}
-	\caption{ Ingredients image set. These images were presented to workers 
-		from certain treatments (see \textbf{Table 1}) in the order shown.}
-\end{figure}
-\section*{Acknowledgments}
-\section*{References}
 \begingroup
 \renewcommand{\chapter}[2]{}
 \bibliography{newbib.bib}
 \endgroup
 \bibliographystyle{plain} 
 
+\subsection*{Motivation}
+I am near the beginning of my PhD studies, and have joined Derek Ruths' lab 
+with the expressed purpose of performing human computation research.
+My interests lay at the intersection of game theory, psychology, and 
+computation.  The overarching goal for my research relates to group 
+decisionmaking, and can be phrased in the following way: ``what are the factors
+that influence the social efficiency of collective decisionmaking?'' I
+view decisionmaking as the central activity of all social organizations, and 
+I view this as a computational process.  My reason for 
+wanting to attend the PhD Consortium at HCOMP is threefold.  First, I wish to
+discuss my ideas with others, get feedback, and learn more about how the 
+community frames such questions, to help me as I finalize my PhD proposal 
+into concrete research aims.  Second, I hope to make connections to other 
+researchers who are interested in similar research questions.  Finally, I wish
+to obtain feedback on a crowdsourcing platform that I have implemented (and
+hopefully pique other researcher's interest), which I intend to use in my
+research.
 \end{document}
 
 
