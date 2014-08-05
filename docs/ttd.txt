@@ -1,12 +1,13 @@
 OOO
 ===
-1) Fill in abstract
-2) Fill in refs
+6) Clean up the ontology
+7) Re-run the analyses with cleaned ontology
+2) Make a pass on manuscript
+	- refs
+	- typos / explanation / enough psych background?
 3) Fill in Methods
 4) Create suppl matl
 5) Why do I get high variance for specificity comparisons?
-6) Clean up the ontology
-7) Re-run the analyses with cleaned ontology
 
 Refs
 ====

@@ -9,7 +9,7 @@ import copy
 class OntologyTestCase(unittest.TestCase):
 	def setUp(self):
 		self.ont = ontology.Ontology()
-		self.ont.readOntology('ontology/ontology0.json')
+		self.ont.readOntology('test/test_ontology.json')
 
 
 	def test_comparison(self):
@@ -100,7 +100,6 @@ class OntologyTestCase(unittest.TestCase):
 				('colorful', 3), ('colourfull', 2), ('ganesha', 3),
 				('ganesh', 2), ('god', 2), ('gods', 1)])
 
-
 		# Read a set of synonyms
 		self.ont.readSynonyms('test/synonyms.txt')
 
@@ -161,7 +160,6 @@ class AnalysisTestCase(unittest.TestCase):
 	def setUp(self):
 		self.dataset = dp.CleanDataset()
 		self.dataset.read_csv('amt_csv/test.csv')
-
 
 		self.a = analysis.Analyzer(self.dataset)
 
