@@ -1,38 +1,98 @@
 '''
-This module has just one class, `Ontology` which handles two basic concerns.
+What is an ontology? 
+It is a directed acyclic graph of words, wherein one
+word "points to" words that are specific cases.  For example, bread --> bun.
+No cycles are allowed.  The ontology has one root called "ROOT".  One of
+the top-level nodes is called "d" and it stands for "discarded", so words
+that it points to are meant to be discarded.
+
+This module contains one class, `Ontology` which handles two basic concerns.
 
 The first is to represent an ontology of words, which is used by the 
 `analysis.Analyzer` class as a basis for comparing treatments.  So, given an
 ontology, `Ontology` answers questions like "is 'naan' a type of 'bread'?".
 
 The second concern is the actual building of ontologies, which is somewhat
-onerous.  `Ontology` provides methods that allow one to incrementally add
-words and relationships between words to build up an ontology.  You will notice
-various methods having short (often one-letter) names, which are the methods
-mainly anticipated for this use-case.
+onerous.  `Ontology` provides methods that allow build up an ontology by
+interactively adding relationships between words.  You will notice
+various methods that have short (often one-letter) names, which are the 
+methods anticipated for this use-case.
 
-Finally, `Ontology` provides methods for reading and writing representations
+`Ontology` provides methods for reading and writing representations
 of instances of itself.
 
-What is an ontology? it is a directed acyclic graph of words, wherein one
-word "points to" words that are specific cases.  For example, bread --> bun.
-No cycles are allowed.  The ontology has one root called "ROOT".  One of
-the top-level nodes is called "d" and it stands for "discarded", so words
-that it points to are meant to be discarded.
-'''
+The core working datastructures of an ontology are the 'model' and the 
+'translator'.  The model encodes parent-child relationships between tokens.
+The translator takes in some token and yields it's "canonical synonym".  
 
+Why is a translator needed?
+This helps handle cases where tokens are true synonyms like 'toast' and 
+'toasted bread', or misspellings, like 'bread' and 'braed'.  In general,
+tokens are always mapped into their canonical synonym before handling which
+means that the user doesn't need to worry about which of a set of synonymous
+tokens is the canonical one.
+
+There are a few other supporting datastructures that are part of the 
+`Ontology`.  They might seem a bit redundant, so I explain their raison 
+d'etre here.
+
+- wordList
+	The wordlist is simply a set of tuples (pairs), the first element being
+	a word, the second element being a frequency.  The wordlist is a starting
+	point for interactively building an ontology.  `Ontology` can load a 
+	word list, with `Ontology.readWords()`, and help you keep track of which
+	of the words has been added to the ontology model so far, and which 
+	haven't.  It is always kept, because it is informative to know the original
+	words and frequencies that were present while interactively building an 
+	ontology.  Subsequent calls to `~.readWords()` will just _extend_ the 
+	wordList, not overwrite it.
+
+- synonymList
+	The synonym List is a set of tuples (pairs) of tokens that should be 
+	considered as synonymous.  This records what the user interactively
+	(or through an edgelist like file) told the `Ontology` to think of as
+	synonymous.  Nothing really tells the `Ontology` which synonym is 
+	canonical -- nor does it really matter, since the purpose of having a
+	canonical synonym is for internal disambiguation, not ton indicate which
+	of the synonyms is "correct".  Since the synonymList is a set of tuples,
+	it should be thought of as an undirected graph.  All of the synonyms in
+	the graph that belong to the same component are considered synonymous
+	with eachother.  This means that if we put (A,B) and (B,C), A is considered
+	synonymous to C, and they will be represented by the same canonical 
+	synonym (which will be either A, B, or C -- no guarantees as to which).
+	the reason that we keep the synonymList around as a graph structure, rather
+	than just keeping synonym sets, is because we want to be able to support
+	synonym removal.  Suppose that a user accidentally adds a synonym entry 
+	that connects two components in the synonym graph.  All tokens in the 
+	resulting larger component are now synonymous.  If this was a mistake, and
+	the user removes that link, we need to know how to split the tokens back
+	up into two sets of synonyms, and we need the graph structure to do that.
+	It also, in general, is nice to keep a record of exactly what the user
+	indicated are synonyms.
+
+	The translator is constructed from the synonymList by arbitrarily 
+	choosing one token from each "synonym-component" to represent all members.
+	The structure of the translator can be thought of as redrawing the 
+	synonymList as a directed graph, in which all components become stars,
+	with the points of the stars (all tokens from a synonym set) pointing
+	inward toward a canonical representative synonym).
+
+- edgeList
+	the edgeList relates to the `model` in much the same way that the 
+	`synonymList` relates to the `translator`.  The edgeList contains the 
+	particular parent-child relationships, exactly as they were specified by 
+	the user, while the translator destructively collapses this into a more 
+	succinct form that is useful for `Ontology`'s business.  In the ontology 
+	`model` only canonical synonyms appear, so tokens are always resolved to
+	their canonical synonyms using `translator` before we consult `model`.
+	We keep the original edgelist around in order to know how to update the
+	model if the structure of synonyms change, because it always has the
+	relationships that the user specified for raw tokens.
+'''
 
 import copy
 import json
 import re
-
-
-#
-# TODO:
-#	- I am unclear as to how the mask is being applied when it comes to
-#		specificity and to valence.  I want to look at this again to make 
-#		sure that is recorded somewhere.
-#
 
 
 class Ontology(object):
@@ -115,25 +175,35 @@ class Ontology(object):
 				print 'Warning -- word `%s` has no count' % wordEntry
 				continue
 
+		# TODO:
+		# this would not seem to aggregate counts like it should: if a word
+		# already has an entry in self.wordList, shouldn't we add the counts?
 		self.wordList |= wordList
 
 
 	def getWords(self, thresholdCount=2):
 
+		# sort words according to decreasing frequency of occurrence
 		sortedWordList = sorted(
 			list(self.wordList), None, lambda w: w[1], True)
 
 		returnWords = []
 		for word, count in sortedWordList:
+
+			# Parse frequencies as ints (shouldn't this be done in readWords?)
 			try:
 				count = int(count)
 			except ValueError:
 				continue
 
+			# Don't include infrequent words
 			if int(count) < thresholdCount:
 				continue
 
+			# When including a word, represent it by its canonical synonym
 			synonym = self.getSynonym(word)
+
+			# only include words that aren't in the ontology yet
 			if synonym not in self.model:
 				returnWords.append((word, count))
 
@@ -141,6 +211,13 @@ class Ontology(object):
 
 
 	def readEdgeList(self, fname):
+		'''
+		Ontologies consist of a model (a directed graph of tokens, with edges
+		pointing from more general tokens to more specific ones).  This 
+		method allows the reading of models encoded in an edgelist-like text
+		file
+		'''
+
 		fh = open(fname, 'r')
 		edgeListFile = fh.read().split('\n')
 		edgeList = set()
@@ -360,7 +437,7 @@ class Ontology(object):
 	def buildModel(self):
 		'''
 		The model that is actually used for the ontology collapses all words
-		into their connonical synonym to prevent ambiguity.  Since this
+		into their canonical synonym to prevent ambiguity.  Since this
 		operation is destructive to the edgelist on which it was based, we
 		keep the original edgelist.  This prevents the loss of information
 		if two different things are accidentally marked as synonymous
@@ -378,9 +455,11 @@ class Ontology(object):
 			if parent not in self.model:
 				self.model[parent] = []
 
-			# by including placeholder for a token's children, even it has
-			# none, we can easily check if a token is in the model by looking
-			# only at keys, and we can immediately tell if a token is a leaf
+			# All tokens get an entry in the model as a parent.  If they
+			# don't actually have children, then their children list is an 
+			# empty list.  This allows us to check if a token is in the model
+			# by looking only at the keys of the model dict, and we can 
+			# immediately tell if a token is a leaf
 			if child not in self.model:
 				self.model[child] = []
 
