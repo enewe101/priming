@@ -9,7 +9,7 @@ import copy
 class OntologyTestCase(unittest.TestCase):
 	def setUp(self):
 		self.ont = ontology.Ontology()
-		self.ont.readOntology('test/test_ontology.json')
+		self.ont.readOntology('test/ontology/test_ontology.json')
 
 
 	def test_comparison(self):
@@ -93,7 +93,7 @@ class OntologyTestCase(unittest.TestCase):
 
 		# Read a set of words that will be made into an ontology
 		# Check that we have loaded the expected words
-		self.ont.readWords('test/words.txt')
+		self.ont.readWords('test/ontology/words.txt')
 		self.assertItemsEqual(
 			self.ont.getWords(1),
 			[('food', 10), ('bread', 5), ('braed', 1), ('naan', 2),
@@ -101,7 +101,7 @@ class OntologyTestCase(unittest.TestCase):
 				('ganesh', 2), ('god', 2), ('gods', 1)])
 
 		# Read a set of synonyms
-		self.ont.readSynonyms('test/synonyms.txt')
+		self.ont.readSynonyms('test/ontology/synonyms.txt')
 
 		# the synonyms are mapping correctly
 		self.assertTrue(
@@ -112,7 +112,7 @@ class OntologyTestCase(unittest.TestCase):
 			self.ont.getSynonym('colourfull'))
 	
 		# read the edgelist
-		self.ont.readEdgeList('test/edgeList.txt')
+		self.ont.readEdgeList('test/ontology/edgeList.txt')
 
 		# There should be one orphan, 'food'
 		self.assertEqual(self.ont.findOrphans(), ['food'])
@@ -159,7 +159,7 @@ class OntologyTestCase(unittest.TestCase):
 class AnalysisTestCase(unittest.TestCase):
 	def setUp(self):
 		self.dataset = dp.CleanDataset()
-		self.dataset.read_csv('amt_csv/test.csv')
+		self.dataset.read_csv('test/amt_csv/test.csv')
 
 		self.a = analysis.Analyzer(self.dataset)
 
@@ -245,13 +245,90 @@ class AnalysisTestCase(unittest.TestCase):
 class DataProcessingTestCase(unittest.TestCase):
 	def setUp(self):
 		self.dataset = dp.CleanDataset()
-		self.dataset.read_csv('amt_csv/test100.csv', False)
+		self.dataset.read_csv('test/amt_csv/test100.csv', False)
 
 		self.dataset.aggregateCounts()
 		self.dataset.calc_ktop(5)
 		self.dataset.uniform_truncate(10)
 
+		self.exp_2_dataset = dp.CleanDataset(is_exp_2_dataset=True)
+		self.exp_2_dataset.read_csv('test/amt_csv/exp_2_test_13.csv')
 
+
+	def test_exp_2_data_permutation(self):
+		'''
+		The test images in experiment 2 were presented in various different
+		permutations, so the reader needs to keep track of which permutation
+		was used in a given entry, and make sure that labels get assigned
+		to the correct images.  Test that this is done properly
+		'''
+
+		expected_test0_labels = {
+			'treatment0': ['romantic', 'cheese', 'loaf', 'comfy', 'meal'],
+			'treatment1': ['bread', 'candle', 'breakfast', 'wine', 'cakes'],
+			'treatment2': ['dinner', 'wine', 'cheese', 'bread', 'coffee'],
+			'treatment3': ['dinner', 'food', 'meal', 'candles', 'coffee'],
+			'treatment4': ['pinnapple', 'apples', 'wine', 'cheese', 'coffee'],
+			'treatment5': ['cheese', 'bread', 'candles', 'bread', 
+				'cup of tea'],
+			'treatment6': ['dinning table', 'dinning items', 
+				'dinning and kicten table', 'kicten items', 'kicten table'],
+			'treatment7': ['cake', 'cup', 'fork', 'coffee', 'knife'],
+			'treatment8': ['drinks', 'pastries', 'breads', 'scrumptious', 
+				'cheese'],
+			'treatment9': ['crystal wine glasses', 'fresh pastry', 
+				'cup of expresso', 'evening supper', 'fresh bread and cheese'],
+			'treatment10': ['bread', 'cheese', 'pastries', 'coffee', 'wine'],
+			'treatment11': ['food', 'dessert', 'elegant', 'entertainment', 
+				'sweets'],
+			'treatment12': ['party', 'dessert', 'cheese', 'wine', 'bread'],
+			'treatment13': ['food', 'fest', 'dinner', 'romance', 'delicious'],
+		}
+
+		expected_test4_labels = {
+			'treatment0': ['tea', 'brew', 'brittle', 'cookie', 'orange'],
+			'treatment1': ['bread', 'lemon', 'coffee', 'mushroom', 'flowers'],
+			'treatment2': ['tea', 'lemon', 'dessert', 'honey', 'cookie'],
+			'treatment3': ['tea', 'flowers', 'dessert', 'fruit', 'cup'],
+			'treatment4': ['coffee', 'lemon', 'candies', 'cakes', 'pastries'],
+			'treatment5': ['tea cup', 'orange slices', 'flowers', 'biscuits', 
+				'spoon'],
+			'treatment6': ['Snack items', 'Snack and bake items', 'Bake items',
+				'Food items', 'Snack and food items'],
+			'treatment7': ['Coffee', 'Cake', 'Honey', 'Flower', 'Orange'],
+			'treatment8': ['hosting', 'dessert', 'wedding', 'tea', 'formal'],
+			'treatment9': ['Cup of Tea', 'Pasteries', 'wedges of Lemon', 
+				'Fresh cut flowers', 'Center Piece'],
+			'treatment10': ['Orange', 'Flower', 'Pastrie', 'Tea', 'Sunny'],
+			'treatment11': ['tea', 'orange', 'cookies', 'flowers', 'spoon'],
+			'treatment12': ['Desert', 'Tea', 'Orange slices', 'presentation', 
+				'Yum'],
+			'treatment13': ['breakfast', 'treats', 'fancy', 'tasty', 
+				'delicious'],
+		}
+
+
+		for treatment_id, treatment in self.exp_2_dataset.entries.items():
+
+			# pull out the expeted words for this treatment
+			expected_words = expected_test0_labels[treatment_id]
+
+			# get all the test0 words for this treatment
+			found_words = []
+			for key, value in treatment[0].items():
+				if isinstance(key, tuple):
+					if key[0] == 'test0':
+						found_words.append(value)
+
+			# check that we got the words we expected
+			self.assertItemsEqual(found_words, expected_words)
+
+
+
+
+
+
+		
 	def test_NoDuplicates(self):
 		seenWorkers = set()
 
@@ -300,12 +377,12 @@ class DataProcessingTestCase(unittest.TestCase):
 
 		# Test reading data having equally-sized treatments
 		data = dp.CleanDataset()
-		data.read_csv('amt_csv/test.csv')
+		data.read_csv('test/amt_csv/test.csv')
 		self.assertTrue(data.areTreatmentsEqual)
 
 		# Test reading data having unequally-sized treatments
 		data = dp.CleanDataset()
-		data.read_csv('amt_csv/test100.csv')
+		data.read_csv('test/amt_csv/test100.csv')
 		self.assertFalse(data.areTreatmentsEqual)
 
 
@@ -316,7 +393,7 @@ class DataProcessingTestCase(unittest.TestCase):
 		'''
 		# read the dataset
 		data = dp.CleanDataset()
-		data.read_csv('amt_csv/test100.csv')
+		data.read_csv('test/amt_csv/test100.csv')
 
 		# Verify that treatments are being reported as equal
 		self.assertFalse(data.areTreatmentsEqual)
@@ -358,7 +435,7 @@ class DataProcessingTestCase(unittest.TestCase):
 
 		# read the dataset
 		data = dp.CleanDataset()
-		data.read_csv('amt_csv/test100.csv')
+		data.read_csv('test/amt_csv/test100.csv')
 
 		min_treatment_size = min([len(t) for t in data.entries.values()])
 
@@ -378,7 +455,7 @@ class DataProcessingTestCase(unittest.TestCase):
 
 		# read the dataset
 		data = dp.CleanDataset()
-		data.read_csv('amt_csv/test100.csv')
+		data.read_csv('test/amt_csv/test100.csv')
 
 		min_treatment_size = min([len(t) for t in data.entries.values()])
 
@@ -392,14 +469,14 @@ class DataProcessingTestCase(unittest.TestCase):
 		size.  This verifies that the assumption is being checked'''
 
 		data = dp.CleanDataset()
-		data.read_csv('amt_csv/test100.csv')
+		data.read_csv('test/amt_csv/test100.csv')
 		with self.assertRaises(dp.CleanDatasetException):
 			data.subsample(80)
 	
 
 	def test_subsampleRotation(self):
 		data = dp.CleanDataset()
-		data.read_csv('amt_csv/test100.csv')
+		data.read_csv('test/amt_csv/test100.csv')
 		data.uniform_truncate()
 		treatment_size = len(data.entries.values()[0])
 		test_set_size = 3

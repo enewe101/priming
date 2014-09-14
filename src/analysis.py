@@ -71,7 +71,7 @@ def prob_k_successes(n,k):
 class Analyzer(object):
 
 	# Constants
-	ONTOLOGY_FILE = 'ontology/testOntology.json'
+	ONTOLOGY_FILE = 'ontology/ontology.json'
 
 	def __init__(self, dataset=None, ontology=None):
 		if dataset is None:

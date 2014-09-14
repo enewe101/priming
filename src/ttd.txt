@@ -1,0 +1,16 @@
+# check what was lost 
+	? where is testing data now
+		seems to be where it used to be.  New testing data is gone
+
+	? are the files staged for delete actually deleted?
+		No
+
+# make data processer load images in the correct way for new data
+	- test that it attributes images in the right way
+	- test that the correct number of images appears in each treatment
+
+# make the NB classifier calculate likelihood properly
+	- sum of log probabilities
+	- make a tests with synthetic classification data
+
+

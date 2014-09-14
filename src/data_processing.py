@@ -30,28 +30,41 @@ import csv
 
 
 
-def readDataset():
+def readDataset(is_exp_2_dataset=False):
 	'''
 	Factory method that builds a CleanDataset from the original Amazon
 	Mechanical Turk CSV files
 	'''
 
-	# Create a new priming-image-label-experiment dataset
-	dataSet = CleanDataset()
+	if not is_exp_2_dataset:
+		# Create a new priming-image-label-experiment dataset
+		dataSet = CleanDataset()
 
-	# Read from the raw amt csv files.  
-	# Note: order matters!  The older files have duplicates workers that
-	# get ignored.  Make sure to read the newer file files earlier
-	dataSet.read_csv('amt_csv/amt1_cut.csv', True)
-	dataSet.read_csv('amt_csv/amt2_cut.csv', True)
-	dataSet.read_csv('amt_csv/amt3_cut.csv', True)
+		# Read from the raw amt csv files.  
+		# Note: order matters!  The older files have duplicates workers that
+		# get ignored.  Make sure to read the newer file files earlier
+		dataSet.read_csv('amt_csv/exp_1_2014.04/amt1_cut.csv', True)
+		dataSet.read_csv('amt_csv/exp_1_2014.04/amt2_cut.csv', True)
+		dataSet.read_csv('amt_csv/exp_1_2014.04/amt3_cut.csv', True)
 
-	# The dataset needs to do some internal calts to refresh its state 
-	dataSet.aggregateCounts()
-	dataSet.calc_ktop(5)
+		# The dataset needs to do some internal calts to refresh its state 
+		dataSet.aggregateCounts()
+		dataSet.calc_ktop(5)
 
-	dataSet.uniform_truncate(125)
-	return dataSet
+		dataSet.uniform_truncate(125)
+		return dataSet
+
+	else:
+		# Create a new priming-image-label-experiment dataset
+		dataSet = CleanDataset(is_exp_2_dataset)
+
+		# Read from the raw amt csv files.  
+		# Note: order matters!  The older files have duplicates workers that
+		# get ignored.  Make sure to read the newer file files earlier
+		dataSet.read_csv('amt_csv/exp_2_2014.09/amt_cut_2014.09.csv')
+
+		dataSet.uniform_truncate()
+		return dataSet
 
 
 class CleanDatasetException(Exception):
@@ -63,12 +76,17 @@ class CleanDatasetRotationException(Exception):
 
 class CleanDataset(object):
 
-	# Constants
+	# CONSTANTS # 
+
 	K = 5
 	NUM_IMAGES = 5
 	NUM_WORDS_PER_IMAGE = 5
 
-	def __init__(self):
+	# Treatment Types
+	IMAGE_PRIMING = 0
+	FRAMING = 1
+
+	def __init__(self, is_exp_2_dataset=False):
 
 		# State flags
 		self.hasKtop = False		# whether ktop is up-to-date
@@ -92,6 +110,7 @@ class CleanDataset(object):
 										# treatments have the same number of 
 										# entries
 
+		self.is_exp_2_dataset = is_exp_2_dataset
 
 	# Use this to make all of the treatments have the same size 
 	def uniform_truncate(self, truncateSize=None):
@@ -110,6 +129,11 @@ class CleanDataset(object):
 				raise CleanDatasetException('CleanDataset.uniform_truncate: '\
 					'truncateSize must not be larger than smallest '\
 					'treatment size in data set.')
+
+		# tell the user that their data is being curtailed
+		for treatment_id, treatment in self.entries.items():
+			print '%s has %d entries.'% (treatment_id, len(treatment))
+		print 'truncating all treatments to %d entries' % truncateSize
 
 		# Make all treatments the same size
 		for treatment in self.entries.keys():
@@ -294,8 +318,23 @@ class CleanDataset(object):
 			newEntry['workerId'] = workerId
 
 			# Note the experimental treatment for this worker
-			tmt_id = 'treatment' + record['Answer.treatment_id']
+			treatment_index = int(record['Answer.treatment_id'])
+			tmt_id = 'treatment%d' % treatment_index
 			newEntry['treatment'] = tmt_id
+
+		
+			# For the original dataset it wasn't necessary to distinguish
+			# between "treatment types", i.e. framing or inter-task priming
+			if not self.is_exp_2_dataset:
+				treatment_type=None
+
+			# But we need to make that distinction for experiment 2 data
+			if self.is_exp_2_dataset:
+				if treatment_index < (2 * self.NUM_IMAGES):
+					treatment_type = self.IMAGE_PRIMING
+				else:
+					treatment_type = self.FRAMING
+
 
 			if tmt_id not in self.entries:
 				self.entries[tmt_id] = []
@@ -305,19 +344,50 @@ class CleanDataset(object):
 			# Record the image files used to prime this worker
 			newEntry['primingImageFiles'] = []
 
+			# TODO:
+			# handle the fact that images are permuted, so their ID is related
+			# to img_num in a complicated way.
+			# handle the fact that the framed images have no priming 
+			# images
 			# Do the following for both the priming and testing image-sets
 			for sub_treatment in ['prime', 'test']:
+
+				# The framing treatments in experiment2 dataset don't have
+				# and priming images
+				if (
+					treatment_type == self.FRAMING and 
+					self.is_exp_2_dataset and 
+					sub_treatment == 'prime'
+				):
+					continue
 
 				# Iterate over all the images in the image-set
 				for img_num in range(self.NUM_IMAGES):
 
 					# The test images are numbered sequentially, following the
 					# priming images, so we need to apply an offset
+					offset = 0
+					if sub_treatment == 'test':
+						offset = self.NUM_IMAGES
+
 					offset = 0 if sub_treatment=='prime' else self.NUM_IMAGES
 					amt_img_num = img_num + offset
 
+					# in the second experiment, the test images are permuted
+					# for the IMG_FOOD and IMG_OBJ treatments.  We need to
+					# ensure that the labels get attributed to the right images
+					if self.is_exp_2_dataset:
+						if treatment_type == self.IMAGE_PRIMING:
+							permutation_offset = treatment_index
+						else:
+							permutation_offset = 0
+					else:
+						permutation_offset = 0
+
 					# This is how we name images in the dataset
-					img_id = sub_treatment + str(img_num)
+					img_id = sub_treatment + str(
+							(img_num + permutation_offset) % self.NUM_IMAGES
+						)
 
 					# Record the name of the file for this image
 					newEntry['primingImageFiles'].append(
