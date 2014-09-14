@@ -5,6 +5,7 @@ import naive_bayes as nb
 import data_processing as dp
 import ontology
 import copy
+import numpy as np
 
 class OntologyTestCase(unittest.TestCase):
 	def setUp(self):
@@ -516,6 +517,215 @@ class DataProcessingTestCase(unittest.TestCase):
 		with self.assertRaises(dp.CleanDatasetRotationException):
 			data.rotateSubsample()
 
+
+class NaiveBayesCrossValidationTest(unittest.TestCase):
+	def setUp(self):
+		pass
+
+	def test_partitioning(self):
+		pass
+
+	def test_overall_accuracy(self):
+		pass
+
+
+class NewNaiveBayesTextClassifierTestCase(unittest.TestCase):
+	def setUp(self):
+		self.CLASS_1 = 'pies'
+		self.CLASS_2 = 'fruits'
+
+		self.examples_for_class_1 = [
+			(self.CLASS_1, 'apple', 'rhubarb', 'cherry'),
+			(self.CLASS_1, 'sugar', 'apple', 'meat'),
+			(self.CLASS_1, 'pecan', 'apple', 'pumpkin'),
+		]
+
+		self.examples_for_class_2 = [
+			(self.CLASS_2, 'apple', 'orange', 'lemon'),
+			(self.CLASS_2, 'cherry', 'apple', 'grape'),
+			(self.CLASS_2, 'raspberry', 'apple', 'lime'),
+			(self.CLASS_2, 'banana', 'strawberry', 'grape'),
+		]
+
+		self.all_examples = (
+			self.examples_for_class_1 + self.examples_for_class_2)
+
+		# flatten the examples to keep a set of all features observed;
+		# and preserve multiplicity
+		self.features_for_class_1 = reduce(lambda x,y: x+y,
+				map(lambda x: x[1:], self.examples_for_class_1))
+
+		self.features_for_class_2 = reduce(lambda x,y: x+y,
+				map(lambda x: x[1:], self.examples_for_class_2))
+
+		self.all_features_list = (
+			self.features_for_class_1 + self.features_for_class_2)
+		self.all_features_set = set(self.all_features_list)
+
+		self.classifier = nb.NewNaiveBayesTextClassifier()
+		self.classifier.train(self.all_examples)
+
+
+	def test_predictions(self):
+		# An obvious classification as 'CLASS_1'
+		self.assertEqual(
+			self.classifier.classify(('meat', 'rhubarb', 'pumpkin')),
+			self.CLASS_1
+		)
+
+		# An obvious classification as 'CLASS_2'
+		self.assertEqual(
+			self.classifier.classify(('lemon', 'grape', 'banana')),
+			self.CLASS_2
+		)
+
+		# Less obvious, but should be CLASS_1
+		self.assertEqual(
+			self.classifier.classify(('lemon', 'rhubarb', 'pumpkin')),
+			self.CLASS_1
+		)
+
+		# An example that is probable for both classes.
+		# Close to a tie, but CLASS_2 has a greater prior, so wins
+		self.assertEqual(
+			self.classifier.classify(('apple', 'cherry')),
+			self.CLASS_2
+		)
+
+		# An example that is improbable for both classes.
+		# Close to a tie, but CLASS_2 has a greater prior, so wins
+		self.assertEqual(
+			self.classifier.classify(('rhubarb', 'lemon')),
+			self.CLASS_2
+		)
+
+
+	def test_conditional_probability_calculations(self):
+		for feature in self.all_features_set:
+
+			#### test conditional probabilities related to class 1
+
+			# test for class 1 without add-1-smoothing
+			num_occurences_class_1 = self.features_for_class_1.count(feature)
+			num_examples_class_1 = len(self.examples_for_class_1) 
+
+			found_cond_prob = self.classifier.get_cond_prob(
+				feature, self.CLASS_1, use_add_one_smoothing=False)
+
+			expected_cond_prob = (
+				num_occurences_class_1 / float(num_examples_class_1))
+
+			self.assertEqual(found_cond_prob, expected_cond_prob)
+
+			# test for class 1 *with* add-1-smoothing
+			num_occurences_class_1 += 1
+			num_examples_class_1 += len(self.all_features_set)
+
+			found_cond_prob = self.classifier.get_cond_prob(
+				feature, self.CLASS_1)
+			expected_cond_prob = (
+				num_occurences_class_1 / float(num_examples_class_1))
+
+			#### reapeat for class 2
+
+			# test for class 2 without add-1-smoothing
+			num_occurences_class_2 = self.features_for_class_2.count(feature)
+			num_examples_class_2 = len(self.examples_for_class_2) 
+
+			found_cond_prob = self.classifier.get_cond_prob(
+				feature, self.CLASS_2, use_add_one_smoothing=False)
+
+			expected_cond_prob = (
+				num_occurences_class_2 / float(num_examples_class_2))
+
+			self.assertEqual(found_cond_prob, expected_cond_prob)
+
+			# test for class 2 *with* add-2-smoothing
+			num_occurences_class_2 += 1
+			num_examples_class_2 += len(self.all_features_set)
+
+			found_cond_prob = self.classifier.get_cond_prob(
+				feature, self.CLASS_2)
+			expected_cond_prob = (
+				num_occurences_class_2 / float(num_examples_class_2))
+
+			self.assertEqual(found_cond_prob, expected_cond_prob)
+
+
+	def test_train(self):
+
+		# test that the global feature counts are right
+		for feature in self.all_features_set:
+			self.assertEqual(
+				self.classifier.global_feature_counts[feature], 
+				reduce(lambda x,y: x+y, self.all_examples).count(feature)
+			)
+
+		# test that the feature counts are right on a per-class basis
+		for feature in self.all_features_set:
+			self.assertEqual(
+				self.classifier.feature_counts[self.CLASS_1][feature],
+				self.features_for_class_1.count(feature)
+			)
+			self.assertEqual(
+				self.classifier.feature_counts[self.CLASS_2][feature],
+				self.features_for_class_2.count(feature)
+			)
+					
+		# test that class counts are correct:
+		self.assertEqual(self.classifier.class_counts[self.CLASS_1], 
+			len(self.examples_for_class_1))
+		self.assertEqual(self.classifier.class_counts[self.CLASS_2], 
+			len(self.examples_for_class_2))
+
+		# test the tallies of unique features and represented classes 
+		self.assertEqual(self.classifier.get_num_classes(), 2)
+		self.assertEqual(self.classifier.get_num_features(), 
+			len(self.all_features_set))
+
+		#### try removing examples to ensure that all tallies are updated 
+		#### correctly
+		self.classifier.remove_example(self.examples_for_class_1[0])
+
+		# test that the global feature counts are right
+		for feature in self.all_features_set:
+			self.assertEqual(
+				self.classifier.global_feature_counts[feature], 
+				reduce(lambda x,y: x+y, self.all_examples).count(feature)
+				- self.examples_for_class_1[0].count(feature)
+			)
+
+		# test that the feature counts are right on a per-class basis
+		for feature in self.all_features_set:
+			self.assertEqual(
+				self.classifier.feature_counts[self.CLASS_1][feature],
+				self.features_for_class_1.count(feature) 
+				- self.examples_for_class_1[0].count(feature)
+			)
+			self.assertEqual(
+				self.classifier.feature_counts[self.CLASS_2][feature],
+				self.features_for_class_2.count(feature)
+			)
+
+		# test that class counts are correct:
+		self.assertEqual(self.classifier.class_counts[self.CLASS_1], 
+			len(self.examples_for_class_1) - 1)
+		self.assertEqual(self.classifier.class_counts[self.CLASS_2], 
+			len(self.examples_for_class_2))
+
+		# test the tallies of unique features and represented classes
+		self.assertEqual(self.classifier.get_num_classes(), 2)
+		self.assertEqual(self.classifier.get_num_features(), 
+			len(self.all_features_set) - 1)
+
+		#### remove all the examples for class 1!
+		for example in self.examples_for_class_1[1:]:
+			self.classifier.remove_example(example)
+
+		# test the tallies of unique features and represented classes
+		self.assertEqual(self.classifier.get_num_classes(), 1)
+		self.assertEqual(self.classifier.get_num_features(), 
+			len(set(self.features_for_class_2)))
 
 
 

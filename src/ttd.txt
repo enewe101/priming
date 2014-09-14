@@ -6,11 +6,11 @@
 		No
 
 # make data processer load images in the correct way for new data
-	- test that it attributes images in the right way
-	- test that the correct number of images appears in each treatment
+	x test that it attributes images in the right way
 
 # make the NB classifier calculate likelihood properly
 	- sum of log probabilities
+	- add one smoothing
 	- make a tests with synthetic classification data
 
 
