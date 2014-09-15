@@ -6,6 +6,7 @@ import data_processing as dp
 import ontology
 import copy
 import numpy as np
+import json
 
 class OntologyTestCase(unittest.TestCase):
 	def setUp(self):
@@ -254,6 +255,55 @@ class DataProcessingTestCase(unittest.TestCase):
 
 		self.exp_2_dataset = dp.CleanDataset(is_exp_2_dataset=True)
 		self.exp_2_dataset.read_csv('test/amt_csv/exp_2_test_13.csv')
+
+
+	def test_dataset_adaptor(self):
+		'''
+		make sure that the dataset adaptor converts a clean dataset into
+		the expected format for the naive bayes cross validation tester
+		'''
+
+		dataset = dp.CleanDataset()
+		dataset.read_csv('test/amt_csv/test.csv')
+		found_naive_bayes_dataset = dp.clean_dataset_adaptor(dataset)
+
+		expected_naive_bayes_dataset = {
+			'treatment1': [
+				('treatment1', ('test0', 'ganesh'), ('test0', 'shiva'), 
+					('test0', 'vishnu'), ('test0', 'food'), 
+					('test0', 'yogurt')),
+				('treatment1', ('test0', 'ganesh'), ('test0', 'shiva'), 
+					('test0', 'x'), ('test0', 'food'), ('test0', 'x'))
+			],
+			'treatment2': [
+				('treatment2', ('test0', 'god'), ('test0', 'hinduism'), 
+					('test0', 'dairy'), ('test0', 'pastry'), 
+					('test0', 'lamb')),
+				('treatment2', ('test0', 'god'), ('test0', 'hinduism'), 
+					('test0', 'x'), ('test0', 'pastry'), ('test0', 'x'))
+			],
+			'treatment3': [
+				('treatment3', ('test0', 'cultural'), ('test0', 'food'), 
+					('test0', 'thing'), ('test0', 'activity'), 
+					('test0', 'adj')),
+				('treatment3', ('test0', 'x'), ('test0', 'food'), 
+					('test0', 'thing'), ('test0', 'activity'), 
+					('test0', 'adj'))
+			],
+			'treatment4': [
+				('treatment4', ('test0', 'god'), ('test0', 'hinduism'), 
+					('test0', 'feast'), ('test0', 'naan'), 
+					('test0', 'curry')),
+				('treatment4', ('test0', 'god'), ('test0', 'hinduism'), 
+					('test0', 'feast'), ('test0', 'naan'), ('test0', 'x'))
+			]
+		}
+
+		print json.dumps(found_naive_bayes_dataset, indent=2)
+
+		self.assertEqual(
+			found_naive_bayes_dataset, expected_naive_bayes_dataset)
+
 
 
 	def test_exp_2_data_permutation(self):

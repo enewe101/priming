@@ -9,8 +9,40 @@
 	x test that it attributes images in the right way
 
 # make the NB classifier calculate likelihood properly
-	- sum of log probabilities
-	- add one smoothing
-	- make a tests with synthetic classification data
+	x sum of log probabilities
+	x add one smoothing
+	x make a tests with synthetic classification data
+
+# make a cross-validator
+	x test for proper data partitioning
+	x test for proper performance on synthetic data
+
+# Functional parts that need to be built:
+ 	x dataset adaptor: 
+		- repackages clean dataset into class-sorted examples in the format
+			expected by the naive bayes classifier cross validation test
+		- allows one to select labels are included (i.e. labels attributed to
+			which image). 
+
+	x analysis function:
+		- reads in old dataset
+		- uses a dataset adaptor to take features associated to test0
+		- performs cross validation on IMG-FOOD and IMG-CULT
+		- repeats, using the new dataset
+
+# What are the interesting analyses to do?
+	old data:
+		[] difference in priming between IMG-FOOD and IMG-CULT
+		[] specificity testing, compare IMG-FOOD, IMG-CULT, IMG-INGR
+			in the degree of specificity of their test-labels, and 
+			measure the similarities of each of these to the testing images
+
+	new data:
+		[] difference in priming between IMG-FOOD and IMG-OBJ
+		[] difference in priming between FRM-FOOD and FRM-OBJ
+		[] longitudinal difference in priming between IMG-FOOD and IMG-OBJ
+		[] fraction of food-related words in IMG-FOOD and IMG-OBJ
+			fraction of non-food-object-related words?
+
 
 

@@ -159,6 +159,8 @@ class NBDataset(object):
 
 		return testSet
 
+	
+
 
 class NaiveBayesException(Exception):
 	pass

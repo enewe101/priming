@@ -26,7 +26,7 @@ import util
 import random
 import json
 import csv
-
+from collections import defaultdict
 
 
 
@@ -73,6 +73,52 @@ class CleanDatasetException(Exception):
 
 class CleanDatasetRotationException(Exception):
 	pass
+
+
+def clean_dataset_adaptor(clean_dataset, images=['test0']):
+	'''
+	extracts a dataset from the clean_dataset object in the format expected
+	by the naive bayes cross validation tester.  
+	'''
+
+	# we'll accumulate the new dataset in here
+	naive_bayes_dataset = defaultdict(lambda: [])
+
+	# walk over all the treatments
+	for treatment in clean_dataset.entries:
+
+		# walk over all the entries.  Entries in the new dataset are called
+		# "examples"
+		for entry in clean_dataset.entries[treatment]:
+
+			# the example always has the treatment name as the first component
+			example = [treatment]
+
+			# It isn't strictly necessary, but we are preserving the position
+			# of the label (i.e. label put in first or second text-box?)
+			all_items = sorted(entry.items())
+
+			# filter out just the labels attributed to the image(s) of 
+			# interest
+			for image in images:
+				labels_for_image = filter(lambda x: x[0][0]==image, all_items)
+
+				# this may look a bit strange.  We're just repacking the
+				# info we want -- features are image-label tuples 
+				features_for_image = [
+					(image, word) for (image, pos), word in labels_for_image]
+
+				# tack on the features from this image onto the example
+				example.extend(features_for_image)
+
+			# add the example to the new dataset
+			naive_bayes_dataset[treatment].append(tuple(example))
+
+	return dict(naive_bayes_dataset)
+				
+
+
+
 
 class CleanDataset(object):
 
