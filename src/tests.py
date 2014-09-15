@@ -430,6 +430,7 @@ class DataProcessingTestCase(unittest.TestCase):
 				+ [e['workerId'] for e in data.unusedEntries[treatment]])
 			self.assertItemsEqual(treatment_entries, record_entries[treatment])
 
+
 	def test_uniformTruncateCustomSize(self):
 		'''ensure that you can specify a desired truncation size, and that
 		it must not be larger than the size of the smallest treatment'''
@@ -520,10 +521,125 @@ class DataProcessingTestCase(unittest.TestCase):
 
 class NaiveBayesCrossValidationTest(unittest.TestCase):
 	def setUp(self):
-		pass
+
+		self.easy_dataset = {
+			'fruits': [
+				('fruits', 'apple', 'apple', 'orange'),
+				('fruits', 'pear', 'apple', 'orange'),
+				('fruits', 'apple', 'pear', 'pear'),
+				('fruits', 'pear', 'orange', 'pear'),
+				('fruits', 'apple', 'pear', 'orange')
+			],
+			'colours': [
+				('colours', 'cyan', 'orange', 'puple'),
+				('colours', 'cyan', 'cyan', 'purple'),
+				('colours', 'purple', 'cyan', 'orange'),
+				('colours', 'purple', 'purple', 'orange'),
+				('colours', 'orange', 'cyan', 'cyan'),
+			]
+		}
+
+		self.unlearnable_dataset = {
+			'fruits': [
+				('fruits', 'pineapple', 'cherry', 'lemon'),
+				('fruits', 'banana', 'lime', 'grapefruit'),
+				('fruits', 'tomato', 'watermelon', 'grape'),
+			],
+
+			'colours': [
+				('colours', 'red', 'green', 'yellow'),
+				('colours', 'blue', 'purple', 'brown'),
+				('colours', 'pink', 'indigo', 'black'),
+			]
+		}
+
+		self.adversarial_dataset = {
+			'fruits': [
+				('fruits', 'pineapple', 'cherry', 'lemon'),
+				('fruits', 'banana', 'lime', 'grapefruit'),
+				('fruits', 'tomato', 'watermelon', 'grape'),
+				('fruits', 'red', 'green', 'yellow'),
+				('fruits', 'blue', 'purple', 'brown'),
+				('fruits', 'pink', 'indigo', 'black'),
+			],
+
+			'colours': [
+				('colours', 'pineapple', 'cherry', 'lemon'),
+				('colours', 'banana', 'lime', 'grapefruit'),
+				('colours', 'tomato', 'watermelon', 'grape'),
+				('colours', 'red', 'green', 'yellow'),
+				('colours', 'blue', 'purple', 'brown'),
+				('colours', 'pink', 'indigo', 'black'),
+			]
+		}
+
+	def test_performance(self):
+		cross_validator = nb.NaiveBayesCrossValidationTester(self.easy_dataset)
+		overall_accuracy =  cross_validator.cross_validate(5)
+		self.assertEqual(overall_accuracy, 1.0)
+
+		cross_validator = nb.NaiveBayesCrossValidationTester(
+			self.unlearnable_dataset)
+		overall_accuracy =  cross_validator.cross_validate(3)
+		self.assertEqual(overall_accuracy, 0.5)
+
+		cross_validator = nb.NaiveBayesCrossValidationTester(
+			self.adversarial_dataset)
+		overall_accuracy =  cross_validator.cross_validate(6)
+		self.assertTrue(overall_accuracy <= 0.5)
+
+
 
 	def test_partitioning(self):
-		pass
+	
+		cross_validator = nb.NaiveBayesCrossValidationTester(self.easy_dataset)
+		num_examples_per_class = len(self.easy_dataset['fruits'])
+
+		# we'll try a series of different cross validation partitionning 
+		# schedules, one for each possible number of folds
+		# for each, we check that all examples get used once and only once
+		# for testing, and that in a given fold, no example is used in both
+		# the test and training sets.
+		for num_folds in range(2, num_examples_per_class + 1):
+
+			test_set_size = num_examples_per_class / int(num_folds)
+			used_test_examples = set()
+			for fold in range(num_folds):
+
+				is_last = bool(fold == num_folds - 1)
+				test_set = cross_validator.extract_test_set(
+					fold, test_set_size, is_last)
+
+				all_training_examples = list(
+					cross_validator.classifier.examples)
+				all_test_examples = reduce(lambda x,y: x+y, test_set.values())
+
+				# examples shouldn't get used more than once for testing
+				self.assertEqual(
+					len(used_test_examples & set(all_test_examples)), 0)
+
+				used_test_examples |= set(all_test_examples)
+				for class_name in test_set:
+					self.assertTrue(
+						len(test_set[class_name]) <=  test_set_size
+						or is_last
+					)
+
+				# There should be no overlap between the testing and training 
+				# examples
+				pollution = set(all_test_examples) & set(all_training_examples)
+				self.assertEqual(len(pollution), 0)
+
+				cross_validator.put_test_set_back_in_training_set(test_set)
+
+			all_examples = set(
+					self.easy_dataset['colours'] + self.easy_dataset['fruits'])
+
+			# all examples should be used once for testing
+			self.assertItemsEqual(all_examples, used_test_examples)
+			
+
+
 
 	def test_overall_accuracy(self):
 		pass

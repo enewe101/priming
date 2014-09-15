@@ -159,6 +159,7 @@ class NBDataset(object):
 
 		return testSet
 
+
 class NaiveBayesException(Exception):
 	pass
 
@@ -197,7 +198,6 @@ class NaiveBayesCrossValidationTester(object):
 		self.dataset = copy.copy(dataset)
 		self.num_classes = len(self.dataset)
 		self.scores = None
-		self.classifier = None
 		self.are_results_available = False
 
 		# Randomize the examples' ordering.
@@ -214,8 +214,17 @@ class NaiveBayesCrossValidationTester(object):
 				raise NaiveBayesCrossValidationException('The classes must '
 					'all have the same number of examples.')
 
+		# as a way to speed computation, we the NBClassifier supports 
+		# removing examples from the training set, so that when testing for
+		# a new fold, the test set can be removed rather than retraining on
+		# the whole training set.  We therefore begin by training on the whole 
+		# set.  This has been tested to ensure it does not cause "pollution".
+		self.classifier = NewNaiveBayesTextClassifier()
+		for class_name in self.dataset:
+			self.classifier.train(self.dataset[class_name])
 
-	def extract_test_set(self, fold, test_set_size):
+
+	def extract_test_set(self, fold, test_set_size, is_last=True):
 		'''
 		this was made as separate function to provide a testable interface.
 		This removes a subset of examples from each class to be used as a 
@@ -226,8 +235,11 @@ class NaiveBayesCrossValidationTester(object):
 		for class_name in self.dataset:
 
 			# select the examples to be used as the test set for this class
-			start = fold*test_set_size
+			start = fold * test_set_size
 			end = start + test_set_size
+			if is_last:
+				end = None
+
 			test_set[class_name] = self.dataset[class_name][start:end]
 
 			# ensure that these examples are excluded from the training set
@@ -253,17 +265,19 @@ class NaiveBayesCrossValidationTester(object):
 		of classifications correct, for each class.
 		'''
 
+		k = int(k)
+
+		# Make sure k is within the allowed range
+		if k < 2:
+			raise NaiveBayesCrossValidationException('You must have more than '
+				'one fold for the cross validation test.')
 		if k > self.num_examples_per_class:
 			raise NaiveBayesCrossValidationException('Their cannot be more '
 				'folds than there are examples in each class!')
 
-		test_set_size = self.num_examples_per_class / int(k)
+		test_set_size = self.num_examples_per_class / k
 
 		# TODO: test to ensure no pollution
-
-		self.classifier = NewNaiveBayesTextClassifier()
-		for class_name in self.dataset:
-			self.classifier.train(self.dataset[class_name])
 
 		# to save computation time, the NaiveBayesClassifier supports 
 		# "removing" examples, which limits the number of conditional 
@@ -272,10 +286,11 @@ class NaiveBayesCrossValidationTester(object):
 		# Testing shows that there is no pollution from doing this.
 		self.scores = Counter()
 
-		for fold in range(k+1):
+		for fold in range(k):
 
-			print 'starting fold %d' % fold
-			test_set = self.extract_test_set(fold, test_set_size)
+
+			is_last = bool(fold == k - 1)
+			test_set = self.extract_test_set(fold, test_set_size, is_last)
 
 			for class_name in test_set:
 				for example in test_set[class_name]:
@@ -291,7 +306,6 @@ class NaiveBayesCrossValidationTester(object):
 
 		# return the overall accuracy.  
 		# Other performance metrics are available through method calls.
-		print self.scores
 		return sum(self.scores.values()) / float(
 			self.num_examples_per_class * self.num_classes)
 
@@ -313,7 +327,7 @@ class NewNaiveBayesTextClassifier(object):
 	IMPOSSIBLE = None
 
 	def __init__(self):
-		self.examples = set()
+		self.examples = Counter()
 
 		# global counts is used to keep track of the set of all features
 		# if a given feature count goes down to zero, then we don't consider
@@ -339,7 +353,7 @@ class NewNaiveBayesTextClassifier(object):
 		class_name = example[0]
 		features = example[1:]
 
-		self.examples.add(example)
+		self.examples[example] += 1
 		self.num_examples += 1
 		self.class_counts[class_name] += 1
 		self.global_feature_counts.update(features)
@@ -363,7 +377,10 @@ class NewNaiveBayesTextClassifier(object):
 		class_name = example[0]
 
 		# remove the example and its contribution to feature counts
-		self.examples.remove(example)
+		self.examples[example] -= 1
+		if self.examples[example] == 0:
+			del self.examples[example]
+
 		self.num_examples -= 1
 		self.class_counts[class_name] -= 1
 		self.global_feature_counts.subtract(features)
