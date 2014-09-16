@@ -26,7 +26,7 @@ import util
 import random
 import json
 import csv
-from collections import defaultdict
+from collections import defaultdict, Counter
 
 
 
@@ -75,7 +75,11 @@ class CleanDatasetRotationException(Exception):
 	pass
 
 
-def clean_dataset_adaptor(clean_dataset, images=['test0']):
+def clean_dataset_adaptor(
+		clean_dataset, 
+		treatments=['treatment0', 'treatment1'], 
+		images=['test0']
+	):
 	'''
 	extracts a dataset from the clean_dataset object in the format expected
 	by the naive bayes cross validation tester.  
@@ -85,7 +89,7 @@ def clean_dataset_adaptor(clean_dataset, images=['test0']):
 	naive_bayes_dataset = defaultdict(lambda: [])
 
 	# walk over all the treatments
-	for treatment in clean_dataset.entries:
+	for treatment in treatments:
 
 		# walk over all the entries.  Entries in the new dataset are called
 		# "examples"
@@ -177,9 +181,9 @@ class CleanDataset(object):
 					'treatment size in data set.')
 
 		# tell the user that their data is being curtailed
-		for treatment_id, treatment in self.entries.items():
-			print '%s has %d entries.'% (treatment_id, len(treatment))
-		print 'truncating all treatments to %d entries' % truncateSize
+		#for treatment_id, treatment in self.entries.items():
+		#	print '%s has %d entries.'% (treatment_id, len(treatment))
+		#print 'truncating all treatments to %d entries' % truncateSize
 
 		# Make all treatments the same size
 		for treatment in self.entries.keys():
@@ -555,6 +559,14 @@ class CleanDataset(object):
 			string += word + ' ' + str(frequency) + '\n'
 
 		return string
+
+
+	def get_counts_for_treatment_image(self, treatment, image):
+		'''
+		return word counts, in the form of a Counter, associated to a given
+		treatment and image.
+		'''
+		return Counter(self.counts[(treatment, image, None)])
 
 
 	def list_counts_for_tmt_img(self, treatment_id, image_id):

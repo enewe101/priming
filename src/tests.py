@@ -1,3 +1,4 @@
+from collections import Counter
 import util
 import unittest
 import analysis
@@ -7,6 +8,241 @@ import ontology
 import copy
 import numpy as np
 import json
+import wordnet_analysis as wna
+from nltk.corpus import wordnet as wn
+
+
+class CalculateRelativeSpecificityTestCase(unittest.TestCase):
+
+	def test_relative_specificity(self):
+		synset_counts_1 = Counter({
+			'bread.n.01': 3
+		})
+		synset_counts_2 = Counter({
+			'food.n.01': 1,
+			'food.n.02': 2,
+			'bun.n.01': 1
+		})
+
+		# each instance of bread in counts_1 is more specific than the three 
+		# food instances in counts_2, adding 9 to the score; but the instance
+		# of bun in counts_2 is more specific than each of the three instances
+		# of bread, removing 3... so...
+		expected_relative_specificity = 6
+		relative_specificity = wna.calculate_relative_specificity(
+			synset_counts_1, synset_counts_2)
+
+		self.assertEqual(relative_specificity, expected_relative_specificity)
+
+		# ensure symmetry
+		expected_relative_specificity = -6
+		relative_specificity = wna.calculate_relative_specificity(
+			synset_counts_2, synset_counts_1)
+
+		self.assertEqual(relative_specificity, expected_relative_specificity)
+
+
+
+class WordnetAnalysisTestCase(unittest.TestCase):
+
+	def test_get_all_synsets(self):
+		test_word = 'hot dog'
+		found_synsets = wna.get_all_synsets(test_word)
+		expected_synsets = set(['hotdog.n.01', 'hotdog.n.02', 'frank.n.02', 
+			'hot.a.01', 'hot.s.02', 'hot.a.03', 'hot.s.04', 'hot.s.05', 
+			'hot.s.06', 'blistering.s.03', 'hot.s.08', 'hot.s.09', 
+			'hot.s.10', 'hot.s.11', 'hot.s.12', 'hot.s.13', 'hot.s.14', 
+			'hot.s.15', 'hot.s.16', 'hot.s.17', 'hot.s.18', 'hot.s.19', 
+			'hot.s.20', 'hot.s.21', 'dog.n.01', 'frump.n.01', 'dog.n.03', 
+			'cad.n.01', 'frank.n.02', 'pawl.n.01', 'andiron.n.01', 
+			'chase.v.01'
+		])
+
+		self.assertItemsEqual(found_synsets, expected_synsets)
+
+	def test_map_to_synsets(self):
+		dataset = dp.CleanDataset()
+		dataset.read_csv('test/amt_csv/test.csv')
+		found_synsets = wna.map_to_synsets(dataset, 'treatment1', 'test0')
+		expected_synsets = Counter({
+			'food.n.03': 2, 'food.n.02': 2, 'food.n.01': 2, 'adam.n.03': 2, 
+			'ten.s.01': 2, 'x.n.02': 2, 'siva.n.01': 2, 'shiva.n.01': 2, 
+			'ten.n.01': 2, 'ganesh.n.01': 2, 'yogurt.n.01': 1, 
+			'vishnu.n.01': 1
+		})
+
+		self.assertEqual(found_synsets, expected_synsets)
+
+
+class SynsetHypoProxy(object):
+	def __init__(self, name, children):
+		self.name = name
+		self.children = children
+		self.do_raise = False
+
+	def hyponyms(self):
+		if self.do_raise:
+			raise Exception('caching should have prevented '
+				'this from being called')
+
+		return self.children
+
+class SynsetHyperProxy(object):
+	def __init__(self, name, children):
+		self.name = name
+		self.children = children
+		self.do_raise = False
+
+	def hypernyms(self):
+		if self.do_raise:
+			raise Exception('caching should have prevented '
+				'this from being called')
+
+		return self.children
+
+
+class WordnetRelativesCalculatorTestCase(unittest.TestCase):
+
+	def test_descendant_counter(self):
+
+		I = SynsetHypoProxy('I', [])
+		H = SynsetHypoProxy('H', [])
+		G = SynsetHypoProxy('G', [])
+		F = SynsetHypoProxy('F', [I])
+		E = SynsetHypoProxy('E', [])
+		D = SynsetHypoProxy('D', [G,H])
+		C = SynsetHypoProxy('C', [D,F])
+		B = SynsetHypoProxy('B', [D,E])
+		A = SynsetHypoProxy('A', [B,C,F])
+
+		synset_counts = Counter(['H', 'I'])
+
+		descendants_counter = wna.WordnetRelativesCalculator(synset_counts)
+		count = descendants_counter.count(A)
+		expected_count = 4
+
+		self.assertEqual(count, expected_count)
+
+	def test_ancester_counter(self):
+
+		I = SynsetHyperProxy('I', [])
+		H = SynsetHyperProxy('H', [])
+		G = SynsetHyperProxy('G', [])
+		F = SynsetHyperProxy('F', [I])
+		E = SynsetHyperProxy('E', [])
+		D = SynsetHyperProxy('D', [G,H])
+		C = SynsetHyperProxy('C', [D,F])
+		B = SynsetHyperProxy('B', [D,E])
+		A = SynsetHyperProxy('A', [B,C,F])
+
+		synset_counts = Counter(['H', 'I', 'I'])
+
+		descendants_counter = wna.WordnetRelativesCalculator(
+			synset_counts, search_ancesters=True)
+
+		# Before testing the ancester counter, check that the do_raise 
+		# flag is working... see below
+		A.do_raise = True
+		with self.assertRaises(Exception):
+			count = descendants_counter.count(A)
+		A.do_raise = False
+
+		# now continue with the test
+		count = descendants_counter.count(A)
+		expected_count = 6
+		self.assertEqual(count, expected_count)
+
+		# the descendants counter caches previous results, so that calling
+		# this will not actually traverse, but merely retrieve the count at
+		# C.  This is checked by setting do_raise, which would raise an 
+		# exception if C.hypernyms() was called
+		C.do_raise = True
+		count = descendants_counter.count(C)
+		expected_count = 3
+		self.assertEqual(count, expected_count)
+
+
+
+
+class DFSTestCase(unittest.TestCase):
+	def setUp(self):
+		self.c6 = {'name':'c6'}
+		self.c5 = {'name':'c5'}
+		self.c4 = {'name':'c4'}
+		self.c3 = {
+			'name':'c3',
+			'children': [self.c5, self.c6]
+		}
+		self.c2 = {
+			'name': 'c2',
+			'children': [self.c3, self.c5]
+		}
+		self.c1 = {
+			'name': 'c1',
+			'children': [self.c3, self.c4]
+		}
+		self.c0 = {
+			'name': 'c0',
+			'children': [self.c1, self.c2]
+		}
+
+
+	def get_node_hash(node):
+		return node['name']
+
+	def get_children_callback(node):
+		if 'children' in node:
+			return node['children']
+		else:
+			return []
+
+	def inter_node_callback(node, child_vals):
+		return node['name'] + ' -> ' + '; '.join(child_vals)
+
+	def leaf_node_callback(node):
+		return node['name']
+
+	def abort_branch_callback(node):
+		if node['name'] == 'c3':
+			return True
+
+		return False
+
+
+	def test_dfs_duplicate_allowed(self):
+		# make a dfs using the callbacks and 
+		self.dfs = wna.DFS(
+			self.get_node_hash,
+			self.get_children_callback,
+			self.inter_node_callback,
+			self.leaf_node_callback,
+			self.abort_branch_callback,
+			allow_double_process=True
+		)
+
+		found_walk = self.dfs.walk(self.c0)
+		expected_walk = 'c0 -> c1 -> c3; c4; c2 -> c3; c5'
+
+		self.assertEqual(expected_walk, found_walk)
+
+
+	def test_dfs_duplicate_not_allowed(self):
+		# make a dfs using the callbacks and 
+		self.dfs = wna.DFS(
+			self.get_node_hash,
+			self.get_children_callback,
+			self.inter_node_callback,
+			self.leaf_node_callback,
+			self.abort_branch_callback,
+			allow_double_process=False
+		)
+
+		found_walk = self.dfs.walk(self.c0)
+		expected_walk = 'c0 -> c1 -> c3; c4; c2 -> c5'
+
+		self.assertEqual(expected_walk, found_walk)
+
+
 
 class OntologyTestCase(unittest.TestCase):
 	def setUp(self):
@@ -265,7 +501,10 @@ class DataProcessingTestCase(unittest.TestCase):
 
 		dataset = dp.CleanDataset()
 		dataset.read_csv('test/amt_csv/test.csv')
-		found_naive_bayes_dataset = dp.clean_dataset_adaptor(dataset)
+		found_naive_bayes_dataset = dp.clean_dataset_adaptor(dataset,
+			treatments=['treatment1', 'treatment2', 'treatment3', 
+				'treatment4']
+		)
 
 		expected_naive_bayes_dataset = {
 			'treatment1': [
@@ -299,8 +538,15 @@ class DataProcessingTestCase(unittest.TestCase):
 			]
 		}
 
-		print json.dumps(found_naive_bayes_dataset, indent=2)
+		self.assertEqual(
+			found_naive_bayes_dataset, expected_naive_bayes_dataset)
 
+		# now try restricting the treatments
+		found_naive_bayes_dataset = dp.clean_dataset_adaptor(dataset,
+			treatments=['treatment2', 'treatment4']
+		)
+		del expected_naive_bayes_dataset['treatment1']
+		del expected_naive_bayes_dataset['treatment3']
 		self.assertEqual(
 			found_naive_bayes_dataset, expected_naive_bayes_dataset)
 

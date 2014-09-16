@@ -19,16 +19,22 @@
 
 # Functional parts that need to be built:
  	x dataset adaptor: 
-		- repackages clean dataset into class-sorted examples in the format
+		x repackages clean dataset into class-sorted examples in the format
 			expected by the naive bayes classifier cross validation test
-		- allows one to select labels are included (i.e. labels attributed to
+		x allows one to select labels are included (i.e. labels attributed to
 			which image). 
 
 	x analysis function:
-		- reads in old dataset
-		- uses a dataset adaptor to take features associated to test0
-		- performs cross validation on IMG-FOOD and IMG-CULT
-		- repeats, using the new dataset
+		x reads in old dataset
+		x uses a dataset adaptor to take features associated to test0
+		x performs cross validation on IMG-FOOD and IMG-CULT
+		x repeats, using the new dataset
+
+	[] create a specificity tester for wordnet
+		[] map words from treatments A and B into respective synset counts
+		[] given a synset from A, how many synsets in B are ancester do it?
+			descendant from it?
+		[] count ancester minus descendant for each synset in one example set
 
 # What are the interesting analyses to do?
 	old data:

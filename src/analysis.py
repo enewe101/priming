@@ -68,6 +68,8 @@ def prob_k_successes(n,k):
 	return util.choose(n,k) * (0.5**n)
 
 
+
+
 class Analyzer(object):
 
 	# Constants

@@ -257,7 +257,7 @@ class NaiveBayesCrossValidationTester(object):
 				self.classifier.add_example(example)
 
 
-	def cross_validate(self, k):
+	def cross_validate(self, k=None):
 		'''
 		divide the data set set into k equal folds (if k doesn't divide the
 		number of examples in each class, then the folds won't all be equal).
@@ -266,6 +266,11 @@ class NaiveBayesCrossValidationTester(object):
 		fold, and repeat for all folds.  Keep a running tally of the number
 		of classifications correct, for each class.
 		'''
+
+		# if k is not specified, to leave-one-out cross validation
+		# i.e. have as many folds as examples
+		if k is None:
+			k = self.num_examples_per_class
 
 		k = int(k)
 
@@ -289,7 +294,6 @@ class NaiveBayesCrossValidationTester(object):
 		self.scores = Counter()
 
 		for fold in range(k):
-
 
 			is_last = bool(fold == k - 1)
 			test_set = self.extract_test_set(fold, test_set_size, is_last)
