@@ -1,10 +1,3 @@
-# check what was lost 
-	? where is testing data now
-		seems to be where it used to be.  New testing data is gone
-
-	? are the files staged for delete actually deleted?
-		No
-
 # make data processer load images in the correct way for new data
 	x test that it attributes images in the right way
 
@@ -30,11 +23,22 @@
 		x performs cross validation on IMG-FOOD and IMG-CULT
 		x repeats, using the new dataset
 
-	[] create a specificity tester for wordnet
-		[] map words from treatments A and B into respective synset counts
-		[] given a synset from A, how many synsets in B are ancester do it?
+	x create a specificity tester for wordnet
+		x map words from treatments A and B into respective synset counts
+		x given a synset from A, how many synsets in B are ancester do it?
 			descendant from it?
-		[] count ancester minus descendant for each synset in one example set
+		x count ancester minus descendant for each synset in one example set
+
+	x create a foodishness tester
+		- synsets to include:
+			food.n.02
+			food.n.01
+			helping.n.01
+			taste.n.01
+			taste.n.05
+			taste.n.06
+			taste.n.07
+
 
 # What are the interesting analyses to do?
 	old data:

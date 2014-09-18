@@ -12,6 +12,41 @@ import wordnet_analysis as wna
 from nltk.corpus import wordnet as wn
 
 
+class WordnetFoodDetectorTestCase(unittest.TestCase):
+
+	def test_food_detection(self):
+		food_detector = wna.WordnetFoodDetector()
+
+		# obviously food
+		self.assertTrue(food_detector.is_food('apple'))
+
+		# obviously not food
+		self.assertFalse(food_detector.is_food('spoon'))
+
+		# less obvious but still food
+		self.assertTrue(food_detector.is_food('cornmeal'))
+		self.assertTrue(food_detector.is_food('water'))
+
+		# multiple tokens, all are food, so overall label is food
+		self.assertTrue(food_detector.is_food('sour apple'))
+
+		# compound word is food, even though individual words are not
+		self.assertFalse(food_detector.is_food('granny'))
+		self.assertFalse(food_detector.is_food('smith'))
+		self.assertTrue(food_detector.is_food('granny smith'))
+
+		# compound word is food, one individual word is food, the other is not
+		self.assertTrue(food_detector.is_food('potato'))
+		self.assertFalse(food_detector.is_food('skins'))
+		self.assertTrue(food_detector.is_food('potato skins'))
+
+		# multiple tokens, one is not food, so overall label is not food
+		self.assertFalse(food_detector.is_food('potato masher'))
+
+
+
+
+
 class CalculateRelativeSpecificityTestCase(unittest.TestCase):
 
 	def test_relative_specificity(self):

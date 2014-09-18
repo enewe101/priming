@@ -1,5 +1,31 @@
 from nltk.corpus import wordnet as wn
 from collections import Counter
+import re
+
+
+SPLIT_RE = re.compile('[^-a-zA-Z]')
+def is_food(label):
+	# for a label to be food, either each of the words it contains (if more
+	# than one) should be food, or the label taken as a compound word should
+	# be food.
+	tokens = SPLIT_RE.split(label)
+
+	# if more than one word was included, try the compound word
+	if len(tokens) > 1:
+		if _is_food('_'.join(tokens)):
+			return True
+
+	# otherwise, we require each token to be foodish, to consider the label
+	# as a whole foodish
+	return all(map(lambda t: is_food(t), tokens))
+
+
+def _is_food(token):
+
+	foodish_synsets = set(['food.n.02', 'food.n.01', 'helping.n.01', 
+		'taste.n.01', 'taste.n.05', 'taste.n.06', 'taste.n.07'])
+
+	
 
 
 def get_all_synsets(label):
@@ -60,6 +86,89 @@ def calculate_relative_specificity(synset_counts_1, synset_counts_2):
 
 	return specificity_score
 
+
+class WordnetFoodDetector(object):
+	def __init__(self):
+		self.foodish_cache = {
+			'food.n.02': True, 
+			'food.n.01': True, 
+			'helping.n.01': True,
+			'taste.n.01': True, 
+			'taste.n.05': True, 
+			'taste.n.06': True, 
+			'taste.n.07': True
+		}
+
+		# We will build a DFS walker to help with the calculation
+		# To do so, we need to define a bunch of callbacks
+		def get_node_hash(node):
+			return node.name
+
+		# We alter the get children callback to get parents if we want to
+		# count the number of ancestors instead of descendants.
+		def get_children_callback(node):
+			return node.hypernyms()
+
+
+		def inter_node_callback(node, child_vals=[]):
+			node_name = node.name
+
+			if node_name in self.foodish_cache:
+				return self.foodish_cache[node_name]
+
+			# if any of the "children" (actually, in this case hypernyms are
+			# more like ancesters) are foodish, then this node is foodish
+			cur_node_val = any(child_vals)
+
+			# cache this for next time
+			self.foodish_cache[node_name] = cur_node_val
+
+			return cur_node_val 
+
+
+		def abort_branch_callback(node):
+			# if we have a cached value for this node, no need to continue
+			# the traversal any deeper
+			if node.name in self.foodish_cache:
+				return True
+			return False
+
+		allow_double_process = True
+
+		# we build a walker with these callbacks.
+		self.foodish_detecting_walker = DFS(
+			get_node_hash,
+			get_children_callback,
+			inter_node_callback,
+			inter_node_callback,	# this callback works for leaves too
+			abort_branch_callback,
+			allow_double_process
+		)
+
+
+	def is_food(self, label):
+
+		tokens = SPLIT_RE.split(label)
+
+		# if the label has multiple words, consider the compound word first
+		if len(tokens) > 1:
+			if self.is_token_food('_'.join(tokens)):
+				return True
+
+		# otherwise *all* of the tokens should be food
+		return all([self.is_token_food(t) for t in tokens])
+
+
+
+	def is_token_food(self, token):
+		synsets = wn.synsets(token)
+		return any([self.is_synset_food(s) for s in synsets])
+
+
+	def is_synset_food(self, synset):
+		return self.foodish_detecting_walker.walk(synset)
+
+		
 
 class WordnetRelativesCalculator(object):
 
