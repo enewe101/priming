@@ -1,0 +1,25 @@
+{
+  "similarity": {
+    "cult": 0.013365735115431349, 
+    "food": 0.25537493445201886, 
+    "ambg": 0.19256756756756757, 
+    "obj": 0.18697175840032984, 
+    "ingr": 0.17060030785017957
+  }, 
+  "specificity": {
+    "wfood_sfood": -6041, 
+    "obj_sobj": 5405, 
+    "food_obj": 25789, 
+    "food_wfood": 1745, 
+    "obj_wfood": -26405, 
+    "obj_wobj": -370, 
+    "food_wobj": 27523, 
+    "food_sfood": -3670, 
+    "obj_sfood": -29324, 
+    "ambg_ingr": 3037, 
+    "ingr_cult": 15725, 
+    "wobj_sobj": 6408, 
+    "ambg_cult": 14418, 
+    "food_sobj": 38108
+  }
+}

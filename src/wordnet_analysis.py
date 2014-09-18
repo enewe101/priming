@@ -4,27 +4,14 @@ import re
 
 
 SPLIT_RE = re.compile('[^-a-zA-Z]')
-def is_food(label):
-	# for a label to be food, either each of the words it contains (if more
-	# than one) should be food, or the label taken as a compound word should
-	# be food.
-	tokens = SPLIT_RE.split(label)
 
-	# if more than one word was included, try the compound word
-	if len(tokens) > 1:
-		if _is_food('_'.join(tokens)):
-			return True
+def get_similarity(counts_1, counts_2):
 
-	# otherwise, we require each token to be foodish, to consider the label
-	# as a whole foodish
-	return all(map(lambda t: is_food(t), tokens))
+	all_keys = set(counts_1.keys() + counts_2.keys())
+	intersection_size = sum([min(counts_1[k], counts_2[k]) for k in all_keys])
+	union_size = sum(counts_1.values()) + sum(counts_2.values())
 
-
-def _is_food(token):
-
-	foodish_synsets = set(['food.n.02', 'food.n.01', 'helping.n.01', 
-		'taste.n.01', 'taste.n.05', 'taste.n.06', 'taste.n.07'])
-
+	return 2 * intersection_size / float(union_size)
 	
 
 
@@ -47,7 +34,7 @@ def get_all_synsets(label):
 	return synsets
 
 
-def map_to_synsets(clean_dataset, treatment, image):
+def map_to_synsets(clean_dataset, treatment, images):
 	'''
 	given a CleanDataset, a treatment name, and image name, 
 	get all the labels that workers from the given treatment attribute to
@@ -57,8 +44,10 @@ def map_to_synsets(clean_dataset, treatment, image):
 	'''
 
 	# get a counter for the words associated to the treatment and image
-	label_counts = clean_dataset.get_counts_for_treatment_image(
-		treatment, image)
+	label_counts = Counter()
+	for image in images:
+		label_counts += clean_dataset.get_counts_for_treatment_image(
+			treatment, image)
 
 	synset_counts = Counter()
 	for label in label_counts:
@@ -70,7 +59,8 @@ def map_to_synsets(clean_dataset, treatment, image):
 
 
 def calculate_relative_specificity(synset_counts_1, synset_counts_2):
-	# Make a counters based on synset_counts_2
+
+	# Make relative counters based on synset_counts_2
 	ancester_counter = WordnetRelativesCalculator(synset_counts_2, True)
 	descendant_counter = WordnetRelativesCalculator(synset_counts_2, False)
 

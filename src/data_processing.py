@@ -75,6 +75,7 @@ class CleanDatasetRotationException(Exception):
 	pass
 
 
+
 def clean_dataset_adaptor(
 		clean_dataset, 
 		treatments=['treatment0', 'treatment1'], 
@@ -161,6 +162,12 @@ class CleanDataset(object):
 										# entries
 
 		self.is_exp_2_dataset = is_exp_2_dataset
+
+
+	def get_correct_treatments(self, image_num, pos):
+		rank = (image_num - pos) % 5
+		return ('treatment%d' % rank, 'treatment%d' % (rank+5))
+
 
 	# Use this to make all of the treatments have the same size 
 	def uniform_truncate(self, truncateSize=None):

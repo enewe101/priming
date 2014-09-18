@@ -16,10 +16,8 @@ degree the workers in one treatment are using more specific words than the
 workers from another treatment.
 '''
 
-
 # Todo make a __main__ method that gets called when this is run as a python
 # script from the command line, which reproductes all of the analysis
-
 
 import util
 import sys
@@ -29,11 +27,171 @@ import ontology
 import data_processing
 import numpy as np
 import json
+import wordnet_analysis as wna
+from collections import defaultdict, Counter
 
 # Number of stardard deviations equivalent to the % condifdence for a 
 # normal variate
 CONFIDENCE_95 = 1.96
 CONFIDENCE_99 = 2.975
+TEST_IMAGES = ['test%d'%i for i in range(5)]
+
+def bound_l1(fname='data/new_data/l1.json'):
+	''' 
+	also known as determine the classifier's accuracy using 
+	cross-validation
+	'''
+	# first things first: try to open the output file.  No sense doing 
+	# calculations if there's nowhere to put them!
+	output_fh = open(fname, 'w')
+
+	# first, do this for the old data
+	ds = data_processing.readDataset(is_exp_2_dataset=False)
+	food_ambg_accuracy = []
+	for image in TEST_IMAGES:
+		food_ambg_accuracy.append(
+			_do_cross_validation(ds, ['treatment0', 'treatment1'], [image]))
+
+	# next, do this for the new data
+	ds = data_processing.readDataset(is_exp_2_dataset=True)
+
+	# look at the distinguishability of IMG:FOOD and IMG:OBJ on a per-image
+	# per-position basis
+	img_food_obj_accuracy = defaultdict(lambda: [])
+	for image_num in range(5):
+		for pos in range(5):
+			treatments = ds.get_correct_treatments(image_num, pos)
+			accuracy = _do_cross_validation(
+				ds, treatments, ['test%d'%image_num])
+			img_food_obj_accuracy['test%d'%image_num].append(accuracy)
+
+	# now determine the distinguishability of wFRM:FOOD and wFRM:OBJ on a 
+	# per-image basis
+	wfrm_food_obj_accuracy = []
+	for image in TEST_IMAGES:
+		wfrm_food_obj_accuracy.append(
+			_do_cross_validation(ds, ['treatment10', 'treatment11'], [image]))
+
+	# now do the same, for sFRM:FOOD and sFRM:OBJ on a per-image basis
+	sfrm_food_obj_accuracy = []
+	for image in TEST_IMAGES:
+		sfrm_food_obj_accuracy.append(
+			_do_cross_validation(ds, ['treatment12', 'treatment13'], [image]))
+
+	# gather the results
+	results = {
+		'img_food_ambg': food_ambg_accuracy,
+		'img_food_obj': img_food_obj_accuracy,
+		'wfrm_food_obj': wfrm_food_obj_accuracy,
+		'sfrm_food_obj': sfrm_food_obj_accuracy
+	}
+
+	# write results to file
+	output_fh.write(json.dumps(results, indent=2))
+
+	# display results for debugging only
+	print json.dumps(results, indent=2)
+
+	# also return the results
+	return results
+
+
+def _do_cross_validation(clean_dataset, treatments, images):
+
+	print 'doing cross-validation:', treatments, images
+
+	nb_dataset = data_processing.clean_dataset_adaptor(
+		clean_dataset, treatments, images)
+	cross_validator = naive_bayes.NaiveBayesCrossValidationTester(nb_dataset)
+	overall_accuracy = cross_validator.cross_validate()
+
+	return overall_accuracy
+
+
+
+# TODO: estimate the variance
+def calculate_similarity_specificity(
+	fname='data/new_data/specificity_similarity.json'):
+
+	# open the file that we will write to
+	results_file = open(fname, 'w')
+
+	# build a copy of cult vs food dataset
+	ds = data_processing.readDataset(is_exp_2_dataset=False) 
+
+	# and of the new food vs obj dataset
+	new_ds = data_processing.readDataset(is_exp_2_dataset=True)
+
+	# extract the synset counts for treatments and images of interest
+	ambg_test_counts = wna.map_to_synsets(ds, 'treatment0', ['test0'])
+	cult_test_counts = wna.map_to_synsets(ds, 'treatment1', ['test0'])
+	ingr_test_counts = wna.map_to_synsets(ds, 'treatment2', ['test0'])
+
+
+	food_test_counts = wna.map_to_synsets(new_ds, 'treatment0', ['test0'])
+	obj_test_counts = wna.map_to_synsets(new_ds, 'treatment5', ['test0'])
+	foodwframe_test_counts = wna.map_to_synsets(
+		new_ds, 'treatment10', ['test0'])
+	objwframe_test_counts = wna.map_to_synsets(
+		new_ds, 'treatment11', ['test0'])
+	foodsframe_test_counts = wna.map_to_synsets(
+		new_ds, 'treatment12', ['test0'])
+	objsframe_test_counts = wna.map_to_synsets(
+		new_ds, 'treatment13', ['test0'])
+
+	specificity = {
+		'ambg_cult': wna.calculate_relative_specificity(ambg_test_counts,
+			cult_test_counts),
+		'ambg_ingr': wna.calculate_relative_specificity(ambg_test_counts,
+			ingr_test_counts),
+		'ingr_cult': wna.calculate_relative_specificity(ingr_test_counts,
+			cult_test_counts),
+		'food_obj': wna.calculate_relative_specificity(food_test_counts,
+			obj_test_counts),
+		'obj_sobj': wna.calculate_relative_specificity(obj_test_counts,
+			objsframe_test_counts),
+		'food_sfood': wna.calculate_relative_specificity(food_test_counts,
+			foodsframe_test_counts),
+		'obj_wobj': wna.calculate_relative_specificity(obj_test_counts,
+			objwframe_test_counts),
+		'food_wfood': wna.calculate_relative_specificity(food_test_counts,
+			foodwframe_test_counts),
+		'wfood_sfood': wna.calculate_relative_specificity(
+			foodwframe_test_counts, foodsframe_test_counts),
+		'wobj_sobj': wna.calculate_relative_specificity(
+			objwframe_test_counts, objsframe_test_counts),
+		'food_wobj': wna.calculate_relative_specificity(food_test_counts,
+			objwframe_test_counts),
+		'food_sobj': wna.calculate_relative_specificity(food_test_counts,
+			objsframe_test_counts),
+		'obj_wfood': wna.calculate_relative_specificity(obj_test_counts,
+			foodwframe_test_counts),
+		'obj_sfood': wna.calculate_relative_specificity(obj_test_counts,
+			foodsframe_test_counts),
+	}
+
+	ambg_prime_counts = wna.map_to_synsets(ds, 'treatment0', ['prime4'])
+	cult_prime_counts = wna.map_to_synsets(ds, 'treatment1', ['prime4'])
+	ingr_prime_counts = wna.map_to_synsets(ds, 'treatment2', ['prime4'])
+
+	food_prime_counts = wna.map_to_synsets(new_ds, 'treatment0', ['prime4'])
+	obj_prime_counts = wna.map_to_synsets(new_ds, 'treatment5', ['prime4'])
+
+	similarity = {
+		'ambg': wna.get_similarity(ambg_prime_counts, ambg_test_counts),
+		'cult': wna.get_similarity(cult_prime_counts, cult_test_counts),
+		'ingr': wna.get_similarity(ingr_prime_counts, ingr_test_counts),
+		'food': wna.get_similarity(food_prime_counts, food_test_counts),
+		'obj': wna.get_similarity(obj_prime_counts, obj_test_counts)
+	}
+
+	results = {'specificity': specificity, 'similarity': similarity}
+	results_file.write(json.dumps(results, indent=2))
+	return results
+
+
+
+	
 
 
 def theta_NB_significance(n,k_star):

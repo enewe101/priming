@@ -12,6 +12,47 @@ import wordnet_analysis as wna
 from nltk.corpus import wordnet as wn
 
 
+class SimilarityTestCase(unittest.TestCase):
+
+	def test_similality(self):
+
+		# the same token sets should have a similarity of 1
+		fruits = ['apple', 'orange', 'banana']
+		self.assertEqual(wna.get_similarity(fruits, fruits), 1.0)
+
+
+		# these sets have some similarity
+		set_1 = ['stone', 'book', 'hydrogen', 'bend']
+		set_2 = ['rage', 'liver', 'hydrogen', 'bend']
+
+		size_set_1 = sum([len(wn.synsets(w)) for w in set_1])
+		size_set_2 = sum([len(wn.synsets(w)) for w in set_2])
+		size_intersection = (
+			len(wn.synsets('hydrogen')) + len(wn.synsets('bend')))
+		expected_similarity = 2 * size_intersection / float(size_set_1 
+			+ size_set_2)
+
+		self.assertEqual(
+			wna.get_similarity(set_1, set_2), expected_similarity)
+
+
+		# these sets have the same words, but aren't that similar in the
+		# sense that they differ greatly in the word frequency 
+		set_1 = ['stone']*9 + ['book']
+		set_2 = ['stone'] + ['book']*9
+
+		size_set_1 = sum([len(wn.synsets(w)) for w in set_1])
+		size_set_2 = sum([len(wn.synsets(w)) for w in set_2])
+		size_intersection = (
+			len(wn.synsets('stone')) + len(wn.synsets('book')))
+		expected_similarity = 2 * size_intersection / float(size_set_1 
+			+ size_set_2)
+
+		self.assertEqual(
+			wna.get_similarity(set_1, set_2), expected_similarity)
+		self.assertEqual(wna.get_similarity(set_1, set_1), 1.0)
+
+
 class WordnetFoodDetectorTestCase(unittest.TestCase):
 
 	def test_food_detection(self):
@@ -77,6 +118,28 @@ class CalculateRelativeSpecificityTestCase(unittest.TestCase):
 		self.assertEqual(relative_specificity, expected_relative_specificity)
 
 
+class TestGetCorrectTreatmentForImagePosTestCase(unittest.TestCase):
+	TREATMENT = {
+		0: [0,4,3,2,1],
+		1: [1,0,4,3,2],
+		2: [2,1,0,4,3],
+		3: [3,2,1,0,4],
+		4: [4,3,2,1,0]
+	}
+
+	def test_get_correct_treatment(self):
+		ds = dp.CleanDataset()
+		for image_num in range(ds.NUM_IMAGES):
+			for pos in range(ds.NUM_IMAGES):
+				t = ds.get_correct_treatment_for_image_pos(image_num,pos)
+				expected_treatment_num = self.TREATMENT[image_num][pos]
+				expected_treatments = (
+					'treatment%d'%expected_treatment_num,
+					'treatment%d'%(expected_treatment_num+5)
+				)
+				self.assertEqual(t,expected_treatments)
+
+
 
 class WordnetAnalysisTestCase(unittest.TestCase):
 
@@ -98,7 +161,7 @@ class WordnetAnalysisTestCase(unittest.TestCase):
 	def test_map_to_synsets(self):
 		dataset = dp.CleanDataset()
 		dataset.read_csv('test/amt_csv/test.csv')
-		found_synsets = wna.map_to_synsets(dataset, 'treatment1', 'test0')
+		found_synsets = wna.map_to_synsets(dataset, 'treatment1', ['test0'])
 		expected_synsets = Counter({
 			'food.n.03': 2, 'food.n.02': 2, 'food.n.01': 2, 'adam.n.03': 2, 
 			'ten.s.01': 2, 'x.n.02': 2, 'siva.n.01': 2, 'shiva.n.01': 2, 

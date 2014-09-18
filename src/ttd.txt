@@ -28,6 +28,7 @@
 		x given a synset from A, how many synsets in B are ancester do it?
 			descendant from it?
 		x count ancester minus descendant for each synset in one example set
+		[] create a symmetric null model, and use this to estimate variance
 
 	x create a foodishness tester
 		- synsets to include:
@@ -39,6 +40,40 @@
 			taste.n.06
 			taste.n.07
 
+	x create a similarity tester based on wordnet
+
+	x create code to identify misspelled words
+		x firstly, just count them to find out how many there are
+		x next, create a misspelling-dataset that preserves the misspelled
+			word's connection to a specific user, position, and image
+			I probably want to connect the misspelled words to the 
+			corresponding image as a guide for correction
+		
+	
+# analysis 
+	x the more similar the priming images are to the test images, the more
+		specific are the labels
+		- IMG:AMBG is most similar to TEST, followed by IMG:INGR, and 
+			IMG:CULT is most different from TEST 
+			This result holds in the old dataset where similarity is 
+			intuitive.  But it also holds in the new dataset, where it is less
+			obvious whether the food or the object initial set is more 
+			similar to the food set.  Based on our similarity metric, the 
+			food initial set is more similar to the test images in the second
+			dataset, and we also see that it has greater specificity
+
+		- What about the specificity of framing treatments?
+			The results here are ambiguous, and not strong.  Sometimes the
+			corresponding frame (e.g. IMG:FOOD <-> FRM:FOOD) is more specific
+			sometimes less, but not strongly so
+
+	x which of the treatments can be told appart by the Naive Bayes classifier
+		and how well?
+
+
+
+
+			
 
 # What are the interesting analyses to do?
 	old data:
