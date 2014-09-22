@@ -5,6 +5,135 @@ import re
 
 SPLIT_RE = re.compile('[^-a-zA-Z]')
 
+
+
+def filter_misspelled(labels):
+	words = set(reduce(lambda x,y: x + y.split(), labels, []))
+	misspelled = filter(lambda x: len(wn.synsets(x)) == 0, words)
+	return misspelled
+	
+
+def find_misspelled_words(dataset):
+
+	misspelled = {}
+	for image in ['test%d' % i for i in range(dataset.NUM_IMAGES)]:
+		words = dataset.get_counts_for_treatment_image(None, image).keys()
+		misspelled[image] = filter_misspelled(words)
+
+	return misspelled
+
+
+class WordnetSpellChecker(object):
+
+	ALPH = 'abcdefghijklmnopqrstuvwxyz_'
+	W = re.compile(r'[^a-z ]')
+
+	def __init__(self):
+		pass
+
+	def is_ok(self, word):
+		return bool(len(wn.synsets(word))>0)
+
+
+	def get_neighbors(self, word):
+
+		w = word
+
+		splits = [(w[:i], w[i:]) for i in range(len(w) + 1)]
+
+		deletes = [a + b[1:] for a,b in splits if b]
+		transposes = [a + b[1] + b[0] + b[2:] for a,b in splits if len(b)>1]
+		replaces = [a + c + b[1:] 
+			for a,b in splits for c in self.ALPH if b]
+		inserts = [a + c + b for a,b in splits for c in self.ALPH]
+
+		# if there are non-word characters, try replacing with spaces
+		if self.W.search(w):
+			separations = [self.W.sub(' ', w)]
+
+		# otherwise try inserting spaces in all possible positions
+		else:
+			separations = [a + ' ' + b for a,b in splits]
+
+		return set(deletes + transposes + replaces + inserts + separations)
+
+
+	def auto_correct(self, corpus):
+
+		# First, we read all of the words.
+		# Sort out the ones that are misspelled.  Among the ones that 
+		# are correctly spelled, accumulate the frequencies of occurence
+		# to guide the spell checker
+
+		frequencies = Counter()
+		misspelled = set()
+
+		for phrase in corpus:
+			for word in phrase.split():
+
+				if self.is_ok(word):
+					frequencies[word] += 1
+
+				else:
+					misspelled.add(word)
+
+		print 'found %d misspelled words...' % len(misspelled)
+
+		# Now try to correct the spellings
+		corrections = {}
+		for w in misspelled:
+
+			single_edits = self.get_neighbors(w)
+			double_edits = reduce(
+				lambda x,y: x | self.get_neighbors(y), 
+				single_edits, 
+				set()
+			)
+
+			first_candidates = filter(
+				lambda x: 
+					all([self.is_ok(y) for y in x.split()])
+					and len(x.split())>0,
+				single_edits)
+
+			second_candidates = filter(
+				lambda x: 
+					all([self.is_ok(y) for y in x.split()])
+					and len(x.split())>0, 
+				double_edits)
+
+			scored_candidates = (
+				[(fc, min([frequencies[x] for x in fc.split()])) 
+					for fc in first_candidates] + 
+				[(sc, min([frequencies[x] for x in sc.split()]) / 2.0 )
+					for sc in second_candidates]
+			)
+
+			try:
+				sorted_candidates = sorted(
+					scored_candidates, None, 
+					lambda x: x[1],
+					True
+				)
+				best_word = sorted_candidates[0][0]
+
+			except IndexError:
+				best_word = None
+
+			print w, '->', best_word
+			corrections[w] = best_word
+
+		return corrections
+
+
+			
+
+
+
+
+	
+
+
 def get_similarity(counts_1, counts_2):
 
 	all_keys = set(counts_1.keys() + counts_2.keys())

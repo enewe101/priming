@@ -246,3 +246,8 @@ Might include
 * compare total vocabulary between different treatments, and between a 
 	population comprised of 50 users from cultural and 50 users from 
 	ingredients
+
+
+Notes about ref inclusions
+=========================
+I included ref \cite{Swaab200299} to support the claim that people are susceptible to priming, but I need to re-check that ref.

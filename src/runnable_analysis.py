@@ -2,12 +2,18 @@ from collections import defaultdict
 import data_processing as dp
 import naive_bayes as nb
 
+
 def calc_priming_differences():
 	OLD_DATASET = False
 	NEW_DATASET = True
 	NUM_FOLDS = 125
 	NUM_IMAGES = 5
 
+	# this provides a mapping that shows which treatment should be used to
+	# find a given image at a given position.  The image is the key, and 
+	# the positions are the array index.  Example: the image 'test0' was in
+	# position 0 for treatment 0, in position 1 for treatment 4, in position
+	# 3 for treatment 3 etc. (this is reading off the first line).
 	treatment_offsets = {
 			'test0': [0,4,3,2,1],
 			'test1': [1,0,4,3,2],
