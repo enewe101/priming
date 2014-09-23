@@ -6,7 +6,7 @@
 
 \usepackage{graphicx}
 \usepackage{amsthm}
-\newtheorem*{mydef}{Definition}
+\newtheorem{mydef}{Definition}
 \usepackage{dcolumn}
 \usepackage{multirow}
 \usepackage{booktabs}
@@ -122,7 +122,7 @@ Microtask platforms offer a fast, flexble, and inexpensive source of labour for
 clerical tasks \cite{Finnerty2013, chandler2013breaking, Berinsky2012351} and 
 recently have been adopted by researchers to augment datasets and solicit 
 participants \cite{paolacci2010running, Berinsky2012351, chandler2013breaking}.
-Some computer scientists describe such platforms as a new computing 
+Computer scientists have described such platforms as a new computing 
 architecture, and seek to characterize “human co-processing units” (HPUs) in 
 analogy to CPUs and GPUs \cite{5543192}. However, it is known that people are 
 susceptible to 
@@ -237,25 +237,23 @@ comparisons of the severity priming effects accross applications, and enables
 the measurement of priming using machine learning tools.
 
 \paragraph*{Priming as computational hysteresis.}
-In psychology, priming effects are studied because they hint at the 
-psychological mechanisms at play during certain cognitive tasks. But in the 
-context of human computation, the focus should be on the outward consequences: 
-the potential for algorithms to execute differently when ``run'' on differently
-primed HPUs.
-
-We will present three definitions of priming with this practical concern in 
-mind, and then describe how to measure priming in practice. To proceed with 
-the definitions, we will assume that two populations of HPU’s, $\mathcal{P}$ 
-and $\mathcal{Q}$ were 
+To begin, we adopt the perspective that there is no canonical neutral or
+unprimed state.  Rather, we will speak of one HPU population being 
+\textit{differently primed} from another.  We present three definitions for 
+the difference in priming between HPU populations, each having different 
+merits, and then we discuss their relationships. To proceed with the 
+definitions, we will assume that two populations of HPU’s, $\mathcal{P}$ and 
+$\mathcal{Q}$ were 
 sampled randomly from the same initial population $\mathcal{R}$, and then were 
 exposed to (possibly) different priming treatments. The HPUs in $\mathcal{P}$ 
-and $\mathcal{Q}$ perform some 
-task, leading to popualtions of work-products, $P$ and $Q$.
+and $\mathcal{Q}$ perform some task, leading to popualtions of work-products, 
+$P$ and $Q$.
 
-For the first defenition, let us address the concern that differently primed 
-HPUs may produce ``biased'' work-products.
+For the first defenition, we focus on the direct effects that running an 
+algorithm on differently primed HPUs has on the algorithm's output.
 
 \begin{mydef}
+	\label{def:bias}
 	{\upshape Maximum Bias $\theta_\mathrm{bias}$:}
 	Let $\mathcal{D}$ be a binary decision algorithm, which takes a 
 	work-product
@@ -264,7 +262,7 @@ HPUs may produce ``biased'' work-products.
 	different priming of $\mathcal{P}$ and $\mathcal{Q}$ by
 	$\theta^\mathcal{D}_\mathrm{bias}(P,Q)$ and define it to be the difference 
 	in the expected output of $\mathcal{D}$ when acting on work-products from 
-	$P$ vs $Q$:
+	$P$ and $Q$:
 	$$
 	\theta^\mathcal{D}_\mathrm{bias}(P,Q) = 
 		\left| 
@@ -273,25 +271,23 @@ HPUs may produce ``biased'' work-products.
 		\right|,
 	$$
 	where $p \in P$, $q \in Q$.  Then, define the difference in priming 
-	between $P$ and $Q$ to be the worst-case bias, i.e. the bias of the most
-	susceptible decision:
+	between $\mathcal{P}$ and $\mathcal{Q}$ to be the worst-case bias, i.e. 
+	the bias of the most susceptible decision:
 	$$
 	\theta_\mathrm{bias} = 
 		\sup_\mathcal{D} \theta^\mathcal{D}_\mathrm{bias}(P,Q)
 	$$
 \end{mydef}
+Thus, in \textbf{Definition \ref{def:bias}}, $\theta_\mathrm{bias}$ has a 
+straightforward interpretation as an upper bound on the amount of bias induced 
+on any yes-or-no decision, due to the difference in priming of 
+$\mathcal{P}$ and $\mathcal{Q}$.  Although easy to interpret, it is, however, 
+not clear how $\theta_\mathbf{bias}$ could be measured in practice.
 
-
-Thus, $\theta_\mathrm{bias}$ has a straightforward interpretation as an upper 
-bound on the amount of bias induced on any yes-or-no decision, due to the 
-difference in priming of $\mathcal{P}$ and $\mathcal{Q}$.
-
-For the next definition, we attempt to address directly the extent to which 
-two populations of work-products are ``different'', by supposing that they are 
-different to the extent that they can be distinguished algorithmically. To 
-facilitate this definition, we make use of the notions of a 
-\textit{distinguisher} and a \textit{validation} test.
-
+Next we attempt to phase the difference in priming between $\mathcal{P}$ and
+$\mathcal{Q}$ in terms of the extent to which their work products are 
+distinguishable algorithmically. To facilitate this definition, we make 
+use of the notions of a \textit{distinguisher} and a \textit{validation} test.
 \begin{mydef}
 	{\upshape Algorithmic distinctness $\theta_\mathrm{dist}$:}
 	Let $\mathcal{D}$ be a distinguisher algorithm, which takes work-product 
@@ -302,52 +298,56 @@ facilitate this definition, we make use of the notions of a
 	random from one of the populations, decided by the bit: $r \in_R R_b$. 
 	Feed $r$ to $\mathcal{D}$, and if $\mathcal{D}(r) = b$, we say 
 	$\mathcal{D}$ guessed correctly, and the value of $V$ is 1, 
-	otherwise V = 0.
+	otherwise $V = 0$.
 
 	A distinguisher that guesses randomly will still be correct half of the 
 	time. Therefore, denote the performance of $\mathcal{D}$ as 
-	$\eta_\mathcal{D}(P, Q)$, and define:
+	$\eta_\mathcal{D}(P, Q)$:
+	$$
+		\eta_\mathcal{D}(P,Q) = 2\cdot \mathrm{E}\{V(\mathcal{D},P,Q)\} - 1
+	$$
+	Then define the difference in priming between $\mathcal{P}$ and 
+	$\mathcal{Q}$ to be the performance of the best possible distinguisher:
 	$$ 
 		\theta_\mathrm{dist} = \sup_\mathcal{D} \eta_\mathcal{D}(P,Q)
 	$$
-
 \end{mydef}
 In the above definition, the performance simply rescales accuracy, so that when
 accuracy is 1/2 (i.e. as good as chance) performance is 0, and when accuracy 
-is perfect, performance is 1. This definition casts the measurement of priming 
-effects in terms of a binary classification problem, which is well-studied in 
-the field of machine learning.
+is perfect, performance is 1. This definition formulates the measurement of 
+priming effects in terms of a binary classification problem. As we will show,
+this allows us to apply tools from the machine learning field to the 
+measurement of difference in priming.  However, it is not immediately clear 
+how this measure relates to the potential for priming to cause bias.
 
-The two definitions we have already mentioned are, in fact, equivalent, and 
-correspond to a third, more fundamental formulation known as the total 
-\textit{variational distance}, or $l_1$-distance, or simply the “statistical 
-distance” ($D_{l_1}$):
-$$
-	D_{l_1}(P,Q) \equiv \frac{1}{2} \sum_{x \in \mathcal{X}} 
+For the third definition, we focus on describing the inherent, statistical
+difference between work-products in $P$ and $Q$. Thus we define the difference
+in priming to be equal to the \textit{total variational distance}, or $l_1$-distance (denoted $D_{l_1}$) between $P$ and $Q$. 
+\begin{mydef}
+	\label{def:l1}
+	{\upshape total variational distance $\theta_{l_1}$:}
+	$$
+	\theta_{l_1} = D_{l_1}(P,Q) \equiv \frac{1}{2} \sum_{x \in \mathcal{X}} 
 	\left| 
 		f_P(x) - f_Q(x)
 	\right|,
-$$
-where $f_P(x)$ denotes the probability of observing x when sampling from P. 
-This leads us to our third definition:
-
-\begin{mydef}
-	{\upshape Priming as $l_1$-distance:}
-	The difference in priming of $\mathcal{P}$ and $\mathcal{Q}$ is the 
-	$l_1$-distance between the distributions of their work-products, 
-	$D_{l_1}(P,Q)$.
+	$$
+	where $f_P(x)$ denotes the probability of observing x when sampling from P.
 \end{mydef}
+The abvantage of definition \ref{def:l1} is that it provides connections
+to statistical and information theory.
 
-We provide proofs of the equivalence between these definitions in the 
-supplementary material. Despite their equivalence, we show the three 
-definitions because they offer different theoretical, practical, and 
-interpretive entry points. Definition 1 provides a practical motivation, and 
-the straighforward interpretation of priming as bias. Definition 3 draws a 
-clear link to existing statistical theory. And Definition 2 introduces machine 
-learning tools, which allow us to gain traction when the purely statistical 
-tools fail.
+Remarkably, all three definitions are, in fact, equivalent, and from here on
+we simply denote the difference in priming as $\theta$.  We provide proofs
+in the supplementary material to demostrate this fact.  This means that we
+can use machine learning tools to measure priming, while interpreting the
+results either in terms of the  leakage of information from a prime into an 
+HPU output or in terms of the potential to bias a decision.
 
 \paragraph{Measuring priming.}
+Before proceeding, we offer a few words of caution regarding the measurement 
+of $\theta$.
+
 Care must be taken in estimating $D_{l_1}$ from samples so as not to obtain
 an inflated estimate. In the so-called naive approach, one uses the frequency 
 with which a given work-product $x$ is obtained from HPUs in $\mathcal{P}$ to 
