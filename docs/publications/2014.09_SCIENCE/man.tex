@@ -142,94 +142,99 @@ knowing ahead of time how priming will affect output.
 
 \section*{Introduction}
 Microtask crowdsourcing platforms like Amazon Mechanical Turk (MTurk) make it 
-possible to submit batches of small tasks to a large pool of human workers, 
-who do the tasks for fun, a sense of purpose, and remuneration 
+possible for requesters to submit batches of small tasks to a large pool of 
+workers, who do the tasks for fun, a sense of purpose, and remuneration 
 \cite{kazai2013analysis,Antin20122925}.  
 Originally used to distribute clerical work, these platforms 
-increasingly serve as a fast and cheap means to engage experimental 
+increasingly serve as a means to engage experimental 
 participants in a research 
 setting \cite{paolacci2010running,Berinsky2012351,snow2008cheap,alonso2009can}.
-Typical tasks include flagging inapropriate images, annotiting sentiment in 
-text excerpts, or judging the relevancy of search results.
+Typical tasks include tagging and categorizing images 
+\cite{6116320,Zhai2012357}, transcribing voice recordings 
+\cite{chandler2013breaking,paolacci2010running}
+or handwritten notes \cite{Berinsky2012351,Finnerty2013}, and judging the 
+relevancy of search results \cite{le2010ensuring,grady2010crowdsourcing,alonso2009can,kazai2013analysis}
 
 The task requester can interact with the platform like a compute server, 
 seamlessly 
-integrating human and machine computation.  Researchers have put forward the 
-term HPU (Human co-Processing Unit), viewing the introduction of 
-microtask platforms as a new computing architecture
-\cite{5543192}.  
+integrating human and machine computation.  Researchers coined the 
+term HPU (Human co-Processing Unit), viewing the introduction 
+of microtask platforms as a new computing architecture\cite{5543192}.  
+Attempts have been made to formalize the HPU instruction set, and libraries 
+that provide high-level APIs (Application Programming Interfaces) for writing 
+algorithms involving human computation have been developed \cite{little2010turkit,minder2011crowdlang,minder2012crowdlang,kittur2011crowdforge}.
 
 Here, we highlight an important way in which HPUs differ from CPUs, with 
-serious implications for the design of tasks.  It is well known that people 
-are subject to priming effects 
-\cite{BJOP1796,No2007,beller1971priming} and, in particular, task-repetition effects
-\cite{Gass1999549,sohn2001task}.  
-We investigate the effect that previously completed tasks have on workers'
-responses during subsequent ones. We call such effects 
-\textit{inter-task priming}.  Inter-task priming would amount to a kind of
-\textit{hysteresis}, meaning that HPU output is not only a function of the 
-current input, but also of the history of inputs.
+serious implications for any crowdsourcing initiative.  Common sense would 
+dictate that people's output during a task will be stochastic: when the same
+task is given to different people, or given to the same person at different 
+times,
+the outputs may, in general, differ.  Stochasticity is not itself problematic,
+since the analysis of probabilistic algorithms is fairly 
+well-understood. But other non-random effects may also bear on HPU output. 
+It is known that people are susceptible to priming effects 
+\cite{BJOP1796,No2007,beller1971priming}, and, in particular, task-repetition 
+effects \cite{Gass1999549,sohn2001task}.  
+
+Such repetition effects, or
+\textit{inter-task effects}, are neither random, nor are they formally part 
+of the instructions given to the HPU.  The ``leakage'' of information from 
+recently performed tasks into HPU outputs is a potentially strong source of 
+systematic bias, which complicates the the algorithmic view of HPUs. 
+Inter-task effects would amount to a kind of \textit{hysteresis}, meaning 
+that HPU output is not only a function of the current input, but also of the 
+history of inputs.  
+
+Here we make two contributions towards understanding inter-task effects
+and HPU hysteresis in general.  We present a framework for treating this 
+source of bias in the context of HPU algorithms, and we measure the impact of
+inter-task effects experimentally in a canonical HPU task: the labeling of 
+images.
+
+Using the  Amazon Mechanical Turk (Mturk) platform, we solicited workers to 
+perform a series of image-labeling tasks.  
+In these tasks, workers labeled images featuring iconic cultural scenes,
+food, table-settings, and various utensils and cookware. We divided the set of 
+images shown to a given worker into an \textit{initial} and \textit{test} set, 
+but, crucially, there was no apparent distinction between these sets from the
+perspective of the worker.  We varied the initial set of images, while 
+keeping the test set the same, to analyze the effect that that the initial 
+images had on the labels that workers attributed to the test set.
 
 There has been considerable investigation into the factors that affect the 
-quality and nature of microtask work.  These include the level of 
+quality and nature of microtask work.  These include such factors as the 
+level of 
 pay \cite{kazai2013analysis}, training \cite{le2010ensuring}, pre-screening of 
 workers \cite{paolacci2010running}, and user-interface design 
-\cite{Finnerty2013}.  Research has also investigated \textit{framing}, 
+\cite{Finnerty2013}.  Researchers have also investigated \textit{framing}, 
 by testing the effects of describing the workflow context 
 \cite{Kinnaird2012281}, the purpose of tasks 
 \cite{chandler2013breaking}, or using an alternative problem discription
-\cite{thibodeau2013natural}.  To our knowledge, no study has investigated the 
-effects of inter-task effects in microtask work.
+\cite{thibodeau2013natural}.  To our knowledge, no study has investigated 
+inter-task effects on microtask platforms.
+
+As a point of comparison, we included treatments in which we induce 
+\textit{framing}.
+Before the workers label images, we indicate that the work 
+was funded by a research lab having a particular area of interest, to see the 
+influence this has on the workers’ subsequent labels. 
+Surprisingly, inter-task effects were stronger than framing, in some cases 
+about twice as strong. 
+Our results show that initial tasks can significantly alter the subject 
+matter on which worker's labels focus. We also found that inter-task 
+effects can induce workers to provide labels of greater or lesser specificity. 
+This suggests that careful consideration should be given to the bundling of 
+tasks when designing a study using a microtask platform.
 
 To characterize inter-task effects, we present a novel, generalized definition 
-of \textit{HPU priming}. Although priming is traditionally used to elucidate 
-internal 
-psychological mechanisms, our definition characterizes a computational 
-property of the HPU, and corresponds to the worst-case bias introduced into an 
-algorithm ``running'' on primed HPUs. This definition enables a direct, 
-quantititive comparison of HPU priming effects accross domains and 
-applications, while offering a practical, intuitive interpretation. We 
-demonstrate that machine learning tools can be used to detect priming, an 
-approach that could be used to detect priming effects without knowing in 
-advance what the nature of the effects might be, nor how priming was imposed.
-
-In the present work, we investigate inter-task priming on the Amazon 
-Mechanical Turk platform, using an image-labeling task, one of the most common 
-kinds of tasks on that platform 
-\cite{chandler2013breaking,Berinsky2012351,Finnerty2013,paolacci2010running}.  
-The task requires workers to label images featuring food, table-settings, and 
-related utensils and cookware. We divide the set of images shown to a worker 
-into an \textit{initial} and \textit{test} set, but, crucially, there was no 
-distinction made between these sets, nor any interruption in the flow of tasks 
-from the view of the worker. We varied the initial set of images, while 
-keeping the test set the same, to analyze the effect that that the initial 
-images have on the labels that workers attribute to the test set.
-
-As a point of comparison, we conduct a similar experiment where we induce 
-\textit{framing}. Before the workers label images, we indicate that the work 
-was funded by a research lab having a particular area of interest, to see the 
-influence this has on the workers’ subsequent labels. In both experiments, we 
-measure effects using our novel approach, as well as looking for changes in 
-the content of labels and label specificity based on an ontology we developed 
-for that purpose.
-
-Surprisingly, we found that inter-task effects are much stronger than framing. 
-Our results show that initial tasks can significantly alter the focus of 
-worker's labels. We also found that inter-task effects can induce workers to 
-provide labels of greater specificity. This suggests that careful consideration
-should be given to the bundling of tasks when designing a study using a
-microtask platform.
-
-Our analysis also highlights important advantages of our novel definition of 
-priming.  Our approach incorporates no prior knowledge about the nature
-of the task whatsoever.  In contrast, we also sought to detect priming
-based on its direct effects on label content and specificity,
-drawing on prior knowledge about the images and label semantics.
-Remarkably, while being more general, our definition yields a more sensitive
-measure of priming when combined with machine learning algorithms. 
-This approach could be applied to detect priming when one does not 
-\emph{a priori} know whether any priming has occurred, 
-nor what the nature of the effects might be.
+of \textit{HPU priming}. Priming is traditionally used to elucidate the
+internal psychological mechanisms of cognition.  But here we are concerned with
+understanding the outward effects that priming phenomena have on HPU 
+algorithms. Thus, before we discuss inter-task effects experimentally, we 
+discuss formal definitions for priming as computational phenomenon.  Our
+discussion will lead to a natural definition of priming that enables 
+comparisons of the severity priming effects accross applications, and enables
+the measurement of priming using machine learning tools.
 
 \paragraph*{Priming as computational hysteresis.}
 In psychology, priming effects are studied because they hint at the 
@@ -382,6 +387,10 @@ is one for which the measurement of priming effects can be approached using
 classifiers.
 
 \paragraph{Experimental setup.}
+
+image labeling is common\ldots
+\cite{chandler2013breaking,Berinsky2012351,Finnerty2013,paolacci2010running}.  
+
 We solicited 2300 MTurk workers to perform an image-labeling task using images 
 that depicted meals, place-settings, and related items such as dishes, and 
 kitchenware, and other artifacts naturally arising in dining contexts. Workers 
