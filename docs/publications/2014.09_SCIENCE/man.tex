@@ -74,7 +74,7 @@
 
 % Include your paper's title here
 
-\title{Human computational hysteresis: measuring inter-task effects} 
+\title{Computational hysteresis:\\ inter-task effects in human computation} 
 
 
 % Place the author information here.  Please hand-code the contact
@@ -84,13 +84,13 @@
 % settings shown here.
 
 \author
-{John Smith,$^{1\ast}$ Jane Doe,$^{1}$ Joe Scientist$^{2}$\\
+{Edward Newell, Derek Ruths,\\
 \\
-\normalsize{$^{1}$Department of Chemistry, University of Wherever,}\\
-\normalsize{An Unknown Address, Wherever, ST 00000, USA}\\
-\normalsize{$^{2}$Another Unknown Address, Palookaville, ST 99999, USA}\\
+\normalsize{\texttt{edward.newell@mail.mcgill.ca}}\\
+\normalsize{\texttt{druths@networkdynamics.org}}\\
+\normalsize{School of computer science, McGill University,}\\
+\normalsize{3630 rue University, Montreal, Quebec, H3A 0C6, Canada}\\
 \\
-\normalsize{$^\ast$To whom correspondence should be addressed; E-mail:  jsmith@wherever.edu.}
 }
 
 % Include the date command, but leave its argument blank.
@@ -178,21 +178,25 @@ effects \cite{Gass1999549,sohn2001task}.
 
 Such repetition effects, or
 \textit{inter-task effects}, are neither random, nor are they formally part 
-of the instructions given to the HPU.  The ``leakage'' of information from 
-recently performed tasks into HPU outputs is a potentially strong source of 
-systematic bias, which complicates the the algorithmic view of HPUs. 
+of the instructions given to the HPU.  The ``leakage'' of information, 
+from recently performed tasks, into HPU outputs, is a potentially strong 
+source of systematic bias.
 Inter-task effects would amount to a kind of \textit{hysteresis}, meaning 
 that HPU output is not only a function of the current input, but also of the 
 history of inputs.  
 
-Here we make two contributions towards understanding inter-task effects
+Here we make two contributions towards understanding inter-task effects,
 and HPU hysteresis in general.  We present a framework for treating this 
 source of bias in the context of HPU algorithms, and we measure the impact of
-inter-task effects experimentally in a canonical HPU task: the labeling of 
-images.
+inter-task effects experimentally.
 
 Using the  Amazon Mechanical Turk (Mturk) platform, we solicited workers to 
-perform a series of image-labeling tasks.  
+perform a series of image-labeling tasks.  We chose this as the canonical
+microtask because image labeling tasks are one of the most common kinds of
+microtasks
+\cite{chandler2013breaking,Berinsky2012351,Finnerty2013,paolacci2010running}, 
+and it seems likely that human computation will have a long-term role
+in computer vision research \cite{5543192}.
 In these tasks, workers labeled images featuring iconic cultural scenes,
 food, table-settings, and various utensils and cookware. We divided the set of 
 images shown to a given worker into an \textit{initial} and \textit{test} set, 
@@ -220,10 +224,10 @@ was funded by a research lab having a particular area of interest, to see the
 influence this has on the workers’ subsequent labels. 
 Surprisingly, inter-task effects were stronger than framing, in some cases 
 about twice as strong. 
-Our results show that initial tasks can significantly alter the subject 
-matter on which worker's labels focus. We also found that inter-task 
-effects can induce workers to provide labels of greater or lesser specificity. 
-This suggests that careful consideration should be given to the bundling of 
+Our results suggest that initial tasks can change what workers choose to focus
+in in later tasks.  We also found that inter-task 
+effects altered the level of specificity of worker's labels.  This suggests 
+that careful consideration should be given to the bundling of 
 tasks when designing a study using a microtask platform.
 
 To characterize inter-task effects, we present a novel, generalized definition 
@@ -231,17 +235,17 @@ of \textit{HPU priming}. Priming is traditionally used to elucidate the
 internal psychological mechanisms of cognition.  But here we are concerned with
 understanding the outward effects that priming phenomena have on HPU 
 algorithms. Thus, before we discuss inter-task effects experimentally, we 
-discuss formal definitions for priming as computational phenomenon.  Our
-discussion will lead to a natural definition of priming that enables 
-comparisons of the severity priming effects accross applications, and enables
-the measurement of priming using machine learning tools.
+describe candidate definitions for priming as computational phenomenon.  This 
+leads to a natural definition of priming that provides a consistent measure of 
+the severity of priming accross applications, and enables the measurement of 
+priming using machine learning tools.
 
 \paragraph*{Priming as computational hysteresis.}
 To begin, we adopt the perspective that there is no canonical neutral or
 unprimed state.  Rather, we will speak of one HPU population being 
 \textit{differently primed} from another.  We present three definitions for 
-the difference in priming between HPU populations, each having different 
-merits, and then we discuss their relationships. To proceed with the 
+the difference in priming between HPU populations, each with different 
+advantages, and then we discuss their relationships. To proceed with the 
 definitions, we will assume that two populations of HPU’s, $\mathcal{P}$ and 
 $\mathcal{Q}$ were 
 sampled randomly from the same initial population $\mathcal{R}$, and then were 
@@ -249,8 +253,8 @@ exposed to (possibly) different priming treatments. The HPUs in $\mathcal{P}$
 and $\mathcal{Q}$ perform some task, leading to popualtions of work-products, 
 $P$ and $Q$.
 
-For the first defenition, we focus on the direct effects that running an 
-algorithm on differently primed HPUs has on the algorithm's output.
+For the first defenition, we focus on the effect that differently primed
+HPUs can have on the output of a human computation algorithm.
 
 \begin{mydef}
 	\label{def:bias}
@@ -278,16 +282,16 @@ algorithm on differently primed HPUs has on the algorithm's output.
 		\sup_\mathcal{D} \theta^\mathcal{D}_\mathrm{bias}(P,Q)
 	$$
 \end{mydef}
-Thus, in \textbf{Definition \ref{def:bias}}, $\theta_\mathrm{bias}$ has a 
+In \textbf{Definition \ref{def:bias}}, $\theta_\mathrm{bias}$ has the 
 straightforward interpretation as an upper bound on the amount of bias induced 
 on any yes-or-no decision, due to the difference in priming of 
-$\mathcal{P}$ and $\mathcal{Q}$.  Although easy to interpret, it is, however, 
+$\mathcal{P}$ and $\mathcal{Q}$.  Though easy to interpret, it is admittedly
 not clear how $\theta_\mathbf{bias}$ could be measured in practice.
 
-Next we attempt to phase the difference in priming between $\mathcal{P}$ and
-$\mathcal{Q}$ in terms of the extent to which their work products are 
+Next we to phrase the difference in priming between $\mathcal{P}$ and
+$\mathcal{Q}$ in terms of the extent to which their work-products are 
 distinguishable algorithmically. To facilitate this definition, we make 
-use of the notions of a \textit{distinguisher} and a \textit{validation} test.
+use of the notions of a \textit{distinguisher} and a \textit{validation test}.
 \begin{mydef}
 	{\upshape Algorithmic distinctness $\theta_\mathrm{dist}$:}
 	Let $\mathcal{D}$ be a distinguisher algorithm, which takes work-product 
@@ -296,36 +300,41 @@ use of the notions of a \textit{distinguisher} and a \textit{validation} test.
 	$V(\mathcal{D}, R_0, R_1)$ as follows. A bit is drawn uniformly at random, 
 	$b \in_R \{0, 1\}$, and then a work-product $r$ is chosen uniformly at 
 	random from one of the populations, decided by the bit: $r \in_R R_b$. 
-	Feed $r$ to $\mathcal{D}$, and if $\mathcal{D}(r) = b$, we say 
-	$\mathcal{D}$ guessed correctly, and the value of $V$ is 1, 
+	Input $r$ into $\mathcal{D}$, and if $\mathcal{D}(r) = b$, we say 
+	$\mathcal{D}$ \emph{guessed correctly}, and the value of $V$ is 1, 
 	otherwise $V = 0$.
 
 	A distinguisher that guesses randomly will still be correct half of the 
-	time. Therefore, denote the performance of $\mathcal{D}$ as 
-	$\eta_\mathcal{D}(P, Q)$:
+	time. Therefore, denote the performance of $\mathcal{D}$ by 
+	$\eta_\mathcal{D}(P, Q)$, and let
 	$$
-		\eta_\mathcal{D}(P,Q) = 2\cdot \mathrm{E}\{V(\mathcal{D},P,Q)\} - 1
+		\eta_\mathcal{D}(P,Q) = 2\cdot \mathrm{E}\{V(\mathcal{D},P,Q)\} - 1.
 	$$
 	Then define the difference in priming between $\mathcal{P}$ and 
 	$\mathcal{Q}$ to be the performance of the best possible distinguisher:
 	$$ 
 		\theta_\mathrm{dist} = \sup_\mathcal{D} \eta_\mathcal{D}(P,Q)
 	$$
+	\label{def:dist}
 \end{mydef}
-In the above definition, the performance simply rescales accuracy, so that when
-accuracy is 1/2 (i.e. as good as chance) performance is 0, and when accuracy 
-is perfect, performance is 1. This definition formulates the measurement of 
+In \textbf{definition \ref{def:dist}}, the performance simply rescales 
+accuracy, so that when
+accuracy is 1/2 (i.e. no better than chance) performance is 0, and when 
+accuracy is perfect, performance is 1. This definition formulates the 
+measurement of 
 priming effects in terms of a binary classification problem. As we will show,
-this allows us to apply tools from the machine learning field to the 
-measurement of difference in priming.  However, it is not immediately clear 
+this allows us to apply machine learning tools to the 
+measurement of priming.  However, it is not immediately clear 
 how this measure relates to the potential for priming to cause bias.
 
 For the third definition, we focus on describing the inherent, statistical
-difference between work-products in $P$ and $Q$. Thus we define the difference
-in priming to be equal to the \textit{total variational distance}, or $l_1$-distance (denoted $D_{l_1}$) between $P$ and $Q$. 
+difference between work-products in $P$ and $Q$.  
 \begin{mydef}
 	\label{def:l1}
-	{\upshape total variational distance $\theta_{l_1}$:}
+	{\upshape Total variational distance $\theta_{l_1}$:}
+	Define the difference in priming between $\mathcal{P}$ and $\mathcal{Q}$ 
+	to be equal to the total variational distance (also known as 
+	$l_1$-distance, denoted $D_{l_1}$) between the work-products $P$ and $Q$:
 	$$
 	\theta_{l_1} = D_{l_1}(P,Q) \equiv \frac{1}{2} \sum_{x \in \mathcal{X}} 
 	\left| 
@@ -334,101 +343,136 @@ in priming to be equal to the \textit{total variational distance}, or $l_1$-dist
 	$$
 	where $f_P(x)$ denotes the probability of observing x when sampling from P.
 \end{mydef}
-The abvantage of definition \ref{def:l1} is that it provides connections
+The advantage of \textbf{definition \ref{def:l1}} is that it provides connections
 to statistical and information theory.
 
 Remarkably, all three definitions are, in fact, equivalent, and from here on
 we simply denote the difference in priming as $\theta$.  We provide proofs
-in the supplementary material to demostrate this fact.  This means that we
+of this fact in the supplementary material.  This means that we
 can use machine learning tools to measure priming, while interpreting the
 results either in terms of the  leakage of information from a prime into an 
 HPU output or in terms of the potential to bias a decision.
 
 \paragraph{Measuring priming.}
 Before proceeding, we offer a few words of caution regarding the measurement 
-of $\theta$.
-
-Care must be taken in estimating $D_{l_1}$ from samples so as not to obtain
-an inflated estimate. In the so-called naive approach, one uses the frequency 
+of $\theta$.  In the so-called naive approach, one uses the frequency 
 with which a given work-product $x$ is obtained from HPUs in $\mathcal{P}$ to 
 estimate the probability mass function at $x$; 
 $\hat{f}_P(x) = (\sum_{X\in P} \mathbf{1}_{[X=x]})/|P|$.
 One can then estimate 
-$D_{l_1} = \sum_{x \in \mathcal{X}} \left|\hat{f}_P(x) - \hat{f}_Q(x) \right|/2$ using only the sample frequencies. But the number of samples, $|P|$ and 
+$
+D_{l_1} = 
+	\sum_{x \in \mathcal{X}} \left|\hat{f}_P(x) - \hat{f}_Q(x) \right|/2
+$ 
+using only the sample frequencies. But the number of samples, $|P|$ and 
 $|Q|$, must be much larger than the number of possible work-outputs, 
 $|\mathcal{X}|$, otherwise, this method produces an enormously inflated 
-estimate.
+estimate \cite{val-thesis}.
 
 Recently, attempts have been made to provide better estimators. Valiant, 
 provides a canonical estimation approach based on first estimating the unseen 
-region of the support. This algorithm appears to perform very well in practice.
-Batu provided an alternative approach, which bypasses estimating the 
-probability mass functions, and relies on the more fundamental concept of 
-\textit{collisions}.
+region of the support\cite{val-thesis}. This algorithm appears to perform 
+very well in practice.  Batu provided an alternative approach, which bypasses 
+estimating the probability mass functions, and relies on the more fundamental 
+concept of \textit{collisions}\cite{batu2000testing,batu2013testing}, which 
+has recently been simplified \cite{chan2014optimal}.
 
 Both methods converge much more quickly than the naive approach. However, two 
-limitations remain that prevent their application. First, these relatively 
-recent approaches are not accompanied by any absolute guarantees of 
-statistical confidence, so it is not yet clear how to build confidence 
-intervals for a given estimate. Second, sophisticated as these methods are, 
-they still cannot provide reliable estimates when none of the elements of the 
-support recur in the samples (that is, when we never observe the same 
-work-product twice in our sample sets).
+basic limitations remain. First, these relatively recent approaches are not 
+accompanied by any absolute guarantees of statistical confidence, so it is not 
+clear how to build confidence intervals for a given estimate. Second, these 
+cannot provide reliable estimates if none of the elements of the support 
+recur in the samples (that is, when we never observe the same work-product 
+twice in our sample sets).
 
-It may seem unreasonable to hope to measure $D_{l_1}$ when our samples are so 
-megre that no specific work-product recurrs, but this level of sparsity is 
-routinely faced in classification tasks. As a concrete example, a facial 
-recognition 
-system (which classifies images as face or non- face) is expected to work on 
-images that have never been seen before, and its design cannot be predicated on
-covering a significant fraction of all possible images during training. In our 
-experiment, we demonstrate that the quintessential microtask, image labeling, 
-is one for which the measurement of priming effects can be approached using 
-classifiers.
+It may seem unreasonable to hope to measure $\theta$ when our samples are so 
+sparse in the space of work-products.  However, in machine learning,
+classifiers can succeed in the face of this much sparsity, and we can use
+this fact to estimate a lower bound on $\theta$ via \textbf{definition \ref{def:dist}}.
 
 \paragraph{Experimental setup.}
+We performed two experiments, soliciting respectively 900 and 2300 MTurk 
+workers to
+label images that depicting iconic cultural scenes, meals, ingredients, 
+table-settings, and various utensils and cookware. In these experiments,
+workers were randomly assigned to treatments, and depending on this 
+assignment, were exposed to different framing primes, given a different 
+set of initial images, and shown a different permutation of the test images. 
+In all treatments (for both experiments), workers were 
+given the same brief set of instructions before labeling any images.  The
+framing prime, if one was shown, followed the instructions.  Workers then
+labelled images, one at a time, providing five labels per image.  
+For the purpose of analysis, we denote the first five images as the 
+\textit{initial set}, and the last five as the \textit{test set}, but, 
+cruicially, from
+the perspective of the worker, no distinction was aparent.
+In the second experiment, treatments which received framing primes were
+not shown an initial set, so labeled only five images (the test set).
+Table 1 sumarizes the various experimental treatments for both 
+experiments.
 
-image labeling is common\ldots
-\cite{chandler2013breaking,Berinsky2012351,Finnerty2013,paolacci2010running}.  
+\begin{table}[t]
+\centering
+	\begin{tabular}{ l  l  l }
+		\hline                       
+		Treatment & Framing prime & Initial image set	\\ 
+		\hline                       
+		$\textsc{ambg}$ & None & Ambiguous\\
+		$\textsc{img:cult}$ & None & Cultural\\
+		$\textsc{img:ingr}$ & None & Ingredients\\
+		$\textsc{frm:cult}$ & Cultural & Cultural\\
+		$\textsc{frm:ingr}$ & Cultural & Cultural\\
+		\hline  
+	\end{tabular}
 
-We solicited 2300 MTurk workers to perform an image-labeling task using images 
-that depicted meals, place-settings, and related items such as dishes, and 
-kitchenware, and other artifacts naturally arising in dining contexts. Workers 
-were randomly assigned into one of four treatments, described below. In all 
-treatments, workers were given brief instruc- tions before labeling any images.
-In some treatments, workers were then also shown a \textit{framing slide}, 
-indicating 
-the tasks were funded by a group having a particular research focus. The tasks 
-consisted of single images, and workers were asked to provide five descriptive 
-labels for each. The last five images that workers labeled, the 
-\textit{test set}, were the same for all treatments.
 
-The first two treatments, IMG:OBJ and IMG:FOOD, tested inter-task effects. 
-Workers in these treatments labelled ten images. In the IMG:OBJ treatment, the 
-\textit{initial set} of five images labeled by workers contained objects such 
-as utensils, kitchenware, and table-settings, but no food items. In the 
-\textsc{img:food}, the initial set contained centered close-ups of meals, 
-without
-any surrounding objects (except sometimes the dish supporting the food). No 
-interruption or distinction made between the initial and test sets from the 
-view of the workers. To study the positional dependance of inter-task effects,
-these treatments were subdivided, and workers were shown one of five 
-permutations. There are of course 5! = 120 permutations of five images, but 
-investigating all permutations was too expensive, and probably redundant, so 
-we chose 5 permutations that ensure each image occupies each position within 
-the test set. We discuss the benefits and drawbacks of this choice in the 
-supplementary material.
+	\caption{ \footnotesize{ 
+		Workers were uniformly randomly assigned to one of the 
+		treatments listed above. 
+		The full funder names used were 
+		``The Global Foundation for Cultural Recognition'' and 
+		``The National Foundation for Nutritional Awareness''.  
+		The ambiguous, cultural, and ingredients initial image sets are shown 
+		in \textbf{Figs. 2}, \textbf{3}, and \textbf{4}.
+	}}
+	\label{table:1}
+\end{table}
 
-Workers in the treatments \textsc{frm:food} and \textsc{frm:obj} were shown a 
-framing slide, which bore a message reading: ``Funded by the laboratory for 
-the visual perception of \{Food and Ingredients $\vert$ Objects and Tools\}''. 
-After the framing slide, workers in these treatments proceeded directly to 
-the test set (and so labeled only 5 images).
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.7]{figs/tasks.pdf}
+	\caption{Examples of slides used for the image labeling tasks. A) instructions shown to all workers; B) a framing slide; C) a slide from the initial set for treatment IMG:FOOD; D) a slide from the initial set for treatment IMG:OBJ; E) a slide from the test set shown in all treatments. The full set of slides used for all treatments is presented in the supplementary material.}
+	\label{fig:task}
+\end{figure}
+
+
+
 
 \paragraph{The strength of inter-task effects}
-We tested for inter-task effects by training a Naive Bayes classifier to 
-classify work-products among IMG:OBJ and IMG:FOOD, using only the labels 
-attributed to the test set of images. Based on Definition 2, no classifier 
+The purpose of the first experiment was to compare the relative strength
+of inter-task and framing effects.  In this experiment, the treatment 
+\textsc{ambg} served as a base-case.  The other treatments differed from
+\textsc{ambg} either in terms of the initial image set, or by the addition of a
+framing prime.  
+
+The test images in this experiment 1 consisted of meals having
+a strong, specific cultural connection (Fig. \ref{fig:task} shows an example).
+The \textsc{ambg} treatment had an initial set which also consisted of meals,
+but without more muted cultural overtones.  The initial images for treatment 
+\textsc{img:cult} featured iconic cultural scenes (devoid of food) while 
+those for treatment \textsc{img:ingr} consisted of isolated ingredients.
+Treatments \textsc{frm:cult} and \textsc{frm:ingr} had the same initail images
+as \textsc{ambg}, but had respectively a framing prime indicating that the
+tasks were funded by a foundation for ``cultural recognition'' and
+``nutritional awareness''.
+
+We tested for inter-task effects by evaluating the performance of a Naive 
+Bayes classifier when distinguishing the work-products from 
+\textsc{img:cult} and \textsc{img:ingr}, and, separately, when distinguishing
+those from \textsc{frm:cult} and \textsc{frm:ingr},
+using only the labels that workers from these treatments
+attributed to the test set of images.
+
 can perform better than the actual difference in priming, so the performance 
 of Naive Bayes classifier provides a lower bound on priming difference. We 
 used leave-one-out validation to estimate the classifier per- formance. We 
@@ -452,6 +496,27 @@ results, so we omit treatments involving framing from the remainder of our
 presentation to save space. We encourage the interested reader to look at the 
 results for these treatments in the supplementary material.
 
+%The first two treatments, IMG:OBJ and IMG:FOOD, tested inter-task effects. 
+%Workers in these treatments labelled ten images. In the IMG:OBJ treatment, the 
+%\textit{initial set} of five images labeled by workers contained objects such 
+%as utensils, kitchenware, and table-settings, but no food items. In the 
+%\textsc{img:food}, the initial set contained centered close-ups of meals, 
+%without
+%any surrounding objects (except sometimes the dish supporting the food). No 
+%interruption or distinction made between the initial and test sets from the 
+%view of the workers. To study the positional dependance of inter-task effects,
+%these treatments were subdivided, and workers were shown one of five 
+%permutations. There are of course 5! = 120 permutations of five images, but 
+%investigating all permutations was too expensive, and probably redundant, so 
+%we chose 5 permutations that ensure each image occupies each position within 
+%the test set. We discuss the benefits and drawbacks of this choice in the 
+%supplementary material.
+%
+%Workers in the treatments \textsc{frm:food} and \textsc{frm:obj} were shown a 
+%framing slide, which bore a message reading: ``Funded by the laboratory for 
+%the visual perception of \{Food and Ingredients $\vert$ Objects and Tools\}''. 
+%After the framing slide, workers in these treatments proceeded directly to 
+%the test set (and so labeled only 5 images).
 \paragraph{Inter-task effects and the orientation of focus.}
 Since the initial images were chosen to emphasize either food (ingredients 
 set) or culture (cultural set), we looked for effects on the number of 

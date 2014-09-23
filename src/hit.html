@@ -1,0 +1,641 @@
+<form id="mturk_form" name="mturk_form">
+<div id="console">&nbsp;</div>
+
+<div id="task_anchor">&nbsp;</div>
+<!-- The form controls below are needed for correct HIT functionning  -->
+
+<div id="additional_inputs">&nbsp;</div>
+<input id="assignmentId" name="assignmentId" type="hidden" /> <input id="treatment_id" name="treatment_id" type="hidden" value="" /> <input id="submitButton" name="submitButton" type="submit" />&nbsp;</form>
+<script type="text/javascript">
+window.onload = init;
+
+var permutations = [
+	[0,1,2,3,4],
+	[1,2,3,4,0],
+	[2,3,4,0,1],
+	[3,4,0,1,2],
+	[4,0,1,2,3]
+];
+var NUM_FRAMING_TREATMENTS = 4;
+var NUM_PRIMING_TYPES = 2;
+var NUM_PRIMING_IMAGES = 5;
+var NUM_TEST_IMAGES = 5;
+var NUM_TREATMENTS = (
+		NUM_FRAMING_TREATMENTS + NUM_PRIMING_TYPES * permutations.length);
+var NUM_WORDS = 5;
+var IMAGE_PREFIX = 'http://shpow.com/hcomp/';
+
+function get_treatment_plan(treatment_id) {
+
+	// treatments 0 through 4 use the food priming images, with different
+	// permutations of the test images
+	if(treatment_id<5) {
+		var i = treatment_id;
+		return {
+			'name': 'food image perm ' + i,
+			'priming_images': 'food',
+			'frame': null,
+			'permutation': i
+		};
+	}
+
+	// treatments 5 through 9 use the object priming images, with different
+	// permutations of the test images
+	if(treatment_id<10) {
+		var i = treatment_id - 5;
+		return {
+			'name': 'object image perm ' + i,
+			'priming_images': 'objects',
+			'frame': null,
+			'permutation': i
+		};
+	}
+
+	var offset = 2 * permutations.length;
+
+	// Weak framing treatments
+	if(treatment_id == offset) {
+		return {
+			'name': 'weak food framing',
+			'frame': 'weak_food',
+			'priming_images': null,
+			'permutation': 0
+		};
+	}
+
+	if(treatment_id == offset + 1) {
+		return {
+			'name': 'weak object framing',
+			'frame': 'weak_objects',
+			'priming_images': null,
+			'permutation': 0
+		};
+	}
+
+	// Strong framing treatments
+	if (treatment_id == offset + 2) {
+		return {
+			'name': 'strong food framing',
+			'frame': 'strong_food',
+			'priming_images': null,
+			'permutation': 0
+		};
+	}
+
+	if(treatment_id == offset + 3) {
+		return {
+			'name': 'strong object framing',
+			'frame': 'strong_objects',
+			'priming_images': null,
+			'permutation': 0
+		};
+	}
+
+	// we have returned before getting here!
+	alert('there was an error.  kindly notify the requester with '
+		+ 'error code "pickle", and you will be compensated for your '
+		+ 'time.'
+	);
+}
+
+function get_image_url(image_name) {
+	return IMAGE_PREFIX	+ image_name + '.jpg';
+}
+
+
+function get_test_image_names(permutation_index) {
+	image_names = [];
+	var permutation = permutations[permutation_index];
+
+	for(var i=0; i<permutation.length; i++) {
+		image_names[i] = 'test_'+permutation[i];
+	}
+	return image_names;
+}
+
+
+function get_priming_image_names(priming_images) {
+
+	if (priming_images === null) {
+		return [];
+	}
+
+	var image_names = [];
+
+	for(var i=0; i<NUM_PRIMING_IMAGES; i++) {
+		image_names[i] = priming_images + '_' + i;
+	}
+	return image_names;
+}
+
+
+//  Builds the HIT based on the treatment_id.  
+function buildTask(treatment_id){
+
+	// create a pane manager which makes the task like a series of flash-cards
+	var pane_manager = new TaskPane($('#task_anchor'), function(){
+			$('#mturk_form').submit();
+		}
+	);
+
+	// if treatment is -1 show the demo question, 
+	// and disable the pane_manager's submit callback
+	if(treatment_id<0) {
+		pane_manager.set_finished_callback(function(){});
+		put_intro_panes(pane_manager, false);
+		return;
+	}
+
+	var treatment_plan = get_treatment_plan(treatment_id);
+
+	//$('#console').append('<br/><span>frame: ' 
+	//	+ treatment_plan['frame'] + '</span>'
+	//);
+
+	var priming_images = get_priming_image_names(
+		treatment_plan['priming_images']);
+	var test_images = get_test_image_names(
+		treatment_plan['permutation']);
+
+
+	// make the intro pane(s)
+	put_intro_panes(pane_manager, treatment_plan);
+
+	// make the priming image panes (if any)
+	for(i=0; i<priming_images.length; i++) {
+		put_image_pane(
+			pane_manager,
+			priming_images[i],
+			i,
+			'next >'
+		);
+	}
+
+	// if there aren't any priming images, we will create dummy values
+	// for the form inputs that would have been on the priming image panes.
+	// this makes the csv file for the results a bit more consistent
+	if (priming_images.length == 0) {
+		for (var i=0; i< NUM_PRIMING_IMAGES; i++) {
+			$('#additional_inputs').append(
+				'<input type="hidden" name="img_' + i + '_id" value="none" />'
+			);
+			for (var j=0; j< NUM_WORDS; j++) {
+				$('#additional_inputs').append(
+					'<input type="hidden" name="img_' + i + '_word_' + j + '" '
+						+ 'value="none" />'
+				);
+			}
+		}
+	}
+
+	for(i=0; i<test_images.length; i++) {
+
+		// make the last pane have "finish" as the next button
+		if (i+1 == test_images.length) {
+			var button_text = 'finish';
+		} else {
+			var button_text = 'next >';
+		}
+
+		// make the test image panes
+		put_image_pane(
+			pane_manager, 
+			test_images[i], 
+			i+NUM_PRIMING_IMAGES,
+			button_text
+		);
+	}
+
+}
+
+
+function put_image_pane(
+		pane_manager, 
+		image_name,
+		image_idx,
+		next_button_text
+	) {
+
+	var image_url = get_image_url(image_name);
+	var pane = make_pane();
+
+	var img = $('<img />')
+		.css("width", "800px")
+		.css("float", "left")
+		.css("margin-right", "20px")
+		.attr("src", image_url);
+
+	var img_id_input = $('<input type="hidden" />')
+		.attr("name", "img_" + image_idx + "_id")
+		.val(image_name);
+
+	var word_input_wrapper = $('<div />')
+		.css("float", "left")
+		.css("width", "200px");
+
+	var word_inputs = [];
+	for(var j = 0; j<NUM_WORDS; j++) {
+		word_input = $('<input type="text" />')
+			.css("width", "200px")
+			.css("height", "36px")
+			.css("margin-top", "4px")
+			.css("margin-bottom", "4px")
+			.css("font-size", "24px")
+			.css("color", "rgb(80,80,80)")
+			.css("font-weight", "bold")
+			.css("border", "solid 1px rgb(80,80,80)")
+			.attr("name", "img_" + image_idx + "_word_" + j)
+			.attr("id", "img_" + image_idx + "_word_" + j);
+
+		prevent_submit_on_enter(word_input);
+		word_input_wrapper.append(word_input);
+		word_inputs.push(word_input);
+	}
+
+	var next_button = $('<input type="button"/>')
+		.css("width", "200px")
+		.css("height", "45px")
+		.css("cursor", "pointer")
+		.css("border", "solid 2px rgb(80,80,80)")
+		.css("margin-top", "10px")
+		.css("color", "green")
+		.css("font-size", "30px")
+		.css("background", "rgb(240,240,240")
+		.css("font-weight", "bold")
+
+	word_input_wrapper.append(next_button);
+
+	next_button.val(next_button_text);
+
+	// arm the next button
+	next_button.click(function(word_inputs) {
+		return function() {
+
+			var pass = true;
+
+			for(var i = 0; i < word_inputs.length; i++) {
+				if(word_inputs[i].val().trim().length < 2) {
+					word_inputs[i].css("border", "solid 1px red");
+					pass = false;
+				} else {
+					word_inputs[i].css("border", "solid 1px rgb(80,80,80)");
+				}
+			}
+
+			if(pass) {
+				pane_manager.next_pane();
+			}
+		};
+	}(word_inputs));
+
+	var clear = $('<div />')
+		.css("clear", "both");
+
+	pane.append(img_id_input);
+	pane.append(img);
+	pane.append(word_input_wrapper);
+	pane.append(clear);
+
+	pane_manager.add_pane(pane);
+}
+
+
+function prevent_submit_on_enter(input) {
+	input.on("keypress", function(e) {
+		if(e.which == 13) {
+			e.preventDefault();
+		}
+	});
+}
+
+function arm_submit(btn, pane_num) {
+	btn.click(function() {
+		if(verify_pane(pane_num)) {
+			$('#mturk_form').submit();
+		}
+	});
+}
+
+
+
+
+function TaskPane(pane_wrapper, finished_callback) {
+
+	var panes = [];
+	var cur_pane = 0;
+
+	this.add_pane = function(pane) {
+		// make sure the first pane is displayed, but others are not
+		if(panes.length == 0) {
+			pane.css('display', 'block');
+
+		} else {
+			pane.css('display', 'none');
+		}
+			
+		pane_wrapper.append(pane);
+		panes.push(pane)
+	};
+
+	this.set_finished_callback = function(callback) {
+		finished_callback = callback;
+	};
+
+	this.next_pane = function() {
+		cur_pane++;
+
+		// if there's another pane to display, do so
+		if (cur_pane < panes.length) {
+			panes[cur_pane].css('display', 'block');
+			panes[cur_pane - 1].css('display', 'none');
+
+		// otherwise, fire the finished callback
+		} else {
+			finished_callback();
+		}
+	};
+}
+
+
+function make_pane(){
+	var pane = $('<div class="pane" />')
+		.css("border", "2px solid rgb(120,120,120)")
+		.css("width", "1020px")
+		.css("padding", "20px")
+		.css("clear", "both");
+
+	return pane;
+}
+
+function make_explanation_div(msg) {
+
+	var explanation_div = $('<div />')
+		.css("width", "668px")
+		.css("height", "360px")
+		.css("float", "left")
+		.css("margin-right", "20px")
+		.css("border", "solid 1px rgb(80,80,80)")
+		.css("color", "rgb(80,80,80)")
+		.css("padding", "80px 20px 40px 100px");
+
+	var instructions_msg = $("<div />")
+		.css("font-size", "20px");
+
+	instructions_msg.html(msg);
+
+	explanation_div.html(instructions_msg);
+
+	return explanation_div;
+}
+
+function make_next_button() {
+
+	var next_button = $('<input type="button"/>')
+		.css("float", "left")
+		.css("width", "200px")
+		.css("height", "45px")
+		.css("cursor", "pointer")
+		.css("border", "solid 2px rgb(80,80,80)")
+		.css("margin-top", "10px")
+		.css("color", "green")
+		.css("font-size", "30px")
+		.css("background", "rgb(240,240,240")
+		.css("font-weight", "bold")
+		.val("next >");
+
+
+	return next_button;
+}
+
+function put_text_pane(pane_manager, msg) {
+
+	var pane = make_pane();
+	var explanation_div = make_explanation_div(msg);
+	var next_button = make_next_button();
+	var clear = $('<div />')
+		.css("clear", "both");
+
+	pane.append(explanation_div);
+	pane.append(next_button);
+	pane.append(clear);
+
+	next_button.click(pane_manager.next_pane);
+	pane_manager.add_pane(pane);
+}
+
+
+function put_funder_pane(pane_manager, frame) {
+
+		var funder_msg = $("<div />")
+			.css('font-size', '18px')
+			.css('text-align', 'center');
+
+		if(frame === 'weak_food' || frame === 'weak_objects') {
+			funder_msg.text('Funded by the laboratory for '
+				+ 'the visual perception of');
+
+		} else if(frame === 'strong_food' || frame === 'strong_objects') {
+			funder_msg.text('The purpose of this study is to understand '
+				+ 'the visual perception of');
+		}
+
+		var funder_name = $('<div/>')
+			.css("font-size", "24px")
+			.css('text-align', 'center')
+			.css('margin-top', '30px')
+			.css('font-weight', 'bold');
+
+		if (frame == 'weak_food' || frame === 'strong_food') {
+			funder_name.text('Food and Ingredients');
+
+		} else if (frame == 'weak_objects' || frame === 'strong_objects') {
+			funder_name.text('Objects and Tools');
+		}
+
+		test_that_message_was_read = $(
+			'<div>'
+			+ '<p>The purpose of this study is to understand the '
+				+ 'perception of:</p>'
+				+ '<select id="test_frame" name="test_frame">'
+					+ '<option value="none">'
+						+ '(select one)</option>'
+					+ '<option value="politics">'
+						+ 'news and politics</option>'
+					+ '<option value="food">'
+						+ 'food and ingredients</option>'
+					+ '<option value="objects">'
+						+ 'objects and tools</option>'
+					+ '<option value="gender">'
+						+ 'gender and equality</option>'
+				+ '</select>'
+			+ '</div>'
+		);
+
+		var text_wrapper = $('<div/>')
+			.append(funder_msg)
+			.append(funder_name);
+
+		if(frame === 'strong_food' || frame === 'strong_objects') {
+			text_wrapper.append(test_that_message_was_read);
+		}
+		
+		var pane = make_pane();
+		var explanation_div = make_explanation_div(text_wrapper);
+		var next_button = make_next_button();
+		var clear = $('<div />')
+			.css("clear", "both");
+
+		pane.append(explanation_div);
+		pane.append(next_button);
+		pane.append(clear);
+
+		if (frame === 'weak_food' || frame === 'weak_objects') {
+			next_button.click(function(){
+				pane_manager.next_pane();
+			});
+
+		} else if (frame === 'strong_food' || frame === 'strong_objects') {
+			next_button.click(function(){
+				if($('#test_frame').val() != 'none') {
+					pane_manager.next_pane();
+				} else {
+					$('#test_frame').css('border', 'solid 1px red');
+				}
+			});
+		}
+
+		pane_manager.add_pane(pane);
+
+}
+
+
+function put_intro_panes(pane_manager, treatment_plan) {
+
+	var frame = treatment_plan ? treatment_plan['frame'] : -1;
+
+	var instructions = (
+		"<strong>Instructions</strong>"
+		+	"<p>We'll show you 10 pictures.</p>"
+		+	"<p>Please give 5 'tags' (words) to each picture.</p>"
+		+	"<p>Put one word per text-box.</p>"
+	);
+
+	if(frame<0) {
+		instructions += (
+			'<p style="text-align:center;font-size:14px;color:blue;font-weight:bold;">'
+				+ '(You must accept the HIT to proceed!)'
+			+ '</p>'
+		)
+	}
+
+	// record aspects of this treatment in the HIT's input data
+	treatment_info = (
+		'<input type="hidden" value="' + treatment_plan['frame'] + '"'
+			+ ' name="frame" />'
+
+		+ '<input type="hidden" value="' + treatment_plan['permutation'] + '"'
+			+ ' name="permutation" />'
+
+		+ '<input type="hidden" value="' + treatment_plan['name'] + '"'
+			+ ' name="treatment_name" />'
+
+		+ '<input type="hidden" value="' + treatment_plan['priming_images'] 
+			+ '" name="priming_images" />'
+	);
+
+	// we'll insert hidden inputs which carry the treatment info into the 
+	// instructions pane...
+	instructions += treatment_info;
+
+	put_text_pane(pane_manager, instructions)
+
+	// we set frame to -1 to indicate that this is the task in "preview mode"
+	if(frame == -1) {
+		return
+
+	// otherwise, if framing is set, make a 'framing' pane
+	} else if(frame) {
+		put_funder_pane(pane_manager, frame);
+	}
+
+}
+
+
+
+//	** Usually you don't need to edit the stuff below **
+
+
+//
+//	Initial script called onload.  Turns the form into a conformant HIT
+//	then gets the workerId and passes it to your custom buildTask() function. 
+//
+function init() {
+
+	// a standard call that sets the assignmentId, 
+	// form action, and submit btn behavior, so that the HIT works properly.
+	// the Hit must have a form with id="mturk_form" and a buttun with
+	// id="submitButton".
+	turkSetAssignmentID();
+
+	// get the reqester id
+	var worker_id = turkGetParam('workerId', false);
+
+	// randomly choose a treatment based on the worker_id
+	// treatment_id is set to -1 if there's no requester Id.  
+	var treatment_id;
+	if(worker_id) {
+		treatment_id = decideTreatment(NUM_TREATMENTS);
+	} else {
+		treatment_id = -1; 	// this designates the preview
+	}
+
+	//$('#console').html(
+	//	'worker id: ' + worker_id 
+	//	+ '<br />treatment id: ' + treatment_id
+	//);
+
+	//	Set the treatment id and worker id to hidden form fields
+	//	so it gets associated with the HIT's results
+	$('#treatment_id').val(treatment_id);
+
+	// remove the submit button.  we'll submit programmatically
+	// (But we had to have one in the HTML else AMT behaves strangely)
+	$('#submitButton').remove();
+
+	// build the HIT based on the treatment_id
+	buildTask(treatment_id);
+}
+
+//
+//	Get a url query parameter by name
+//
+function getParameterByName(name) {
+	name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+	var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+	results = regex.exec(location.search);
+	return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
+
+//
+//	returns a randomly chosen treatment_id in {0 ... numTreatments}
+// 	based on the seeed.  Returns -1 if the seed==false.
+//
+function decideTreatment(numTreatments) {
+	var lots = [];
+	var tally = 0;
+	for(var i=0; i<numTreatments; i++) {
+		tally += 1/numTreatments;
+		lots[i] = tally;
+	}
+
+	var pick = Math.random();
+	for(var i=0; i<numTreatments; i++) {
+		if(pick < lots[i]) {
+			break;
+		}
+	}
+		
+	return i;
+}
+</script><script src="https://code.jquery.com/jquery-1.11.0.min.js"></script><script src="https://s3.amazonaws.com/mturk-public/externalHIT_v1.js"></script>
