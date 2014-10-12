@@ -28,7 +28,7 @@ def calc_priming_differences():
 	# labels from the first image as features
 	old_results = {}
 	print 'calculation'
-	old_results['cult_vs_ambg'] =  test_binary_classification(
+	old_results['cult_vs_ambg'] = test_binary_classification(
 		False, ['treatment0', 'treatment1'], ['test0'])
 
 	print 'calculation'

@@ -864,7 +864,7 @@ def plotOrientationAndSpecificity(
 
 	# we only want treatments 0,1, and 2, and so we have to 'pick' the data
 	# at positions 0,1, and 4
-	PICKS = [0,1,4]
+	PICKS = [0,1,4,2,5]
 	treatmentIds = pick(PICKS, treatmentIds)
 
 	treatments = ['treatment%d' % i for i in treatmentIds]
@@ -936,8 +936,8 @@ def plotOrientationAndSpecificity(
 	ax.set_xticklabels(xlabels, rotation=45, 
 		horizontalalignment='right', size=9)
 
-	#ylims = plt.ylim()
-	#plt.ylim(ylims[0], ylims[1]*1.12)
+	ylims = plt.ylim()
+	plt.ylim(ylims[0], ylims[1]*1.04)
 
 	xlims = (-padding, len(X) - 1 + 2*width + padding)
 	plt.xlim(xlims)
@@ -954,7 +954,7 @@ def plotOrientationAndSpecificity(
 	)
 
 	# Label the subplot
-	ax.text(-0.03, 48, 'A', 
+	ax.text(-0.03, 50, 'A', 
 			va='top', ha='left', size=20)
 
 	ax.yaxis.set_label_coords(-0.10,0.5)

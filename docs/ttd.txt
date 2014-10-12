@@ -1,3 +1,31 @@
+manuscript notes
+~~~~~~~~~~~~~~~~
+
+- A second take on an introduction
+Humans outperform sophisticated artificial intelligence algorithms in many
+tasks, especially ones requiring general knowledge about the world, 
+qualitative judgment, and visuo-spatial reasoning.  Recently, microtask
+web platforms have entered the programmer's toolkit, in effect allowing one
+to import human judgment into an algorithm.  Some computer scientists consider
+such platforms to be a new computing architecture, but people are very
+different from electronic processors.  Peoples responses vary, and this stands
+as a barrier to a formal treatment of human computation.  We provide a 
+formal characterization of priming effects and introduce a technique
+for measuring priming.  We apply this technique to investigate an unforseen 
+source of bias: the bias induced by one task on another.  Surprisingly
+we found these \textit{inter-task effects} to be more severe than 
+\textit{framing}, a more well-studied form of priming.
+
+
+[] reduce the number of pannels shown in figure 1
+[] quote precise results for priming effects in experiment 1 for the NB classifier
+[] " " " for degree of food orientation using wordnet on experiment 1
+[] " " " for degree of specificity using experiment 1
+[] experiment 2 to discuss the effects of having no prior tasks for the framing 
+	treatment
+[] experiment 2 to investigate the temporal profile of inter-task effects.
+
+
 OOO
 ===
 6) Clean up the ontology

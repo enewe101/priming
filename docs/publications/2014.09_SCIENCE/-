@@ -451,27 +451,21 @@ experiments.
 		\hline                       
 		Treatment & Framing prime & Initial image set	\\ 
 		\hline                       
-		\textit{Experiment 1}\\
 		$\textsc{ambg}$ & None & Ambiguous\\
 		$\textsc{img:cult}$ & None & Cultural\\
 		$\textsc{img:ingr}$ & None & Ingredients\\
-		$\textsc{frm:cult}$ & Cultural & Ambiguous\\
-		$\textsc{frm:ingr}$ & Ingredients & Ambiguous\\
-		\hline  
-		\textit{Experiment 2}\\
-		$\textsc{img:food}$ & None & Food\\
-		$\textsc{img:obj}$ & None & Objects\\
-		$\textsc{frm:food}$ & Food & None\\
-		$\textsc{frm:obj}$ & Objects & None\\
+		$\textsc{frm:cult}$ & Cultural & Cultural\\
+		$\textsc{frm:ingr}$ & Cultural & Cultural\\
 		\hline  
 	\end{tabular}
+
 
 	\caption{ \footnotesize{ 
 		Workers were uniformly randomly assigned to one of the 
 		treatments listed above. 
 		The full funder names used were 
-		Cultural: ``The Global Foundation for Cultural Recognition'' and 
-		Ingredients: ``The National Foundation for Nutritional Awareness''.  
+		``The Global Foundation for Cultural Recognition'' and 
+		``The National Foundation for Nutritional Awareness''.  
 		The ambiguous, cultural, and ingredients initial image sets are shown 
 		in \textbf{Figs. 2}, \textbf{3}, and \textbf{4}.
 	}}
@@ -486,32 +480,55 @@ experiments.
 \end{figure}
 
 
+
+
 \paragraph{The strength of inter-task effects}
-In our first experiment, we used images culturally iconic meals for
-the test tasks.  To probe inter-task effects, we showed either images of 
-cultural activities, or arrays of separated food ingredients as the initial 
-tasks to probe inter-task effects.  To induce framing, we displayed the 
-message ``this research was proudly funded by the Foundation for 
-\{Cultural Recognition $\vert$ Nutritional Awareness\}'', with the variable
-text displayed in larger font, centered on its own line.
+The purpose of the first experiment was to compare the relative strength
+of inter-task and framing effects.  In this experiment, the treatment 
+\textsc{ambg} served as a base-case.  The other treatments differed from
+\textsc{ambg} either in terms of the initial image set, or by the addition of a
+framing prime.  
 
-A Naive Bayes classifier, tested using leave-one-out validation, could readily 
-distinguish the outputs from workers shown different initial tasks 
-(see \textbf{Fig. 2}).  The same classifier had significantly poorer 
-performance when distinguishing outputs from workers shown different framing
-primes, performing only half as well as in the case of differing initial tasks.
+The test images in this experiment 1 consisted of meals having
+a strong, specific cultural connection (Fig. \ref{fig:task} shows an example).
+The \textsc{ambg} treatment had an initial set which also consisted of meals,
+but without more muted cultural overtones.  The initial images for treatment 
+\textsc{img:cult} featured iconic cultural scenes (devoid of food) while 
+those for treatment \textsc{img:ingr} consisted of isolated ingredients.
+Treatments \textsc{frm:cult} and \textsc{frm:ingr} had the same initail images
+as \textsc{ambg}, but had respectively a framing prime indicating that the
+tasks were funded by a foundation for ``cultural recognition'' and
+``nutritional awareness''.
 
-\paragraph{Initial tasks' affect on the direction of focus} 
-To see how the initial tasks and the framing affected 
-the focus of the workers' labels, we classified all the labels provided
-on test tasks as either \texttt{culture}, \texttt{food}, \texttt{both}, or 
-\texttt{neither} (we describe the label classification method in more detail
-in the supplementary material).  Focusing on the labels provided to the first 
-test task,
-workers that had initially labeled cultural images provided far more cultural
-labels during test tasks, and fewer food labels, than workers that initially
-labeled images depicting ingredients (see \textbf{Fig. 2}).  On the other 
-hand, the framing primes had no statistically significant effect.
+We tested for inter-task effects by evaluating the performance of a Naive 
+Bayes classifier when distinguishing the work-products from 
+\textsc{img:cult} and \textsc{img:ingr}, and, separately, when distinguishing
+those from \textsc{frm:cult} and \textsc{frm:ingr},
+using only the labels that workers from these treatments
+attributed to the test set of images.
+
+can perform better than the actual difference in priming, so the performance 
+of Naive Bayes classifier provides a lower bound on priming difference. We 
+used leave-one-out validation to estimate the classifier per- formance. We 
+tested for framing effects in a similar way, by training a Naive Bayes 
+classifier to classify work-products among \textsc{frm:food} and 
+\textsc{frm:obj}.
+
+Overall, the first image in the test set showed the strongest signal for 
+priming effects. Fig. 3 shows the empirical lower bound for difference in 
+priming due to inter-task effects and framing based on the classifier 
+performance when using labels from the first test image. Statistically 
+significant levels of priming were detected for both modalities, but the 
+inter-task effects were stronger (hypothesis test). This suggests that strong 
+bias can result solely from the sequence of tasks performed by a worker, even 
+when those tasks are of the same type.
+
+In contrast, the classifier never performed significantly better than chance 
+when distinguish- ing treatments that differed only in framing. Thus, framing 
+effects were rather weak. In fact, framing effects were generally weak in our 
+results, so we omit treatments involving framing from the remainder of our 
+presentation to save space. We encourage the interested reader to look at the 
+results for these treatments in the supplementary material.
 
 %The first two treatments, IMG:OBJ and IMG:FOOD, tested inter-task effects. 
 %Workers in these treatments labelled ten images. In the IMG:OBJ treatment, the 
@@ -534,51 +551,103 @@ hand, the framing primes had no statistically significant effect.
 %the visual perception of \{Food and Ingredients $\vert$ Objects and Tools\}''. 
 %After the framing slide, workers in these treatments proceeded directly to 
 %the test set (and so labeled only 5 images).
+\paragraph{Inter-task effects and the orientation of focus.}
+Since the initial images were chosen to emphasize either food (ingredients 
+set) or culture (cultural set), we looked for effects on the number of 
+culture- and food-oriented labels that workers attributed to the test image 
+set.
+
+To this end, we constructed an ontology from the labels attributed to the test 
+images. In the ontology, edges point from more general labels to more 
+specific ones. For example, the ontology contains the path \texttt{food} $\to$ 
+\texttt{ingredients} $\to$ \texttt{vegetables} $\to$ \texttt{tomato}.
+
+Since food is a central feature of culture, our ontology contains many labels 
+that have both food and culture in their ancestry. Nevertheless, there were 
+many food-oriented labels, such as bread, which lacked specific cultural 
+connections, as well as non-food, culture- orientedlabels,suchasrussian dolls.
+
+When we tallied labels attributed to the first image of the test set, we found 
+that workers from CULTimg produced significantly more culture-oriented labels 
+and less food-oriented ones than those from AMBG (see Fig. 2A). The inter-task 
+effect was so strong that the proportion of food- and culture-oriented labels 
+in CULTimg was essentially the reverse of that in AMBG. However, the 
+composition of labels attributed by INGRimg was not significantly different 
+from those attributed by AMBG. This shows that inter-task effects can 
+profoundly alter workers' focus. Again, we will argue later that the ambiguous 
+and ingredients image sets are, in fact, quite similar.
 
 \paragraph{Inter-task effects and specificity.}
-Still using the results of the first experiment, we investigated how initial 
-tasks affect the degree of specificity during the test tasks.
-To measure the relative specificity of labels, we used the hypernym-hyponym
-relationships provided by the wordnet corpus.  Hypernym relationships point
-from specific types to generalizations, while hyponyms point in the opposite
-direction.  For example, the word \texttt{bread} has the hypernym 
-\texttt{baked-goods}, and the hyponym \texttt{naan}.
-We calculated the relative specificity $s_i(u,v)$ of the labels attributed by 
-two workers $u$ and $v$ to image $i$ as follows:
+Using the ontology described in the previous section, we can compare the 
+specificity of two labels $\ell_1$ and $\ell_2$. We say that $\ell_2$ is more specific 
+than $\ell_1$ if there is a directed path from $\ell_1$ to $\ell_2$. If there is no 
+directed path between labels, we say they are \textit{non-comparable}. For 
+example, \texttt{tomato} was more specific than \texttt{food}, while 
+\texttt{statue} and \texttt{food} were non-comparable.
+
+We can then define the relative specificity of two workers with respect to 
+test-image $i$ as $s_i(u, v)$:
 $$
 	s_i(u,v) = \sum_{\ell \in u(i)} \sum_{\ell \in v(i)} 
 	\left( \mathbf{1}_{[\ell > m]} - \mathbf{1}_{[m>\ell]} \right),
 $$
 where $u(i)$ denotes the set of labels attributed by worker $u$ to image $i$, 
-and $\mathbf{1}_{[l>m]}$ evaluates to 1 if $\ell$ is more specific than $m$
-(meaning that $m$ can be reached from $\ell$ by following hypernyms), 
-and 0 otherwise. We then define the relative specificity $S_i(U,V)$ of two 
-treatments $U$ and $V$ relative to image $i$ to be the mean 
+and $\mathbf{1}_{[l>m]}$ evaluates to 1 if $\ell$ is more specific than $m$, 
+and 0 otherwise. We then define the relative specificity of two treatments, 
+$U$ and $V$, relative to the $i$th image, denoted $S_i(U,V)$, to be the mean 
 relative specificity of two uniformly drawn workers:
 $$
-S_i(U,V) = \mathrm{E}_{u,v}\{s_i(u,v)\}   
-$$
-$$
-\hat{S}_i(U,V) = \frac{1}{|U \times V|} \sum_{u \in U} \sum_{v in V}
+	\hat{S}_i(U,V) = \frac{1}{|U \times V|} \sum_{u \in U} \sum_{v in V}
 		s_i(u,v).
 $$
-Looking at labels attributed to the first test image, we found workers 
-that initially labeled images of ingredients were more specific 
-than those that initially labeled cultural scenes (see \textbf{Fig. 3}).  One 
-possible reason for
-this is that the images of ingredients directed workers' attention toward
-the component parts in the images.  To try to corroborate this, we can look
-at the specificity of workers whose initial tasks contained images of prepared
-meals.  Since these images contained whole prepared meals, rather than 
-separated ingredients, we can isolate the effects due to showing the presence
-of food in the initial images from the presentation of isolated parts.  
+Looking at labels attributed to the first test image, we found that workers 
+from \textsc{ambg} were more specific than workers from either 
+$\textsc{CULT}_{img}$ or $\textsc{ingr}_{img}$.  When we compare CULTimg to 
+INGRimg, we found that workers from INGRimg were more specific. This shows 
+that inter-task effects do substantially influence the specificity of labels 
+that workers provide. When we discuss image similarity, below, we will explore 
+a possible mechanism for this effect.
 
-In fact, the workers that intially labeled prepared meals were even
-more specific than those that initially labeled ingredients.  Recall that the
-test tasks also depicted prepared meals.  Thus, it would appear that it is 
-the similarity of initial and test tasks which drove similarity, and not the
-depiction of isolated parts (ingredients).
+\paragraph{The role of task position in inter-task effects.}
+It would stand to reason that, as workers proceed through the test images, 
+priming from the initial images would be ``washed out'', diminishing the 
+observed
+inter-task effects. Looking at the classifier performance, 
+$\hat{\theta}_\mathrm{NB}$, with respect to the treatments AMBG and CULTimg, 
+we find that performance does drop off dramatically after just the first image 
+(see Fig. 3A). This suggests that inter-task effects primarily arise between 
+consecutive tasks, but that a residual effect can persist for at least five 
+tasks (we note, however that although the classifier performance seemed better 
+than chance for the fourth test image, this cannot be asserted with 95\% 
+confidence).
 
+Next we observed how inter-task effects on label composition (i.e. food- vs 
+culture-oriented labels) evolve as workers proceed through test images. We 
+define the excess cultural orientation as the number of culture-oriented 
+labels minus the number of food oriented ones. To meaning- fully compare the 
+excess cultural orientation between test images, we must, however, account 
+for the fact that some images inherently carry more cultural content than 
+others. In keeping with our notion of priming difference, we calculate the 
+excess cultural content for both CULTimg and
+
+AMBG, and take their difference to be the relative excess cultural content, 
+$\Delta_{cult}$. Formally,
+
+		*** Formula for delta cult\ldots
+
+where $N^(i)_{w,cult}$ stands for the number of culture-oriented labels 
+attributed by worker w to image i, while $N^(i)_{w,food}$ similarly counts
+food-oriented labels, and $N$ is the total number of labels in a treatment.
+
+We found $\Delta_{cult}$ was largest for the first test image, but dropped off 
+rapidly, 
+remaining positive but not to a statistically significant extent (see Fig. 3B).
+This is similar to the behavior of $\hat{\theta}_\mathrm{NB}$, however, 
+because the statistical significance of $\Delta_{cult}$ dropped more quickly, 
+$\hat{\theta}_\mathrm{NB}$ appears to be a more sensitive measure of 
+inter-task effects.
+
+\paragraph{Leveraging inter-task effects for detailed responses.}
 \begin{table}
 \centering
 \begin{tabular}{ l  s s s s}
@@ -609,36 +678,46 @@ Pairwise similarities of each image set based on the labels attributed to them (
 \label{table:2}
 \end{table}
 
-One weakness of the above analysis is the reliance on the informal notion
-of the similarity of one set of images to another. The 
+To continue with the analysis, we seek a measure of image similarity. The 
 characterization of image content is a deeply complex issue that has been 
 approached by many disciplines \cite{panofsky1939studies,shatford1986analyzing,Tversky1977327,Jaimes20002}. \textit{Perceptual similarity} is a 
-particularly recalcitrant concept.   But to formalize our claim, we seek a 
-measure of similarity between two sets of images, 
-\textit{with respect to the labeling task}.  This can be operationalized
-in a straightforward way, by using the similarity of the labels given to images
-as a proxy for the similarity of the images.  Thus, to measure the 
-similarity between two sets of images, X and Y , we computed the Jacquard 
-index between the sets of labels attributed to them:
+particularly recalcitrant concept.
+
+However, in the present study, we are more interested how similar two sets of 
+images are, with respect to the labeling task, which is much simpler to 
+operationalize than general percep- tual similarity. Here, we measure image 
+similarity by looking at the fraction of labels that they share. Formally, to 
+measure the similarity between two sets of images, X and Y , we compute the 
+Jacquard index between the sets of labels attributed to them:
 $$
 	\mathrm{Sim}(X,Y) = \frac{L(X) \cap L(Y)}{L(X) \cup L(Y)}
 $$
-where $L(X)$ denotes the set of labels attributed to images in $X$.
+where $L(X)$ denotes the set of labels attributed to $X$.
 
-The pairwise similarities of the image sets are presented in Table 2. This 
-shows that the workers that yielded higher specificity labels were from 
-treatments whose initial tasks were more similar to the test tasks (c.f.
-\textbf{Fig 3}).
+The pairwise similarities of the image sets are presented in Table 2. First, 
+observe that the ambiguous and ingredients sets are much more similar to each 
+other than either is to the culture set. Recalling the data presented in 
+Fig. 1, this helps explain why two treatments could not be distinguished on 
+the basis of having differing initial sets corresponding to ambiguous and 
+cultural. This also explains why AMBG and CULTimg had similar label 
+compositions in Fig. 2A.
 
-Such a phenomenon would be consistent with the psychological mechanism known as
+Next we draw attention to the similarity between the initial sets and the test 
+set. The am- biguous set is the most similar to the test set, followed by the 
+ingredients set, with the cultural set being most different. Observe that these
+levels of similarity mirror the label specificity for the corresponding 
+treatments (c.f. Fig. 2B).
+
+This suggests that labeling a series of images that are similar to one another 
+might encourage workers to use more specific terminology. Such a phenomenon 
+would be consistent with the psychological mechanism known as 
 \textit{negative priming}.
 Negative priming occurs when a person becomes desensitized to non-salient 
-stimuli to which she is repeatedly exposed. Consider that, workers that 
-initially labeled images depicting prepared meals might no longer
-regard the generic labels \texttt{food} or \texttt{meal} to be salient, and 
-opt instead for \texttt{bread}, or \texttt{pasta}.  But for workers that
-initially labeled cultural images, these rather generic labels might well seem
-appropriate.
+stimuli to which she is repeatedly exposed. Consider that workers who 
+initially labeled the ambiguous image set had already seen five images 
+showing prepared meals once they labeled the first test image. At that point, 
+a worker might not regard the generic labels \texttt{food} or \texttt{meal} to 
+be salient, and opt instead for \texttt{bread}, or \texttt{pasta}.
  
 We are suggesting that, although workers are not instructed to compare images 
 in any way, prior tasks nevertheless create a frame of reference relative to 
@@ -647,37 +726,6 @@ salience. Thus, in a series of subjective characterization tasks that have
 very similar content, workers' focus will tend to be directed away from 
 generic, shared attributes, towards those attributes that are specific and 
 distinguishing.
-
-\paragraph{The role of task position in inter-task effects.}
-Up to this point, we have focused on the inter-task effects induced on 
-the first test task.  Not suprisingly, this task was, in general, more 
-strongly affected than the others.  It would stand to reason that, as workers 
-proceed through the test images, priming induced by the initial tasks would
-be ``washed out'', and replaced by the effects of the test tasks themselves,
-which do not differ between treatments.
-
-To investigate this, we performed a second experiment, in which we permuted
-the test tasks in such a way that every test task appears in each of the
-5 locations equally often.  This allows us to track the intertask effects for
-a given test task as it is rotated through the five positions.  Workers were
-again given one of two initial sets of tasks, which either involved labeling
-utensils, cookware, and table settings (but no food), or isolated close-up
-images of prepared meals.  We measured the performance of a Naive Bayes 
-classifier in distinguishing whether labels attributed to a given test 
-image were provided by a worker that labeled objects or meals, as shown in 
-\textbf{Fig. 4}.
-
-The strength of inter-task effects show a clear trend based on the position of
-the test task.  We see that, in general, the first test image is most severely
-affected, and the severity of effect drops off.  Curiously, the severity then
-rises again for the second last, and, especially, final test image.  We 
-speculate that this is related to the workers being aware that they are 
-reaching the end of the batch of labeling tasks.  To be transparent about the
-rate of compensation, we informed workers that they would complete a total
-of ten image-labeling tasks.  Perhaps as the worker nears the end of the batch
-of tasks, she reflects on the overall experience, and in activating the
-memory of the early tasks, is partially re-primed.
-
 
 \paragraph{Conclusions.}
 Our results show that inter-task effects can have a strong influence on how 
@@ -758,30 +806,4 @@ determine the gain in precision from this approach.
 
 
 
-
-%Next we observed how inter-task effects on label composition (i.e. food- vs 
-%culture-oriented labels) evolve as workers proceed through test images. We 
-%define the excess cultural orientation as the number of culture-oriented 
-%labels minus the number of food oriented ones. To meaning- fully compare the 
-%excess cultural orientation between test images, we must, however, account 
-%for the fact that some images inherently carry more cultural content than 
-%others. In keeping with our notion of priming difference, we calculate the 
-%excess cultural content for both CULTimg and
-%
-%AMBG, and take their difference to be the relative excess cultural content, 
-%$\Delta_{cult}$. Formally,
-%
-%		*** Formula for delta cult\ldots
-%
-%where $N^(i)_{w,cult}$ stands for the number of culture-oriented labels 
-%attributed by worker w to image i, while $N^(i)_{w,food}$ similarly counts
-%food-oriented labels, and $N$ is the total number of labels in a treatment.
-%
-%We found $\Delta_{cult}$ was largest for the first test image, but dropped off 
-%rapidly, 
-%remaining positive but not to a statistically significant extent (see Fig. 3B).
-%This is similar to the behavior of $\hat{\theta}_\mathrm{NB}$, however, 
-%because the statistical significance of $\Delta_{cult}$ dropped more quickly, 
-%$\hat{\theta}_\mathrm{NB}$ appears to be a more sensitive measure of 
-%inter-task effects.
 
