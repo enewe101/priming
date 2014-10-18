@@ -235,6 +235,16 @@ Do Now
 		image set dictates specificity
 
 	x make all plots show the 95% CI
+
+	[] optimize an svm classifier to tell apart the inter-task priming
+		using the exp1 data.
+		[] optimal parameters for svm might depend on the number of dimensions
+			prefer to maximize the accuracy of single-image classifications
+			accross the range of images, rather than a 1-off multi-image
+			classification
+
+	[] correct spelling mistakes
+	[] try using hypernyms
 		
 
 [] Ontology

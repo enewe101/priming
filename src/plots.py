@@ -942,9 +942,6 @@ def plotOrientationAndSpecificity(
 	xlims = (-padding, len(X) - 1 + 2*width + padding)
 	plt.xlim(xlims)
 
-	#plt.draw()
-	#plt.tight_layout()
-
 	legend = ax.legend( 
 		(seriesCultural[0], seriesFood[0], seriesBoth1[0]), 
 		('culture', 'food', 'both'), 

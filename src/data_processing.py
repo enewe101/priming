@@ -21,13 +21,16 @@ a per-image, per-treatment basis are also there.
 These word-count printouts were used to build the ontologies by hand.
 '''
 
-
+import numpy as np
+import re
+import os
 import util
 import random
 import json
 import csv
 from collections import defaultdict, Counter
-
+from random import shuffle
+from nltk.corpus import wordnet as wn
 
 
 def readDataset(is_exp_2_dataset=False):
@@ -76,6 +79,8 @@ class CleanDatasetRotationException(Exception):
 
 
 
+
+
 def clean_dataset_adaptor(
 		clean_dataset, 
 		treatments=['treatment0', 'treatment1'], 
@@ -121,6 +126,274 @@ def clean_dataset_adaptor(
 
 	return dict(naive_bayes_dataset)
 				
+
+
+
+
+class SimpleDataset(object):
+	'''
+	this was designed to be well-adapted to training an svm classifier
+	'''
+
+	# This class's assumptions
+	NUM_PRIMING_IMAGES = 5
+	NUM_TEST_IMAGES = 5
+	NUM_IMAGES = NUM_PRIMING_IMAGES + NUM_TEST_IMAGES
+	NUM_WORDS_PER_IMAGE = 5
+	DATA_DIR = 'data/amt_csv'
+	EXP1_PATH = 'exp_1_2014.04'
+	EXP2_PATH = 'exp_2_2014.09'
+	EXP1_FNAMES = ['amt1_cut.csv', 'amt2_cut.csv', 'amt3_cut.csv']
+	EXP2_FNAMES = ['amt_cut_2014.09.csv']
+	CACHE_PATH = 'cache'
+	CORRECTIONS_PATH = 'data/new_data/dictionary.json'
+	WORD_BREAK = re.compile(r'[^a-zA-Z]+')
+
+
+	def __init__(
+		self, 
+		which_experiment=1,
+		show_token_pos=True,
+		show_plain_token=True,
+		do_split=True,
+		class_idxs=[0,1],
+		img_idxs=range(5,10),
+		spellcheck=True,
+		get_syns=True,
+	):
+
+		# validate options
+		# There were two experiments, each with its own dataset
+		assert(which_experiment in [1, 2])
+
+		if not show_token_pos and not show_plain_token:
+			print ('Warning: neither plain tokens nor position-prepended '
+				'tokens are being included -- the vocabulary will be empty.')
+
+		# register options 
+		self.which_experiment = which_experiment
+		self.show_token_pos = show_token_pos
+		self.show_plain_token = show_plain_token
+		self.do_split = do_split
+		self.class_idxs = class_idxs
+		self.img_idxs = img_idxs
+		self.spellcheck = spellcheck
+		self.get_syns = get_syns
+
+		# determine the paths to the desired data
+		self.raw_paths = self.resolve_raw_data_paths(which_experiment)
+
+		# state variables
+		self.data = defaultdict(lambda: [])
+		self.worker_ids = set()
+		self.vocab_list = []
+		self.vocab_counts = Counter()
+		self.num_docs = 0
+
+		# read the corrections dictionary (this is prepared ahead of time)
+		self.read_dictionary()
+
+		# read in the raw data
+		self.read_raw_data()
+
+
+	def read_dictionary(self):
+		fh = open(self.CORRECTIONS_PATH)
+		self.dictionary = json.loads(fh.read())
+		fh.close()
+
+
+	def resolve_raw_data_paths(self, which_experiment):
+
+		if which_experiment == 1:
+			raw_fnames = [
+				os.path.join(self.DATA_DIR, self.EXP1_PATH, f) 
+				for f in self.EXP1_FNAMES
+			]
+
+		else:
+			raw_fnames = [
+				os.path.join(self.DATA_DIR, self.EXP2_PATH, f)
+				for f in self.EXP2_FNAMES
+			]
+
+		return raw_fnames
+
+
+	def seen_worker(self, worker_id):
+		'''
+		check if the worker has been seen before, and record the id if not
+		'''
+
+		if worker_id in self.worker_ids:
+			return True
+
+		self.worker_ids.add(worker_id)
+		return False
+
+
+	def img_idx_2_pos(self, img_idx, class_idx):
+		if img_idx < self.NUM_PRIMING_IMAGES:
+			return img_idx
+
+		if self.which_experiment == 1:
+			return img_idx
+
+		return (img_idx - class_idx)%5 + 5
+
+
+	def img_pos_2_idx(self, image_num, treatment_num):
+		'''
+		Get the image id for the image located at position image_num.
+		This is necessary because the positions of images were permuted in
+		the second experiment
+		'''
+		# the priming images are not permuted
+		if image_num < self.NUM_PRIMING_IMAGES:
+			return image_num
+
+		# the original dataset is not permuted
+		if self.which_experiment == 1:
+			return image_num
+
+		return (image_num + treatment_num)%5 + 5
+
+
+	def read_raw_data(self):
+
+		for fname in self.raw_paths:
+			self.read_raw_file(fname)
+
+
+	def cache(self, cache_address, data):
+		pass
+
+
+	def as_vect(self, randomize=True, weights='tfidf'):
+
+		vectors = []
+		for class_idx in self.class_idxs:
+			for example in self.data[class_idx]:
+				if weights == 'tfidf':
+					feature_vector = [
+						1*np.log2(self.num_docs/float(self.vocab_counts[t]))
+						if t in example['features'] else 0
+						for t in self.vocab_list
+					]
+				else:
+					feature_vector = [
+						1 if t in example['features'] else 0
+						for t in self.vocab_list
+					]
+
+				vectors.append((feature_vector, example['class_idx']))
+
+		if randomize:
+			shuffle(vectors)
+
+		# zip(*list_of_tuples) ==> `unzip`... think about it
+		features, outputs = zip(*vectors)
+		return features, outputs
+
+
+
+	def read_raw_file(self, fname):
+
+		fh = open(fname)
+		reader = csv.DictReader(fh)
+
+		for record in reader:
+
+			# Skip duplicate workers.
+			if self.seen_worker(record['WorkerId']):
+				continue
+
+			self.num_docs += 1
+
+			# The experimental treatment for this worker is its class
+			try:
+				class_idx = int(record['Answer.treatment_id'])
+			except ValueError:
+				print record['Answer.treatment_id']
+
+			# we only load data for the desired classes
+			if class_idx not in self.class_idxs and self.class_idxs != 'all':
+				continue
+
+			# we look at the position where the desired images are found
+			# note that the images are permuted based on treatment (class)
+			img_positions = [self.img_idx_2_pos(p, class_idx) 
+				for p in self.img_idxs]
+
+			# Iterate over all the images in the image-set
+			entry = {'class_idx': class_idx, 'features':[]}
+			self.data[class_idx].append(entry)
+			for img_pos in img_positions:
+
+				img_idx = self.img_pos_2_idx(img_pos, class_idx)
+				word_key_prefix = 'Answer.img_%d_word_' % img_pos
+				add_features = []
+
+				for word_pos in range(self.NUM_WORDS_PER_IMAGE):
+
+					word_key = word_key_prefix + str(word_pos)
+					word  = record[word_key].lower()
+
+					# break apart multiple words 
+					if self.do_split:
+						words = self.WORD_BREAK.split(word)
+					else:
+						words = [word]
+
+					# do spell checks
+					if self.spellcheck:
+						if '%d_%d' % (class_idx,img_idx) in self.dictionary:
+							# get the right dictionary
+							cs = self.dictionary['%d_%d'%(class_idx,img_idx)]
+							# do corrections
+							words = [cs[w] if w in cs else w for w in words]
+							# split corrected cases of word concatenation
+							words = reduce(
+								lambda x,y: x + y.split(), words, [])
+
+					# get the synsets and hypernyms 
+					if self.get_syns:
+						add_words = []
+						for w in words:
+							try:
+								add_words.append(
+									wn.synsets(w)[0].hypernyms()[0].lemmas[0].name)
+							except IndexError:
+								pass
+							#lemmas = reduce(lambda x,y: x + y.lemmas, 
+							#		wn.synsets(w), [])
+							#add_words.extend([l.name for l in lemmas])
+
+						print add_words
+						words.extend(add_words)
+
+					# prepend tokens to indicate what position they were in
+					if self.show_token_pos:
+						add_features.extend(
+							['%d_%s' % (word_pos,w) for w in words])
+
+					# include un-prepended tokens
+					if self.show_plain_token:
+						add_features.extend(words)
+
+				# add the img_idx to the word
+				add_features = [
+					'%d_%s' % (img_idx, w) 
+					for w in add_features
+				]
+
+				# add the tokens
+				entry['features'].extend(add_features)
+				self.vocab_counts.update(add_features)
+
+		fh.close()
+		self.vocab_list = self.vocab_counts.keys()
+		self.vocab_list.sort()
 
 
 
