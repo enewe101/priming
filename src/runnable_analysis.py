@@ -166,24 +166,33 @@ class SvmCvalTest(object):
 		)
 
 
-def wrap_for_annealing_separate(C=1, gamma=1e-3):
-	scores = []
+def get_annealing_func():
 
-	for img_idx in range(5,10):
-		scores.append(calc_priming_svc(
+	datas = [
+		dp.SimpleDataset(
 			which_experiment=1,
 			show_token_pos=True,
 			show_plain_token=True,
 			class_idxs=[1,2],
 			img_idxs=[img_idx],
-			weights='tfidf',
-			kernel='rbf',
-			C=C,
-			gamma=gamma,
-			CV=20
-		))
+			spellcheck=False,
+			get_syns=False
+		).as_vect(weights='tfidf')
+		for img_idx in range(5,10)
+	]
 
-	return np.mean(scores)
+	def wrap_for_annealing_separate(C=1, gamma=1e-3):
+		scores = []
+
+		for i in range(len(datas)):
+			feature_vectors, outputs = datas[i]
+			scores.append(
+				cross_val_svc(feature_vectors, outputs,C,gamma)
+			)
+
+		return np.mean(scores)
+
+	return wrap_for_annealing_separate
 
 
 def wrap_for_annealing(C=1, gamma=1e-3):
@@ -238,6 +247,17 @@ def calc_priming_svc(
 
 		# return the average accuracy
 		return np.mean(scores)
+
+
+def cross_val_svc(feature_vectors, outputs, C, gamma):
+
+	# do cross-validation of an svm classifier
+	clf = svm.SVC(kernel='rbf', C=C, gamma=gamma)
+	scores = cross_validation.cross_val_score(
+		clf, feature_vectors, outputs, cv=20)
+
+	# return the average accuracy
+	return np.mean(scores)
 
 
 def calc_priming_differences():
