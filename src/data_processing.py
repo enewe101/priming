@@ -78,6 +78,43 @@ class CleanDatasetRotationException(Exception):
 	pass
 
 
+def permute(input_list, class_idx, test_only=True):
+	'''
+	helper to deal with the fact that images in the second experiment were
+	shown in permuted order.  
+	Returns an array whose values show the position of the image (and the
+	array indices are the image ids)
+	So, test_permutation[3] would give the position of image named '3'
+	'''
+
+	# note each element with its starting index (implicitly it's image idx)
+	input_list = enumerate(input_list)
+
+	# the test images are in range(5,10), but usually since we don't handle
+	# the priming images, we want to address them
+	# by integers 0 through 4 (i.e. without an offset)
+	if test_only:
+		offset = False
+	else:
+		offset = True
+
+	# permute the input list
+	output_list = sorted(
+		input_list, None, lambda x: get_pos(x[0], class_idx, offset))
+
+	# discard the original indices
+	return [x[1] for x in output_list]
+
+
+def get_pos(img_idx, class_idx, offset=False):
+
+	if not offset:
+		return (img_idx - class_idx) % 5
+
+	if img_idx < 5:
+		return img_idx
+
+	return (img_idx - class_idx) % 5 + 5
 
 
 
@@ -158,8 +195,9 @@ class SimpleDataset(object):
 		do_split=True,
 		class_idxs=[0,1],
 		img_idxs=range(5,10),
-		spellcheck=True,
-		get_syns=True,
+		spellcheck=False,
+		get_syns=False,
+		balance_classes=True,
 	):
 
 		# validate options
@@ -179,6 +217,7 @@ class SimpleDataset(object):
 		self.img_idxs = img_idxs
 		self.spellcheck = spellcheck
 		self.get_syns = get_syns
+		self.num_examples = None # this only gets set in balance_classes()
 
 		# determine the paths to the desired data
 		self.raw_paths = self.resolve_raw_data_paths(which_experiment)
@@ -195,6 +234,20 @@ class SimpleDataset(object):
 
 		# read in the raw data
 		self.read_raw_data()
+		self.balance_classes()
+
+
+	def balance_classes(self):
+
+		# what is the min number of examples in each class?
+		truncate_to = min([len(self.data[idx]) for idx in self.data])
+
+		# truncate all data (randomly) to even out number of examples
+		for idx in self.data:
+			self.data[idx] = random.sample(self.data[idx], truncate_to)
+
+		self.num_examples = truncate_to
+		print 'truncated to %d examples.' % truncate_to
 
 
 	def read_dictionary(self):
@@ -322,15 +375,23 @@ class SimpleDataset(object):
 
 			# we look at the position where the desired images are found
 			# note that the images are permuted based on treatment (class)
-			img_positions = [self.img_idx_2_pos(p, class_idx) 
-				for p in self.img_idxs]
+			if self.which_experiment==2 and class_idx < 10:
+				img_positions = [self.img_idx_2_pos(p, class_idx) 
+					for p in self.img_idxs]
+			else:
+				img_positions = self.img_idxs
 
 			# Iterate over all the images in the image-set
 			entry = {'class_idx': class_idx, 'features':[]}
 			self.data[class_idx].append(entry)
 			for img_pos in img_positions:
 
-				img_idx = self.img_pos_2_idx(img_pos, class_idx)
+				# get the (unpermuted) id for the image
+				if self.which_experiment == 2 and class_idx < 10:
+					img_idx = self.img_pos_2_idx(img_pos, class_idx)
+				else:
+					img_idx = img_pos
+
 				word_key_prefix = 'Answer.img_%d_word_' % img_pos
 				add_features = []
 
