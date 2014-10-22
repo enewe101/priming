@@ -1,0 +1,57 @@
+{
+  "1_img_cult": {
+    "num_food_words": 1663, 
+    "fract_food": 0.46155981126838747, 
+    "num_words": 3603
+  }, 
+  "1_img_ingr": {
+    "num_food_words": 1862, 
+    "fract_food": 0.47139240506329116, 
+    "num_words": 3950
+  }, 
+  "2_sfrm_food": {
+    "num_food_words": 2317, 
+    "fract_food": 0.6074986890403775, 
+    "num_words": 3814
+  }, 
+  "2_wfrm_obj": {
+    "num_food_words": 2045, 
+    "fract_food": 0.549140708915145, 
+    "num_words": 3724
+  }, 
+  "1_img_food": {
+    "num_food_words": 1443, 
+    "fract_food": 0.386448848419925, 
+    "num_words": 3734
+  }, 
+  "2_sfrm_obj": {
+    "num_food_words": 2425, 
+    "fract_food": 0.5304024496937882, 
+    "num_words": 4572
+  }, 
+  "1_wfrm_food": {
+    "num_food_words": 1596, 
+    "fract_food": 0.425713523606295, 
+    "num_words": 3749
+  }, 
+  "2_wfrm_food": {
+    "num_food_words": 2301, 
+    "fract_food": 0.5844551689103378, 
+    "num_words": 3937
+  }, 
+  "1_wfrm_cult": {
+    "num_food_words": 1542, 
+    "fract_food": 0.4292873051224944, 
+    "num_words": 3592
+  }, 
+  "2_img_obj": {
+    "num_food_words": 9675, 
+    "fract_food": 0.5271330500163453, 
+    "num_words": 18354
+  }, 
+  "2_img_food": {
+    "num_food_words": 10392, 
+    "fract_food": 0.5583794530116598, 
+    "num_words": 18611
+  }
+}

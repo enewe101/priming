@@ -307,6 +307,28 @@ class DFSTestCase(unittest.TestCase):
 		return False
 
 
+	def test_dfs_cycle_safe(self):
+		# make a dfs using the callbacks and 
+		self.dfs = wna.DFS(
+			self.get_node_hash,
+			self.get_children_callback,
+			self.inter_node_callback,
+			self.leaf_node_callback,
+			self.abort_branch_callback,
+			allow_double_process=True
+		)
+
+		# introduce a cycle
+		self.c2['children'].append(self.c0)
+
+		# attempt to walk the graph containing a cycle
+		# a max-recursion depth error will occur if cycle protection fails
+		expected_walk = 'c0 -> c1 -> c3; c4; c2 -> c3; c5'
+		found_walk = self.dfs.start_walk(self.c0)
+
+		self.assertEqual(expected_walk, found_walk)
+
+
 	def test_dfs_duplicate_allowed(self):
 		# make a dfs using the callbacks and 
 		self.dfs = wna.DFS(
@@ -318,7 +340,7 @@ class DFSTestCase(unittest.TestCase):
 			allow_double_process=True
 		)
 
-		found_walk = self.dfs.walk(self.c0)
+		found_walk = self.dfs.start_walk(self.c0)
 		expected_walk = 'c0 -> c1 -> c3; c4; c2 -> c3; c5'
 
 		self.assertEqual(expected_walk, found_walk)
@@ -335,7 +357,7 @@ class DFSTestCase(unittest.TestCase):
 			allow_double_process=False
 		)
 
-		found_walk = self.dfs.walk(self.c0)
+		found_walk = self.dfs.start_walk(self.c0)
 		expected_walk = 'c0 -> c1 -> c3; c4; c2 -> c5'
 
 		self.assertEqual(expected_walk, found_walk)

@@ -31,6 +31,7 @@ import csv
 from collections import defaultdict, Counter
 from random import shuffle
 from nltk.corpus import wordnet as wn
+import nltk
 
 
 def readDataset(is_exp_2_dataset=False):
@@ -117,11 +118,19 @@ def get_pos(img_idx, class_idx, offset=False):
 	return (img_idx - class_idx) % 5 + 5
 
 
-
+SPLIT_RE = re.compile(r'[^a-zA-Z0-9]')
 def clean_dataset_adaptor(
 		clean_dataset, 
 		treatments=['treatment0', 'treatment1'], 
-		images=['test0']
+		images=['test0'],
+		show_token_pos=True,
+		show_plain_token=True,
+		do_split=True,
+		remove_stops=True,
+		lemmatize=True,
+#		spellcheck=True,
+#		experiment=2,
+		weight='tfidf', # Not implemented does nothing
 	):
 	'''
 	extracts a dataset from the clean_dataset object in the format expected
@@ -130,6 +139,18 @@ def clean_dataset_adaptor(
 
 	# we'll accumulate the new dataset in here
 	naive_bayes_dataset = defaultdict(lambda: [])
+
+	# we might need a dictionary of spelling corrections
+	#if spellcheck:
+	#	dictionary = json.loads(open('data/new_data/dictionary.json').read())
+
+	# we might need a lemmatizer
+	if lemmatize:
+		lmtzr = nltk.stem.wordnet.WordNetLemmatizer()
+
+	# we might need the stopwords list
+	if remove_stops:
+		stops = set(nltk.corpus.stopwords.words('english'))
 
 	# walk over all the treatments
 	for treatment in treatments:
@@ -150,10 +171,54 @@ def clean_dataset_adaptor(
 			for image in images:
 				labels_for_image = filter(lambda x: x[0][0]==image, all_items)
 
-				# this may look a bit strange.  We're just repacking the
-				# info we want -- features are image-label tuples 
-				features_for_image = [
-					(image, word) for (image, pos), word in labels_for_image]
+				features_for_image = []
+
+				for label in labels_for_image:
+
+					# take apart the label components
+					(img_idx, pos), word = label
+
+					# maybe split up multiple words entered in same input
+					if do_split:
+						words = SPLIT_RE.split(word)
+					else:
+						words = [word]
+
+					# maybe remove stopwords
+					if remove_stops:
+						words = [w for w in words if w not in stops]
+
+#					# maybe correct spelling
+#					if spellcheck:
+#						dict_key = '%d_%d' % (experiment, int(image[-1])+5)
+#						if dict_key in dictionary:
+#							this_dict = dictionary[dict_key]
+#
+#							yope = False
+#							if any([w in this_dict for w in words]):
+#								yope = True
+#								print words
+#
+#							words = [
+#								this_dict[w] if w in this_dict else w 
+#								for w in words
+#							]
+#							if yope:
+#								print words
+
+					# maybe lemmatize
+					if lemmatize:
+						words = [lmtzr.lemmatize(w) for w in words]
+
+					# keep each word as a separate feature.  Tag with img_idx
+					if show_plain_token:
+						features_for_image.extend([
+							(img_idx, word) for word in words])
+
+					# we can also keep track of the position of the labels
+					if show_token_pos:
+						features_for_image.extend([
+							(img_idx, pos, word) for word in words])
 
 				# tack on the features from this image onto the example
 				example.extend(features_for_image)
@@ -162,8 +227,6 @@ def clean_dataset_adaptor(
 			naive_bayes_dataset[treatment].append(tuple(example))
 
 	return dict(naive_bayes_dataset)
-				
-
 
 
 
@@ -192,6 +255,7 @@ class SimpleDataset(object):
 		which_experiment=1,
 		show_token_pos=True,
 		show_plain_token=True,
+		show_token_img=True,
 		do_split=True,
 		class_idxs=[0,1],
 		img_idxs=range(5,10),
@@ -218,6 +282,7 @@ class SimpleDataset(object):
 		self.spellcheck = spellcheck
 		self.get_syns = get_syns
 		self.num_examples = None # this only gets set in balance_classes()
+		self.show_token_img = show_token_img
 
 		# determine the paths to the desired data
 		self.raw_paths = self.resolve_raw_data_paths(which_experiment)
@@ -442,11 +507,12 @@ class SimpleDataset(object):
 					if self.show_plain_token:
 						add_features.extend(words)
 
-				# add the img_idx to the word
-				add_features = [
-					'%d_%s' % (img_idx, w) 
-					for w in add_features
-				]
+				# maybe add the img_idx to the word
+				if self.show_token_img:
+					add_features = [
+						'%d_%s' % (img_idx, w) 
+						for w in add_features
+					]
 
 				# add the tokens
 				entry['features'].extend(add_features)

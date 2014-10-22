@@ -486,22 +486,227 @@ experiments.
 \end{figure}
 
 
-\paragraph{The strength of inter-task effects}
-In our first experiment, we used images culturally iconic meals for
-the test tasks.  To probe inter-task effects, we showed either images of 
-cultural activities, or arrays of separated food ingredients as the initial 
-tasks to probe inter-task effects.  To induce framing, we displayed the 
-message ``this research was proudly funded by the Foundation for 
-\{Cultural Recognition $\vert$ Nutritional Awareness\}'', with the variable
-text displayed in larger font, centered on its own line.
+\paragraph{The strength of inter-task effects.}
+\begin{figure}
+	\centering
+	\includegraphics[scale=1]{figs/theta.pdf}
+	\caption{
+		Difference in priming observed for various pairs of worker populations.
+		The pairs of populations differed in terms of the initial tasks they
+		performed (bars labeled by \textit{inter-t.}) or in terms of the framing
+		to which they were exposed (bars labeled by \textit{frame}; see table 1 for
+		details about the treatments).  The difference in priming was 
+		measured based on the accuracy of a naive Bayes classifier in 
+		resolving which treatment workers belonged to, as described in the 
+		text.  
+	}
+	\label{fig:theta}
+\end{figure}
 
-A Naive Bayes classifier, tested using leave-one-out validation, could readily 
-distinguish the outputs from workers shown different initial tasks 
-(see \textbf{Fig. 2}).  The same classifier had significantly poorer 
-performance when distinguishing outputs from workers shown different framing
-primes, performing only half as well as in the case of differing initial tasks.
+
+%\paragraph{Dynamics of inter-task effects}
+%\begin{figure}
+%	\centering
+%	\includegraphics[scale=0.7]{figs/theta_by_pos_img.pdf}
+%	\caption{
+%		Difference in priming observed for various pairs of worker populations.
+%		The pairs of populations differed in terms of the initial tasks they
+%		performed (bars labeled by ``inter-t.'') or in terms of the framing
+%		to which they were exposed (bars labeled by ``frame''; see table 1 for
+%		details about the treatments).  The difference in priming was 
+%		measured based on the accuracy of a naive Bayes classifier in 
+%		resolving which treatment workers belonged to, as described in the 
+%		text.  
+%	}
+%	\label{fig:theta_pos_img}
+%\end{figure}
+
+We analyzed the overall strength of inter-task effects and framing, by looking
+at pairs of treatments that performed the same test tasks, but had done
+different initial tasks or had been exposed to different framing.
+For each such pair, we assessed the performance of classifier
+in predicting which treatment workers belonged to, based on the labels they
+provided during the test tasks (see fig 2).  
+Based on \textbf{Definition 2}, this is a lower bound on the amount 
+bias introduced by the initial tasks and framing.
+
+In experiment \textit{inter-t.1}, the test tasks required workers to
+label relatively cluttered images of table settings, which had various items
+of food, utensils, dishware, and other objects natural to such settings.
+For one treatment, the images in the initial tasks consisted exclusively of 
+food, and for the other, they consisted exclusively of non-food objects, 
+particularly cookware and utensils.  We saw a strong effect of priming, 
+based on the classifier performance (see fig. 2). 
+
+In a related experiment, \textit{frame1}, workers were given the same test tasks
+as in \textit{inter-t.1}, but were either told 
+that ``The purpose of this study is to understand the viusual perception of
+Food and Ingredients'' or ``\ldots of Objects and Tools''.  This overt framing
+of the task in terms of a specific research objective had remarkably milder
+effects on workers than the initial tasks (see fig. 2).
+
+We performed another set of experiments based on a different set of test 
+tasks, and where the initial tasks and framing were directed along a different
+conceptual axis.  In \textit{inter-t.2} and \textit{frame2}, the images in the test 
+tasks displayed prepared meals from a variety of ethnic backgrounds.  We then
+designed the framing and initial tasks to focus either on food or cultural 
+elements.  In the previous experiments, the primes were always focused on 
+concrete ``highly imageable'' concepts (food and objects), these experiments
+mixed a concrete concept (food) with an abstract concept (culture).
+The initial tasks in \textit{inter-t.2} either depicted prepared meals (but having
+ambiguous cultural association), or iconic cultural scenes (including music, 
+dance, and sport).  Workers in \textit{frame2} were told that the ``This study
+was proudly funded by the National Foundation for Nutritional Awareness'' 
+or the ``\ldots Global Foundation for Cultural Recognition''.
+
+The results for \textit{inter-t.2} and \textit{frame2} confirmed that 
+inter-task effects are much stronger than framing (see fig. 2).  In fact, 
+intertask effects were even stronger in this experiment than the previous.
+
+\paragraph{Sufficiency of framing.} Given just how much stronger
+inter-task effects were, the reader may wonder whether the framing was 
+in some sense ``sufficient''.  
+We designed our framing tasks based on
+work that had previously studied framing effects in micro-task settings.  
+Prior studies have shown that framing the purpose of a task, or indeed, 
+simply changing a single, seemingly non-critical word in a task description, 
+has significant effects on worker's resonses.  Perhaps more importantly, the 
+framing treatments were included to provide a reasonable basis for comparison,
+and it is clear from our results that the prior tasks performed by a 
+worker are much stranger than the effects induced by descriptions of a task's
+purpose, or the requester's mandate.
+
+Nevertheless, we included one more experiment, \textit{frame*3}, to test the 
+effect of framing when the worker is required to \textit{echo} the framing 
+statement.  \textit{frame*3} was based on \textit{frame2}, but the worker
+had to indicate, using a menu option, what the purpose of the study was,
+before they could proceed.  In one sense, this seems to go beyond what one
+might mean by ``framing''.  By forcing the worker to echo the frame, we provide
+a clear indication that the frame is a particularly important detail, 
+elevating its importance above even the instructions that had been provided
+beforehand.
+
+The framing effect in \textit{frame*3} was quite strong, being on par with the
+inter-task effects we had observed (see fig. 2).  We are not sure whether
+the \textit{frame*3} should be considered framing,
+or whether it should be considered as an instruction, or perhaps as a 
+screening-task.  Regardless, our results show that worker's responses are 
+profoundly affected by recently completed tasks. 
+
+
+\paragraph{Dynamics of intertask effects.} 
+In the results shown above, we considered the aggregate effect that the
+first five initial tasks had on the last five test tasks.  But it would stand
+to reason that the first test task might be
+most strongly influenced, and that, as the worker proceeds, the intervening 
+test tasks would tend to wash out the priming induced by the initial tasks.
+
+One complication to this is the fact that the strength of intertask effects
+should also depend on the task: that is, workers performing one task are not
+necessarily as susceptible to inter-task effects as when performing another 
+task.  To account for this, we performed five replicates of the 
+\textit{inter-t.1} experiment, each using a different permutation of the 
+test tasks.  We ensured that each test task appeared in each of the 
+five possible relative positions.  This allowed us to measure the inter-task
+effects as a function of task position, independant of the particular image
+used in the task (see fig. 2B).  We found that, as one would expect,
+the first test task tends to be the most strongly affected.  The effect drops
+considerably for the second task, and continues to fall for the third and 
+fourth.  Interestingly, the last test task consistently showed a small increase
+in priming effect.  We also observed this in \textit{inter-t.1}. 
+We do not know the psychological mechanism behind this phonomenon, but we 
+speculate that, since the worker knows that there are ten tasks in total,
+they might reflect on the task overall batch of tasks as they near the end,
+and in so-doing might partially re-activate the influence of the initial tasks.
+
+While the strength of inter-task effects appeared to depend strongly on
+the position of the task, it was considerably less dependant on exactly what
+was in the task (see fig. 2C).  To be sure, we intended for the tasks to be 
+similar, and it does appear that the various test tasks had similar 
+susceptibilities to inter-task effects.
 
 \paragraph{Initial tasks' affect on the direction of focus} 
+\begin{figure}
+	\centering
+	\includegraphics[scale=1]{figs/food_specificity.pdf}
+	\caption{
+		Difference in priming observed for various pairs of worker populations.
+		The pairs of populations differed in terms of the initial tasks they
+		performed (bars labeled by \textit{inter-t.}) or in terms of the framing
+		to which they were exposed (bars labeled by \textit{frame}; see table 1 for
+		details about the treatments).  The difference in priming was 
+		measured based on the accuracy of a naive Bayes classifier in 
+		resolving which treatment workers belonged to, as described in the 
+		text.  
+	}
+	\label{fig:food_specificity}
+\end{figure}
+
+At this point we have only discussed priming effects in terms of a 
+classifier's ability to detect them.
+We have said nothing qualitative about the \textit{nature} of these effects.  
+This is one of the advantages of measuring priming using classifiers: one need 
+not know beforehand how workers were primed, nor, 
+how it might affect worker's responses.  Machine learning algorithms are
+specifically designed to generalize inductively from examples, which makes
+it possible to estimate how different two populations with little prior 
+knowledge.
+
+Having shown that workers are strongly primed by initial tasks, a natural
+question is whether workers were biased to provide labels that reflected, 
+in some way, the content of the initial tasks.  All of the experiments 
+we performed involved a treatment exposed to a food-related prime, as well
+as a treatment exposed to a non-food prime (objects/tools or culture), so
+we can test the effects on the content of labels by determining the fraction
+of food-related labels that workers provide during the test tasks.
+
+We used wordnet, via the nltk package for python, to detect labels that are 
+food-related.  Wordnet is an extensive corpus for English that contains a 
+detailed set of hypernym-hyponym relationships for nouns.  Hypernyms are 
+generalizations, while hyponyms are specific instances or types.  For example,
+\textit{pumpernickel} is a type of \textit{bread}, so bread is a hypernym of 
+\textit{pumpernickel}, and \textit{pumpernickel} is a hyponym of 
+\textit{bread}.  We identified the top-level food-related entries in wordnet 
+and considered all hyponym-descendants of these words to be food-related.
+
+We use this to test the effect of initial tasks on the direction of workers
+focus in both \textit{inter-t.1}, \textit{frame2}, and \textit{frame}*3.  
+Recall that this experiment involved
+workers either primed for the concept of food or objects/tools, using either
+initial tasks or framing.  Our findings matched the straightforward
+expectation that workers exposed to food related-primes are biased to 
+provide more food-related labels during test tasks.  But the strength of
+the bias does not account for the degree of priming we measured using a 
+classifier (c.f. fig 2A).  Although we do see the expected
+bias towards providing food labels, the bulk of inter-task effects would appear
+to be of a more subtle nature. 
+
+Inspecting the labels manually, one striking observation was some treatments
+had substantially more generic labels, for example providing labels such as
+\texttt{food} or \texttt{meal} as opposed to \texttt{spaghetti}.  To test this
+rigorously, we used the hypernym-hyponym relationships provided by wordnet.  
+To compare the relative specificity of two sets of labels $P$ and $Q$, we first
+define the relative specificity of a single label $p \in P$ in the context of
+$Q$:
+$$
+s(p,Q) = \left\{
+	\begin{array}{l l}
+		\frac{N_>(p,Q) - N_<(p,Q)}{N(p,Q)} &\mathrm{if}\quad N(p,Q) > 0\\
+		0 &\mathrm{else}
+	\end{array}
+	\right.,
+$$
+where $N_>(p,Q)$ is the number hyponyms of $p$ found in $Q$, and $N_<(p,Q)$ is
+the number of hypernyms of $p$ found $Q$.  For this calculation, we consider 
+the ``hypernyms of $p$'' to include hypernyms of hypernyms of p, etc., 
+adopting the analogous interpretation for hyponyms.  Then, the relative
+specificity of the entire set $P$ relative to $Q$ as:
+$$
+	S(P,Q) = \frac{1}{|P|}\sum_{p \in P} s(p,Q).
+$$
+
+
+
 To see how the initial tasks and the framing affected 
 the focus of the workers' labels, we classified all the labels provided
 on test tasks as either \texttt{culture}, \texttt{food}, \texttt{both}, or 

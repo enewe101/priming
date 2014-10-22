@@ -85,12 +85,6 @@ def find_best_svm_params(write_fname=BEST_PARAMS_FNAME):
 	write_fh.close()
 
 
-
-
-
-
-
-
 class LognormalSimulatedAnnealer(object):
 
 	RESULTS_PATH = SVM_OPTIMIZATION_DIR
@@ -434,18 +428,11 @@ def calc_priming_diff_svm(fname=SVM_EXP2_L1_FNAME):
 
 
 
-
-
-
-
 def calc_priming_differences():
 	'''
 	Calculates a whole bunch of priming differences based on binary 
 	classification using a naive Bayes classifier and the CleanDataset
 	representation.
-
-	This is basically obsolete because I have moved to using SVM as a
-	classifier.
 	'''
 
 	OLD_DATASET = False

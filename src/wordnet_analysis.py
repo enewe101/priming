@@ -163,7 +163,7 @@ def get_all_synsets(label):
 	return synsets
 
 
-def map_to_synsets(clean_dataset, treatment, images):
+def map_to_synsets(word_counts):
 	'''
 	given a CleanDataset, a treatment name, and image name, 
 	get all the labels that workers from the given treatment attribute to
@@ -172,22 +172,26 @@ def map_to_synsets(clean_dataset, treatment, images):
 	(Note that the map from labels to synsets is many to many.)
 	'''
 
-	# get a counter for the words associated to the treatment and image
-	label_counts = Counter()
-	for image in images:
-		label_counts += clean_dataset.get_counts_for_treatment_image(
-			treatment, image)
-
 	synset_counts = Counter()
-	for label in label_counts:
-		synsets = get_all_synsets(label)
-		add_to_counts = dict([(s, label_counts[label]) for s in synsets])
+	for word in word_counts:
+		count = word_counts[word]
+		synsets = get_all_synsets(word)
+		add_to_counts = dict([(s, count) for s in synsets])
 		synset_counts.update(add_to_counts)
 
 	return synset_counts
 
 
-def calculate_relative_specificity(synset_counts_1, synset_counts_2):
+def calculate_relative_specificity(word_counts_1, word_counts_2):
+	'''
+	returns the relative specificity between to sets of synsets.
+	This is positive when synset_counts_1 is more specific overall than
+	synset_counts_2.  Reversing the order of the arguments reverses the sign, 
+	but gives the same result.
+	'''
+
+	synset_counts_1 = map_to_synsets(word_counts_1)
+	synset_counts_2 = map_to_synsets(word_counts_2)
 
 	# Make relative counters based on synset_counts_2
 	ancester_counter = WordnetRelativesCalculator(synset_counts_2, True)
@@ -199,11 +203,12 @@ def calculate_relative_specificity(synset_counts_1, synset_counts_2):
 	# minus the number of ancesters to get the net relative specificity
 
 	for synset_name, count in synset_counts_1.iteritems():
-		synset = wn.synset(synset_name)
-		specificity_score += count * ancester_counter.count(synset)
-		specificity_score -= count * descendant_counter.count(synset)
+		syn = wn.synset(synset_name)
+		specificity_score += count * ancester_counter.count(syn)
+		specificity_score -= count * descendant_counter.count(syn)
 
-	return specificity_score
+	return specificity_score / float(sum(word_counts_1.values()) * 
+		sum(word_counts_2.values()))
 
 
 class WordnetFoodDetector(object):
@@ -278,14 +283,13 @@ class WordnetFoodDetector(object):
 		return all([self.is_token_food(t) for t in tokens])
 
 
-
 	def is_token_food(self, token):
 		synsets = wn.synsets(token)
 		return any([self.is_synset_food(s) for s in synsets])
 
 
 	def is_synset_food(self, synset):
-		return self.foodish_detecting_walker.walk(synset)
+		return self.foodish_detecting_walker.start_walk(synset)
 
 		
 
@@ -347,9 +351,11 @@ class WordnetRelativesCalculator(object):
 
 
 	def count(self, synset):
-		return self.relative_counting_walker.walk(synset)
-		
+		return self.relative_counting_walker.start_walk(synset)
 
+		
+class DFSError(Exception):
+	pass
 
 # test that no state is carried from one walk to the next
 class DFS(object):
@@ -384,7 +390,7 @@ class DFS(object):
 		inter_node_callback,
 		leaf_node_callback,
 		abort_branch_callback,
-		allow_double_process=True
+		allow_double_process=True,
 	):
 		self.callbacks = {
 			'get_node_hash': get_node_hash,
@@ -396,6 +402,12 @@ class DFS(object):
 		self.allow_double_process = allow_double_process
 
 		self.seen_nodes = set()
+		self.nodes_in_process = []
+
+
+	def reset(self):
+		self.seen_nodes = set()
+		self.nodes_in_process = []
 
 
 	def do_callback(self, callback_name, *args):
@@ -406,15 +418,33 @@ class DFS(object):
 		return func(*args)
 
 
+	def queue(self, node_hash):
+		self.nodes_in_process.append(node_hash)
+
+
+	def dequeue(self, node_hash):
+		found_node_hash = self.nodes_in_process.pop()
+		if found_node_hash != node_hash:
+			raise DFSError('Invalid traversal order.')
+
+
+	def start_walk(self, start_node):
+		# at the begining of the walk clear any history from previous walks
+		self.reset()
+		return self.walk(start_node)
+
+
 	def walk(self, cur_node):
 
-		# mark this node as seen
+		# mark this node as seen, and in process
 		cur_node_hash = self.do_callback('get_node_hash', cur_node)
 		self.seen_nodes.add(cur_node_hash)
+		self.queue(cur_node_hash)
 
 		# decide whether this node needs to be followed
 		# if not, treat it like a leaf
 		if self.do_callback('abort_branch_callback', cur_node):
+			self.dequeue(cur_node_hash)
 			return self.do_callback('leaf_node_callback', cur_node)
 
 		# get the children
@@ -428,30 +458,25 @@ class DFS(object):
 				children
 			)
 
-		# recursively process all the child nodes, keep their returned vals
-		child_vals = map(lambda c: self.walk(c), children)
+		# Recursively process all the child nodes, keep their returned vals
+		# But don't process children that create a cycle!
+		child_vals = [
+			self.walk(c) 
+			for c in children 
+			if self.do_callback('get_node_hash', c) 
+				not in self.nodes_in_process
+		]
 
 		# depending on if node was a leaf, call the appropriate callback
 		if len(children)>0:
+			self.dequeue(cur_node_hash)
 			return self.do_callback(
 				'inter_node_callback', cur_node, child_vals)
 
+
+		# remove this node from the in process list, and do integrity check
+		self.dequeue(cur_node_hash)
 		return self.do_callback('leaf_node_callback', cur_node)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

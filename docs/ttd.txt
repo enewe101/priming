@@ -1,6 +1,31 @@
 manuscript notes
 ~~~~~~~~~~~~~~~~
 
+Decided to use
+	- lemmatization
+	- stop-word removal
+	- preserve word location
+
+Results
+	- Strength of inter-task and framing effects
+	- Persistence of Inter-task effects 
+	- Variations in the susceptibility of tasks
+	- Effects on the direction of focus
+	- Effects on specificity
+Discussion
+	- An approach to fine qualifications
+	- Classifiers as distinguishers
+
+x make a plot of aggregate distinguishability
+x make a plot of average distinguishability as a function of image
+x and as a function of position
+
+[] plot the relative foodiness
+[] plot the relative specificity
+	- to do this, the relative specificity needs to be put on an even footing
+		- one word should get one vote (makes a contribution in [-1,1]
+		- the final value should be reported as a value in [-1,1]
+
 - A second take on an introduction
 Humans outperform sophisticated artificial intelligence algorithms in many
 tasks, especially ones requiring general knowledge about the world, 
@@ -236,18 +261,24 @@ Do Now
 
 	x make all plots show the 95% CI
 
-	[] optimize an svm classifier to tell apart the inter-task priming
+	x optimize an svm classifier to tell apart the inter-task priming
 		using the exp1 data.
-		[] optimal parameters for svm might depend on the number of dimensions
+		x optimal parameters for svm might depend on the number of dimensions
 			prefer to maximize the accuracy of single-image classifications
 			accross the range of images, rather than a 1-off multi-image
 			classification
 
-	[] correct spelling mistakes
-	[] try using hypernyms
+	x correct spelling mistakes
+	x try using hypernyms
+
+	[] create figures to show the new results
+		[] as a function of image
+		[] as a function of position
+		=> does it look like positional effects are interesting
+		=> does it look like inter-image primability exists?
 		
 
-[] Ontology
+[x] Ontology
 	- the ontology needs to be cleaned up
 	- I noticed that there are some orphans
 

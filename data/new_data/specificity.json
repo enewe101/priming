@@ -1,6 +1,14 @@
 {
-  "ambg_ingr": 3037, 
-  "food_obj": 25789, 
-  "ambg_cult": 14418, 
-  "ingr_cult": 15725
+  "img_ingr_cult": 0.026552341739577968, 
+  "sfrm_food_obj": 0.032642882004872961, 
+  "wfrm_food_cult": -0.0072728892849186905, 
+  "img_food_cult": 0.026656270884384048, 
+  "img_food_wfrm_food": -0.0086562708843840493, 
+  "img_obj_sfrm_obj": 0.00019400523814143005, 
+  "img_food_sfrm_food": -0.019183888218043815, 
+  "frm_food_cult": 0.0072728892849186905, 
+  "img_food_ingr": 0.0044212043232115285, 
+  "wfrm_food_obj": 0.022317907444668009, 
+  "img_cult_wfrm_cult": 0.017459560542309491, 
+  "img_food_obj": 0.014113115191140285
 }
