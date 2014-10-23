@@ -299,13 +299,15 @@ class SimpleDataset(object):
 
 		# read in the raw data
 		self.read_raw_data()
-		self.balance_classes()
+		if balance_classes:
+			self.balance_classes()
 
 
-	def balance_classes(self):
+	def balance_classes(self, truncate_to=None):
 
 		# what is the min number of examples in each class?
-		truncate_to = min([len(self.data[idx]) for idx in self.data])
+		if truncate_to is None:
+			truncate_to = min([len(self.data[idx]) for idx in self.data])
 
 		# truncate all data (randomly) to even out number of examples
 		for idx in self.data:

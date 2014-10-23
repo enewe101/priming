@@ -645,67 +645,118 @@ susceptibilities to inter-task effects.
 At this point we have only discussed priming effects in terms of a 
 classifier's ability to detect them.
 We have said nothing qualitative about the \textit{nature} of these effects.  
-This is one of the advantages of measuring priming using classifiers: one need 
-not know beforehand how workers were primed, nor, 
-how it might affect worker's responses.  Machine learning algorithms are
-specifically designed to generalize inductively from examples, which makes
+This demonstrates an advantage of using classifiers to measure priming.  
+Machine learning algorithms are designed to find salient differences 
+by generalizing, inductively, from examples, so one
+need not know beforehand how workers were primed, nor the natuer of the  
+priming effects.  Machine learning algorithms are specifically designed to 
+generalize inductively from examples, which makes
 it possible to estimate how different two populations with little prior 
 knowledge.
 
-Having shown that workers are strongly primed by initial tasks, a natural
-question is whether workers were biased to provide labels that reflected, 
-in some way, the content of the initial tasks.  All of the experiments 
-we performed involved a treatment exposed to a food-related prime, as well
-as a treatment exposed to a non-food prime (objects/tools or culture), so
-we can test the effects on the content of labels by determining the fraction
-of food-related labels that workers provide during the test tasks.
+But once having shown that workers are strongly primed by initial tasks, it is
+natural ask whether workers were biased to provide labels that reflected, 
+in some way, the \textit{content} of the initial tasks.  The conceptual basis
+for the primes in experiment 2 were eithre \textit{food} or 
+\textit{objects and tools}.  Thus, we can test whether workers exposed to food
+primes produced more food-related.  
 
-We used wordnet, via the nltk package for python, to detect labels that are 
-food-related.  Wordnet is an extensive corpus for English that contains a 
-detailed set of hypernym-hyponym relationships for nouns.  Hypernyms are 
-generalizations, while hyponyms are specific instances or types.  For example,
-\textit{pumpernickel} is a type of \textit{bread}, so bread is a hypernym of 
-\textit{pumpernickel}, and \textit{pumpernickel} is a hyponym of 
-\textit{bread}.  We identified the top-level food-related entries in wordnet 
-and considered all hyponym-descendants of these words to be food-related.
+To identify food-related labels, we used the wordnet corpus.  Wordnet
+is an extensive corpus for English, that includes hypernym-hyponym 
+relationships between words.  The hypernym relation correpsonds to conceptual
+abstraction.  For example \textit{bread} is a hypernym of 
+\textit{pumpernickel} because pumpernickel is a \textit{type of} bread.
+The hyponym relation is simply the converse: pumpernickel is a hyponym
+of bread.  For the purpose of our analysis, when we refer to hypernyms,
+we will mean both direct hypernyms, as well as the hypernyms of hypernims,
+and so on, with an analogous interpretation for hyponyms.
 
-We use this to test the effect of initial tasks on the direction of workers
-focus in both \textit{inter-t.1}, \textit{frame2}, and \textit{frame}*3.  
-Recall that this experiment involved
-workers either primed for the concept of food or objects/tools, using either
-initial tasks or framing.  Our findings matched the straightforward
-expectation that workers exposed to food related-primes are biased to 
-provide more food-related labels during test tasks.  But the strength of
-the bias does not account for the degree of priming we measured using a 
-classifier (c.f. fig 2A).  Although we do see the expected
-bias towards providing food labels, the bulk of inter-task effects would appear
-to be of a more subtle nature. 
+We collectod a small set of top-level food-related nouns in wordnet,
+together with all of their hyponyms, and took the resulting set of 
+3589 lemmas as an operational definition for the set of English food-related 
+words.  This set is quite extensive, containing somewhat obscure forms such as
+``burgoo'' and ``barmbrack'', and consumables at the fringe of what might
+be considered food such as ``vitamin B'' (or if you prefer, 
+``B complex''), as well as more common lemmas like
+``banana'',  ``bread'', and of course ``banana bread''.  We found that,
+for the data in experiment 1, this method produced excellent aggreement with 
+human annotation of food-related words (see supplementary material).  
+For the analysis exp2, the variety of non-English names for ethnic dishes 
+forced us to rely on a manual approach.  This corroborated our results
+for exp1, and we encourage the interested reader to read our discussion of
+the manual approach in the supplementary material.
 
-Inspecting the labels manually, one striking observation was some treatments
-had substantially more generic labels, for example providing labels such as
-\texttt{food} or \texttt{meal} as opposed to \texttt{spaghetti}.  To test this
-rigorously, we used the hypernym-hyponym relationships provided by wordnet.  
-To compare the relative specificity of two sets of labels $P$ and $Q$, we first
-define the relative specificity of a single label $p \in P$ in the context of
-$Q$:
+Our findings matched the straightforward expectation that workers exposed to 
+food related-primes were biased to provide more food-related labels during 
+test tasks (see Fig. 3A).  Had we relied on the intuition that workers 
+should be biased to label according to the underlying concept of their prime,
+we would have underestimated the strength of priming effects.  This
+again illustrates the advantage of using classifiers to detect priming as
+opposed to testing for the effects that one might intuitively expect.  
+Though present, the expected influence on the number of food-related words
+cannot account for the bulk of inter-taks effects.
+
+\paragraph{Effects on label vocabulary.}
+Inspecting the labels manually, one striking observation was that in
+\textit{test-t.2}, workers that initially images of cultural scenes seemed
+more likely to give generic labels, compared to those that initially labeled 
+images depicting prepared meals.  Recall that, for these treatments, the test 
+tasks contained images depicting prepared meals, which are very similar in
+content to the initial tasks for the latter set of workers.  Workers that
+had already labeled 5 images depicting food were less likely to attribute
+the generic label ``food'' during the first test task, doing so only 16 times,
+compared to 76 times by workers that had labeled culture-related images 
+containing no food.  This observation suggests that, when workers label a 
+series of very similar images.
+
+One straightforward way to test whether workers from exp2.task.food are 
+being more specific than those from exp2.taks.cult is to look at the number 
+of unique labels they provided for each image.  Workers attributing more
+specific labels should produce a larger vocabulary of unique labels for a 
+given, which is indeed what we found (see Fig. 3B).  Workers from 
+exp2.task.food produced as much as 33\% more unique labels per image than 
+workers from exp2.task.cult, and the relative excess of the vocabulary size
+followed the general trend of inter-task effects that we observed in 
+Fig. 2B.
+
+To confirm our expectation that the larger vocabulary corresponds to a 
+the use of \textit{more nuanced} words, we used the 
+hypernym-hyponym of wordnet to operationalize a notion of relative 
+specificity.  We define the relative specificity of two sets of labels $P$ 
+and $Q$ as:
 $$
-s(p,Q) = \left\{
-	\begin{array}{l l}
-		\frac{N_>(p,Q) - N_<(p,Q)}{N(p,Q)} &\mathrm{if}\quad N(p,Q) > 0\\
-		0 &\mathrm{else}
-	\end{array}
-	\right.,
+	S(P,Q) = \frac{1}{|P \times Q|}\sum_{p \in P} \sum_{q \in Q} 
+		\left(\mathbf{1}_{[p>q]} - \mathbf{1}_{[q>p]}\right),
 $$
-where $N_>(p,Q)$ is the number hyponyms of $p$ found in $Q$, and $N_<(p,Q)$ is
-the number of hypernyms of $p$ found $Q$.  For this calculation, we consider 
-the ``hypernyms of $p$'' to include hypernyms of hypernyms of p, etc., 
-adopting the analogous interpretation for hyponyms.  Then, the relative
-specificity of the entire set $P$ relative to $Q$ as:
-$$
-	S(P,Q) = \frac{1}{|P|}\sum_{p \in P} s(p,Q).
-$$
+where $\mathbf{1}_{[p>q]}$ evaluates to 1 if $p$ is a hyponym of $q$.
+Using the above equation, we found that, for every images in the 
+test set, the labels attributed by workers in exp2.task.food were more 
+specific than those by workers in exp2.task.cult.
 
+Thus, when workers perform a series of similar image labeling tasks it would
+appear that they tend to avoid generic words, opting instead for more specific
+ones, and yielding a richer vocabulary of labels.  Qualitative 
+characterisation and classification is one of the most comman applications of 
+microtask platforms, and this finding suggests that bundling similar tasks 
+together substantially increases the specificity of HPU output. 
 
+Our observations of the effects on specificity would appear to be consistent
+with the phenomenon of negative priming.
+Negative priming occurs when a person becomes desensitized to non-salient 
+stimuli to which she is repeatedly exposed. Consider that, workers that 
+initially labeled images depicting prepared meals might no longer
+regard the generic labels \texttt{food} or \texttt{meal} to be salient, and 
+opt instead for \texttt{bread}, or \texttt{pasta}.  But for workers that
+initially labeled cultural images, these rather generic labels might well seem
+appropriate.
+ 
+We are suggesting that, although workers are not instructed to compare images 
+in any way, prior tasks nevertheless create a frame of reference relative to 
+which later tasks are judged. This in turn influences the perception of 
+salience. Thus, in a series of subjective characterization tasks that have 
+very similar content, workers' focus will tend to be directed away from 
+generic, shared attributes, towards those attributes that are specific and 
+distinguishing.
 
 To see how the initial tasks and the framing affected 
 the focus of the workers' labels, we classified all the labels provided
@@ -718,71 +769,6 @@ labels during test tasks, and fewer food labels, than workers that initially
 labeled images depicting ingredients (see \textbf{Fig. 2}).  On the other 
 hand, the framing primes had no statistically significant effect.
 
-%The first two treatments, IMG:OBJ and IMG:FOOD, tested inter-task effects. 
-%Workers in these treatments labelled ten images. In the IMG:OBJ treatment, the 
-%\textit{initial set} of five images labeled by workers contained objects such 
-%as utensils, kitchenware, and table-settings, but no food items. In the 
-%\textsc{img:food}, the initial set contained centered close-ups of meals, 
-%without
-%any surrounding objects (except sometimes the dish supporting the food). No 
-%interruption or distinction made between the initial and test sets from the 
-%view of the workers. To study the positional dependance of inter-task effects,
-%these treatments were subdivided, and workers were shown one of five 
-%permutations. There are of course 5! = 120 permutations of five images, but 
-%investigating all permutations was too expensive, and probably redundant, so 
-%we chose 5 permutations that ensure each image occupies each position within 
-%the test set. We discuss the benefits and drawbacks of this choice in the 
-%supplementary material.
-%
-%Workers in the treatments \textsc{frm:food} and \textsc{frm:obj} were shown a 
-%framing slide, which bore a message reading: ``Funded by the laboratory for 
-%the visual perception of \{Food and Ingredients $\vert$ Objects and Tools\}''. 
-%After the framing slide, workers in these treatments proceeded directly to 
-%the test set (and so labeled only 5 images).
-
-\paragraph{Inter-task effects and specificity.}
-Still using the results of the first experiment, we investigated how initial 
-tasks affect the degree of specificity during the test tasks.
-To measure the relative specificity of labels, we used the hypernym-hyponym
-relationships provided by the wordnet corpus.  Hypernym relationships point
-from specific types to generalizations, while hyponyms point in the opposite
-direction.  For example, the word \texttt{bread} has the hypernym 
-\texttt{baked-goods}, and the hyponym \texttt{naan}.
-We calculated the relative specificity $s_i(u,v)$ of the labels attributed by 
-two workers $u$ and $v$ to image $i$ as follows:
-$$
-	s_i(u,v) = \sum_{\ell \in u(i)} \sum_{\ell \in v(i)} 
-	\left( \mathbf{1}_{[\ell > m]} - \mathbf{1}_{[m>\ell]} \right),
-$$
-where $u(i)$ denotes the set of labels attributed by worker $u$ to image $i$, 
-and $\mathbf{1}_{[l>m]}$ evaluates to 1 if $\ell$ is more specific than $m$
-(meaning that $m$ can be reached from $\ell$ by following hypernyms), 
-and 0 otherwise. We then define the relative specificity $S_i(U,V)$ of two 
-treatments $U$ and $V$ relative to image $i$ to be the mean 
-relative specificity of two uniformly drawn workers:
-$$
-S_i(U,V) = \mathrm{E}_{u,v}\{s_i(u,v)\}   
-$$
-$$
-\hat{S}_i(U,V) = \frac{1}{|U \times V|} \sum_{u \in U} \sum_{v in V}
-		s_i(u,v).
-$$
-Looking at labels attributed to the first test image, we found workers 
-that initially labeled images of ingredients were more specific 
-than those that initially labeled cultural scenes (see \textbf{Fig. 3}).  One 
-possible reason for
-this is that the images of ingredients directed workers' attention toward
-the component parts in the images.  To try to corroborate this, we can look
-at the specificity of workers whose initial tasks contained images of prepared
-meals.  Since these images contained whole prepared meals, rather than 
-separated ingredients, we can isolate the effects due to showing the presence
-of food in the initial images from the presentation of isolated parts.  
-
-In fact, the workers that intially labeled prepared meals were even
-more specific than those that initially labeled ingredients.  Recall that the
-test tasks also depicted prepared meals.  Thus, it would appear that it is 
-the similarity of initial and test tasks which drove similarity, and not the
-depiction of isolated parts (ingredients).
 
 \begin{table}
 \centering
@@ -837,22 +823,6 @@ treatments whose initial tasks were more similar to the test tasks (c.f.
 
 Such a phenomenon would be consistent with the psychological mechanism known as
 \textit{negative priming}.
-Negative priming occurs when a person becomes desensitized to non-salient 
-stimuli to which she is repeatedly exposed. Consider that, workers that 
-initially labeled images depicting prepared meals might no longer
-regard the generic labels \texttt{food} or \texttt{meal} to be salient, and 
-opt instead for \texttt{bread}, or \texttt{pasta}.  But for workers that
-initially labeled cultural images, these rather generic labels might well seem
-appropriate.
- 
-We are suggesting that, although workers are not instructed to compare images 
-in any way, prior tasks nevertheless create a frame of reference relative to 
-which later tasks are judged. This in turn influences the perception of 
-salience. Thus, in a series of subjective characterization tasks that have 
-very similar content, workers' focus will tend to be directed away from 
-generic, shared attributes, towards those attributes that are specific and 
-distinguishing.
-
 \paragraph{The role of task position in inter-task effects.}
 Up to this point, we have focused on the inter-task effects induced on 
 the first test task.  Not suprisingly, this task was, in general, more 

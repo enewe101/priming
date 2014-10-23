@@ -26,6 +26,23 @@ x and as a function of position
 		- one word should get one vote (makes a contribution in [-1,1]
 		- the final value should be reported as a value in [-1,1]
 
+
+Notes about specificity
+	- The initial hypothesis was that greater similarity between initial
+		and test tasks gives more specificity of labels
+	- But, even for the food/obj comparison, we see that the food treatment
+		is significantly more specific.  The affect is at about the same
+		strength as for the food/cult comparison.
+	- So it seems that this might be related to the food concept, not the
+		degree of similarity between initial and test tasks.
+	- Corroborating this is the fact that framing tasks to the identification
+		of food also increases specificity
+	- We see the same pattern of results when we use vocabulary size as 
+		a proxy for specificity
+	- So, does this really just reflect the greater vocabulary for food?
+		Does initial and test task similarity play a role at all?
+		
+
 - A second take on an introduction
 Humans outperform sophisticated artificial intelligence algorithms in many
 tasks, especially ones requiring general knowledge about the world, 

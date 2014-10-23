@@ -1,3 +1,4 @@
+import copy
 from nltk.corpus import wordnet as wn
 from collections import Counter
 import re
@@ -213,15 +214,17 @@ def calculate_relative_specificity(word_counts_1, word_counts_2):
 
 class WordnetFoodDetector(object):
 	def __init__(self):
-		self.foodish_cache = {
-			'food.n.02': True, 
-			'food.n.01': True, 
-			'helping.n.01': True,
-			'taste.n.01': True, 
-			'taste.n.05': True, 
-			'taste.n.06': True, 
-			'taste.n.07': True
-		}
+		self.food_synsets = [
+			'food.n.02', 
+			'food.n.01', 
+			'helping.n.01',
+			'taste.n.01', 
+			'taste.n.05', 
+			'taste.n.06', 
+			'taste.n.07'
+		]
+
+		self.foodish_cache = dict([(s,True) for s in self.food_synsets])
 
 		# We will build a DFS walker to help with the calculation
 		# To do so, we need to define a bunch of callbacks
@@ -268,6 +271,55 @@ class WordnetFoodDetector(object):
 			abort_branch_callback,
 			allow_double_process
 		)
+
+
+	def get_food_vocab(self):
+
+		# we will bulid a DFS that accumulates all of the food-related lemmas
+		# begin by defining the DFS's callback functions
+		def get_node_hash(node):
+			return node.name
+
+		def get_children_callback(node):
+			return node.hyponyms()
+		
+		def inter_node_callback(node, child_vals=[]):
+			this_result = [l.name for l in node.lemmas]
+
+			# each child returns a list, flatten this to one list
+			child_results = reduce(lambda x,y: x + y, child_vals, [])
+
+			print this_result + child_results
+
+			return this_result + child_results
+
+		def abort_branch_callback(node):
+			return False
+
+		allow_double_process = False
+
+		# build the DFS
+		food_vocab_counter = DFS(
+			get_node_hash,
+			get_children_callback,
+			inter_node_callback,
+			inter_node_callback,	# this callback works for leaves too
+			abort_branch_callback,
+			allow_double_process
+		)
+
+		# for each top-level food synset, 
+		# walk the DFS to collect the vocabulary
+		vocab = []
+		for syn_name in self.food_synsets:
+			syn = wn.synset(syn_name)
+			vocab += food_vocab_counter.start_walk(syn)
+
+		# eliminate duplicates
+		vocab = set(vocab)
+
+		# done!
+		return vocab
 
 
 	def is_food(self, label):
