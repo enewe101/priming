@@ -1,7 +1,9 @@
 import copy
 from nltk.corpus import wordnet as wn
+from nltk.corpus import stopwords
 from collections import Counter
 import re
+import numpy as np
 
 
 SPLIT_RE = re.compile('[^-a-zA-Z]')
@@ -28,15 +30,26 @@ class WordnetSpellChecker(object):
 
 	ALPH = 'abcdefghijklmnopqrstuvwxyz_'
 	W = re.compile(r'[^a-z ]')
+	stops = stopwords.words('english')
 
 	def __init__(self):
 		pass
 
 	def is_ok(self, word):
-		return bool(len(wn.synsets(word))>0)
+		return len(wn.synsets(word))>0 or word in self.stops
+
+	def all_ok(self, word):
+		return all([self.is_ok(token) for token in word.split()])
+
+	def get_all_neighbors(self, words_and_scores):
+		all_neighbors = set()
+		for word, score in words_and_scores:
+			all_neighbors.update(self.get_neighbors(word, score))
+
+		return all_neighbors
 
 
-	def get_neighbors(self, word):
+	def get_neighbors(self, word, score):
 
 		w = word
 
@@ -56,7 +69,14 @@ class WordnetSpellChecker(object):
 		else:
 			separations = [a + ' ' + b for a,b in splits]
 
-		return set(deletes + transposes + replaces + inserts + separations)
+		# return all the possibilities, but the separations get half-score
+		# as a penalty
+		return_neighbors = set(
+			[(s,score*0.50) for s in deletes + transposes + replaces + inserts]
+		)
+		return_neighbors |= set([(s,score*0.1) for s in separations])
+
+		return return_neighbors
 
 
 	def auto_correct(self, corpus):
@@ -84,31 +104,23 @@ class WordnetSpellChecker(object):
 		corrections = {}
 		for w in misspelled:
 
-			single_edits = self.get_neighbors(w)
-			double_edits = reduce(
-				lambda x,y: x | self.get_neighbors(y), 
-				single_edits, 
-				set()
-			)
+			candidates = self.get_neighbors(w,1)
+			candidates |= self.get_all_neighbors(candidates)
 
-			first_candidates = filter(
-				lambda x: 
-					all([self.is_ok(y) for y in x.split()])
-					and len(x.split())>0,
-				single_edits)
+			# remove nonsense candidates
+			candidates = filter(lambda x: self.all_ok(x[0]), candidates)
 
-			second_candidates = filter(
-				lambda x: 
-					all([self.is_ok(y) for y in x.split()])
-					and len(x.split())>0, 
-				double_edits)
+			# remove empty candidates
+			candidates = filter(lambda x: len(x[0].split())>0, candidates)
 
-			scored_candidates = (
-				[(fc, min([frequencies[x] for x in fc.split()])) 
-					for fc in first_candidates] + 
-				[(sc, min([frequencies[x] for x in sc.split()]) / 2.0 )
-					for sc in second_candidates]
-			)
+			# multiply scores by the frequency of occurence in the corpus
+			#
+			# words that have been split get afforded the average frequency
+			# of the resulting words
+			scored_candidates = [
+				(c, s*(1 + min([frequencies[x] for x in c.split()])))
+				for c,s in candidates
+			]
 
 			try:
 				sorted_candidates = sorted(
@@ -125,12 +137,6 @@ class WordnetSpellChecker(object):
 			corrections[w] = best_word
 
 		return corrections
-
-
-			
-
-
-
 
 	
 
@@ -183,13 +189,36 @@ def map_to_synsets(word_counts):
 	return synset_counts
 
 
-def calculate_relative_specificity(word_counts_1, word_counts_2):
+def strip_food_words(word_counts):
+	food_detector = WordnetFoodDetector()
+
+	#Make a new copy of the word counts, but only include non-food words
+	new_counts = {}
+	for key in word_counts.keys():
+		if not food_detector.is_food(key):
+			new_counts[key] = word_counts[key]
+
+	return new_counts
+
+
+
+def calculate_relative_specificity(
+		word_counts_1, 
+		word_counts_2,
+		ignore_food=False
+	):
 	'''
 	returns the relative specificity between to sets of synsets.
 	This is positive when synset_counts_1 is more specific overall than
 	synset_counts_2.  Reversing the order of the arguments reverses the sign, 
 	but gives the same result.
 	'''
+
+	if ignore_food:
+		print len(word_counts_1), len(word_counts_2)
+		word_counts_1 = strip_food_words(word_counts_1)
+		word_counts_2 = strip_food_words(word_counts_2)
+		print len(word_counts_1), len(word_counts_2)
 
 	synset_counts_1 = map_to_synsets(word_counts_1)
 	synset_counts_2 = map_to_synsets(word_counts_2)
@@ -347,7 +376,11 @@ class WordnetFoodDetector(object):
 
 class WordnetRelativesCalculator(object):
 
-	def __init__(self, synset_counts, search_ancesters=False):
+	def __init__(
+			self,
+			synset_counts,
+			search_ancesters=False
+		):
 
 		self.search_ancesters = search_ancesters
 		self.num_relatives_cache = {}

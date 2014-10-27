@@ -323,6 +323,11 @@ binary decision will be changed due to priming effects:
 	in the expected output of $\mathcal{D}$ when acting on work-products from 
 	$P$ and $Q$:
 	$$
+	\mathcal{D}(P,Q) = 
+		\left| 
+			\mathrm{E}\left\{ \mathcal{D}(p) \right\} 
+			- \mathrm{E}\left\{ \mathcal{D}(q) \right\} 
+		\right|,
 	\theta_\mathcal{D}(P,Q) = 
 		\left| 
 			\mathrm{E}\left\{ \mathcal{D}(p) \right\} 
@@ -697,32 +702,36 @@ Though present, the expected influence on the number of food-related words
 cannot account for the bulk of inter-taks effects.
 
 \paragraph{Effects on label vocabulary.}
-Inspecting the labels manually, one striking observation was that in
-\textit{test-t.2}, workers that initially images of cultural scenes seemed
-more likely to give generic labels, compared to those that initially labeled 
-images depicting prepared meals.  Recall that, for these treatments, the test 
-tasks contained images depicting prepared meals, which are very similar in
-content to the initial tasks for the latter set of workers.  Workers that
-had already labeled 5 images depicting food were less likely to attribute
-the generic label ``food'' during the first test task, doing so only 16 times,
-compared to 76 times by workers that had labeled culture-related images 
-containing no food.  This observation suggests that, when workers label a 
-series of very similar images.
+When manually inspecting the labels of \textit{test-t.2}, one striking 
+observation was that workers that initially labeled images of cultural scenes 
+were more likely to use generic words when labeling the test images, compared 
+to workers that initially labeled images of meals.  For example, 76\% of the 
+workers from \textit{exp2.task.cult} gave the very generic label 
+\texttt{food}, compared to only 16\% of \textit{exp2.task.food} workers 
+(recall that the test tasks for both treatments depicted prepared meals).
+One interpretation is that workers who have already labeled 5 images relating
+to food are more likely to focus on aspects of the images that are different
+from one another, and refrain from so generic a term as \texttt{food}.
 
-One straightforward way to test whether workers from exp2.task.food are 
-being more specific than those from exp2.taks.cult is to look at the number 
-of unique labels they provided for each image.  Workers attributing more
-specific labels should produce a larger vocabulary of unique labels for a 
-given, which is indeed what we found (see Fig. 3B).  Workers from 
-exp2.task.food produced as much as 33\% more unique labels per image than 
-workers from exp2.task.cult, and the relative excess of the vocabulary size
-followed the general trend of inter-task effects that we observed in 
-Fig. 2B.
+Based on this observation, we tested the degree of specificity of labels 
+accross all treatments.  We appraoched measuring specificity in two ways.
+Our first method was based on the reasoning that, if a given group of 
+workers uses more specific labels, they will then provide, on the whole,
+a larger set of unique labels for any given image.  For example,
+suppose the workers from \textit{exp2.task.food} who do not use the label 
+\texttt{food} had chosen more specific labels instead.  In being more 
+specific, they must choose a particular detail to describe, from a large 
+number of possibilities, and so are more likely to provide unique labels.
+Indeed
+for all images in the test set, workers from \textit{exp2.task.food} gave
+more unique labels than did those from \textit{exp2.task.cult}, as shown 
+in fig 2B.  Note how the the relative vocabulary sizes follows
+the same trend, as a function of test task, as was observed for the 
+classifier-based detection of general priming differences (c.f. fig X).
 
-To confirm our expectation that the larger vocabulary corresponds to a 
-the use of \textit{more nuanced} words, we used the 
-hypernym-hyponym of wordnet to operationalize a notion of relative 
-specificity.  We define the relative specificity of two sets of labels $P$ 
+Our second approach to measuring relative specificity used the 
+hypernym-hyponym relationships of wordnet.
+We operationalized the relative specificity of two sets of labels $P$ 
 and $Q$ as:
 $$
 	S(P,Q) = \frac{1}{|P \times Q|}\sum_{p \in P} \sum_{q \in Q} 
@@ -730,129 +739,27 @@ $$
 $$
 where $\mathbf{1}_{[p>q]}$ evaluates to 1 if $p$ is a hyponym of $q$.
 Using the above equation, we found that, for every images in the 
-test set, the labels attributed by workers in exp2.task.food were more 
-specific than those by workers in exp2.task.cult.
+test set, the labels attributed by workers in \textit{exp2.task.food} were 
+more specific than those by workers in \textit{exp2.task.cult}.
 
-Thus, when workers perform a series of similar image labeling tasks it would
-appear that they tend to avoid generic words, opting instead for more specific
-ones, and yielding a richer vocabulary of labels.  Qualitative 
-characterisation and classification is one of the most comman applications of 
-microtask platforms, and this finding suggests that bundling similar tasks 
-together substantially increases the specificity of HPU output. 
+Initialy we hypothesized that the similarity of initial and test tasks was
+driving a relative increase in specificity.  While this seems reasonable,
+we also notice a similar effect occuring for \textit{exp1.task} in which
+the test tasks consisted of both food and non-food objects, and the initial
+tasks were either food or non-food objects.  In this case, it is difficult
+to argue that one set of initial tasks is more similar to another.  In fact
+we devise a method to operationalize image similarity, and find that 
+the initial images of \textit{exp1.task.food} are equally similar to the
+test tasks as the initial images of \textit{exp1.task.obj}.  Furthermore,
+we see strong effects on relative specificity for framing as well.
 
-Our observations of the effects on specificity would appear to be consistent
-with the phenomenon of negative priming.
-Negative priming occurs when a person becomes desensitized to non-salient 
-stimuli to which she is repeatedly exposed. Consider that, workers that 
-initially labeled images depicting prepared meals might no longer
-regard the generic labels \texttt{food} or \texttt{meal} to be salient, and 
-opt instead for \texttt{bread}, or \texttt{pasta}.  But for workers that
-initially labeled cultural images, these rather generic labels might well seem
-appropriate.
- 
-We are suggesting that, although workers are not instructed to compare images 
-in any way, prior tasks nevertheless create a frame of reference relative to 
-which later tasks are judged. This in turn influences the perception of 
-salience. Thus, in a series of subjective characterization tasks that have 
-very similar content, workers' focus will tend to be directed away from 
-generic, shared attributes, towards those attributes that are specific and 
-distinguishing.
-
-To see how the initial tasks and the framing affected 
-the focus of the workers' labels, we classified all the labels provided
-on test tasks as either \texttt{culture}, \texttt{food}, \texttt{both}, or 
-\texttt{neither} (we describe the label classification method in more detail
-in the supplementary material).  Focusing on the labels provided to the first 
-test task,
-workers that had initially labeled cultural images provided far more cultural
-labels during test tasks, and fewer food labels, than workers that initially
-labeled images depicting ingredients (see \textbf{Fig. 2}).  On the other 
-hand, the framing primes had no statistically significant effect.
-
-
-\begin{table}
-\centering
-\begin{tabular}{ l  s s s s}
-
-\toprule    
-Image set   
-& \multicolumn{1}{c}{Ambig.} 
-& \multicolumn{1}{c}{Cultural} 
-& \multicolumn{1}{c}{Ingr.}
-& \multicolumn{1}{c}{Test} \\
-  
-\midrule
-
-Ambiguous  & 1 & 0.0418 & 0.142 & 0.167 \\
-
-Cultural  & 0.0418  & 1 & 0.0347 & 0.0561 \\
-
-Ingredients  & 0.142  & 0.0347 & 1 & 0.110 \\
-
-Test & 0.167  & 0.0561 & 0.110 & 1
-\\
-\bottomrule
-
-\end{tabular}
-\caption{\footnotesize{
-Pairwise similarities of each image set based on the labels attributed to them (see \textbf{Eq. 4}).
-}}
-\label{table:2}
-\end{table}
-
-One weakness of the above analysis is the reliance on the informal notion
-of the similarity of one set of images to another. The 
-characterization of image content is a deeply complex issue that has been 
-approached by many disciplines \cite{panofsky1939studies,shatford1986analyzing,Tversky1977327,Jaimes20002}. \textit{Perceptual similarity} is a 
-particularly recalcitrant concept.   But to formalize our claim, we seek a 
-measure of similarity between two sets of images, 
-\textit{with respect to the labeling task}.  This can be operationalized
-in a straightforward way, by using the similarity of the labels given to images
-as a proxy for the similarity of the images.  Thus, to measure the 
-similarity between two sets of images, X and Y , we computed the Jacquard 
-index between the sets of labels attributed to them:
-$$
-	\mathrm{Sim}(X,Y) = \frac{L(X) \cap L(Y)}{L(X) \cup L(Y)}
-$$
-where $L(X)$ denotes the set of labels attributed to images in $X$.
-
-The pairwise similarities of the image sets are presented in Table 2. This 
-shows that the workers that yielded higher specificity labels were from 
-treatments whose initial tasks were more similar to the test tasks (c.f.
-\textbf{Fig 3}).
-
-Such a phenomenon would be consistent with the psychological mechanism known as
-\textit{negative priming}.
-\paragraph{The role of task position in inter-task effects.}
-Up to this point, we have focused on the inter-task effects induced on 
-the first test task.  Not suprisingly, this task was, in general, more 
-strongly affected than the others.  It would stand to reason that, as workers 
-proceed through the test images, priming induced by the initial tasks would
-be ``washed out'', and replaced by the effects of the test tasks themselves,
-which do not differ between treatments.
-
-To investigate this, we performed a second experiment, in which we permuted
-the test tasks in such a way that every test task appears in each of the
-5 locations equally often.  This allows us to track the intertask effects for
-a given test task as it is rotated through the five positions.  Workers were
-again given one of two initial sets of tasks, which either involved labeling
-utensils, cookware, and table settings (but no food), or isolated close-up
-images of prepared meals.  We measured the performance of a Naive Bayes 
-classifier in distinguishing whether labels attributed to a given test 
-image were provided by a worker that labeled objects or meals, as shown in 
-\textbf{Fig. 4}.
-
-The strength of inter-task effects show a clear trend based on the position of
-the test task.  We see that, in general, the first test image is most severely
-affected, and the severity of effect drops off.  Curiously, the severity then
-rises again for the second last, and, especially, final test image.  We 
-speculate that this is related to the workers being aware that they are 
-reaching the end of the batch of labeling tasks.  To be transparent about the
-rate of compensation, we informed workers that they would complete a total
-of ten image-labeling tasks.  Perhaps as the worker nears the end of the batch
-of tasks, she reflects on the overall experience, and in activating the
-memory of the early tasks, is partially re-primed.
-
+In general, it is of great practical interest to control the level of 
+specificity of qualitative characeterzations.  In many applications the
+task-designer will probably want obtain characterizations that are more
+discriminative.  Thus, when designing microtasks, one should give careful
+consideration to inter-task effects.  Unfortunately, we are not sure
+why certain initial tasks produced increased specificity as opposed to others, 
+and this is a question we intend to pursue in future research.
 
 \paragraph{Conclusions.}
 Our results show that inter-task effects can have a strong influence on how 
@@ -912,6 +819,62 @@ determine the gain in precision from this approach.
 \bibliographystyle{Science}
 
 
+\section*{Supplementary Material}
+
+\subsection*{Assessing task similarity}
+\begin{table}
+\centering
+\begin{tabular}{ l  s s s s}
+
+\toprule    
+Image set   
+& \multicolumn{1}{c}{Ambig.} 
+& \multicolumn{1}{c}{Cultural} 
+& \multicolumn{1}{c}{Ingr.}
+& \multicolumn{1}{c}{Test} \\
+  
+\midrule
+
+Ambiguous  & 1 & 0.0418 & 0.142 & 0.167 \\
+
+Cultural  & 0.0418  & 1 & 0.0347 & 0.0561 \\
+
+Ingredients  & 0.142  & 0.0347 & 1 & 0.110 \\
+
+Test & 0.167  & 0.0561 & 0.110 & 1
+\\
+\bottomrule
+
+\end{tabular}
+\caption{\footnotesize{
+Pairwise similarities of each image set based on the labels attributed to them (see \textbf{Eq. 4}).
+}}
+\label{table:2}
+\end{table}
+
+One weakness of the above analysis is the reliance on the informal notion
+of the similarity of one set of images to another. The 
+characterization of image content is a deeply complex issue that has been 
+approached by many disciplines \cite{panofsky1939studies,shatford1986analyzing,Tversky1977327,Jaimes20002}. \textit{Perceptual similarity} is a 
+particularly recalcitrant concept.   But to formalize our claim, we seek a 
+measure of similarity between two sets of images, 
+\textit{with respect to the labeling task}.  This can be operationalized
+in a straightforward way, by using the similarity of the labels given to images
+as a proxy for the similarity of the images.  Thus, to measure the 
+similarity between two sets of images, X and Y , we computed the Jacquard 
+index between the sets of labels attributed to them:
+$$
+	\mathrm{Sim}(X,Y) = \frac{L(X) \cap L(Y)}{L(X) \cup L(Y)}
+$$
+where $L(X)$ denotes the set of labels attributed to images in $X$.
+
+The pairwise similarities of the image sets are presented in Table 2. This 
+shows that the workers that yielded higher specificity labels were from 
+treatments whose initial tasks were more similar to the test tasks (c.f.
+\textbf{Fig 3}).
+
+Such a phenomenon would be consistent with the psychological mechanism known as
+\textit{negative priming}.
 
 \end{document}
 

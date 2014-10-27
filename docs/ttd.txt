@@ -1,6 +1,13 @@
 manuscript notes
 ~~~~~~~~~~~~~~~~
 
+Further data processing needs:
+[] correct all spelling
+[] check validity of food-detector
+[] insert unrecognized objects into the wordnet ontology somehow...
+[] how can we check validity of specificity measurements?
+
+
 Decided to use
 	- lemmatization
 	- stop-word removal

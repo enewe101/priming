@@ -1,0 +1,66 @@
+PRESENTATION NOTES
+- the notion of the HPU
+- characterizing the differences between CPU and HPU
+- human inconsisnency
+	-> priming
+	-> non-identity
+	-> stochasticity
+
+- we can address non-identity using filtering
+	- filter by ip, questionaire, or test-questions, e.g.
+
+- what about priming?
+	- can be careful about framing
+	- but what if tasks 'act as primes for one another'
+
+"inter-task effects"
+- "task or HIT"
+	- A hit can be one or more tasks
+	- schematically
+
+So, do intertask effects occur?
+- Yes.
+- 20 - 40% bias is commonplace
+
+How can we measure that?
+- ways to measure difference
+	- Hypothesis tests
+		- chi squared
+		- other ones
+		~ not great because they don't tell us the practical significance
+
+	- Divergence measures
+		- kulback liebler
+		- symmetrised KL and Shannon-Jensen
+		- L1 - many good properties...
+
+How should we measure difference?
+- the bias introduced into an algorithm
+	Imagine a binary decision ...
+	Or a conditional
+
+- This is actually equal to L1-distance
+
+- But L1 is hard to measure
+	- Valiant, Batu
+	- How can we measure it
+
+How else can we operationalize "difference"?
+- what about highly abstract differences?
+	- the sheep example
+- classifiers
+- If you can build a classifier that beats chance at telling P from Q
+	they must be different!
+- even very abstract differences are well-defined
+
+- This is essentially equal to the L1-distance
+
+Back to our results
+- 20-40% bias is reasonable
+
+NB and SVM classifier accuracy
+- if we can tell them appart with p accuracy, then they are (2p - 1)%
+	different
+
+
+

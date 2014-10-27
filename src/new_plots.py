@@ -63,6 +63,187 @@ DATA_DIR = 'data/new_data'
 FIGS_DIR = 'figs/'
 
 
+def plot_vocab_specificity(
+		read_specificity_fnames = ('data/new_data/specificity.json',
+			'data/new_data/specificity_ignore_food.json'),
+		read_vocab_fname = 'data/new_data/vocabulary.json',
+		write_fname = 'figs/vocab_specificity.pdf'
+	):
+
+	vocab_data = json.loads(open(read_vocab_fname).read())
+	exp1_task_food = vocab_data['exp1.task.food']
+	exp1_task_cult = vocab_data['exp1.task.cult']
+
+	# make a figure with two subplots
+	figWidth = 16.78 / 2.54 	# conversion from PNAS spec in cm to inches
+	figHeight = 3/5.*figWidth	# a reasonable aspect ratio
+	fig = plt.figure(figsize=(figWidth, figHeight))
+	gs = gridspec.GridSpec(1, 3)
+
+	# now plot the vocabulary data
+	ax1 = plt.subplot(gs[0])
+	width = 0.75
+
+	Y_1 = []
+	for image in range(5):
+		vocab_food, vocab_cult = exp1_task_food[image], exp1_task_cult[image]
+		Y_1.append((vocab_food - vocab_cult) / float(vocab_cult))
+
+	X_1 = range(len(Y_1))
+
+	series_1 = ax1.bar(X_1, Y_1, width, color='0.25')
+
+	padding = 0.25
+	xlims = (-padding, len(X_1) - 1 + width + padding)
+	plt.xlim(xlims)
+
+	ax1.set_ylabel(r'relative increase in vocabulary', size=12)
+
+	xlabels = ['image %d' % i for i in range(1,6)]
+
+	ax1.set_xticks([x + width/2. for x in X_1])
+	ax1.set_xticklabels(xlabels, rotation=45, size=12,
+		horizontalalignment='right')
+	ax1.set_yticks([0.1,0.2,0.3,0.4])
+
+
+	# plot vocabulary data accross all experiments
+	ax2 = plt.subplot(gs[1], sharey=ax1)
+
+	comparisons = [
+		('exp1.task.food', 'exp1.task.cult'),
+		('exp1.frame.food', 'exp1.frame.cult'),
+		('exp2.task.food', 'exp2.task.obj'),
+		('exp2.frame.food', 'exp2.frame.obj'),
+		('exp2.frame*.food', 'exp2.frame*.obj')
+	]
+
+	Y_2 = []
+	for treatment1, treatment2 in comparisons:
+		vocab_1 = sum(vocab_data[treatment1])
+		vocab_2 = sum(vocab_data[treatment2])
+		Y_2.append((vocab_1 - vocab_2) / float(vocab_2))
+	
+	X_2 = range(len(Y_2))
+
+	series_2 = ax2.bar(X_2, Y_2, width, color='0.25')
+
+	xlims = (-padding, len(X_2) - 1 + width + padding)
+	plt.xlim(xlims)
+
+	plt.setp(ax2.get_yticklabels(), visible=False)
+
+	xlabels = [
+		'$exp1.task$',
+		'$exp1.frame$',
+		'$exp2.task$',
+		'$exp2.frame$',
+		'$exp2.frame*$',
+	]
+
+	ax2.set_xticks([x + width/2. for x in X_1])
+	ax2.set_xticklabels(xlabels, rotation=45, size=12,
+		horizontalalignment='right')
+	ax2.set_yticks([0.1,0.2,0.3,0.4])
+
+	# original method for plotting vocabulary size
+	#ax3 = plt.subplot(gs[2])
+	#width = 0.75
+
+
+	#comparisons = [
+	#	(False, 0,1),
+	#	(False, 3,5),
+	#	(True, 0,5),
+	#	(True, 10,11),
+	#	(True, 12,13)
+	#]
+
+	#Y_3 = []
+	#for exp,treatment1,treatment2 in comparisons:
+	#	d = data_processing.readDataset(exp)
+	#	treatment1 = 'treatment%d' % treatment1
+	#	treatment2 = 'treatment%d' % treatment2
+	#	vocab_0 = 0
+	#	vocab_1 = 0
+	#	for image in ['test%d' % i for i in range(5)]:
+	#		vocab_0 += len(
+	#			d.get_counts_for_treatment_image(treatment1, image))
+	#		vocab_1 += len(
+	#			d.get_counts_for_treatment_image(treatment2, image))
+	#	Y_3.append((vocab_0 - vocab_1) / float(vocab_1))
+
+	#X_3 = range(len(Y_3))
+
+	#series_3 = ax3.bar(X_3, Y_3, width, color='0.25')
+
+	#xlims = (-padding, len(X_3) - 1 + width + padding)
+	#plt.xlim(xlims)
+
+	#ax3.set_ylabel(r'relative increase in vocabulary', size=12)
+
+	#xlabels = ['image %d' % i for i in range(1,6)]
+
+	#ax3.set_xticks([x + width/2. for x in X_3])
+	#ax3.set_xticklabels(xlabels, rotation=45, size=12,
+	#	horizontalalignment='right')
+	#ax3.set_yticks([0.1,0.2,0.3,0.4])
+
+
+
+
+
+
+	# now plot the specificity data
+	specificity_data = json.loads(open(read_specificity_fnames[0]).read())
+	specificity_data_no_food = json.loads(
+		open(read_specificity_fnames[1]).read())
+	ax3 = plt.subplot(gs[2])
+	width = 0.75
+	specificity_keys_labels = [
+			('img_food_cult', r'$exp1.task$'),
+			('wfrm_food_cult', r'$exp1.frame$'),
+			('img_food_obj', r'$exp2.task$'),
+			('wfrm_food_obj', r'$exp2.frame$'),
+			('sfrm_food_obj', r'$exp2.frame*$')
+	]
+
+	Y_3 = [np.mean(specificity_data[k]) for k,l in specificity_keys_labels]
+	X_3 = range(len(Y_3))
+	Y_4 = [
+		np.mean(specificity_data_no_food[k]) 
+		for k,l in specificity_keys_labels
+	]
+
+
+	series_3 = ax3.bar(X_3, Y_3, width, color='0.55')
+	series_4 = ax3.bar(X_3, Y_4, width, color='0.25')
+
+	xlims = (-padding, len(X_3) - 1 + width + padding)
+	plt.xlim(xlims)
+
+	ax3.set_ylabel(r'relative specificity', size=12)
+
+	xlabels = [l for k,l in specificity_keys_labels]
+
+	# now plot specificity data excluding food tokens
+
+
+
+
+	ax3.set_xticks([x + width/2. for x in X_3])
+	ax3.set_xticklabels(xlabels, rotation=45, size=12,
+		horizontalalignment='right')
+	ax3.set_yticks([0.01,0.02,0.03])
+
+
+	plt.draw()
+	plt.tight_layout()
+	fig.subplots_adjust(wspace=0.35, top=0.82, right=0.99, left=0.10, 
+		bottom=0.20)
+	fig.savefig(write_fname)
+
+
 def plot_food_specificity(
 		read_food_fname='data/new_data/food.json',
 		read_specificity_fname='data/new_data/specificity.json',
@@ -87,9 +268,9 @@ def plot_food_specificity(
 		
 	pairs = [
 		('2_img_obj', '2_img_food'),
-		#('1_img_cult', '1_img_food'),
+		('1_img_cult', '1_img_food'),
 		('2_wfrm_obj', '2_wfrm_food'),
-		#('1_wfrm_cult', '1_wfrm_food'),
+		('1_wfrm_cult', '1_wfrm_food'),
 		('2_sfrm_obj', '2_sfrm_food'),
 	]
 
@@ -111,9 +292,9 @@ def plot_food_specificity(
 
 	xlabels = [
 		r'$inter$-$t.1$',
-		#r'$inter$-$t.2$',
+		r'$inter$-$t.2$',
 		r'$frame1$',
-		#r'$frame2$', 
+		r'$frame2$', 
 		r'$frame$*$3$'
 	]
 
@@ -163,35 +344,6 @@ def plot_food_specificity(
 	ax2.set_xticklabels(xlabels, rotation=45, size=12,
 		horizontalalignment='right')
 	ax2.set_yticks([0.1,0.2,0.3,0.4])
-
-#	# now plot the specificity data
-#	ax2 = plt.subplot(gs[1])
-#	width = 0.75
-#	specificity_keys_labels = [
-#			#('img_food_obj', r'$inter$-$t.1$'),
-#			('img_food_cult', r'Food / Cult'),
-#			('img_ingr_cult', r'Ingr. / Cult.'),
-#			('wfrm_food_obj', r'Food / Ingr.'),
-#			#('wfrm_food_cult', r'$frame2$'),
-#			#('sfrm_food_obj', r'$frame$*$3$')
-#	]
-#
-#	Y_3 = [specificity_data[k] for k,l in specificity_keys_labels]
-#	X_3 = range(len(Y_3))
-#
-#	series_3 = ax2.bar(X_3, Y_3, width, color='0.25')
-#
-#	xlims = (-padding, len(X_3) - 1 + width + padding)
-#	plt.xlim(xlims)
-#
-#	ax2.set_ylabel(r'relative specificity', size=12)
-#
-#	xlabels = [l for k,l in specificity_keys_labels]
-#
-#	ax2.set_xticks([x + width/2. for x in X_3])
-#	ax2.set_xticklabels(xlabels, rotation=45, size=12,
-#		horizontalalignment='right')
-#	ax2.set_yticks([0.01,0.02,0.03])
 
 	plt.draw()
 	plt.tight_layout()

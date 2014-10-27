@@ -24,7 +24,7 @@ import sys
 import random
 import naive_bayes
 import ontology
-import data_processing
+import data_processing as dp
 import numpy as np
 import json
 import wordnet_analysis as wna
@@ -52,6 +52,42 @@ EXP2_TREATMENTS = {
 	'2_sfrm_food': [12],
 	'2_sfrm_obj': [13],
 }
+
+
+class SpellingCorrector(object):
+	'''
+	loads the specified portion of the dataset, and uses the 
+	WordnetSpellChecker to find misspelled words and their plausible correct
+	spellings.  This is basically an adaptor between the SimpleDataset, 
+	the WordnetSpellChecker, and the SimSweeper (which allows for 
+	multiprocessing.
+	'''
+
+	def __init__(self):
+		pass
+
+
+	def run(
+		self,
+		which_experiment=1,
+		class_idxs=[0,1],
+		img_idxs=range(5,10),
+	):
+		corpus = dp.SimpleDataset(
+			which_experiment=which_experiment,
+			show_token_pos=False,
+			show_plain_token=True,
+			show_token_img=False,
+			do_split=False,
+			class_idxs=class_idxs,
+			img_idxs=img_idxs,
+			spellcheck=False,
+			get_syns=False,
+			balance_classes=True,
+		).vocab_list
+
+		spell_checker = wna.WordnetSpellChecker()
+		return spell_checker.auto_correct(corpus)
 
 
 
@@ -90,7 +126,7 @@ def get_all_word_counts(fname='data/new_data/vocabulary.json'):
 
 
 def get_word_counts(experiment, treatments, images):
-	d = data_processing.SimpleDataset(
+	d = dp.SimpleDataset(
 		which_experiment=experiment,
 		show_token_pos=False,
 		show_token_img=False,
@@ -100,6 +136,35 @@ def get_word_counts(experiment, treatments, images):
 	)
 	d.balance_classes(119)
 	return d.vocab_counts
+
+
+def calculate_vocabulary_sizes(fname='data/new_data/vocabulary.json'):
+	results_file = open(fname, 'w')
+
+	treatments = {
+		'exp1.task.food': (1,0),
+		'exp1.task.cult': (1,1),
+		'exp1.task.ingr': (1,2),
+		'exp1.frame.food': (1,3),
+		'exp1.frame.cult': (1,5),
+		'exp2.task.food': (2,0),
+		'exp2.task.obj': (2,5),
+		'exp2.frame.food': (2,10),
+		'exp2.frame.obj': (2,11),
+		'exp2.frame*.food': (2,12),
+		'exp2.frame*.obj': (2,13),
+	}
+
+	results = {}
+	for key, (exp, treatment) in treatments.items():
+		results[key] = []
+		for image in range(5,10):
+			results[key].append(
+				len(get_word_counts(exp, [treatment], [image])))
+
+	results_file.write(json.dumps(results, indent=2))
+	return results
+
 
 
 def calculate_similarity(fname='data/new_data/similarity.json'):
@@ -148,9 +213,12 @@ def calculate_similarity(fname='data/new_data/similarity.json'):
 	return similarities
 
 
-def calculate_all_relative_specificities():
+def calculate_all_relative_specificities(ignore_food=False):
 
 	fname= 'data/new_data/specificity.json'
+	if ignore_food:
+		fname= 'data/new_data/specificity_ignore_food.json'
+
 	write_fh = open(fname, 'w')
 
 	#images = ['test%d'% i for i in range(5)]
@@ -177,87 +245,91 @@ def calculate_all_relative_specificities():
 		counts_food = get_word_counts(1, [0], [image])
 		counts_cult = get_word_counts(1, [1], [image])
 		results['img_food_cult'].append(wna.calculate_relative_specificity(
-			counts_food, counts_cult))
+			counts_food, counts_cult, ignore_food))
 
 		# compare the img_priming
 		counts_food = get_word_counts(1, [0], [image])
 		counts_ingr = get_word_counts(1, [2], [image])
 		results['img_food_ingr'].append(wna.calculate_relative_specificity(
-			counts_food, counts_ingr))
+			counts_food, counts_ingr, ignore_food))
 
 		# compare the img_priming
 		counts_ingr = get_word_counts(1, [2], [image])
 		counts_cult = get_word_counts(1, [1], [image])
 		results['img_ingr_cult'].append(wna.calculate_relative_specificity(
-			counts_ingr, counts_cult))
+			counts_ingr, counts_cult, ignore_food))
 
 		# compare the img_priming
 		counts_food = get_word_counts(1, [3], [image])
 		counts_cult = get_word_counts(1, [5], [image])
 		results['frm_food_cult'].append(wna.calculate_relative_specificity(
-			counts_food, counts_cult))
+			counts_food, counts_cult, ignore_food))
 
 		# compare the exp1 framing 
 		counts_food = get_word_counts(1, [3], [image])
 		counts_cult = get_word_counts(1, [5], [image])
 		results['wfrm_food_cult'].append(wna.calculate_relative_specificity(
-			counts_cult, counts_food))
+			counts_cult, counts_food, ignore_food))
 
 		# next work on experiment 2
-		d = data_processing.readDataset(True)
+		d = dp.readDataset(True)
 
 		# compare the img_priming
-		counts_food = get_word_counts(2, range(5), [image])
-		counts_obj = get_word_counts(2, range(5,10), [image])
+		counts_food = get_word_counts(2, [0], [image])
+		counts_obj = get_word_counts(2, [5], [image])
+		#counts_food = get_word_counts(2, range(5), [image])
+		#counts_obj = get_word_counts(2, range(5,10), [image])
 		results['img_food_obj'].append(wna.calculate_relative_specificity(
-			counts_food, counts_obj))
+			counts_food, counts_obj, ignore_food))
 
 		# compare the weak framing
 		counts_food = get_word_counts(2, [10], [image])
 		counts_obj = get_word_counts(2, [11], [image])
 		results['wfrm_food_obj'].append(wna.calculate_relative_specificity(
-			counts_food, counts_obj))
+			counts_food, counts_obj, ignore_food))
 
 		# compare strong framing
 		counts_food = get_word_counts(2, [12], [image])
 		counts_obj = get_word_counts(2, [13], [image])
 		results['sfrm_food_obj'].append(wna.calculate_relative_specificity(
-			counts_food, counts_obj))
+			counts_food, counts_obj, ignore_food))
 
 		# compare img food to sfrm food
-		counts_img_food = get_word_counts(2, range(5), [image])
+		counts_img_food = get_word_counts(2, [0], [image])
+		#counts_img_food = get_word_counts(2, range(5), [image])
 		counts_sfrm_food = get_word_counts(2, [12], [image])
 		results['img_food_sfrm_food'].append(
 			wna.calculate_relative_specificity(counts_img_food, 
-				counts_sfrm_food))
+				counts_sfrm_food, ignore_food))
 
 		# compare img obj to sfrm obj
-		counts_img_obj = get_word_counts(2, range(5,10), [image])
+		counts_img_obj = get_word_counts(2, [5], [image])
+		#counts_img_obj = get_word_counts(2, range(5,10), [image])
 		counts_sfrm_obj = get_word_counts(2, [13], [image])
 		results['img_obj_sfrm_obj'].append(
 			wna.calculate_relative_specificity(counts_img_obj, 
-				counts_sfrm_obj))
+				counts_sfrm_obj, ignore_food))
 
 		# compare img food to wfrm food
 		counts_img_food = get_word_counts(1, [0], [image])
 		counts_wfrm_food = get_word_counts(1, [3], [image])
 		results['img_food_wfrm_food'].append(
 			wna.calculate_relative_specificity(counts_img_food, 
-				counts_wfrm_food))
+				counts_wfrm_food, ignore_food))
 
 		# compare img obj to sfrm obj
 		counts_img_cult = get_word_counts(2, [1], [image])
 		counts_wfrm_cult = get_word_counts(2, [5], [image])
 		results['img_cult_wfrm_cult'].append(
 			wna.calculate_relative_specificity(counts_img_cult, 
-				counts_wfrm_cult))
+				counts_wfrm_cult, ignore_food))
 
-
-	for comparison in results:
-		results[comparison] = np.mean(results[comparison])
+	#for comparison in results:
+	#	results[comparison] = np.mean(results[comparison])
 
 	write_fh.write(json.dumps(results, indent=2))
 	return results
+
 
 def get_food_proportions():
 	fname = 'data/new_data/food.json'
@@ -270,7 +342,7 @@ def get_food_proportions():
 	for i, experiment_group in enumerate([EXP1_TREATMENTS, EXP2_TREATMENTS]):
 		for exp_name, treatment_idxs in experiment_group.items():
 
-			d = data_processing.SimpleDataset(
+			d = dp.SimpleDataset(
 				which_experiment=i+1,
 				show_token_pos=False,
 				show_token_img=False,
@@ -356,7 +428,7 @@ def bound_l1(
 	output_fh = open(fname, 'w')
 
 	# first, do this for the old data
-	ds_exp1 = data_processing.readDataset(is_exp_2_dataset=False)
+	ds_exp1 = dp.readDataset(is_exp_2_dataset=False)
 	food_cult_accuracy = []
 	for image in TEST_IMAGES:
 		food_cult_accuracy.append(
@@ -370,7 +442,7 @@ def bound_l1(
 				ds_exp1, ['treatment3', 'treatment6'], [image]))
 
 	# next, do this for the new data
-	ds_exp2 = data_processing.readDataset(is_exp_2_dataset=True)
+	ds_exp2 = dp.readDataset(is_exp_2_dataset=True)
 
 	# look at the distinguishability of IMG:FOOD and IMG:OBJ on a per-image
 	# per-position basis
@@ -443,7 +515,7 @@ def _do_cross_validation(clean_dataset, treatments, images, use_pos=True):
 
 	print 'doing cross-validation:', treatments, images
 
-	nb_dataset = data_processing.clean_dataset_adaptor(
+	nb_dataset = dp.clean_dataset_adaptor(
 		clean_dataset, treatments, images)
 	cross_validator = naive_bayes.NaiveBayesCrossValidationTester(nb_dataset)
 	overall_accuracy = cross_validator.cross_validate()
@@ -1045,7 +1117,7 @@ class Analyzer(object):
 		'''
 
 		# Create a new priming-image-label-experiment dataset
-		self.dataSet = data_processing.readDataset()
+		self.dataSet = dp.readDataset()
 
 
 
@@ -1073,7 +1145,7 @@ class NBCAnalyzer(object):
 
 
 	def readDataset(self):
-		self.dataSet = data_processing.readDataset()
+		self.dataSet = dp.readDataset()
 
 
 	def testNBC(self, testSetSize=25,
@@ -1199,7 +1271,7 @@ class NBCAnalyzer(object):
 			# Keep doing tests as long as another fold is available
 			try:
 				naiveBayesDataset.rotateSubsample()
-			except data_processing.CleanDatasetRotationException:
+			except dp.CleanDatasetRotationException:
 				break
 				
 		return r
