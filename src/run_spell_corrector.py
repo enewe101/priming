@@ -32,7 +32,7 @@ if __name__ == '__main__':
 	# By default the number of processes will equal the number of processors.
 	num_procs = None
 	if len(sys.argv) == 2:
-		num_procs = sys.argv[1]
+		num_procs = int(sys.argv[1])
 	elif len(sys.argv) > 2:
 		raise ValueError('Expected at most one command line argument.  '
 			'Found %d: %s.' % (len(sys.argv)-1, ', '.join(sys.argv)))
