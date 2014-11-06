@@ -26,7 +26,9 @@ class Crawler(object):
 	BACKOFF = 60 * 5
 	COOL_OFF = 60 * 30
 
-	PAGE_REGEX = re.compile(r'Page=\d+')
+	PAGE_REGEX = re.compile(r'.*(Page=\d+)')
+	URL_OK_REGEX = re.compile(	
+		r'http://allrecipes.com/Recipes/(US-Recipes|world-cuisine)', re.I)
 
 	def __init__(self, start=START):
 
@@ -64,10 +66,11 @@ class Crawler(object):
 			url_obj = self.url_queue[url_key]
 			url = url_obj['url']
 
-			success = self.process_page(url)
+			result_summary = self.process_page(url)
 
-			if success:
+			if result_summary:
 				url_obj['visited'] = True
+				url_obj['result_summary'] = result_summary
 				num_failures = 0
 			else:
 				url_obj['tries'] += 1
@@ -111,7 +114,10 @@ class Crawler(object):
 		# record the food-related strings found
 		corpus_fh = open(self.CORPUS_FNAME, 'a')
 		for string in self.strings:
-			corpus_fh.write(string + '\n')
+			try:
+				corpus_fh.write(string + '\n')
+			except UnicodeEncodeError:
+				print 'Skipping weird character...'
 
 		corpus_fh.close()
 
@@ -168,7 +174,7 @@ class Crawler(object):
 
 		# we don't want to strip page numbers though
 		if page_param:
-			stripped += '?' + page_param
+			stripped += '?' + page_param.groups()[0]
 
 		return stripped
 
@@ -195,6 +201,9 @@ class Crawler(object):
 
 			absolutized = self.absolutize(url, base)
 			normalized = self.normalize(url, base)
+
+			if self.URL_OK_REGEX.match(normalized) is None:
+				continue
 
 			if normalized not in self.url_queue:
 				self.url_queue[normalized] = {
@@ -230,15 +239,25 @@ class Crawler(object):
 		soup  = bs(r.text)
 
 		# get interesting things from the page
-		self.add_urls(find_nav_urls(soup), url)
-		self.add_urls(find_collection_urls(soup), url)
-		self.add_urls(find_next_urls(soup), url)
+		nav_urls = find_nav_urls(soup)
+		collection_urls = find_collection_urls(soup)
+		next_urls = find_next_urls(soup)
+		recipe_urls = find_recipe_urls(soup)
+		strings = find_recipe_strings(soup)
 
-		self.add_recipe_urls(find_recipe_urls(soup), url)
+		self.add_urls(nav_urls + collection_urls + next_urls, url)
+		self.add_recipe_urls(recipe_urls, url)
+		self.strings.extend(strings)
+		
+		result_summary = {
+			'nav_urls': len(nav_urls),
+			'collection_urls': len(collection_urls),
+			'next_urls': len(next_urls),
+			'recipe_urls': len(recipe_urls),
+			'strings': len(strings)
+		}
 
-		self.strings.extend(find_recipe_strings(soup))
-
-		return True
+		return result_summary
 
 
 
@@ -250,7 +269,12 @@ def find_next_urls(soup):
 		in order to paginate through allrecipe.com's recipe pages
 	'''
 	next_nodes = soup.find_all(text=re.compile('NEXT'))
-	next_links = [nn.parent['href'] for nn in next_nodes]
+	next_links = []
+	for nn in next_nodes:
+		try:
+			next_links.append(nn.parent['href'])
+		except KeyError:
+			print 'Finished a collection!'
 
 	return next_links
 
