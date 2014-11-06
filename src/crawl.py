@@ -22,7 +22,7 @@ class Crawler(object):
 	TIMEOUT = 3
 
 	SLEEP = 2
-	REST = 60
+	REST = 10
 	BACKOFF = 60 * 5
 	COOL_OFF = 60 * 30
 
@@ -76,15 +76,18 @@ class Crawler(object):
 			time.sleep(self.get_sleep_time())
 
 			# periodically give the site a rest, and record progress
-			if i % 8 == 7:
+			if i % 20 == 19:
 				self.sync_disk()
+				print 'Resting...'
 				time.sleep(self.REST)
 
 			# if we've had too many failures, backoff for awhile
 			if num_failures > 30:
+				print 'Cooling off...'
 				time.sleep(self.COOL_OFF)
 
 			elif num_failures > 10:
+				print 'Backing off...'
 				time.sleep(self.BACKOFF)
 
 			i += 1
