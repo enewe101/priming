@@ -26,6 +26,7 @@ class Crawler(object):
 	BACKOFF = 60 * 5
 	COOL_OFF = 60 * 30
 
+	PAGE_REGEX = re.compile(r'Page=\d+')
 
 	def __init__(self, start=START):
 
@@ -161,8 +162,17 @@ class Crawler(object):
 
 
 	def strip_query(self, url):
-		''' remove the query string '''
-		return urlunparse(urlparse(url)[:3] + ('',)*3)
+		''' remove the query string, but not if it has a page #! '''
+		page_param = self.PAGE_REGEX.match(url)
+		stripped = urlunparse(urlparse(url)[:3] + ('',)*3)
+
+		# we don't want to strip page numbers though
+		if page_param:
+			stripped += '?' + page_param
+
+		return stripped
+
+
 
 	
 	def normalize(self, url, base):
