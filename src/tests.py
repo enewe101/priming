@@ -12,6 +12,72 @@ import wordnet_analysis as wna
 from nltk.corpus import wordnet as wn
 
 
+class CountsComplimentTestCase(unittest.TestCase):
+
+	def test_get_counts_compliment(self):
+
+		image = 5
+		treatments = [0, 4, 3, 2, 1]
+		individual_word_counts = {}
+		for t in treatments:
+			individual_word_counts[t] = analysis.get_word_counts(
+					2, [t], [image], balance=0) 
+
+		expected_word_counts_compliment = []
+		for t in treatments:
+
+			this_word_counts = individual_word_counts[t]
+			other_treatments = [t_ for t_ in treatments if t_ != t]
+			other_word_counts = analysis.get_word_counts(
+				2, other_treatments, [image], balance=0)
+
+			expected_word_counts_compliment.append({
+				'for_i' : this_word_counts,
+				'not_i' : other_word_counts
+			})
+
+		found_word_counts_compliment = analysis.get_counts_compliment(
+			image, balance=0)
+
+		self.assertEqual(
+			found_word_counts_compliment, 
+			expected_word_counts_compliment
+		)
+
+
+	def test_get_counts_compliment_2(self):
+
+		image = 8
+		treatments = [3, 2, 1, 0, 4]
+		individual_word_counts = {}
+		for t in treatments:
+			individual_word_counts[t] = analysis.get_word_counts(
+					2, [t], [image], balance=0) 
+
+		expected_word_counts_compliment = []
+		for t in treatments:
+
+			this_word_counts = individual_word_counts[t]
+			other_treatments = [t_ for t_ in treatments if t_ != t]
+			other_word_counts = analysis.get_word_counts(
+				2, other_treatments, [image], balance=0)
+
+			expected_word_counts_compliment.append({
+				'for_i' : this_word_counts,
+				'not_i' : other_word_counts
+			})
+
+		found_word_counts_compliment = analysis.get_counts_compliment(
+			image, balance=0)
+
+		self.assertEqual(
+			found_word_counts_compliment, 
+			expected_word_counts_compliment
+		)
+
+
+
+
 class SimilarityTestCase(unittest.TestCase):
 
 	def test_similality(self):

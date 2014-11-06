@@ -63,6 +63,33 @@ DATA_DIR = 'data/new_data'
 FIGS_DIR = 'figs/'
 
 
+def plot_self_specificity(
+		read_fname = 'data/new_data/self_specificity.json',
+		write_fname = 'figs/self_specificity.pdf'
+	):
+
+	self_specificity = json.loads(open(read_fname).read())
+
+	# make a figure with three subplots
+	figWidth = 16.78 / 2.54 	# conversion from PNAS spec in cm to inches
+	figHeight = 4/5.*figWidth	# a reasonable aspect ratio
+	fig = plt.figure(figsize=(figWidth, figHeight))
+	gs = gridspec.GridSpec(1, 2)
+
+	width = 0.75
+
+	# now plot the vocabulary data
+	ax1 = plt.subplot(gs[0])
+	Y_food = np.mean(self_specificity['food'], 1)
+	X = range(len(Y_food))
+	series_1 = ax1.bar(X, Y_food, width, color='0.25')
+
+	ax1 = plt.subplot(gs[1])
+	Y_object = np.mean(self_specificity['object'], 1)
+	series_2 = ax1.bar(X, Y_object, width, color='0.25')
+
+
+
 def plot_vocab_specificity(
 		read_specificity_fnames = ('data/new_data/specificity.json',
 			'data/new_data/specificity_ignore_food.json'),
@@ -74,7 +101,7 @@ def plot_vocab_specificity(
 	exp1_task_food = vocab_data['exp1.task.food']
 	exp1_task_cult = vocab_data['exp1.task.cult']
 
-	# make a figure with two subplots
+	# make a figure with three subplots
 	figWidth = 16.78 / 2.54 	# conversion from PNAS spec in cm to inches
 	figHeight = 3/5.*figWidth	# a reasonable aspect ratio
 	fig = plt.figure(figsize=(figWidth, figHeight))
@@ -484,7 +511,7 @@ def plot_theta(
 
 	plt.draw()
 	plt.tight_layout()
-	fig.subplots_adjust(wspace=0.05, top=0.99, right=0.99, left=0.10, 
+	fig.subplots_adjust(wspace=0.05, top=0.99, right=0.99, left=0.11, 
 		bottom=0.29)
 	fig.savefig(os.path.join(FIGS_DIR, write_fname))
 

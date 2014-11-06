@@ -30,6 +30,7 @@ import json
 import wordnet_analysis as wna
 from collections import defaultdict, Counter
 import os
+import copy
 
 # Number of stardard deviations equivalent to the % condifdence for a 
 # normal variate
@@ -52,6 +53,10 @@ EXP2_TREATMENTS = {
 	'2_sfrm_food': [12],
 	'2_sfrm_obj': [13],
 }
+
+
+class AnalysisError(Exception):
+	pass
 
 
 class SpellingCorrector(object):
@@ -125,7 +130,11 @@ def get_all_word_counts(fname='data/new_data/vocabulary.json'):
 
 
 
-def get_word_counts(experiment, treatments, images):
+def get_word_counts(experiment, treatments, images, balance=119):
+	'''
+		set balance=0 to apply no truncation of the dataset (which is 
+		normally done to balance the number of data points per treatment).
+	'''
 	d = dp.SimpleDataset(
 		which_experiment=experiment,
 		show_token_pos=False,
@@ -134,7 +143,10 @@ def get_word_counts(experiment, treatments, images):
 		class_idxs=treatments,
 		img_idxs=images,
 	)
-	d.balance_classes(119)
+
+	if balance > 0:
+		d.balance_classes(119)
+
 	return d.vocab_counts
 
 
@@ -211,6 +223,83 @@ def calculate_similarity(fname='data/new_data/similarity.json'):
 
 	results_file.write(json.dumps(similarities, indent=2))
 	return similarities
+
+
+
+def calculate_longit_self_specificity():
+	'''
+	This analysis looks at whether the labels attributed to a *test* image
+	become *more specific* as the image moves from position 1 in the test
+	set through position 5.  The comparison is not between two priming 
+	treatments (which is what is usually done), but between the labels
+	attributed to the image in the position in question and the pool of
+	labels attributed to that image at all other positions.
+	'''
+	fname = 'data/new_data/self_specificity.json'
+	results_fh = open(fname, 'w')
+
+	all_specificities = {}
+	for treatment_set in ['food', 'object']:
+
+		specificities = []
+		all_specificities[treatment_set] = specificities
+
+		if treatment_set == 'food':
+			treatments_of_interest = range(5) 
+		elif treatment_set == 'object':
+			treatments_of_interest = range(5,10)
+		else:
+			raise AnalysisError(
+				'Inconsistent value for treatmens of interest')
+
+		for image in range(5,10):
+
+			this_image_results = []
+			specificities.append(this_image_results)
+			word_counts = get_counts_compliment(image, treatments_of_interest)
+
+			for word_count in word_counts:
+
+				this_image_results.append(wna.calculate_relative_specificity(
+					word_count['for_i'], word_count['not_i']))
+
+	results_fh.write(json.dumps(all_specificities, indent=2))
+	return all_specificities
+	
+
+
+def get_counts_compliment(
+		image,
+		treatments_of_interest=range(5),
+		balance=119
+	):
+	'''
+	for a given image (in the test set of experiment 2), it gets the 
+	word counts associated to that image when that image is in position
+	i of the test set, as well as the words associated to that image
+	in all other positions pooled together, and does that for all i
+	'''
+
+	# figure the order of treatments to look at to see this image
+	# at each possible position within the test set, consecutively
+	treatments = [0]*5
+	for treatment in treatments_of_interest:
+		treatment_order = dp.permute(range(5,10), treatment).index(image)
+		treatments[treatment_order] = treatment
+
+	word_counts = []
+	for treatment in treatments:
+
+		other_treatments = copy.deepcopy(treatments_of_interest)
+		other_treatments.remove(treatment)
+
+		word_counts.append({
+			'for_i': get_word_counts(2, [treatment], [image], balance),
+			'not_i': get_word_counts(2, other_treatments, [image], balance)
+		})
+
+	return word_counts
+
 
 
 def calculate_all_relative_specificities(ignore_food=False):
