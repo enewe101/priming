@@ -296,7 +296,8 @@ class SimpleDataset(object):
 		self.num_docs = 0
 
 		# read the corrections dictionary (this is prepared ahead of time)
-		self.read_dictionary()
+		if spellcheck:
+			self.read_dictionary()
 
 		# read in the raw data
 		self.read_raw_data()

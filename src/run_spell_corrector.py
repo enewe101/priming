@@ -4,12 +4,12 @@ from sim_sweep import sim_sweep
 
 SIM_CLASS = a.SpellingCorrector
 
-FNAME_1 = 'data/new_data/dictionary_1.json'
-FNAME_2 = 'data/new_data/dictionary_2.json'
+FNAME_1 = 'data/new_data/dictionaries/with_allrecipes/dictionary_1.json'
+FNAME_2 = 'data/new_data/dictionaries/with_allrecipes/dictionary_2.json'
 
 SCHEDULE_1 = {
 	'which_experiment': [1],
-	'class_idxs' : [[0,1,2,3,5]],
+	'class_idxs' : [range(7)],
 	'img_idxs': [[5],[6],[7],[8],[9],[10]]
 }
 

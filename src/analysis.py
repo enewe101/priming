@@ -88,7 +88,7 @@ class SpellingCorrector(object):
 			img_idxs=img_idxs,
 			spellcheck=False,
 			get_syns=False,
-			balance_classes=True,
+			balance_classes=False,
 		).vocab_list
 
 		spell_checker = wna.WordnetSpellChecker()
