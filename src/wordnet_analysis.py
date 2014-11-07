@@ -1,3 +1,4 @@
+import os
 import copy
 from nltk.corpus import wordnet as wn
 from nltk.corpus import stopwords
@@ -26,20 +27,36 @@ def find_misspelled_words(dataset):
 	return misspelled
 
 
+
+
 class WordnetSpellChecker(object):
 
 	ALPH = 'abcdefghijklmnopqrstuvwxyz_'
-	W = re.compile(r'[^a-z ]')
+	W = re.compile(r'[^a-z ]') # note a space is included
 	stops = stopwords.words('english')
 
+	CORPUS_DIR = 'data/html/'
+	AUGMENTED_CORPUS_FNAMES = ['corpus.txt', 'recipe_corpus.txt']
+	TRIMED_AUX_CORPUS_FNAME = 'data/new_data/auxiliary_corpus.txt'
+
+	SPLIT_REGEX = re.compile(r"[^a-z]", re.I) # no spaces, no punctuation
+
 	def __init__(self):
-		pass
+		self.aux_corpus = None 
+
 
 	def is_ok(self, word):
-		return len(wn.synsets(word))>0 or word in self.stops
+
+		return (
+			len(wn.synsets(word))>0 
+			or word in self.stops 
+			or word in self.aux_corpus
+		)
+
 
 	def all_ok(self, word):
 		return all([self.is_ok(token) for token in word.split()])
+
 
 	def get_all_neighbors(self, words_and_scores):
 		all_neighbors = set()
@@ -79,12 +96,64 @@ class WordnetSpellChecker(object):
 		return return_neighbors
 
 
+	def read_auxiliary_corpus(self):
+		'''
+			reads a bunch of raw text stripped from some source (in this case
+			currently the allrecipes.com website) and makes a list of all the
+			new words seen therein.  Eliminates duplicates, punctuation (but
+			preserves appostrophes), and normalizes to lower case.
+
+			After processing in the abovementionned way, only those tokens that
+			are *not* in wordnet are actually kept.  The reason is because 
+			we already use wordnet, and we only need to store what is above
+			and beyond wordnet's vocabulary (keeping loading time in mind).
+
+			Prints the trimmed version of this to a trimmed coprus file.
+		'''
+
+		aux_tokens = set()
+		trimmed_corpus_fh = open(self.TRIMED_AUX_CORPUS_FNAME, 'w')
+
+		# read auxiliary corpus files, and aggregate the all tokens found
+		for corpus_fname in self.AUGMENTED_CORPUS_FNAMES:
+			fname = os.path.join(self.CORPUS_DIR, corpus_fname)
+			corpus_fh = open(fname)
+
+			print 'Getting tokens from corpus...'
+			for line in corpus_fh:
+				tokens = self.SPLIT_REGEX.split(line.lower())
+				tokens = filter(lambda x: len(x)>2, tokens)
+				aux_tokens.update(tokens)
+
+		# only keep the aux_tokens that aren't found in wordnet
+		print "Culling tokens (don't include anything already in wordnet)"
+		culled_aux_tokens = set(
+			filter(lambda x: len(wn.synsets(x)) == 0, aux_tokens)
+		)
+
+		print 'writing culled tokens to file'
+		trimmed_corpus_fh.write('\n'.join(culled_aux_tokens) + '\n')
+
+		return culled_aux_tokens
+
+
 	def auto_correct(self, corpus):
 
-		# First, we read all of the words.
+		# read in the auxiliary corpus.
+		if os.path.isfile(self.TRIMED_AUX_CORPUS_FNAME):
+			self.aux_corpus = set(
+				open(self.TRIMED_AUX_CORPUS_FNAME).read().split()
+			)
+
+		# if the auxiliary corpus is not found, look for the raw stripped
+		# words
+		else:
+			self.aux_corpus = self.read_auxiliary_corpus()
+
+		# Now, read all of the words in the argument corpus.
 		# Sort out the ones that are misspelled.  Among the ones that 
 		# are correctly spelled, accumulate the frequencies of occurence
-		# to guide the spell checker
+		# as a guide to the spell checker
 
 		frequencies = Counter()
 		misspelled = set()
@@ -115,8 +184,8 @@ class WordnetSpellChecker(object):
 
 			# multiply scores by the frequency of occurence in the corpus
 			#
-			# words that have been split get afforded the average frequency
-			# of the resulting words
+			# words that have been split get afforded the minimum frequency
+			# of the resulting words.  All words get at least a score of 1
 			scored_candidates = [
 				(c, s*(1 + min([frequencies[x] for x in c.split()])))
 				for c,s in candidates

@@ -249,6 +249,7 @@ class SimpleDataset(object):
 	CORRECTIONS_PATH = 'data/new_data/dictionary.json'
 	WORD_BREAK = re.compile(r'[^a-zA-Z]+')
 
+	STRIP = re.compile(r"[^a-zA-Z'_-]+", re.I)
 
 	def __init__(
 		self, 
@@ -465,7 +466,9 @@ class SimpleDataset(object):
 				for word_pos in range(self.NUM_WORDS_PER_IMAGE):
 
 					word_key = word_key_prefix + str(word_pos)
-					word  = record[word_key].lower()
+
+					# replace consecutive wonky characters with a single space
+					word  = self.STRIP.sub(' ', record[word_key].lower())
 
 					# break apart multiple words 
 					if self.do_split:
