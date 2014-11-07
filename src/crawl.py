@@ -16,8 +16,10 @@ HOST = 'http://allrecipes.com'
 class Crawler(object):
 
 	URL_QUEUE_FNAME = 'data/html/url_queue.json'
+	RECIPE_URL_LIST_FNAME = 'data/html/recipe_url_list.json'
 	RECIPE_URL_QUEUE_FNAME = 'data/html/recipe_url_queue.json'
 	CORPUS_FNAME = 'data/html/corpus.txt'
+	RECIPE_CORPUS_FNAME = 'data/html/recipe_corpus.txt'
 	MAX_TRIES = 3
 	TIMEOUT = 3
 
@@ -29,14 +31,33 @@ class Crawler(object):
 	PAGE_REGEX = re.compile(r'.*(Page=\d+)')
 	URL_OK_REGEX = re.compile(	
 		r'http://allrecipes.com/Recipes/(US-Recipes|world-cuisine)', re.I)
+	RECIPE_BASE_URL = 'http://allrecipes.com/Recipes/'
+	RECIPE_MATCH = re.compile(r'.*detail.aspx', re.I)
+
+	CRAWL_RECIPES = 0
+	CRAWL_LISTINGS = 1
 
 	def __init__(self, start=START):
 
 		# initialize the url queue based on logs stored on disk
-		self.url_queue = self.read_queue()
+		self.make_url_queue()
+		self.make_recipe_url_queue()
 
-		# if no url logi is found use initialize with the starting url 
-		if self.url_queue is None:
+		# initialize accumulators
+		self.strings = []
+		self.recipe_strings = []
+
+		# synchronize log files
+		self.sync_disk(self.CRAWL_RECIPES)
+		self.sync_disk(self.CRAWL_LISTINGS)
+		self.check_files()
+
+
+	def make_url_queue(self):
+
+		print 'loading listing url queue...'
+
+		if not os.path.isfile(self.URL_QUEUE_FNAME):
 			self.url_queue = OrderedDict({
 				self.normalize(start, start): {
 					'url':start,
@@ -44,29 +65,67 @@ class Crawler(object):
 					'tries':0
 				}
 			})
+			return self.url_queue
 
-		self.strings = []
-		self.sync_disk()
-		self.check_files()
+		queue_dict = json.loads(open(self.URL_QUEUE_FNAME).read())
+		self.url_queue = OrderedDict(queue_dict)
+
+		return self.url_queue
 
 
-	def crawl(self):
+	def make_recipe_url_queue(self):
+
+		print 'loading recipe url queue...'
+
+		# if a recipe queue already exists on disk, just load that
+		if os.path.isfile(self.RECIPE_URL_QUEUE_FNAME):
+			self.recipe_url_queue = OrderedDict(
+				json.loads(open(self.RECIPE_URL_QUEUE_FNAME).read())
+			)
+			return self.recipe_url_queue
+
+		# otherwise, make a queue from the listing
+		self.recipe_url_queue = OrderedDict()
+		recipe_urls = open(self.RECIPE_URL_LIST_FNAME).read().split()
+		self.add_recipe_urls(recipe_urls, self.RECIPE_BASE_URL)
+
+		return self.recipe_url_queue
+
+
+	def crawl_recipes(self):
+		queue = self.recipe_url_queue
+		mode = self.CRAWL_RECIPES
+		self.crawl(queue, mode)
+
+		
+	def crawl_listings(self):
+		queue = self.url_queue
+		mode = self.CRAWL_LISTINGS
+		self.crawl(queue, mode)
+
+
+	def crawl(self, queue, mode):
 
 		i = 0
 		num_failures = 0
-		for url_key in self.url_queue:
+		for url_key in queue:
 
-			url_obj = self.url_queue[url_key]
+			url_obj = queue[url_key]
 			if url_obj['visited'] or url_obj['tries'] > self.MAX_TRIES:
 				continue
 
 
 			print 'Crawling %s...' % url_key
 
-			url_obj = self.url_queue[url_key]
+			url_obj = queue[url_key]
 			url = url_obj['url']
 
-			result_summary = self.process_page(url)
+			# the way that the page gets processed depends on whether it is
+			# a recipe page, or a listing of recipes
+			if self.RECIPE_MATCH.match(url):
+				result_summary = self.process_recipe_page(url)
+			else:
+				result_summary = self.process_listing_page(url)
 
 			if result_summary:
 				url_obj['visited'] = True
@@ -81,7 +140,7 @@ class Crawler(object):
 
 			# periodically give the site a rest, and record progress
 			if i % 20 == 19:
-				self.sync_disk()
+				self.sync_disk(mode)
 				print 'Resting...'
 				time.sleep(self.REST)
 
@@ -96,7 +155,7 @@ class Crawler(object):
 
 			i += 1
 
-		self.sync_disk()
+		self.sync_disk(mode)
 		print 'DONE!'
 
 
@@ -104,16 +163,43 @@ class Crawler(object):
 		return r.uniform(0,2) * self.SLEEP
 
 
-	def sync_disk(self):
+	def sync_disk(self, mode):
 		'''
 			Updates the url log on disk to reflect recent crawling
 			progress.  Any new urls that have been discovered will be
 			added, and the status of urls that have been crawled, or tried
 			will be updated
 		'''
+
+		# the crawl mode deterimines where we'll store progress on disk
+		corpus_fname = None
+		queue_fname = None
+
+		if mode == self.CRAWL_LISTINGS:
+			corpus_fname = self.CORPUS_FNAME
+			queue_fname = self.URL_QUEUE_FNAME
+			url_queue = self.url_queue
+
+			# copy and then purge the buffer
+			strings = self.strings
+			self.strings = []
+
+		elif mode == self.CRAWL_RECIPES:
+			corpus_fname = self.RECIPE_CORPUS_FNAME
+			queue_fname = self.RECIPE_URL_QUEUE_FNAME
+			url_queue = self.recipe_url_queue
+
+			# copy and then purge the strings buffer
+			strings = self.recipe_strings
+			self.recipe_strings = []
+
+		else:
+			raise ValueError('mode must be self.CRAWL_LISTINGS or '
+				'self.CRAWL_RECIPES.')
+
 		# record the food-related strings found
-		corpus_fh = open(self.CORPUS_FNAME, 'a')
-		for string in self.strings:
+		corpus_fh = open(corpus_fname, 'a')
+		for string in strings:
 			try:
 				corpus_fh.write(string + '\n')
 			except UnicodeEncodeError:
@@ -121,13 +207,10 @@ class Crawler(object):
 
 		corpus_fh.close()
 
-		# purge the cache of found strings
-		self.strings = []
-
 		# record progress in the url log
-		url_log = json.dumps(self.url_queue, indent=2)
+		url_log = json.dumps(url_queue, indent=2)
 
-		url_log_fh = open(self.URL_QUEUE_FNAME, 'w')
+		url_log_fh = open(queue_fname, 'w')
 		url_log_fh.write(url_log)
 		url_log_fh.close()
 
@@ -140,26 +223,21 @@ class Crawler(object):
 			exist.
 		'''
 
-		# make sure we can open the corpus file
+		# make sure we can open the corpus files
 		corpus_fh = open(self.CORPUS_FNAME, 'a')
+		corpus_fh.close()
+		corpus_fh = open(self.RECIPE_CORPUS_FNAME, 'a')
 		corpus_fh.close()
 
 		# make sure we can open the url log file
 		url_log_fh = open(self.URL_QUEUE_FNAME, 'a')
 		url_log_fh.close()
+		url_log_fh = open(self.RECIPE_URL_QUEUE_FNAME, 'a')
+		url_log_fh.close()
 
 		# make sure we can open the recipe urls log file
-		recipe_url_log_fh = open(self.URL_QUEUE_FNAME, 'a')
+		recipe_url_log_fh = open(self.RECIPE_URL_LIST_FNAME, 'a')
 		recipe_url_log_fh.close()
-
-
-	def read_queue(self):
-
-		if not os.path.isfile(self.URL_QUEUE_FNAME):
-			return None
-
-		queue_dict = json.loads(open(self.URL_QUEUE_FNAME).read())
-		return OrderedDict(queue_dict)
 
 
 	def absolutize(self, url, base):
@@ -179,20 +257,33 @@ class Crawler(object):
 		return stripped
 
 
-
-	
 	def normalize(self, url, base):
 		return self.strip_query(self.absolutize(url, base))
 
 
-	def add_recipe_urls(self, urls, base):
+	def append_recipe_urls(self, urls, base):
 
-		recipe_url_fh = open(self.RECIPE_URL_QUEUE_FNAME, 'a')
+		recipe_url_fh = open(self.RECIPE_URL_LIST_FNAME, 'a')
 		for recipe_url in urls:
 			absolutized = self.absolutize(recipe_url, base)
 			recipe_url_fh.write(absolutized + '\n')
 
 		recipe_url_fh.close()
+
+
+	def add_recipe_urls(self, urls, base):
+
+		for url in urls:
+
+			absolutized = self.absolutize(url, base)
+			normalized = self.normalize(url, base)
+
+			if normalized not in self.recipe_url_queue:
+				self.recipe_url_queue[normalized] = {
+					'url': absolutized,
+					'visited': False,
+					'tries': 0
+				}
 
 
 	def add_urls(self, urls, base):
@@ -213,9 +304,8 @@ class Crawler(object):
 				}
 
 
-	def process_page(self, url):
+	def get_page(self, url):
 
-		# get a page
 		try:
 			r = requests.get(url, timeout=self.TIMEOUT)
 			r.raise_for_status()
@@ -236,6 +326,16 @@ class Crawler(object):
 			print 'Warning: other request error.'
 			return False
 
+		return r
+
+
+	def process_listing_page(self, url):
+
+		# get a page (returns a request object, or False on failure)
+		r = self.get_page(url)
+		if not r:
+			return False
+
 		soup  = bs(r.text)
 
 		# get interesting things from the page
@@ -246,7 +346,7 @@ class Crawler(object):
 		strings = find_recipe_strings(soup)
 
 		self.add_urls(nav_urls + collection_urls + next_urls, url)
-		self.add_recipe_urls(recipe_urls, url)
+		self.append_recipe_urls(recipe_urls, url)
 		self.strings.extend(strings)
 		
 		result_summary = {
@@ -260,6 +360,43 @@ class Crawler(object):
 		return result_summary
 
 
+	def process_recipe_page(self, url):
+
+		# get a page (returns a request object, or False on failure)
+		r = self.get_page(url)
+		if not r:
+			return False
+
+		soup  = bs(r.text)
+
+		# get interesting things from the page
+		ingredients_strings = get_recipe_ingredients(soup)
+		directions_strings = get_recipe_directions(soup)
+
+		self.recipe_strings.extend(ingredients_strings)
+		self.recipe_strings.extend(directions_strings)
+		
+		result_summary = {
+			'ingredients_strings': len(ingredients_strings),
+			'directions_strings': len(directions_strings)
+		}
+
+		return result_summary
+
+
+
+
+
+def get_recipe_ingredients(soup):
+	ingredient_elements = soup.find_all(class_='ingredient-name')
+	ingredients = [i.text for i in ingredient_elements]
+	return ingredients
+
+
+def get_recipe_directions(soup):
+	instructions_wrappers = soup.find_all('div', itemprop='recipeInstructions')
+	instructions = [' '.join(i.text.split()) for i in instructions_wrappers]
+	return instructions
 
 
 
