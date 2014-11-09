@@ -33,6 +33,9 @@ def sim_sweep(sim_class, fname, schedule, sim_defaults={},
 
 	# Open file.  If already exists, consult user.
 	fh = u.copen(fname) # <- automatically checks if exists and consults
+	if not fh:
+		print 'Aborted!'
+		return
 	fh.write('[\n')		# Start the json list of simulation data
 	fh.close()
 

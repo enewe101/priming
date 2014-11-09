@@ -41,8 +41,9 @@ class WordnetSpellChecker(object):
 
 	SPLIT_REGEX = re.compile(r"[^a-z]", re.I) # no spaces, no punctuation
 
-	def __init__(self):
+	def __init__(self, num_to_return=1):
 		self.aux_corpus = None 
+		self.num_to_return = num_to_return
 
 
 	def is_ok(self, word):
@@ -197,13 +198,17 @@ class WordnetSpellChecker(object):
 					lambda x: x[1],
 					True
 				)
-				best_word = sorted_candidates[0][0]
+				# take the top words
+				best_words = sorted_candidates[:self.num_to_return]
+
+				# discard the score
+				best_words = [b[0] for b in best_words]
 
 			except IndexError:
-				best_word = None
+				best_words = None
 
-			print w, '->', best_word
-			corrections[w] = best_word
+			print w, '->', best_words
+			corrections[w] = best_words
 
 		return corrections
 
