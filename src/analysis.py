@@ -91,7 +91,7 @@ class SpellingCorrector(object):
 			balance_classes=False,
 		).vocab_list
 
-		spell_checker = wna.WordnetSpellChecker()
+		spell_checker = wna.WordnetSpellChecker(num_to_return=10)
 		return spell_checker.auto_correct(corpus)
 
 
