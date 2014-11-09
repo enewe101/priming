@@ -480,23 +480,25 @@ def try_everything():
 		for do_split in [True, False]:
 			for remove_stops in [True, False]:
 				for lemmatize in [True, False]:
+					for spellcheck in [True, False]:
 
-					# get the file name sorted out
-					fname = 'l1'
-					fname += 'showpos' if show_token_pos else ''
-					fname += 'split' if do_split else ''
-					fname += 'nostops' if remove_stops else ''
-					fname += 'lem' if lemmatize else ''
-					fname += '.json'
+						# get the file name sorted out
+						fname = 'l1'
+						fname += 'showpos' if show_token_pos else ''
+						fname += 'split' if do_split else ''
+						fname += 'nostops' if remove_stops else ''
+						fname += 'lem' if lemmatize else ''
+						fname += '.json'
 
-					# now do it
-					bound_l1(
-						fname='data/new_data/l1_spellcorrected/' + fname,
-						show_token_pos=show_token_pos,
-						do_split=do_split,
-						remove_stops=remove_stops,
-						lemmatize=lemmatize
-					)
+						# now do it
+						bound_l1(
+							fname='data/new_data/l1_spellcorrected/' + fname,
+							show_token_pos=show_token_pos,
+							do_split=do_split,
+							remove_stops=remove_stops,
+							lemmatize=lemmatize,
+							spellcheck=spellcheck
+						)
 
 
 
@@ -507,6 +509,8 @@ def bound_l1(
 		do_split=True,
 		remove_stops=True,
 		lemmatize=True,
+		spellcheck=False,
+		#balance_classes
 	):
 	''' 
 	also known as determine the classifier's accuracy using 

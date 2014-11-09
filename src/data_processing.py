@@ -246,7 +246,8 @@ class SimpleDataset(object):
 	EXP1_FNAMES = ['amt1_cut.csv', 'amt2_cut.csv', 'amt3_cut.csv']
 	EXP2_FNAMES = ['amt_cut_2014.09.csv']
 	CACHE_PATH = 'cache'
-	CORRECTIONS_PATH = 'data/new_data/dictionary.json'
+	CORRECTIONS_PATH = 'data/new_data/dictionaries/with_allrecipes/'
+	DICTIONARY_FNAMES = ['dictionary_1.json', 'dictionary_2.json']
 	WORD_BREAK = re.compile(r'[^a-zA-Z]+')
 
 	STRIP = re.compile(r"[^a-zA-Z'_-]+", re.I)
@@ -320,9 +321,23 @@ class SimpleDataset(object):
 
 
 	def read_dictionary(self):
-		fh = open(self.CORRECTIONS_PATH)
-		self.dictionary = json.loads(fh.read())
-		fh.close()
+
+		# read the dictionaries
+		dictionaries = []
+		for fname in self.DICTIONARY_FNAMES:
+			fh = open(os.path.join(self.CORRECTIONS_PATH, fname))
+			dictionaries.extend(json.loads(fh.read()))
+			fh.close()
+
+		# re-organize the dictionaries to be indexed by experiment and image
+		self.dictionaries = {}
+		for d in dictionaries:
+			params = d['params']
+			exp, img = params['which_experiment'], params['img_idxs'][0]
+			results = d['results']
+			self.dictionaries[(exp, img)] = results
+
+		return self.dictionaries
 
 
 	def resolve_raw_data_paths(self, which_experiment):
@@ -471,22 +486,26 @@ class SimpleDataset(object):
 					# replace consecutive wonky characters with a single space
 					word  = self.STRIP.sub(' ', record[word_key].lower())
 
-					# break apart multiple words 
+					# Maybe do spell correction
+					if self.spellcheck:
+
+						# get the right dictionary
+						dict_key = (self.which_experiment,img_idx)
+						cs = self.dictionaries[dict_key]
+
+						# do corrections on a word by word basis
+						old_word = word
+						words = word.split()
+						words = [cs[w] if w in cs else w for w in words]
+						word = ' '.join(words)
+						if word != old_word:
+							print old_word, '->', word
+
+					# Maybe split words
 					if self.do_split:
 						words = self.WORD_BREAK.split(word)
 					else:
 						words = [word]
-
-					# do spell checks
-					if self.spellcheck:
-						if '%d_%d' % (class_idx,img_idx) in self.dictionary:
-							# get the right dictionary
-							cs = self.dictionary['%d_%d'%(class_idx,img_idx)]
-							# do corrections
-							words = [cs[w] if w in cs else w for w in words]
-							# split corrected cases of word concatenation
-							words = reduce(
-								lambda x,y: x + y.split(), words, [])
 
 					# get the synsets and hypernyms 
 					if self.get_syns:

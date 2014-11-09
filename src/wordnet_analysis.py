@@ -5,6 +5,7 @@ from nltk.corpus import stopwords
 from collections import Counter
 import re
 import numpy as np
+import json
 
 
 SPLIT_RE = re.compile('[^-a-zA-Z]')
@@ -26,6 +27,60 @@ def find_misspelled_words(dataset):
 
 	return misspelled
 
+
+def list_unknown_words():
+	'''
+		looks through the dictionaries (which provide corrections to 
+		misspelled words), and identifies which of those are not in wordnet.
+		These words will need to be placed into the ontology.
+	'''
+	DICTIONARY_DIR = 'data/new_data/dictionaries/with_allrecipes/'
+	DICTIONARY_FNAMES = ['dictionary_1.json', 'dictionary_2.json']
+	NEW_WORDS_FNAME = 'new_words.json'
+	stops = stopwords.words('english')
+
+	fnames = [os.path.join(DICTIONARY_DIR, d) for d in DICTIONARY_FNAMES]
+	new_words_fh = open(os.path.join(DICTIONARY_DIR, NEW_WORDS_FNAME), 'w')
+	
+	new_words = []
+	for fname in fnames:
+
+		print 'Processing %s' % fname
+
+		fh = open(fname)
+		dictionary = json.loads(fh.read())
+
+		for volume in dictionary:
+
+			classes = volume['params']['class_idxs']
+			image = volume['params']['img_idxs'][0]
+			exp = volume['params']['which_experiment']
+			print 'experiment: %d, image: %s, classes%s' % (
+				exp, str(classes), image)
+
+			entries = volume['results']
+
+			# get all the correction words.  Omit None's, and empty strings
+			words = filter(lambda x: x and x.strip(), entries.values())
+
+			# split words
+			words = reduce(lambda x,y: x + y.split(), words, [])
+			words = filter(
+				lambda x: len(wn.synsets(x))<1 and x not in stops, 
+				words
+			)
+			words = [
+				{'experiment': exp, 'image': image, 'word': w} 
+				for w in words
+			]
+			new_words.extend(words)
+	
+	new_words_fh.write(json.dumps(words, indent=2))
+	new_words_fh.close()
+
+	return new_words
+
+	
 
 
 
