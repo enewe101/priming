@@ -61,11 +61,13 @@ class AnalysisError(Exception):
 
 class SpellingCorrector(object):
 	'''
-	loads the specified portion of the dataset, and uses the 
-	WordnetSpellChecker to find misspelled words and their plausible correct
-	spellings.  This is basically an adaptor between the SimpleDataset, 
-	the WordnetSpellChecker, and the SimSweeper (which allows for 
-	multiprocessing.
+		This is an adaptor between the SimpleDataset, 
+		the WordnetSpellChecker, and the SimSweeper (which makes 
+		multiprocessing easy).
+
+		loads the specified portion of the dataset, and uses the 
+		WordnetSpellChecker to find misspelled words and their plausible 
+		correct spellings.
 	'''
 
 	def __init__(self):
@@ -93,7 +95,6 @@ class SpellingCorrector(object):
 
 		spell_checker = wna.WordnetSpellChecker(num_to_return=10)
 		return spell_checker.auto_correct(corpus)
-
 
 
 def get_all_word_counts(fname='data/new_data/vocabulary.json'):
@@ -139,13 +140,10 @@ def get_word_counts(experiment, treatments, images, balance=119):
 		which_experiment=experiment,
 		show_token_pos=False,
 		show_token_img=False,
-		do_split=False,
 		class_idxs=treatments,
 		img_idxs=images,
+		balance_classes=balance
 	)
-
-	if balance > 0:
-		d.balance_classes(119)
 
 	return d.vocab_counts
 
@@ -304,7 +302,7 @@ def get_counts_compliment(
 
 def calculate_all_relative_specificities(ignore_food=False):
 
-	fname= 'data/new_data/specificity.json'
+	fname= 'data/new_data/specificity_alt.json'
 	if ignore_food:
 		fname= 'data/new_data/specificity_ignore_food.json'
 
@@ -421,7 +419,7 @@ def calculate_all_relative_specificities(ignore_food=False):
 
 
 def get_food_proportions():
-	fname = 'data/new_data/food.json'
+	fname = 'data/new_data/food_alt.json'
 	write_fh = open(fname, 'w')
 
 	food_detector = wna.WordnetFoodDetector()
@@ -436,7 +434,8 @@ def get_food_proportions():
 				show_token_pos=False,
 				show_token_img=False,
 				class_idxs=treatment_idxs,
-				img_idxs=range(5,10)
+				img_idxs=range(5,10),
+				spellcheck=True
 			)
 
 			result[exp_name] = {
@@ -457,16 +456,14 @@ def get_food_proportions():
 	return result
 
 
-
-
-
-def avg_l1():
-	fnames = os.popen('ls data/new_data/l1_spellcorrected | grep ^l1').read().split()
+def avg_l1(dir_suffix='l1'):
+	DIR = 'data/new_data/' + dir_suffix
+	fnames = os.popen('ls %s | grep ^l1' % DIR).read().split()
 	print 'y'
 	print fnames
 
 	for fname in fnames:
-		data = json.loads(open('data/new_data/l1/'+fname).read())
+		data = json.loads(open(os.path.join(DIR,fname)).read())
 		aggregates = data['aggregates']
 		exp2_data = data['img_food_obj']
 		exp2_data = reduce(lambda x,y: x + y[1], exp2_data.items(), [])
@@ -475,7 +472,16 @@ def avg_l1():
 		print ''
 
 
-def try_everything():
+def try_everything(use_simple=True):
+	
+	if use_simple:
+		func = simple_bound_l1
+		fname_prefix = 'data/new_data/l1_spellcorrected_alt/'
+
+	else:
+		func = bound_l1
+		fname_prefix = 'data/new_data/l1_spellcorrected/'
+
 	for show_token_pos in [True, False]:
 		for do_split in [True, False]:
 			for remove_stops in [True, False]:
@@ -484,15 +490,16 @@ def try_everything():
 
 						# get the file name sorted out
 						fname = 'l1'
-						fname += 'showpos' if show_token_pos else ''
-						fname += 'split' if do_split else ''
-						fname += 'nostops' if remove_stops else ''
-						fname += 'lem' if lemmatize else ''
+						fname += '_showpos' if show_token_pos else ''
+						fname += '_split' if do_split else ''
+						fname += '_nostops' if remove_stops else ''
+						fname += '_lem' if lemmatize else ''
+						fname += '_spell' if spellcheck else ''
 						fname += '.json'
 
 						# now do it
-						bound_l1(
-							fname='data/new_data/l1_spellcorrected/' + fname,
+						func(
+							fname=fname_prefix + fname,
 							show_token_pos=show_token_pos,
 							do_split=do_split,
 							remove_stops=remove_stops,
@@ -500,6 +507,149 @@ def try_everything():
 							spellcheck=spellcheck
 						)
 
+
+
+def _do_simple_cross_val(simple_dataset):
+	nb_dataset = dp.simple_dataset_2_naive_bayes(simple_dataset)
+	cross_validator = naive_bayes.NaiveBayesCrossValidationTester(nb_dataset)
+	overall_accuracy = cross_validator.cross_validate()
+	return overall_accuracy
+
+
+def simple_bound_l1(
+		fname='data/new_data/l1_alt.json',
+		show_token_pos=True,
+		show_plain_token=True,
+		do_split=True,
+		remove_stops=True,
+		lemmatize=True,
+		spellcheck=False,
+		balance_classes=119
+	):
+	'''
+		determine a naive bayes classifier's accuracy when trying to 
+		distinguish workers various experimental treatments, using cross-
+		validation.  The result is a bound on the L1-distance between the
+		workers' responses from these treatments.
+	'''
+
+	output_fh = open(fname, 'w')
+
+	# shortcut for making a simple dataset with defaults as specified
+	def make_simple_dataset(which_experiment, class_idxs, images):
+		return dp.SimpleDataset(
+			which_experiment=which_experiment,
+			show_token_pos=show_token_pos,
+			show_plain_token=show_plain_token,
+			do_split=do_split,
+			class_idxs=class_idxs,
+			img_idxs=images,
+			spellcheck=spellcheck,
+			lemmatize=lemmatize,
+			remove_stops=remove_stops,
+			balance_classes=balance_classes
+		)
+
+	# shortcut for making a simple dataset that aggregates all of the food
+	# and all of the object treatments, in exp2, into two metatreatments.
+	def simple_dataset_aggregated_img_treatments():
+		ds = dp.SimpleDataset(
+			which_experiment=2,
+			show_token_pos=show_token_pos,
+			show_plain_token=show_plain_token,
+			do_split=do_split,
+			class_idxs=range(10),
+			img_idxs=range(5,10),
+			spellcheck=spellcheck,
+			lemmatize=lemmatize,
+			remove_stops=remove_stops,
+			balance_classes=balance_classes
+		)
+
+		data = {
+			'food': reduce(lambda x,y: x + ds.data[y], range(5), []),
+			'obj': reduce(lambda x,y: x + ds.data[y], range(5,10), []),
+		}
+
+		class AggregatedSimpleDs(object):
+			def __init__(self, data):
+				self.data = data
+
+		return AggregatedSimpleDs(data)
+
+
+	# first, do this for the old data
+	food_cult_accuracy = []
+	for image in range(5,10):
+		ds = make_simple_dataset(1, [0,1], [image])
+		food_cult_accuracy.append(_do_simple_cross_val(ds))
+
+	wfrm_food_cult = []
+	for image in range(5,10):
+		ds = make_simple_dataset(1, [3,5], [image])
+		wfrm_food_cult.append(_do_simple_cross_val(ds))
+
+	# look at the distinguishability of IMG:FOOD and IMG:OBJ on a per-image
+	# per-position basis
+	img_food_obj_accuracy = defaultdict(lambda: [])
+	for image in range(5,10):
+		for pos in range(5):
+			treatments = dp.get_correct_treatments(image, pos)
+			ds = make_simple_dataset(2, treatments, [image])
+			accuracy = _do_simple_cross_val(ds)
+			img_food_obj_accuracy['test%d'%(image-5)].append(accuracy)
+
+	wfrm_food_obj_accuracy = []
+	for image in range(5,10):
+		ds = make_simple_dataset(2, [10,11], [image])
+		wfrm_food_obj_accuracy.append(_do_simple_cross_val(ds))
+
+	# now do the same, for sFRM:FOOD and sFRM:OBJ on a per-image basis
+	sfrm_food_obj_accuracy = []
+	for image in range(5,10):
+		ds = make_simple_dataset(2, [12,13], [image])
+		sfrm_food_obj_accuracy.append(_do_simple_cross_val(ds))
+
+	# now test the distinguishability of the treatment pairs based on all
+	# images
+	aggregates = {}
+
+	ds = make_simple_dataset(1, [0,1], range(5,10))
+	aggregates['img_food_cult'] = _do_simple_cross_val(ds)
+
+	ds = make_simple_dataset(1, [3,5], range(5,10))
+	aggregates['wfrm_food_cult'] = _do_simple_cross_val(ds)
+
+	# TODO: use all the data from img_food_obj, not just one treatment pair
+	aggregates['img_food_obj'] = []
+	for idx in range(5):
+		ds = make_simple_dataset(2, [idx, idx+5], range(5,10))
+		aggregates['img_food_obj'].append(_do_simple_cross_val(ds))
+
+	ds = make_simple_dataset(2, [10,11], range(5,10))
+	aggregates['wfrm_food_obj']  = _do_simple_cross_val(ds)
+
+	ds = make_simple_dataset(2, [12,13], range(5,10))
+	aggregates['sfrm_food_obj']  = _do_simple_cross_val(ds)
+
+	# gather the results
+	results = {
+		'aggregates': aggregates,
+		'img_food_cult': food_cult_accuracy,
+		'img_food_obj': img_food_obj_accuracy,
+		'wfrm_food_obj': wfrm_food_obj_accuracy,
+		'sfrm_food_obj': sfrm_food_obj_accuracy,
+		'wfrm_food_cult': wfrm_food_cult
+	}
+
+	# write results to file
+	output_fh.write(json.dumps(results, indent=2))
+
+	# display results for debugging only
+	print json.dumps(results, indent=2)
+
+	# also return the results
+	return results
 
 
 def bound_l1(

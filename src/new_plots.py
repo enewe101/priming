@@ -91,7 +91,7 @@ def plot_self_specificity(
 
 
 def plot_vocab_specificity(
-		read_specificity_fnames = ('data/new_data/specificity.json',
+		read_specificity_fnames = ('data/new_data/specificity_alt.json',
 			'data/new_data/specificity_ignore_food.json'),
 		read_vocab_fname = 'data/new_data/vocabulary.json',
 		write_fname = 'figs/vocab_specificity.pdf'
@@ -272,7 +272,7 @@ def plot_vocab_specificity(
 
 
 def plot_food_specificity(
-		read_food_fname='data/new_data/food.json',
+		read_food_fname='data/new_data/food_alt.json',
 		read_specificity_fname='data/new_data/specificity.json',
 		write_fname='figs/food_specificity.pdf'
 	):

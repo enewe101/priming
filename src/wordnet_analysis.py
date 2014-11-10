@@ -1,6 +1,7 @@
 import os
 import copy
 from nltk.corpus import wordnet as wn
+from nltk.corpus.reader.wordnet import WordNetError
 from nltk.corpus import stopwords
 from collections import Counter
 import re
@@ -10,6 +11,140 @@ import json
 
 SPLIT_RE = re.compile('[^-a-zA-Z]')
 
+# Extend wordnet before it is used
+class ExtendedWordnet(object):
+
+	WORD_LIST_DIR = (
+		'data/new_data/dictionaries/with_allrecipes/mapped_words.json')
+
+	def __init__(self):
+		self.new_words = {}
+		self.altered_synsets = {}
+		self.read_new_wordlist()
+
+
+	def read_new_wordlist(self):
+
+		# load the new words
+		new_words = json.loads(open(self.WORD_LIST_DIR).read())
+
+		for w in new_words:
+			if 'syn' in w:
+				self.as_synonym(w['word'], w['syn'])
+
+			elif 'child_of' in w:
+				self.as_child(w['word'], w['child_of'])
+
+
+	def to_simple_synset(self, synset):
+		'''
+			turns a wordnet synset into a SimpleSynset, which gives us control
+			over various properties of the synset.
+		'''
+		# if the synset is already a SimpleSynset, just return it 
+		if isinstance(synset, SimpleSynset):
+			return synset
+
+		simple_synset = SimpleSynset(
+			name=synset.name, hypernyms=copy.copy(synset.hypernyms()), 
+			hyponyms=copy.copy(synset.hyponyms()), 
+			lemmas=copy.copy(synset.lemmas)
+		)
+
+		return simple_synset
+
+
+	def as_synonym(self, new_word, syn_spec):
+		# turn the existing synset into a SimpleSynset, and add new_word as
+		# a lemma
+		original_synset = self.synset(syn_spec)
+		altered_synset = self.to_simple_synset(original_synset)
+		altered_synset.lemmas.append(SimpleLemma(new_word))
+
+		# Register the new_word and the altered synset 
+		self.new_words[new_word] = altered_synset
+		self.altered_synsets[syn_spec] = altered_synset
+
+
+	def as_child(self, new_word, syn_spec):
+		# alter the existing synset which is meant to be the new_word's parent
+		original_synset = self.synset(syn_spec)
+		altered_synset = self.to_simple_synset(original_synset)
+
+		# create a synset to represent the new word		
+		self.new_words[new_word] = SimpleSynset(
+			name=new_word, hypernyms=[altered_synset], 
+			lemmas=[SimpleLemma(new_word)])
+
+		# add the synset for new_word to the hyponyms of its parent
+		altered_synset._hyponyms.append(self.new_words[new_word])
+		print altered_synset.hyponyms()
+
+		# register the altered synset
+		self.altered_synsets[syn_spec] = altered_synset
+
+
+	def synset(self, syn_spec):
+
+		# first check if this is one of the new words
+		synset = None
+		try:
+			synset = self.new_words[syn_spec]
+		except KeyError:
+
+			# next check if it is an altered version of an existing synset
+			try:
+				synset = self.altered_synsets[syn_spec]
+			except KeyError:
+
+				# now assume it is an ordinary synset.  This may raise
+				# a WordNetError, per usual behavior
+				synset = wn.synset(syn_spec)
+
+		return synset
+
+
+	def synsets(self, token):
+
+		# first check if there is already such a token in wordnet
+		# map to the synset names, and then map back to synsets
+		# this ensures we used the altered form for synsets that were altered
+		existing_synsets = [s.name for s in wn.synsets(token)]
+		existing_synsets = [self.synset(s) for s in existing_synsets]
+
+		if len(existing_synsets) > 0:
+			return existing_synsets
+
+		# otherwise, check if it occurs among the new words
+		if token in self.new_words:
+			return [self.new_words[token]]
+
+		# finally, return an empty list, which is the usual behavior of 
+		# wordnet when no synsets are found
+		return []
+
+
+
+class SimpleSynset(object):
+
+	def __init__(self, name, hypernyms=[], hyponyms=[], lemmas=[]):
+		self._hypernyms = hypernyms
+		self._hyponyms = hyponyms
+		self.name = name
+		self.lemmas = lemmas
+
+	def hypernyms(self):
+		return self._hypernyms
+
+	def hyponyms(self):
+		return self._hyponyms
+
+class SimpleLemma(object):
+	def __init__(self, name):
+		self.name=name
+
+
+ewn = ExtendedWordnet()
 
 
 def filter_misspelled(labels):
@@ -75,7 +210,7 @@ def list_unknown_words():
 			]
 			new_words.extend(words)
 	
-	new_words_fh.write(json.dumps(words, indent=2))
+	new_words_fh.write(json.dumps(new_words, indent=2))
 	new_words_fh.close()
 
 	return new_words
@@ -294,7 +429,7 @@ def get_all_synsets(label):
 
 	synsets = set()
 	for token in all_tokens_to_try:
-		synsets.update([s.name for s in wn.synsets(token)])
+		synsets.update([s.name for s in ewn.synsets(token)])
 
 	return synsets
 
@@ -362,7 +497,7 @@ def calculate_relative_specificity(
 	# minus the number of ancesters to get the net relative specificity
 
 	for synset_name, count in synset_counts_1.iteritems():
-		syn = wn.synset(synset_name)
+		syn = ewn.synset(synset_name)
 		specificity_score += count * ancester_counter.count(syn)
 		specificity_score -= count * descendant_counter.count(syn)
 
@@ -470,7 +605,7 @@ class WordnetFoodDetector(object):
 		# walk the DFS to collect the vocabulary
 		vocab = []
 		for syn_name in self.food_synsets:
-			syn = wn.synset(syn_name)
+			syn = ewn.synset(syn_name)
 			vocab += food_vocab_counter.start_walk(syn)
 
 		# eliminate duplicates
@@ -489,12 +624,12 @@ class WordnetFoodDetector(object):
 			if self.is_token_food('_'.join(tokens)):
 				return True
 
-		# otherwise *all* of the tokens should be food
+		# otherwise any of the tokens should be food
 		return all([self.is_token_food(t) for t in tokens])
 
 
 	def is_token_food(self, token):
-		synsets = wn.synsets(token)
+		synsets = ewn.synsets(token)
 		return any([self.is_synset_food(s) for s in synsets])
 
 

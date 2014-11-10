@@ -71,6 +71,24 @@ def readDataset(is_exp_2_dataset=False):
 		return dataSet
 
 
+def get_correct_treatments(image_num, pos):
+	'''
+		helper function to handle the permutation of images that was used
+		during experiment 2.  This takes a particular image number, and 
+		the desired position in which you wish to find it, then returns the
+		treatment indices that were presented said image number in said
+		position.  
+		
+		Example: To find the treatments that had image 2 in position 0:
+			get_correct_treatments(2,0) => (2,7)
+
+		Because treatments 2 and 7 were shown image 2 as the first test image.
+	'''
+
+	rank = (image_num - pos) % 5
+	return (rank, rank+5)
+
+
 class CleanDatasetException(Exception):
 	pass
 
@@ -229,6 +247,22 @@ def clean_dataset_adaptor(
 	return dict(naive_bayes_dataset)
 
 
+def simple_dataset_2_naive_bayes(simple_dataset):
+	'''
+		pass in a SimpleDataset, and get out a dictionary in the format
+		expected by the NaiveBayesCrossValidationTester.
+	'''
+	nb_dataset = defaultdict(lambda: [])
+	data = simple_dataset.data
+
+	for class_name in data:
+		entries = data[class_name]
+		nb_dataset[class_name] = [
+			tuple([e['class_idx']] + e['features']) for e in entries
+		]
+
+	return nb_dataset
+
 
 class SimpleDataset(object):
 	'''
@@ -248,9 +282,11 @@ class SimpleDataset(object):
 	CACHE_PATH = 'cache'
 	CORRECTIONS_PATH = 'data/new_data/dictionaries/with_allrecipes/'
 	DICTIONARY_FNAMES = ['dictionary_1.json', 'dictionary_2.json']
+	WORD_MAP_FNAME = 'mapped_words.json'
 	WORD_BREAK = re.compile(r'[^a-zA-Z]+')
 
 	STRIP = re.compile(r"[^a-zA-Z'_-]+", re.I)
+	UNDERSCORE = re.compile('_')
 
 	def __init__(
 		self, 
@@ -261,8 +297,9 @@ class SimpleDataset(object):
 		do_split=True,
 		class_idxs=[0,1],
 		img_idxs=range(5,10),
-		spellcheck=False,
-		get_syns=False,
+		spellcheck=True,
+		lemmatize=True,
+		remove_stops=True,
 		balance_classes=True,
 	):
 
@@ -282,9 +319,10 @@ class SimpleDataset(object):
 		self.class_idxs = class_idxs
 		self.img_idxs = img_idxs
 		self.spellcheck = spellcheck
-		self.get_syns = get_syns
 		self.num_examples = None # this only gets set in balance_classes()
 		self.show_token_img = show_token_img
+		self.lemmatize = lemmatize
+		self.remove_stops = remove_stops
 
 		# determine the paths to the desired data
 		self.raw_paths = self.resolve_raw_data_paths(which_experiment)
@@ -296,14 +334,19 @@ class SimpleDataset(object):
 		self.vocab_counts = Counter()
 		self.num_docs = 0
 
-		# read the corrections dictionary (this is prepared ahead of time)
-		if spellcheck:
-			self.read_dictionary()
+		# read some associated helper data
+		self.read_dictionary()
+		self.lmtzr = nltk.stem.wordnet.WordNetLemmatizer()
+		self.stops = set(nltk.corpus.stopwords.words('english'))
 
 		# read in the raw data
 		self.read_raw_data()
 		if balance_classes:
-			self.balance_classes()
+			truncate_to = None
+			if isinstance(balance_classes, int):
+				truncate_to = balance_classes
+
+			self.balance_classes(truncate_to)
 
 
 	def balance_classes(self, truncate_to=None):
@@ -321,6 +364,10 @@ class SimpleDataset(object):
 
 
 	def read_dictionary(self):
+		'''
+			the dictionaries contain pre-computed mappings from misspelled
+			words to correct spellings.  This method loads the dictionaries.
+		'''
 
 		# read the dictionaries
 		dictionaries = []
@@ -337,7 +384,17 @@ class SimpleDataset(object):
 			results = d['results']
 			self.dictionaries[(exp, img)] = results
 
-		return self.dictionaries
+		# read the word_map -- this contains aliases, which resolve cases
+		# where there is more than one way to spell the same word
+		fname = os.path.join(self.CORRECTIONS_PATH, self.WORD_MAP_FNAME)
+		word_map = json.loads(open(fname).read())
+
+		# we're interested in the entries that have an "alias", which means
+		# they are alternate spellings of a cononical word form
+		self.word_map = dict([
+			(w['word'], w['alias']) 
+			for w in word_map if 'alias' in w
+		])
 
 
 	def resolve_raw_data_paths(self, which_experiment):
@@ -477,77 +534,97 @@ class SimpleDataset(object):
 					img_idx = img_pos
 
 				word_key_prefix = 'Answer.img_%d_word_' % img_pos
-				add_features = []
+				dictionary = self.dictionaries[(
+					self.which_experiment,img_idx)]
 
 				for word_pos in range(self.NUM_WORDS_PER_IMAGE):
-
 					word_key = word_key_prefix + str(word_pos)
+					word = record[word_key]
+					words = self.normalize_word(
+						word, word_pos, dictionary, img_idx)
+					entry['features'].extend(words)
 
-					# replace consecutive wonky characters with a single space
-					word  = self.STRIP.sub(' ', record[word_key].lower())
-
-					# Maybe do spell correction
-					if self.spellcheck:
-
-						# get the right dictionary
-						dict_key = (self.which_experiment,img_idx)
-						cs = self.dictionaries[dict_key]
-
-						# do corrections on a word by word basis
-						old_word = word
-						words = word.split()
-						words = [cs[w] if w in cs else w for w in words]
-						word = ' '.join(words)
-						if word != old_word:
-							print old_word, '->', word
-
-					# Maybe split words
-					if self.do_split:
-						words = self.WORD_BREAK.split(word)
-					else:
-						words = [word]
-
-					# get the synsets and hypernyms 
-					if self.get_syns:
-						add_words = []
-						for w in words:
-							try:
-								add_words.append(
-									wn.synsets(w)[0].hypernyms()[0].lemmas[0].name)
-							except IndexError:
-								pass
-							#lemmas = reduce(lambda x,y: x + y.lemmas, 
-							#		wn.synsets(w), [])
-							#add_words.extend([l.name for l in lemmas])
-
-						print add_words
-						words.extend(add_words)
-
-					# prepend tokens to indicate what position they were in
-					if self.show_token_pos:
-						add_features.extend(
-							['%d_%s' % (word_pos,w) for w in words])
-
-					# include un-prepended tokens
-					if self.show_plain_token:
-						add_features.extend(words)
-
-				# maybe add the img_idx to the word
-				if self.show_token_img:
-					add_features = [
-						'%d_%s' % (img_idx, w) 
-						for w in add_features
-					]
-
-				# add the tokens
-				entry['features'].extend(add_features)
-				self.vocab_counts.update(add_features)
+			# add the tokens
+			self.vocab_counts.update(entry['features'])
 
 		fh.close()
 		self.vocab_list = self.vocab_counts.keys()
 		self.vocab_list.sort()
 
 
+	def normalize_word(self, w, p, d, i):
+
+		w = w.lower()
+
+		# replace consecutive wonky characters with a single space
+		word  = self.STRIP.sub(' ', w)
+
+		# Maybe do spell correction
+		if self.spellcheck:
+
+			# do corrections on a word by word basis
+			old_word = word
+
+			# temporarily split for the purpose of spell checking
+			words = self.WORD_BREAK.split(word)
+
+			# replace words with correct spellings (we have precomputed
+			# which words are misspelled and what their probable replacements)
+			words = [d[w] if w in d else w for w in words]
+
+			# map back to aliases, to account for words that
+			# have multiple spellings
+			words = [
+				self.word_map[w] if w in self.word_map
+				else w for w in words
+			]
+			
+			# bust up wordnet's compound words
+			words = [self.UNDERSCORE.sub(' ',w) for w in words]
+
+			# put words back together
+			word = ' '.join(words)
+
+		# Maybe lemmatize
+		if self.lemmatize:
+
+			# temporarily split words for lemmatization
+			words = self.WORD_BREAK.split(word)
+			words = [self.lmtzr.lemmatize(w) for w in words]
+			word = ' '.join(words)
+
+		# Maybe remove stops
+		if self.remove_stops:
+
+			# temporarily split words for lemmatization
+			old_word = word
+			words = self.WORD_BREAK.split(word)
+			words = [w for w in words if w not in self.stops]
+			word = ' '.join(words)
+			if old_word != word:
+				print old_word, '->', word
+
+		# Maybe split words
+		if self.do_split:
+			words = self.WORD_BREAK.split(word)
+		else:
+			words = [word]
+
+		return_words = []
+
+		# prepend tokens to indicate what position they were in
+		if self.show_token_pos:
+			return_words.extend(['%d_%s' % (p, w) for w in words])
+
+		# include un-prepended tokens
+		if self.show_plain_token:
+			return_words.extend(words)
+
+		# maybe add the img_idx to the word
+		if self.show_token_img:
+			return_words = ['%d_%s' % (i, w) for w in return_words]
+
+		return return_words
 
 
 class CleanDataset(object):
