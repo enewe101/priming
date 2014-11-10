@@ -173,53 +173,6 @@ def plot_vocab_specificity(
 		horizontalalignment='right')
 	ax2.set_yticks([0.1,0.2,0.3,0.4])
 
-	# original method for plotting vocabulary size
-	#ax3 = plt.subplot(gs[2])
-	#width = 0.75
-
-
-	#comparisons = [
-	#	(False, 0,1),
-	#	(False, 3,5),
-	#	(True, 0,5),
-	#	(True, 10,11),
-	#	(True, 12,13)
-	#]
-
-	#Y_3 = []
-	#for exp,treatment1,treatment2 in comparisons:
-	#	d = data_processing.readDataset(exp)
-	#	treatment1 = 'treatment%d' % treatment1
-	#	treatment2 = 'treatment%d' % treatment2
-	#	vocab_0 = 0
-	#	vocab_1 = 0
-	#	for image in ['test%d' % i for i in range(5)]:
-	#		vocab_0 += len(
-	#			d.get_counts_for_treatment_image(treatment1, image))
-	#		vocab_1 += len(
-	#			d.get_counts_for_treatment_image(treatment2, image))
-	#	Y_3.append((vocab_0 - vocab_1) / float(vocab_1))
-
-	#X_3 = range(len(Y_3))
-
-	#series_3 = ax3.bar(X_3, Y_3, width, color='0.25')
-
-	#xlims = (-padding, len(X_3) - 1 + width + padding)
-	#plt.xlim(xlims)
-
-	#ax3.set_ylabel(r'relative increase in vocabulary', size=12)
-
-	#xlabels = ['image %d' % i for i in range(1,6)]
-
-	#ax3.set_xticks([x + width/2. for x in X_3])
-	#ax3.set_xticklabels(xlabels, rotation=45, size=12,
-	#	horizontalalignment='right')
-	#ax3.set_yticks([0.1,0.2,0.3,0.4])
-
-
-
-
-
 
 	# now plot the specificity data
 	specificity_data = json.loads(open(read_specificity_fnames[0]).read())
@@ -344,33 +297,6 @@ def plot_food_specificity(
 		prop={'size':11},
 		bbox_to_anchor=(0., 1.02, 1., 0.102)
 	)   
-
-	# now plot the specificity data
-	ax2 = plt.subplot(gs[1])
-	width = 0.75
-	d = data_processing.readDataset(False)
-
-	Y_3 = []
-	for image in ['test%d' % i for i in range(5)]:
-		vocab_0 = len(d.get_counts_for_treatment_image('treatment0', image))
-		vocab_1 = len(d.get_counts_for_treatment_image('treatment1', image))
-		Y_3.append((vocab_0 - vocab_1) / float(vocab_1))
-
-	X_3 = range(len(Y_3))
-
-	series_3 = ax2.bar(X_3, Y_3, width, color='0.25')
-
-	xlims = (-padding, len(X_3) - 1 + width + padding)
-	plt.xlim(xlims)
-
-	ax2.set_ylabel(r'relative increase in vocabulary', size=12)
-
-	xlabels = ['image %d' % i for i in range(1,6)]
-
-	ax2.set_xticks([x + width/2. for x in X_3])
-	ax2.set_xticklabels(xlabels, rotation=45, size=12,
-		horizontalalignment='right')
-	ax2.set_yticks([0.1,0.2,0.3,0.4])
 
 	plt.draw()
 	plt.tight_layout()
