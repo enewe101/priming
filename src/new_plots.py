@@ -5,7 +5,7 @@ in the paper
 
 import json
 import util
-import analysis
+from analysis import get_theta_star, binomial_lower_confidence_p
 import sys
 import random
 import naive_bayes
@@ -15,18 +15,14 @@ import numpy as np
 import time
 import os
 
-try:
-	import matplotlib.pyplot as plt
-	import matplotlib 
-	import matplotlib.gridspec as gridspec
-	from matplotlib.ticker import MultipleLocator, FormatStrFormatter
+import matplotlib.pyplot as plt
+import matplotlib 
+import matplotlib.gridspec as gridspec
+from matplotlib.ticker import MultipleLocator, FormatStrFormatter
 
-except:
-	print 'matplotlib not installed.  You can do computations but not '\
-		'plotting functions.'
 	
 
-# z-score for two-tailed 99-percent confidence interval
+#z-score for two-tailed 99-percent confidence interval
 CONFIDENCE_95 = 1.96
 CONFIDENCE_99 = 2.975
 
@@ -90,11 +86,9 @@ def plot_self_specificity(
 
 
 
-def plot_vocab_specificity(
-		read_specificity_fnames = ('data/new_data/specificity_alt.json',
-			'data/new_data/specificity_ignore_food.json'),
+def plot_longit_vocab(
 		read_vocab_fname = 'data/new_data/vocabulary.json',
-		write_fname = 'figs/vocab_specificity.pdf'
+		write_fname = 'figs/longit_vocab.pdf'
 	):
 
 	vocab_data = json.loads(open(read_vocab_fname).read())
@@ -133,9 +127,35 @@ def plot_vocab_specificity(
 		horizontalalignment='right')
 	ax1.set_yticks([0.1,0.2,0.3,0.4])
 
+	plt.draw()
+	plt.tight_layout()
+	fig.subplots_adjust(wspace=0.35, top=0.82, right=0.99, left=0.10, 
+		bottom=0.20)
+	fig.savefig(write_fname)
+
+
+def plot_specificity(
+		read_specificity_fnames = ('data/new_data/specificity_alt.json',
+			'data/new_data/specificity_ignore_food.json'),
+		read_vocab_fname = 'data/new_data/vocabulary.json',
+		write_fname = 'figs/vocab_specificity.pdf'
+	):
+
+	vocab_data = json.loads(open(read_vocab_fname).read())
+	exp1_task_food = vocab_data['exp1.task.food']
+	exp1_task_cult = vocab_data['exp1.task.cult']
+
+	# make a figure with three subplots
+	figWidth = 8.7 / 2.54 	# conversion from PNAS spec in cm to inches
+	figHeight = 2.*figWidth	# a reasonable aspect ratio
+	fig = plt.figure(figsize=(figWidth, figHeight))
+	gs = gridspec.GridSpec(2, 1)
+
+	width = 0.75
+	padding = 0.25
 
 	# plot vocabulary data accross all experiments
-	ax2 = plt.subplot(gs[1], sharey=ax1)
+	ax2 = plt.subplot(gs[0])
 
 	comparisons = [
 		('exp1.task.food', 'exp1.task.cult'),
@@ -158,7 +178,6 @@ def plot_vocab_specificity(
 	xlims = (-padding, len(X_2) - 1 + width + padding)
 	plt.xlim(xlims)
 
-	plt.setp(ax2.get_yticklabels(), visible=False)
 
 	xlabels = [
 		'$exp1.task$',
@@ -168,17 +187,19 @@ def plot_vocab_specificity(
 		'$exp2.frame*$',
 	]
 
-	ax2.set_xticks([x + width/2. for x in X_1])
-	ax2.set_xticklabels(xlabels, rotation=45, size=12,
-		horizontalalignment='right')
+	ax2.set_xticks([x + width/2. for x in X_2])
+	#ax2.set_xticklabels(xlabels, rotation=45, size=12,
+	#	horizontalalignment='right')
 	ax2.set_yticks([0.1,0.2,0.3,0.4])
+	#plt.setp(ax2.get_yticklabels(), visible=False)
+	plt.setp(ax2.get_xticklabels(), visible=False)
 
 
 	# now plot the specificity data
 	specificity_data = json.loads(open(read_specificity_fnames[0]).read())
 	specificity_data_no_food = json.loads(
 		open(read_specificity_fnames[1]).read())
-	ax3 = plt.subplot(gs[2])
+	ax3 = plt.subplot(gs[1])
 	width = 0.75
 	specificity_keys_labels = [
 			('img_food_cult', r'$exp1.task$'),
@@ -196,8 +217,8 @@ def plot_vocab_specificity(
 	]
 
 
-	series_3 = ax3.bar(X_3, Y_3, width, color='0.55')
-	series_4 = ax3.bar(X_3, Y_4, width, color='0.25')
+	series_3 = ax3.bar(X_3, Y_3, width, color='0.25')
+	#series_4 = ax3.bar(X_3, Y_4, width, color='0.25')
 
 	xlims = (-padding, len(X_3) - 1 + width + padding)
 	plt.xlim(xlims)
@@ -211,11 +232,79 @@ def plot_vocab_specificity(
 
 
 
+
 	ax3.set_xticks([x + width/2. for x in X_3])
 	ax3.set_xticklabels(xlabels, rotation=45, size=12,
 		horizontalalignment='right')
 	ax3.set_yticks([0.01,0.02,0.03])
 
+
+	plt.draw()
+	plt.tight_layout()
+	fig.subplots_adjust(wspace=0.35, top=0.98, right=0.99, left=0.16, 
+		bottom=0.10)
+	fig.savefig(write_fname)
+
+
+def plot_delta_food(
+		read_fname='data/new_data/food.json',
+		write_fname='figs/delta_food.pdf'
+	):
+
+	# open files
+	food_data = json.loads(open(read_fname).read())
+
+	# make a figure with two subplots
+	figWidth = 16.78 / 2.54 	# conversion from PNAS spec in cm to inches
+	figHeight = 3/5.*figWidth	# a reasonable aspect ratio
+	fig = plt.figure(figsize=(figWidth, figHeight))
+	gs = gridspec.GridSpec(1, 2)
+
+	width = 0.75
+
+	# plot food data first
+	ax1 = plt.subplot(gs[0])
+		
+	pairs = [
+		('2_img_obj', '2_img_food'),
+		('1_img_cult', '1_img_food'),
+		('2_wfrm_obj', '2_wfrm_food'),
+		('1_wfrm_cult', '1_wfrm_food'),
+		('2_sfrm_obj', '2_sfrm_food'),
+	]
+
+	# convert accuracy to priming difference (which is what we want to plot)
+	Y_0 = [
+		(food_data[p[1]]['fract_food'] - food_data[p[0]]['fract_food']) * 100
+		for p in pairs
+	]
+	Y_err = [
+		(food_data[p[0]]['std'] + food_data[p[1]]['std'])*100 
+		for p in pairs
+	]
+	X_0 = range(len(Y_0))
+
+	series_0 = ax1.bar(
+		X_0, Y_0, width, color='0.25', ecolor='0.75', yerr=Y_err)
+
+	# adjust the padding, then add a horizontal line to indicate significance
+	padding = 0.25
+	xlims = (-padding, len(X_0))
+	plt.xlim(xlims)
+
+	ax1.set_ylabel(r'$\Delta$ % food labels', size=12)
+
+	xlabels = [
+		r'$task1$',
+		r'$task2$',
+		r'$frame1$',
+		r'$frame2$', 
+		r'$echo$'
+	]
+
+	ax1.set_xticks([x + width/2.0 for x in X_0])
+	ax1.set_xticklabels(xlabels, rotation=45, size=12,
+		horizontalalignment='right')
 
 	plt.draw()
 	plt.tight_layout()
@@ -225,7 +314,7 @@ def plot_vocab_specificity(
 
 
 def plot_food_specificity(
-		read_food_fname='data/new_data/food_alt.json',
+		read_food_fname='data/new_data/food.json',
 		read_specificity_fname='data/new_data/specificity.json',
 		write_fname='figs/food_specificity.pdf'
 	):
@@ -315,13 +404,11 @@ def plot_theta(
 	# open files
 	data = json.loads(open(os.path.join(DATA_DIR, read_fname)).read())
 
-
-
 	# make a figure with two subplots
 	figWidth = 14.78 / 2.54 	# conversion from PNAS spec in cm to inches
 	figHeight = 2/5.*figWidth	# a reasonable aspect ratio
 	fig = plt.figure(figsize=(figWidth, figHeight))
-	gs = gridspec.GridSpec(1, 3)
+	gs = gridspec.GridSpec(1, 3, width_ratios=(3,5,5))
 
 	width = 0.75
 
@@ -331,42 +418,48 @@ def plot_theta(
 
 	ax1 = plt.subplot(gs[0])
 	this_data = data['aggregates']
-		
-	# the img_food_obj test was tried under multiple permutations -- take avg
-	this_data['img_food_obj'] = np.mean(this_data['img_food_obj'])
 
-	accuracies = [this_data[tn] for tn in TEST_NAMES]
+	# the img_food_obj test was tried under multiple permutations -- take avg
+	this_data['exp2.task'] = np.mean(this_data['exp2.task'])
+
+	test_names = ['exp2.task', 'exp2.frame', 'exp2.*']
+	accuracies = [this_data[tn] for tn in test_names]
 
 	# convert accuracy to priming difference (which is what we want to plot)
 	Y_aggregate = [2*a-1 for a in accuracies]
+	err_low = [
+		2*binomial_lower_confidence_p(n, int(n*a)) - 1
+		for a,n in zip(accuracies,[595,119,119])
+	]
+	err_low = [y-y_err for y, y_err in zip(Y_aggregate, err_low)]
+	err_high = [0 for e in err_low]
+	err = [err_low, err_high]
 	X = range(len(Y_aggregate))
 
-	series = ax1.bar(X, Y_aggregate, width, color='0.25')
+	series = ax1.bar(
+		X, Y_aggregate, width, color='0.25', ecolor='0.75', yerr=err)
 
 	# adjust the padding, then add a horizontal line to indicate significance
 	padding = 0.25
 	xlims = (-padding, len(X) - 1 + width + padding)
 	plt.xlim(xlims)
-	theta_star = analysis.get_theta_star(119, 0.05)
-	singificance_line = ax1.plot(
-			xlims, [theta_star, theta_star], color='0.55', linestyle=':')
+	#theta_star = get_theta_star(119, 0.05)
+	#singificance_line = ax1.plot(
+	#		xlims, [theta_star, theta_star], color='0.55', linestyle=':')
 
 	ax1.set_ylabel(r'$\hat{\theta}_\mathrm{NB}$', size=12)
 
-	xlabels = [r'$inter$-$t.1$', r'$inter$-$t.2$', r'$frame1$', r'$frame2$', 
-			r'$frame$*$3$']
+	xlabels = [r'task', r'frame', r'echoed']
 
 	ax1.set_xticks(map(lambda x: x + width/2., X))
 	ax1.set_xticklabels(xlabels, rotation=45, size=12,
 		horizontalalignment='right')
 
 
-
-
 	# Plot the by_pos data series
 	ax2 = plt.subplot(gs[1], sharey=ax1)
 	plt.setp(ax2.get_yticklabels(), visible=False)
-	this_data = data['img_food_obj']
+	this_data = data['exp2.task']
 	avg_accuracies = [
 		np.mean([this_data[img][i] for img in IMAGE_NAMES]) 
 		for i in range(5)
@@ -376,15 +469,24 @@ def plot_theta(
 	Y_by_pos = [2*a-1 for a in avg_accuracies]
 	X = range(len(Y_by_pos))
 
-	series = ax2.bar(X, Y_by_pos, width, color='0.25')
+	err_low = [
+		2*binomial_lower_confidence_p(595, int(595*a)) - 1
+		for a in avg_accuracies
+	]
+	err_low = [y-y_err for y, y_err in zip(Y_by_pos, err_low)]
+	err_high = [0 for e in err_low]
+	err = [err_low, err_high]
+
+	series = ax2.bar(
+		X, Y_by_pos, width, color='0.25', ecolor='0.75', yerr=err)
 
 	# adjust the padding, then add a horizontal line to indicate significance
 	padding = 0.25
 	xlims = (-padding, len(X) - 1 + width + padding)
 	plt.xlim(xlims)
-	theta_star = analysis.get_theta_star(119*5, 0.05)
-	singificance_line = ax2.plot(
-			xlims, [theta_star, theta_star], color='0.55', linestyle=':')
+	#theta_star = get_theta_star(119*5, 0.05)
+	#singificance_line = ax2.plot(
+	#		xlims, [theta_star, theta_star], color='0.55', linestyle=':')
 
 	xlabels = ['1st', '2nd', '3rd', '4th', '5th']
 
@@ -400,20 +502,28 @@ def plot_theta(
 	ax3 = plt.subplot(gs[2], sharey=ax1)
 	plt.setp(ax3.get_yticklabels(), visible=False)
 
-	this_data = data['img_food_obj']
+	this_data = data['exp2.task']
 	avg_accuracies = [np.mean(this_data[img]) for img in IMAGE_NAMES]
 
 	# convert accuracy to priming difference (which is what we want to plot)
 	Y_by_img = [2*a-1 for a in avg_accuracies]
-	series = ax3.bar(X, Y_by_img, width, color='0.25')
+	err_low = [
+		2*binomial_lower_confidence_p(595, int(595*a)) - 1
+		for a in avg_accuracies
+	]
+	err_low = [y-y_err for y, y_err in zip(Y_by_img, err_low)]
+	err_high = [0 for e in err_low]
+	err = [err_low, err_high]
+
+	series = ax3.bar(X, Y_by_img, width, color='0.25', ecolor='0.85', yerr=err)
 
 	# adjust the padding, then add a horizontal line to indicate significance
 	padding = 0.25
 	xlims = (-padding, len(X) - 1 + width + padding)
 	plt.xlim(xlims)
 
-	singificance_line = ax3.plot(
-			xlims, [theta_star, theta_star], color='0.55', linestyle=':')
+	#singificance_line = ax3.plot(
+	#		xlims, [theta_star, theta_star], color='0.55', linestyle=':')
 
 	xlabels = ['image %d'%i for i in range(1,6)]
 
@@ -421,12 +531,12 @@ def plot_theta(
 	ax3.set_xticklabels(xlabels, rotation=45, size=12,
 		horizontalalignment='right')
 
-
-
-
 	ax1.set_yticks([0.1,0.2,0.3,0.4])
 	ax2.set_yticks([0.1,0.2,0.3,0.4])
 	ax3.set_yticks([0.1,0.2,0.3,0.4])
+
+	ylims = plt.ylim()
+	plt.ylim(0,ylims[1])
 
 	left = 4.7
 	height = 0.43
@@ -473,7 +583,7 @@ def plot_theta_by_img(
 	padding = 0.25
 	xlims = (-padding, len(X) - 1 + width + padding)
 	plt.xlim(xlims)
-	theta_star = analysis.get_theta_star(119*5, 0.05)
+	theta_star = get_theta_star(119*5, 0.05)
 	singificance_line = ax.plot(
 			xlims, [theta_star, theta_star], color='0.55', linestyle=':')
 
@@ -527,7 +637,7 @@ def plot_theta_by_pos(
 	padding = 0.25
 	xlims = (-padding, len(X) - 1 + width + padding)
 	plt.xlim(xlims)
-	theta_star = analysis.get_theta_star(119*5, 0.05)
+	theta_star = get_theta_star(119*5, 0.05)
 	singificance_line = ax.plot(
 			xlims, [theta_star, theta_star], color='0.55', linestyle=':')
 
@@ -573,7 +683,7 @@ def plot_theta_aggregate(
 	gs = gridspec.GridSpec(1, 1)
 
 	width = 0.75
-	theta_star = analysis.get_theta_star(119, 0.05)
+	theta_star = get_theta_star(119, 0.05)
 
 	# make a set of axes, then plot the data
 	ax = plt.subplot(gs[0])
@@ -634,7 +744,7 @@ def plotAllF1Theta(
 	gs = gridspec.GridSpec(num_subplots, 1)
 
 	width = 0.75
-	theta_star = analysis.get_theta_star(n, alpha)
+	theta_star = get_theta_star(n, alpha)
 
 	for i in range(len(f1scores)):
 

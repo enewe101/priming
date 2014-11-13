@@ -1,5 +1,5 @@
 import sys
-from runnable_analysis import SvmCvalTest
+from svm import SvmCvalTest
 from sim_sweep import sim_sweep
 
 SCHEDULE = {

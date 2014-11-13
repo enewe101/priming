@@ -177,7 +177,9 @@ class SimpleDataset(object):
 		self.read_raw_data()
 		if balance_classes:
 			truncate_to = None
-			if isinstance(balance_classes, int):
+
+			# if positive int (not a bool) is passed, truncate to that.
+			if not isinstance(balance_classes, bool):
 				truncate_to = balance_classes
 
 			self.balance_classes(truncate_to)
@@ -431,12 +433,9 @@ class SimpleDataset(object):
 		if self.remove_stops:
 
 			# temporarily split words for lemmatization
-			old_word = word
 			words = self.WORD_BREAK.split(word)
 			words = [w for w in words if w not in self.stops]
 			word = ' '.join(words)
-			if old_word != word:
-				print old_word, '->', word
 
 		# Maybe split words
 		if self.do_split:
