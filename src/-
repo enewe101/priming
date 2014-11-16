@@ -39,38 +39,22 @@ CONFIDENCE_95 = 1.96
 CONFIDENCE_99 = 2.975
 TEST_IMAGES = ['test%d'%i for i in range(5)]
 
-# note that our chronologically first experiment is presented as 
-# experiment 2 in the science paper for expository flow
 EXP1_TREATMENTS = {
-	'task2:food': [0],
-	'task2:cult': [1],
+	'task1:food': [0],
+	'task1:cult': [1],
 	#'1_img_ingr': [2],
-	'frame2:food': [3],
-	'frame2:cult': [5],
+	'frame1:food': [3],
+	'frame1:cult': [5],
 }
 
-# note that our chronologically second experiment is presented as 
-# experiment 1 in the science paper for expository flow
 EXP2_TREATMENTS = {
-	'task1:food': range(5),
-	'task1:obj': range(5,10),
-	'frame1:food': [10],
-	'frame1:obj': [11],
-	'echo:food': [12],
-	'echo:obj': [13],
+	'frame2:food': range(5),
+	'frame2:obj': range(5,10),
+	'2_wfrm_food': [10],
+	'2_wfrm_obj': [11],
+	'2_sfrm_food': [12],
+	'2_sfrm_obj': [13],
 }
-
-
-PAIRS = [
-	[
-		('task2:food', 'task2:cult'),
-		('frame2:food', 'frame2:cult')
-	], [ 
-		('task1:food', 'task1:obj'),
-		('frame1:food', 'frame1:obj'),
-		('echo:food', 'echo:obj')
-	], 
-]
 
 COMPARISONS = [
 	{'name':'exp1.task', 'experiment':1, 'treatments': [0,1]},
@@ -232,85 +216,29 @@ def get_word_counts(experiment, treatments, images, balance=119):
 	return d.vocab_counts
 
 
-def calculate_count_differences(
-		relative_difference=False,
-		fname='data/new_data/delta_counts.json'
-	):
-
-	# open a file to write the results
-	write_fh = open(fname, 'w')
-
-	results = {}
-
-	# get the treatments to which they correspond
-	treatment_map = EXP1_TREATMENTS
-	treatment_map.update(EXP2_TREATMENTS)
-
-	# look at both experiments, for each we have a variety of treatment pairs
-	for exp in range(len(PAIRS)):
-
-		# we're going to look at all the usual comparison pairs
-		pairs = PAIRS[exp]
-
-		for pair in pairs:
-
-			# we refer to a pair by the part of the name before the ':'
-			generic_pair_name = pair[0].split(':')[0]
-
-			# get the treatments for this particular pair
-			treatments = [treatment_map[p] for p in pair]
-
-			print treatments
-
-			# get the counts for each pair
-			counts1, counts2 = [
-				get_word_counts(exp+1, t, [5]) 
-				for t in treatments
-			]
-
-			if relative_difference:
-				counts_diff = util.counter_relative_diff(counts1, counts2)
-			else:
-				counts_diff = util.counter_subtract(counts1,counts2)
-
-			counts_diff = counts_diff.items()
-			counts_diff.sort(None, lambda x: x[1], True)
-
-			results[generic_pair_name] = counts_diff[:5] + counts_diff[-5:]
-
-	# write and return the results
-	write_fh.write(json.dumps(results, indent=2))
-	return results
-
-
-def calculate_vocabulary_sizes(
-		include_food=True,
-		include_nonfood=False,
-		fname='data/new_data/vocabulary.json'
-	):
+def calculate_vocabulary_sizes(fname='data/new_data/vocabulary.json'):
 	results_file = open(fname, 'w')
 
 	treatments = {
-		'task1:food': (2,0),
-		'task1:obj': (2,5),
-		'frame1:food': (2,10),
-		'frame1:obj': (2,11),
-		'echo:food': (2,12),
-		'echo:obj': (2,13),
-		'task2:food': (1,0),
-		'task2:cult': (1,1),
-		'frame2:food': (1,3),
-		'frame2:cult': (1,5),
+		'exp1.task.food': (1,0),
+		'exp1.task.cult': (1,1),
+		'exp1.task.ingr': (1,2),
+		'exp1.frame.food': (1,3),
+		'exp1.frame.cult': (1,5),
+		'exp2.task.food': (2,0),
+		'exp2.task.obj': (2,5),
+		'exp2.frame.food': (2,10),
+		'exp2.frame.obj': (2,11),
+		'exp2.frame*.food': (2,12),
+		'exp2.frame*.obj': (2,13),
 	}
 
 	results = {}
 	for key, (exp, treatment) in treatments.items():
 		results[key] = []
 		for image in range(5,10):
-			word_counts = get_word_counts(exp, [treatment], [image])
-			word_counts = wna.filter_word_counts(
-				word_counts, include_food, include_nonfood)
-			results[key].append(len(word_counts))
+			results[key].append(
+				len(get_word_counts(exp, [treatment], [image])))
 
 	results_file.write(json.dumps(results, indent=2))
 	return results
@@ -392,53 +320,111 @@ def bootstrap_relative_specificity(
 	return results
 
 
-def calculate_all_relative_specificities(
-		include_food=True,
-		include_nonfood=False,
-		normalize=True,
-		average=False
-	):
+def calculate_all_relative_specificities(ignore_food=False):
 
-	fname= 'data/new_data/specificity.json'
+	fname= 'data/new_data/specificity_alt.json'
+	if ignore_food:
+		fname= 'data/new_data/specificity_ignore_food.json'
+
 	write_fh = open(fname, 'w')
+
+	#images = ['test%d'% i for i in range(5)]
 	images = range(5,10)
-	results = defaultdict(lambda: [])
+	results = {}
+
+	## start with experiment 1
+	results['img_food_cult'] = []
+	results['img_food_ingr'] = []
+	results['img_ingr_cult'] = []
+	results['frm_food_cult'] = []
+
+	results['wfrm_food_cult'] = []
+	results['img_food_obj'] = []
+	results['wfrm_food_obj'] = []
+	results['sfrm_food_obj'] = []
+	results['img_food_sfrm_food'] = []
+	results['img_obj_sfrm_obj'] = []
+	results['img_cult_wfrm_cult'] = []
+	results['img_food_wfrm_food'] = []
 
 	for image in images:
-
-		# compare the img_priming
-		counts_food = get_word_counts(2, [0], [image])
-		counts_obj = get_word_counts(2, [5], [image])
-		results['task1'].append(wna.calculate_relative_specificity(
-			counts_food, counts_obj, include_food, include_nonfood, normalize))
-
-		# compare the weak framing
-		counts_food = get_word_counts(2, [10], [image])
-		counts_obj = get_word_counts(2, [11], [image])
-		results['frame1'].append(wna.calculate_relative_specificity(
-			counts_food, counts_obj, include_food, include_nonfood, normalize))
-
-		# compare strong framing
-		counts_food = get_word_counts(2, [12], [image])
-		counts_obj = get_word_counts(2, [13], [image])
-		results['echo'].append(wna.calculate_relative_specificity(
-			counts_food, counts_obj, include_food, include_nonfood, normalize))
-
 		# compare the img_priming
 		counts_food = get_word_counts(1, [0], [image])
 		counts_cult = get_word_counts(1, [1], [image])
-		results['task2'].append(wna.calculate_relative_specificity(
-			counts_food, counts_cult, include_food, include_nonfood, normalize))
+		results['img_food_cult'].append(wna.calculate_relative_specificity(
+			counts_food, counts_cult, ignore_food))
+
+		# compare the img_priming
+		#counts_food = get_word_counts(1, [0], [image])
+		#counts_ingr = get_word_counts(1, [2], [image])
+		#results['img_food_ingr'].append(wna.calculate_relative_specificity(
+		#	counts_food, counts_ingr, ignore_food))
+
+		# compare the img_priming
+		#counts_ingr = get_word_counts(1, [2], [image])
+		#counts_cult = get_word_counts(1, [1], [image])
+		#results['img_ingr_cult'].append(wna.calculate_relative_specificity(
+		#	counts_ingr, counts_cult, ignore_food))
 
 		# compare the exp1 framing 
 		counts_food = get_word_counts(1, [3], [image])
 		counts_cult = get_word_counts(1, [5], [image])
-		results['frame2'].append(wna.calculate_relative_specificity(
-			counts_food, counts_cult, include_food, include_nonfood, normalize))
+		results['wfrm_food_cult'].append(wna.calculate_relative_specificity(
+			counts_cult, counts_food, ignore_food))
 
-	if average:
-		for comparison in results:
-			results[comparison] = np.mean(results[comparison])
+		# next work on experiment 2
+
+		# compare the img_priming
+		counts_food = get_word_counts(2, [0], [image])
+		counts_obj = get_word_counts(2, [5], [image])
+		#counts_food = get_word_counts(2, range(5), [image])
+		#counts_obj = get_word_counts(2, range(5,10), [image])
+		results['img_food_obj'].append(wna.calculate_relative_specificity(
+			counts_food, counts_obj, ignore_food))
+
+		# compare the weak framing
+		counts_food = get_word_counts(2, [10], [image])
+		counts_obj = get_word_counts(2, [11], [image])
+		results['wfrm_food_obj'].append(wna.calculate_relative_specificity(
+			counts_food, counts_obj, ignore_food))
+
+		# compare strong framing
+		counts_food = get_word_counts(2, [12], [image])
+		counts_obj = get_word_counts(2, [13], [image])
+		results['sfrm_food_obj'].append(wna.calculate_relative_specificity(
+			counts_food, counts_obj, ignore_food))
+
+		## compare img food to sfrm food
+		#counts_img_food = get_word_counts(2, [0], [image])
+		##counts_img_food = get_word_counts(2, range(5), [image])
+		#counts_sfrm_food = get_word_counts(2, [12], [image])
+		#results['img_food_sfrm_food'].append(
+		#	wna.calculate_relative_specificity(counts_img_food, 
+		#		counts_sfrm_food, ignore_food))
+
+		## compare img obj to sfrm obj
+		#counts_img_obj = get_word_counts(2, [5], [image])
+		##counts_img_obj = get_word_counts(2, range(5,10), [image])
+		#counts_sfrm_obj = get_word_counts(2, [13], [image])
+		#results['img_obj_sfrm_obj'].append(
+		#	wna.calculate_relative_specificity(counts_img_obj, 
+		#		counts_sfrm_obj, ignore_food))
+
+		## compare img food to wfrm food
+		#counts_img_food = get_word_counts(1, [0], [image])
+		#counts_wfrm_food = get_word_counts(1, [3], [image])
+		#results['img_food_wfrm_food'].append(
+		#	wna.calculate_relative_specificity(counts_img_food, 
+		#		counts_wfrm_food, ignore_food))
+
+		## compare img obj to sfrm obj
+		#counts_img_cult = get_word_counts(2, [1], [image])
+		#counts_wfrm_cult = get_word_counts(2, [5], [image])
+		#results['img_cult_wfrm_cult'].append(
+		#	wna.calculate_relative_specificity(counts_img_cult, 
+		#		counts_wfrm_cult, ignore_food))
+
+	results[comparison] = np.mean(results[comparison])
 
 	write_fh.write(json.dumps(results, indent=2))
 	return results

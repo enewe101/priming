@@ -1,11 +1,33 @@
 manuscript notes
 ~~~~~~~~~~~~~~~~
 
+Galaxy zoo refs:
+Galaxy Zoo Volunteers Share Pain and Glory of Research
+Galaxy Zoo: Motivations of Citizen Scientists, Raddick+ 2013.
+Galaxy Zoo: Exploring the Motivations of Citizen Science Volunteers, Raddick+ 2010
+
 Further data processing needs:
-[] correct all spelling
-[] check validity of food-detector
-[] insert unrecognized objects into the wordnet ontology somehow...
-[] how can we check validity of specificity measurements?
+x ensure that graphting onto wn is done mutually
+x ensure that _-words get split during spell correction
+x ensure that alias substitutions are made after spell correction
+x insert unrecognized objects into the wordnet ontology somehow...
+X check validity of food-detector
+X how can we check validity of specificity measurements?
+x update all analyses to reflect spell checking with allrecipes words
+	x classifier performance
+	x proportion food
+	x vocab size
+	x relative specificity
+[] cleanup data
+	[] eliminate unused functions and analyses
+	[] standardize the naming of treatments
+	[] decide if I should get rid of references to the first treatment.
+
+[] establish confidence intervals and significance tests for all analyses
+	x classifier performance
+	x proportion food
+	X vocab size
+	[] relative specificity
 
 
 Decided to use

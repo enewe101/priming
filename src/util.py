@@ -5,6 +5,24 @@ def writeNow(string):
 	sys.stdout.write(string)
 	sys.stdout.flush()
 
+
+def counter_relative_diff(c1, c2):
+	result = {}
+	for key in set(c1.keys() + c2.keys()):
+		diff = c1[key] - c2[key]
+		avg = (c1[key] + c2[key]) / 2.0
+		result[key] = diff / avg
+
+	return result
+
+
+def counter_subtract(c1, c2):
+	result = {}
+	for key in set(c1.keys() + c2.keys()):
+		result[key] = c1[key] - c2[key]
+
+	return result
+
 def randomPartition(collection, *args):
 	firstPartitionSize = args[0]
 

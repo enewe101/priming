@@ -15,75 +15,24 @@ import numpy as np
 import time
 import os
 
-import matplotlib.pyplot as plt
-import matplotlib 
-import matplotlib.gridspec as gridspec
-from matplotlib.ticker import MultipleLocator, FormatStrFormatter
+try:
+	import matplotlib.pyplot as plt
+	import matplotlib 
+	import matplotlib.gridspec as gridspec
+	from matplotlib.ticker import MultipleLocator, FormatStrFormatter
+except ImportError:
+	print 'could not import matplotlib.'
 
-	
 
+# ** Constants ** #
 #z-score for two-tailed 99-percent confidence interval
 CONFIDENCE_95 = 1.96
 CONFIDENCE_99 = 2.975
-
-
-TREATMENT_NAMES = {
-	'treatment0': 'AMBG'
-	, 'treatment1': 'CULT$_{img}$'
-	, 'treatment2': 'INGR$_{img}$'
-	, 'treatment3': 'INGR$_{fund}$'
-	, 'treatment4': 'INGR$_{fund,img}$'
-	, 'treatment5': 'CULT$_{fund}$'
-	, 'treatment6': 'CULT$_{fund,img}$'
-}
-
-TEST_NAMES = [
-	'img_food_cult',
-	'img_food_obj',
-	'wfrm_food_cult',
-	'wfrm_food_obj',
-	'sfrm_food_obj'
-]
-
-EXPERIMENT_NAMES = {
-	'img_food_cult': 'inter-t. 1',
-	'img_food_obj': 'inter-t. 2',
-	'wfrm_food_cult': 'frame 1',
-	'wfrm_food_obj': 'frame 2',
-	'sfrm_food_obj': 'frame 3'
-}
 
 IMAGE_NAMES = ['test%d' %i for i in range(5)]
 
 DATA_DIR = 'data/new_data'
 FIGS_DIR = 'figs/'
-
-
-def plot_self_specificity(
-		read_fname = 'data/new_data/self_specificity.json',
-		write_fname = 'figs/self_specificity.pdf'
-	):
-
-	self_specificity = json.loads(open(read_fname).read())
-
-	# make a figure with three subplots
-	figWidth = 16.78 / 2.54 	# conversion from PNAS spec in cm to inches
-	figHeight = 4/5.*figWidth	# a reasonable aspect ratio
-	fig = plt.figure(figsize=(figWidth, figHeight))
-	gs = gridspec.GridSpec(1, 2)
-
-	width = 0.75
-
-	# now plot the vocabulary data
-	ax1 = plt.subplot(gs[0])
-	Y_food = np.mean(self_specificity['food'], 1)
-	X = range(len(Y_food))
-	series_1 = ax1.bar(X, Y_food, width, color='0.25')
-
-	ax1 = plt.subplot(gs[1])
-	Y_object = np.mean(self_specificity['object'], 1)
-	series_2 = ax1.bar(X, Y_object, width, color='0.25')
-
 
 
 def plot_longit_vocab(
@@ -135,41 +84,80 @@ def plot_longit_vocab(
 
 
 def plot_specificity(
-		read_specificity_fnames = ('data/new_data/specificity_alt.json',
-			'data/new_data/specificity_ignore_food.json'),
+		read_food_fname='data/new_data/food.json',
+		read_specificity_fname = 'data/new_data/specificity.json',
 		read_vocab_fname = 'data/new_data/vocabulary.json',
 		write_fname = 'figs/vocab_specificity.pdf'
 	):
 
-	vocab_data = json.loads(open(read_vocab_fname).read())
-	exp1_task_food = vocab_data['exp1.task.food']
-	exp1_task_cult = vocab_data['exp1.task.cult']
+	# open files
+	food_data = json.loads(open(read_food_fname).read())
 
 	# make a figure with three subplots
-	figWidth = 8.7 / 2.54 	# conversion from PNAS spec in cm to inches
-	figHeight = 2.*figWidth	# a reasonable aspect ratio
+	figWidth = 6.5 / 2.54 	# conversion from PNAS spec in cm to inches
+	figHeight = 2.6*figWidth	# a reasonable aspect ratio
 	fig = plt.figure(figsize=(figWidth, figHeight))
-	gs = gridspec.GridSpec(2, 1)
+	gs = gridspec.GridSpec(3, 1)
 
 	width = 0.75
 	padding = 0.25
 
+	# plot food data first
+	ax1 = plt.subplot(gs[0])
+		
+	pairs = [
+		('task1:obj', 'task1:food'),
+		('frame1:obj', 'frame1:food'),
+		('echo:obj', 'echo:food'),
+		('task2:cult', 'task2:food'),
+		('frame2:cult', 'frame2:food'),
+	]
+
+	# convert accuracy to priming difference (which is what we want to plot)
+	Y_0 = [
+		(food_data[p[1]]['fract_food'] - food_data[p[0]]['fract_food']) * 100
+		for p in pairs
+	]
+	Y_err = [
+		(food_data[p[0]]['std'] + food_data[p[1]]['std'])*100 
+		for p in pairs
+	]
+	X_0 = range(len(Y_0))
+
+	series_0 = ax1.bar(
+		X_0, Y_0, width, color='0.25', ecolor='0.75', yerr=Y_err)
+
+	# Fuss with axes window
+	padding = 0.25
+	xlims = (-padding, len(X_0))
+	plt.xlim(xlims)
+
+	# Fuss with axes labelling
+	ax1.set_xticks([x + width/2.0 for x in X_0])
+	plt.ylim(-13, 13)
+	ax1.text(4.7, 11.5, 'A', va='top', ha='right', size=25, color='0.55')
+	ax1.set_ylabel(r'$\Delta$ % food labels', size=12)
+	plt.setp(ax1.get_xticklabels(), visible=False)
+
+	vocab_data = json.loads(open(read_vocab_fname).read())
+
+
 	# plot vocabulary data accross all experiments
-	ax2 = plt.subplot(gs[0])
+	ax2 = plt.subplot(gs[1])
 
 	comparisons = [
-		('exp1.task.food', 'exp1.task.cult'),
-		('exp1.frame.food', 'exp1.frame.cult'),
-		('exp2.task.food', 'exp2.task.obj'),
-		('exp2.frame.food', 'exp2.frame.obj'),
-		('exp2.frame*.food', 'exp2.frame*.obj')
+		('task1:food', 'task1:obj'),
+		('frame1:food', 'frame1:obj'),
+		('echo:food', 'echo:obj'),
+		('task2:food', 'task2:cult'),
+		('frame2:food', 'frame2:cult')
 	]
 
 	Y_2 = []
 	for treatment1, treatment2 in comparisons:
 		vocab_1 = sum(vocab_data[treatment1])
 		vocab_2 = sum(vocab_data[treatment2])
-		Y_2.append((vocab_1 - vocab_2) / float(vocab_2))
+		Y_2.append(100*(vocab_1 - vocab_2) / float(vocab_2))
 	
 	X_2 = range(len(Y_2))
 
@@ -178,71 +166,57 @@ def plot_specificity(
 	xlims = (-padding, len(X_2) - 1 + width + padding)
 	plt.xlim(xlims)
 
-
 	xlabels = [
-		'$exp1.task$',
-		'$exp1.frame$',
-		'$exp2.task$',
-		'$exp2.frame$',
-		'$exp2.frame*$',
+		'task1',
+		'frame1',
+		'echo',
+		'task2',
+		'frame2',
 	]
 
 	ax2.set_xticks([x + width/2. for x in X_2])
-	#ax2.set_xticklabels(xlabels, rotation=45, size=12,
-	#	horizontalalignment='right')
-	ax2.set_yticks([0.1,0.2,0.3,0.4])
-	#plt.setp(ax2.get_yticklabels(), visible=False)
 	plt.setp(ax2.get_xticklabels(), visible=False)
+	ylims = plt.ylim()
+	plt.ylim(-6, 22)
+	ax2.text(4.7, 20.5, 'B', va='top', ha='right', size=25, color='0.55')
+	ax2.set_ylabel(r'$\Delta$ % food vocabulary', size=12)
 
-
-	# now plot the specificity data
-	specificity_data = json.loads(open(read_specificity_fnames[0]).read())
-	specificity_data_no_food = json.loads(
-		open(read_specificity_fnames[1]).read())
-	ax3 = plt.subplot(gs[1])
+	# now plot the specificity data.  First get organized
+	#
+	specificity_data = json.loads(open(read_specificity_fname).read())
+	ax3 = plt.subplot(gs[2])
 	width = 0.75
 	specificity_keys_labels = [
-			('img_food_cult', r'$exp1.task$'),
-			('wfrm_food_cult', r'$exp1.frame$'),
-			('img_food_obj', r'$exp2.task$'),
-			('wfrm_food_obj', r'$exp2.frame$'),
-			('sfrm_food_obj', r'$exp2.frame*$')
+		('task1', 'task1'),
+		('frame1', 'frame1'),
+		('echo', 'echo'),
+		('task2', 'task2'),
+		('frame2', 'frame2'),
 	]
 
-	Y_3 = [np.mean(specificity_data[k]) for k,l in specificity_keys_labels]
+	# Now actually plot the data
+	Y_3 = [specificity_data[k][0]*100 for k,l in specificity_keys_labels]
 	X_3 = range(len(Y_3))
-	Y_4 = [
-		np.mean(specificity_data_no_food[k]) 
-		for k,l in specificity_keys_labels
-	]
-
-
 	series_3 = ax3.bar(X_3, Y_3, width, color='0.25')
-	#series_4 = ax3.bar(X_3, Y_4, width, color='0.25')
 
+	# fiddle with axes
 	xlims = (-padding, len(X_3) - 1 + width + padding)
 	plt.xlim(xlims)
-
-	ax3.set_ylabel(r'relative specificity', size=12)
-
+	ylims = plt.ylim()
+	plt.ylim(ylims[0], 22)
+	ax3.set_ylabel(r'$\Delta$ % food specificity', size=12)
 	xlabels = [l for k,l in specificity_keys_labels]
-
-	# now plot specificity data excluding food tokens
-
-
-
-
-
 	ax3.set_xticks([x + width/2. for x in X_3])
 	ax3.set_xticklabels(xlabels, rotation=45, size=12,
 		horizontalalignment='right')
-	ax3.set_yticks([0.01,0.02,0.03])
+	ax3.text(4.7, 20.5, 'C', va='top', ha='right', size=25, color='0.55')
+	#ax3.set_yticks([0.01,0.02,0.03])
 
-
+	# control overall layout.  Save and return.
 	plt.draw()
 	plt.tight_layout()
-	fig.subplots_adjust(wspace=0.35, top=0.98, right=0.99, left=0.16, 
-		bottom=0.10)
+	fig.subplots_adjust(hspace=0.02, top=0.99, right=0.98, left=0.24, 
+		bottom=0.08)
 	fig.savefig(write_fname)
 
 
@@ -255,10 +229,10 @@ def plot_delta_food(
 	food_data = json.loads(open(read_fname).read())
 
 	# make a figure with two subplots
-	figWidth = 16.78 / 2.54 	# conversion from PNAS spec in cm to inches
-	figHeight = 3/5.*figWidth	# a reasonable aspect ratio
+	figWidth = 8.7 / 2.54 	# conversion from PNAS spec in cm to inches
+	figHeight = 4/5.*figWidth	# a reasonable aspect ratio
 	fig = plt.figure(figsize=(figWidth, figHeight))
-	gs = gridspec.GridSpec(1, 2)
+	gs = gridspec.GridSpec(1, 1)
 
 	width = 0.75
 
@@ -266,11 +240,11 @@ def plot_delta_food(
 	ax1 = plt.subplot(gs[0])
 		
 	pairs = [
-		('2_img_obj', '2_img_food'),
-		('1_img_cult', '1_img_food'),
-		('2_wfrm_obj', '2_wfrm_food'),
-		('1_wfrm_cult', '1_wfrm_food'),
-		('2_sfrm_obj', '2_sfrm_food'),
+		('task1:obj', 'task1:food'),
+		('frame1:obj', 'frame1:food'),
+		('echo:obj', 'echo:food'),
+		('task2:cult', 'task2:food'),
+		('frame2:cult', 'frame2:food'),
 	]
 
 	# convert accuracy to priming difference (which is what we want to plot)
@@ -296,10 +270,10 @@ def plot_delta_food(
 
 	xlabels = [
 		r'$task1$',
-		r'$task2$',
 		r'$frame1$',
+		r'$echo$',
+		r'$task2$',
 		r'$frame2$', 
-		r'$echo$'
 	]
 
 	ax1.set_xticks([x + width/2.0 for x in X_0])
@@ -308,92 +282,9 @@ def plot_delta_food(
 
 	plt.draw()
 	plt.tight_layout()
-	fig.subplots_adjust(wspace=0.35, top=0.82, right=0.99, left=0.10, 
-		bottom=0.20)
+	fig.subplots_adjust(top=0.98, right=0.98, left=0.18, 
+		bottom=0.22)
 	fig.savefig(write_fname)
-
-
-def plot_food_specificity(
-		read_food_fname='data/new_data/food.json',
-		read_specificity_fname='data/new_data/specificity.json',
-		write_fname='figs/food_specificity.pdf'
-	):
-
-	# open files
-	food_data = json.loads(open(read_food_fname).read())
-	specificity_data = json.loads(open(read_specificity_fname).read())
-
-	# make a figure with two subplots
-	figWidth = 16.78 / 2.54 	# conversion from PNAS spec in cm to inches
-	figHeight = 3/5.*figWidth	# a reasonable aspect ratio
-	fig = plt.figure(figsize=(figWidth, figHeight))
-	gs = gridspec.GridSpec(1, 2)
-
-	width = 0.325
-
-
-	# plot food data first
-	ax1 = plt.subplot(gs[0])
-		
-	pairs = [
-		('2_img_obj', '2_img_food'),
-		('1_img_cult', '1_img_food'),
-		('2_wfrm_obj', '2_wfrm_food'),
-		('1_wfrm_cult', '1_wfrm_food'),
-		('2_sfrm_obj', '2_sfrm_food'),
-	]
-
-	# convert accuracy to priming difference (which is what we want to plot)
-	Y_0 = [food_data[p[0]]['fract_food'] for p in pairs]
-	Y_1 = [food_data[p[1]]['fract_food'] for p in pairs]
-	X_0 = range(len(Y_0))
-	X_1 = [x+width for x in X_0]
-
-	series_0 = ax1.bar(X_0, Y_0, width, color='0.25')
-	series_1 = ax1.bar(X_1, Y_1, width, color='0.55')
-
-	# adjust the padding, then add a horizontal line to indicate significance
-	padding = 0.25
-	xlims = (-padding, len(X_1) - 1 + 2*width + padding)
-	plt.xlim(xlims)
-
-	ax1.set_ylabel(r'fraction food labels', size=12)
-
-	xlabels = [
-		r'$inter$-$t.1$',
-		r'$inter$-$t.2$',
-		r'$frame1$',
-		r'$frame2$', 
-		r'$frame$*$3$'
-	]
-
-	ax1.set_xticks(X_1)
-	ax1.set_xticklabels(xlabels, rotation=45, size=12,
-		horizontalalignment='right')
-	ax1.set_yticks([0.2,0.4,0.6])
-
-	# add a legend
-	label_objects = [series_0[0], series_1[0]]
-	y_min, y_max = plt.ylim()
-	x_min, x_max = plt.xlim()
-	ax1.legend(
-		label_objects, 
-		['non-food priming', 'food priming'], 
-		loc=3,
-		mode='expand',
-		borderaxespad=0.,
-		borderpad=0.6,
-		prop={'size':11},
-		bbox_to_anchor=(0., 1.02, 1., 0.102)
-	)   
-
-	plt.draw()
-	plt.tight_layout()
-	fig.subplots_adjust(wspace=0.35, top=0.82, right=0.99, left=0.10, 
-		bottom=0.20)
-	fig.savefig(write_fname)
-
-
 
 
 def plot_theta(
@@ -412,10 +303,7 @@ def plot_theta(
 
 	width = 0.75
 
-
-
 	# Plot the aggregate data series
-
 	ax1 = plt.subplot(gs[0])
 	this_data = data['aggregates']
 
@@ -494,10 +382,6 @@ def plot_theta(
 	ax2.set_xticklabels(xlabels, rotation=45, size=12,
 		horizontalalignment='right')
 
-
-
-
-
 	# Plot the by_img data series
 	ax3 = plt.subplot(gs[2], sharey=ax1)
 	plt.setp(ax3.get_yticklabels(), visible=False)
@@ -550,6 +434,210 @@ def plot_theta(
 	fig.subplots_adjust(wspace=0.05, top=0.99, right=0.99, left=0.11, 
 		bottom=0.29)
 	fig.savefig(os.path.join(FIGS_DIR, write_fname))
+
+
+# ****** End of trusted plotters
+
+
+def plotAllF1Theta(
+		readFname='data/new_data/l1.json',
+		writeFname='figs/l1_longitudinal.pdf',
+		n=125,
+		alpha=0.05
+	):
+
+	'''
+	Plots the theta value for a naive bayes classifier built to distinguish
+	between all the interesting pairings of treatments.  See the manuscript
+	in <project-root>/docs/drafts for an explanation of theta.
+
+	This function only plots; the data must first be generated by running
+	`computeAllF1Accuracy()`
+	'''
+
+	subplotLabels = ['A','B','C', 'D', 'E', 'F', 'G']
+
+	# Read the data from file
+	f1scores = json.loads(open(readFname, 'r').read())['img_food_obj']
+
+	# Start a figure 
+	figWidth = 8.7 / 2.54 	# conversion from PNAS spec in cm to inches
+	figHeight = figWidth * 3.	# a reasonable aspect ratio
+	fig = plt.figure(figsize=(figWidth, figHeight))
+
+	# calculate the gridspec.  The width ratios are based on the width of
+	# each bar-plot-group, spacing between them, and plot padding
+	num_subplots = len(f1scores)
+	gs = gridspec.GridSpec(num_subplots, 1)
+
+	width = 0.75
+	theta_star = get_theta_star(n, alpha)
+
+	for i in range(len(f1scores)):
+
+		image_id = 'test%d' % i
+
+		# Unpack the data for this subplot
+		Y_F1s = f1scores[image_id]
+		X_F1s = range(len(Y_F1s))
+
+		# Convert from accuracy to theta
+		Y_thetas = map(lambda t: t*2 - 1, f1scores[image_id])
+		X_thetas = map(lambda x: x+width, X_F1s)
+
+		# Make a set of axes.  
+		# Manage axis-sharing directives, and whether ytick-labels are visible
+		if i == 0:
+			ax = plt.subplot(gs[i])
+			ax0 = ax
+		else:
+			ax = plt.subplot(gs[i], sharey=ax0)
+			plt.setp(ax.get_yticklabels(), visible=False)
+
+
+		ax.set_ylabel(r'$\hat{\theta}_{NB}$', size=9)
+		theta_series = ax.bar(X_F1s, Y_thetas, width, color='0.25')
+
+		padding = 0.25
+		xlims = (-padding, len(Y_thetas) - 1 + width + padding)
+		plt.xlim(xlims)
+
+		# Put together intelligible labels for the x-axis
+		ax.tick_params(axis='both', which='major', labelsize=9)
+		xlabels = [str(i) for i in range(len(f1scores[image_id]))]
+		ax.set_xticks(map(lambda x: x + width/2., X_F1s))
+		ax.set_xticklabels(xlabels, rotation=45, size=9,
+			horizontalalignment='right')
+
+		zero = ax.plot(
+			xlims, [0, 0], color='0.35', linestyle='-', zorder=0)
+
+		significance_bar = ax.plot(
+			xlims, [theta_star, theta_star], color='0.55', linestyle=':')
+
+		# Tighten up the layout
+		plt.draw()
+		if i < 1:
+			plt.tight_layout()
+
+	# After plots are made, put labels along the top.  This needs to wait
+	# until now so that the axes limits are stable
+	for i, (ax, subplotData) in enumerate(zip(fig.axes, f1scores)):
+
+		pass
+		#** put the test task name as an inset
+
+#		TREATMENT_NAMES = {
+#			'treatment0': 'AMBG'
+#			, 'treatment1': 'CULT$_{img}$'
+#			, 'treatment2': 'INGR$_{img}$'
+#			, 'treatment3': 'INGR$_{fund}$'
+#			, 'treatment4': 'INGR$_{fund,img}$'
+#			, 'treatment5': 'CULT$_{fund}$'
+#			, 'treatment6': 'CULT$_{fund,img}$'
+#		}
+
+#		# Label the basis treatments above the subplots
+#		basisTreatment = subplotData['basis']
+#		basisTreatmentName = TREATMENT_NAMES[basisTreatment]
+#		left = len(subplotData['accuracy'])/2.0 + width - 2*padding
+#		ylims = plt.ylim()
+#
+#		# put the label directly above the plot.  
+#		# The first label needs to be put a bit higher.
+#		height= ylims[1] + (0.02 if i else 0.06)
+#		ax.text(left, height, basisTreatmentName, 
+#				va='bottom', ha='right', size=9, rotation=-45)
+
+
+	#y_low, y_high = plt.ylim()
+	#plt.ylim(-0.09, y_high)
+
+	fig.subplots_adjust(wspace=0.05, top=0.77, right=0.97, left=0.09, 
+		bottom=0.24)
+	plt.draw()
+
+	fig.savefig(writeFname)
+	plt.show()
+# This is an old version that uses two bars to compare each treatment pair
+def plot_food_proportions(
+		read_food_fname='data/new_data/food.json',
+		write_fname='figs/food_proportions.pdf'
+	):
+
+	# open files
+	food_data = json.loads(open(read_food_fname).read())
+
+	# make a figure with two subplots
+	figWidth = 16.78 / 2.54 	# conversion from PNAS spec in cm to inches
+	figHeight = 3/5.*figWidth	# a reasonable aspect ratio
+	fig = plt.figure(figsize=(figWidth, figHeight))
+	gs = gridspec.GridSpec(1, 2)
+
+	width = 0.325
+
+
+	# plot food data first
+	ax1 = plt.subplot(gs[0])
+		
+	pairs = [
+		('task1:obj', 'task1:food'),
+		('frame1:obj', 'frame1:food'),
+		('echo:obj', 'echo:food'),
+		('task2:cult', 'task2:food'),
+		('frame2:cult', 'frame2:food'),
+	]
+
+	# convert accuracy to priming difference (which is what we want to plot)
+	Y_0 = [food_data[p[0]]['fract_food'] for p in pairs]
+	Y_1 = [food_data[p[1]]['fract_food'] for p in pairs]
+	X_0 = range(len(Y_0))
+	X_1 = [x+width for x in X_0]
+
+	series_0 = ax1.bar(X_0, Y_0, width, color='0.25')
+	series_1 = ax1.bar(X_1, Y_1, width, color='0.55')
+
+	# adjust the padding, then add a horizontal line to indicate significance
+	padding = 0.25
+	xlims = (-padding, len(X_1) - 1 + 2*width + padding)
+	plt.xlim(xlims)
+
+	ax1.set_ylabel(r'fraction food labels', size=12)
+
+	xlabels = [
+		r'$task1$',
+		r'$frame1$',
+		r'$echo$',
+		r'$task2$',
+		r'$frame2$', 
+	]
+
+	ax1.set_xticks(X_1)
+	ax1.set_xticklabels(xlabels, rotation=45, size=12,
+		horizontalalignment='right')
+	ax1.set_yticks([0.2,0.4,0.6])
+
+	# add a legend
+	label_objects = [series_0[0], series_1[0]]
+	y_min, y_max = plt.ylim()
+	x_min, x_max = plt.xlim()
+	ax1.legend(
+		label_objects, 
+		['non-food priming', 'food priming'], 
+		loc=3,
+		mode='expand',
+		borderaxespad=0.,
+		borderpad=0.6,
+		prop={'size':11},
+		bbox_to_anchor=(0., 1.02, 1., 0.102)
+	)   
+
+	plt.draw()
+	plt.tight_layout()
+	fig.subplots_adjust(wspace=0.35, top=0.82, right=0.99, left=0.10, 
+		bottom=0.20)
+	fig.savefig(write_fname)
+
 
 
 def plot_theta_by_img(
@@ -670,6 +758,14 @@ def plot_theta_aggregate(
 	# the img_food_obj test was tried under multiple permutations -- take avg
 	data['img_food_obj'] = np.mean(data['img_food_obj'])
 
+	TEST_NAMES = [
+		'img_food_cult',
+		'img_food_obj',
+		'wfrm_food_cult',
+		'wfrm_food_obj',
+		'sfrm_food_obj'
+	]
+
 	accuracies = [data[tn] for tn in TEST_NAMES]
 
 	# convert accuracy to priming difference (which is what we want to plot)
@@ -699,6 +795,13 @@ def plot_theta_aggregate(
 	
 	ax.set_ylabel(r'$\hat{\theta}_\mathrm{NB}$', size=12)
 
+	EXPERIMENT_NAMES = {
+		'img_food_cult': 'inter-t. 1',
+		'img_food_obj': 'inter-t. 2',
+		'wfrm_food_cult': 'frame 1',
+		'wfrm_food_obj': 'frame 2',
+		'sfrm_food_obj': 'frame 3'
+	}
 	xlabels = [EXPERIMENT_NAMES[tn] for tn in TEST_NAMES]
 
 	ax.set_xticks(map(lambda x: x + width/2., X))
@@ -712,114 +815,28 @@ def plot_theta_aggregate(
 	fig.savefig(os.path.join(FIGS_DIR, write_fname))
 
 
-def plotAllF1Theta(
-		readFname='data/new_data/l1.json',
-		writeFname='figs/l1_longitudinal.pdf',
-		n=125,
-		alpha=0.05
+def plot_self_specificity(
+		read_fname = 'data/new_data/self_specificity.json',
+		write_fname = 'figs/self_specificity.pdf'
 	):
 
-	'''
-	Plots the theta value for a naive bayes classifier built to distinguish
-	between all the interesting pairings of treatments.  See the manuscript
-	in <project-root>/docs/drafts for an explanation of theta.
+	self_specificity = json.loads(open(read_fname).read())
 
-	This function only plots; the data must first be generated by running
-	`computeAllF1Accuracy()`
-	'''
-
-	subplotLabels = ['A','B','C', 'D', 'E', 'F', 'G']
-
-	# Read the data from file
-	f1scores = json.loads(open(readFname, 'r').read())['img_food_obj']
-
-	# Start a figure 
-	figWidth = 8.7 / 2.54 	# conversion from PNAS spec in cm to inches
-	figHeight = figWidth * 3.	# a reasonable aspect ratio
+	# make a figure with three subplots
+	figWidth = 16.78 / 2.54 	# conversion from PNAS spec in cm to inches
+	figHeight = 4/5.*figWidth	# a reasonable aspect ratio
 	fig = plt.figure(figsize=(figWidth, figHeight))
-
-	# calculate the gridspec.  The width ratios are based on the width of
-	# each bar-plot-group, spacing between them, and plot padding
-	num_subplots = len(f1scores)
-	gs = gridspec.GridSpec(num_subplots, 1)
+	gs = gridspec.GridSpec(1, 2)
 
 	width = 0.75
-	theta_star = get_theta_star(n, alpha)
 
-	for i in range(len(f1scores)):
+	# now plot the vocabulary data
+	ax1 = plt.subplot(gs[0])
+	Y_food = np.mean(self_specificity['food'], 1)
+	X = range(len(Y_food))
+	series_1 = ax1.bar(X, Y_food, width, color='0.25')
 
-		image_id = 'test%d' % i
+	ax1 = plt.subplot(gs[1])
+	Y_object = np.mean(self_specificity['object'], 1)
+	series_2 = ax1.bar(X, Y_object, width, color='0.25')
 
-		# Unpack the data for this subplot
-		Y_F1s = f1scores[image_id]
-		X_F1s = range(len(Y_F1s))
-
-		# Convert from accuracy to theta
-		Y_thetas = map(lambda t: t*2 - 1, f1scores[image_id])
-		X_thetas = map(lambda x: x+width, X_F1s)
-
-		# Make a set of axes.  
-		# Manage axis-sharing directives, and whether ytick-labels are visible
-		if i == 0:
-			ax = plt.subplot(gs[i])
-			ax0 = ax
-		else:
-			ax = plt.subplot(gs[i], sharey=ax0)
-			plt.setp(ax.get_yticklabels(), visible=False)
-
-
-		ax.set_ylabel(r'$\hat{\theta}_{NB}$', size=9)
-		theta_series = ax.bar(X_F1s, Y_thetas, width, color='0.25')
-
-		padding = 0.25
-		xlims = (-padding, len(Y_thetas) - 1 + width + padding)
-		plt.xlim(xlims)
-
-		# Put together intelligible labels for the x-axis
-		ax.tick_params(axis='both', which='major', labelsize=9)
-		xlabels = [str(i) for i in range(len(f1scores[image_id]))]
-		ax.set_xticks(map(lambda x: x + width/2., X_F1s))
-		ax.set_xticklabels(xlabels, rotation=45, size=9,
-			horizontalalignment='right')
-
-		zero = ax.plot(
-			xlims, [0, 0], color='0.35', linestyle='-', zorder=0)
-
-		significance_bar = ax.plot(
-			xlims, [theta_star, theta_star], color='0.55', linestyle=':')
-
-		# Tighten up the layout
-		plt.draw()
-		if i < 1:
-			plt.tight_layout()
-
-	# After plots are made, put labels along the top.  This needs to wait
-	# until now so that the axes limits are stable
-	for i, (ax, subplotData) in enumerate(zip(fig.axes, f1scores)):
-
-		pass
-		#** put the test task name as an inset
-
-
-#		# Label the basis treatments above the subplots
-#		basisTreatment = subplotData['basis']
-#		basisTreatmentName = TREATMENT_NAMES[basisTreatment]
-#		left = len(subplotData['accuracy'])/2.0 + width - 2*padding
-#		ylims = plt.ylim()
-#
-#		# put the label directly above the plot.  
-#		# The first label needs to be put a bit higher.
-#		height= ylims[1] + (0.02 if i else 0.06)
-#		ax.text(left, height, basisTreatmentName, 
-#				va='bottom', ha='right', size=9, rotation=-45)
-
-
-	#y_low, y_high = plt.ylim()
-	#plt.ylim(-0.09, y_high)
-
-	fig.subplots_adjust(wspace=0.05, top=0.77, right=0.97, left=0.09, 
-		bottom=0.24)
-	plt.draw()
-
-	fig.savefig(writeFname)
-	plt.show()

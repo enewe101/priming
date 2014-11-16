@@ -453,13 +453,21 @@ def map_to_synsets(word_counts):
 	return synset_counts
 
 
-def strip_food_words(word_counts):
+def filter_word_counts(word_counts, include_food=True, include_nonfood=True):
 	food_detector = WordnetFoodDetector()
 
-	#Make a new copy of the word counts, but only include non-food words
+	# If everything is included, there is nothing to filter out
+	if include_food and include_nonfood:
+		return word_counts
+
+	# Copy the word counts, but only include the desired kinds of words
 	new_counts = {}
 	for key in word_counts.keys():
-		if not food_detector.is_food(key):
+
+		if include_food and food_detector.is_food(key):
+			new_counts[key] = word_counts[key]
+
+		if include_nonfood and (not food_detector.is_food(key)):
 			new_counts[key] = word_counts[key]
 
 	return new_counts
@@ -469,7 +477,9 @@ def strip_food_words(word_counts):
 def calculate_relative_specificity(
 		word_counts_1, 
 		word_counts_2,
-		ignore_food=False
+		include_food=True,
+		include_nonfood=False,
+		normalize=True
 	):
 	'''
 	returns the relative specificity between to sets of synsets.
@@ -478,11 +488,12 @@ def calculate_relative_specificity(
 	but gives the same result.
 	'''
 
-	if ignore_food:
-		print len(word_counts_1), len(word_counts_2)
-		word_counts_1 = strip_food_words(word_counts_1)
-		word_counts_2 = strip_food_words(word_counts_2)
-		print len(word_counts_1), len(word_counts_2)
+	print len(word_counts_1), len(word_counts_2)
+	word_counts_1 = filter_word_counts(
+		word_counts_1, include_food, include_nonfood)
+	word_counts_2 = filter_word_counts(
+		word_counts_2, include_food, include_nonfood)
+	print len(word_counts_1), len(word_counts_2)
 
 	synset_counts_1 = map_to_synsets(word_counts_1)
 	synset_counts_2 = map_to_synsets(word_counts_2)
@@ -492,17 +503,30 @@ def calculate_relative_specificity(
 	descendant_counter = WordnetRelativesCalculator(synset_counts_2, False)
 
 	specificity_score = 0
+	num_actual_comparisons = 0
 
 	# for every synset in synset_counts_1, add the number of descendants
 	# minus the number of ancesters to get the net relative specificity
 
 	for synset_name, count in synset_counts_1.iteritems():
 		syn = ewn.synset(synset_name)
-		specificity_score += count * ancester_counter.count(syn)
-		specificity_score -= count * descendant_counter.count(syn)
 
-	return specificity_score / float(sum(word_counts_1.values()) * 
-		sum(word_counts_2.values()))
+		delta_score = count * ancester_counter.count(syn)
+		specificity_score += delta_score
+		num_actual_comparisons += delta_score
+
+		delta_score = count * ancester_counter.count(syn)
+		specificity_score -= count * descendant_counter.count(syn)
+		num_actual_comparisons += delta_score
+
+	if normalize:
+		num_possible_comparisons = float(
+			sum(word_counts_1.values()) * sum(word_counts_2.values()))
+
+		return specificity_score / float(num_actual_comparisons)
+		#return specificity_score / num_possible_comparisons
+
+	return specificity_score
 
 
 class WordnetFoodDetector(object):
