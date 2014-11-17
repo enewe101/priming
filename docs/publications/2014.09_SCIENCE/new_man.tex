@@ -426,57 +426,182 @@ position of the test task is more important (Fig.~\ref{fig:theta}C).
 
 
 \paragraph{Effects on workers' direction of focus} 
-\begin{figure}
-	\centering
-	\includegraphics[scale=1]{figs/delta_food.pdf}
-	\caption{
-		Difference in priming observed for various pairs of worker populations.
-		The pairs of populations differed in terms of the initial tasks they
-		performed (bars labeled by \textit{inter-t.}) or in terms of the framing
-		to which they were exposed (bars labeled by \textit{frame}; see table 1 for
-		details about the treatments).  The difference in priming was 
-		measured based on the accuracy of a naive Bayes classifier in 
-		resolving which treatment workers belonged to, as described in the 
-		text.  
+
+Having observed significant effects from framing and task-exposure,
+we looked in greater detail at the nature of the effects.  For instance,
+does a food-oriented exposure induce workers to provide more food-related
+labels?  And if so, does this explain the classifier's ability to distinguish
+a worker's initial exposure? 
+
+To answer these questions we used the wordnet corpus, augmented with names of
+ethnic foods learned from the Internet.  Wordnet provides a (roughly)
+hierarchical set of relationships between nouns, called hypernym-hyponym
+relationships.  A hypernym is a generalization, while a hyponym is a 
+specialization.  So, for example, ``bread'' is hypernym to ``rye bread'' 
+and hyponym to ``baked goods''.
+
+Using the hypernym-hyponyms structure of wordnet to identify nouns depicting
+food, we found that, for the experimental pairings in \texttt{exp1}, the
+food-exposed treatments did produce a significantly larger fraction of 
+food-related labels (see Fig.~\ref{fig:specificity}A).  While the shift in 
+focus with regard to food does help explain how workers differ depending on 
+their exposure, it still leaves most of this difference unexplained.
+Furthermore, in \texttt{exp2:task2} we see a significant but reversed effect
+(see Fig.~\ref{fig:specificity}A).
+Given the difference between the food-culture and food-object axes, it should
+not be surprising that the effect of exposure is different.  This tells us that
+the differences induced by exposure to frames or initial tasks are significant,
+but would appear to be the result of countervailing influences, with the
+overall outcome dependant on the particular axis of the exposures, we will
+come back to this momentarily.
+
+To explore these effects further, we looked more closely at which particular
+labels are most suppressed (activated) by a workers exposure.  We found that, 
+for all treatment pairs, ``food'' was always the most suppressed label among 
+the food-exposed workers.  This is surprising, given that we have just seen 
+that the bulk incidence of food-related labels \textit{increased} among 
+food-exposed workers in most treatment pairs.
+Since ``food'' is the most generic food-related word in the wordnet-based
+ontology, it follows that food-exposed workers have opted to provide more
+specialized references to food rather than using ``food''.
+
+Considerable thought must be given to shaping the the vocabulary with which
+a worker engages a task.  To draw an example from the domain of citizen 
+science, in galaxy zoo, workers catalogue images of galaxies in terms of
+smoothness, rings, dustlanes, digital disturbances, and so on.  Shaping this
+vocabulary, is accomplished through a combination of positive and negative
+examples during training, peer-to-peer and peer-to-expert engagement in 
+discussion areas, and using the interface to constrain and prompt the 
+worker.
+
+In our set-up, where the worker's vocabulary is unconstrained, we can 
+directly see the effects that frames and initial tasks induce on worker 
+vocabulary.
+By looking at the number of unique food-related labels that workers 
+produced, we assesed the richness of vocabulary that workers used when 
+referring to food (see Fig.~\ref{fig:specificity}B.  We found that the 
+food-exposed workers use a richer vocabulary of 
+food-related words, even in cases like \texttt{task2:food}, where the 
+food-exposed treatment made fewer references to food overall.  
+Interestingly, in this respect, initial taske exposure had a stronger effect
+than framing, including the \texttt{echo} treatment pair. This makes sense, 
+given that the various images shown in the initial
+tasks would tend to activate a variety of memories and concepts related to 
+food, reducing the threshold for later activation during the test-tasks.
+
+Using the ontology of food induced by wordnet, we perform a more detailed
+calculation of the relative specificity of workers from different treatments.
+To do this, we considered all the labels from one treatment
+(for example \texttt{task1:food}) and compared these to all the labels from 
+another (\texttt{task1:obj}).  For all possible comparisons, we observed 
+which treatment's label was more specific more often.  We normalied this
+as a percentage (details in supplementary material) so that we can compare the
+relative change in specificity between different treatment pairs  .
+
+
+Performing the above-mentioned calculation while restricting focus to 
+food-related labels (see Fig.~\ref{fig:specificity}C), we found that 
+the food-exposed workers always provided food-references of substantially 
+greater specificity.  In this respect, the effect induced by 
+echoed framing was stronger than that induced by the initial task exposures in
+\texttt{task1}.
+
+Taking the all the results shown in Fig.~\ref{fig:specificity} together,
+a picture emerges which explains the differing natures of intertask and framing
+effects.  First, both negative and positive priming would appear to be at play.
+Negative priming occurs when a repeated stimulus, which is perceived to be
+nonsalient, begins to be ignored.  As a worker from \texttt{task1:food}
+proceeds through the initial tasks, food-related memories and concepts are
+activated, reducing increasing the likelihood that she provides a variety of
+different food-related labels.  This increases the number of food-related
+labels, and increases the richness and specificity of her food-related 
+vocabulary.  But meanwhile, in the most general sense, the fact that the 
+pictures contain food becomes negatively primed.  She does not regard ``food''
+to be a meaningful label, and is inhibited in providing it.   
+As for the worker in \texttt{task2}, similar effects occur as she proceeds
+through the initial tasks.  Upon viewing the first test task, the introduction
+of a very prominent cultural element is novel, and is attended to, whereas
+her counterpart in \texttt{task2:cult} has seen several images containing 
+cultural themes, and is negatively primed to the general setting of culture,
+but responds to the novelty of the introduction of food.  Finally, looking at
+the results for \texttt{echo}, we see evidence of its effects operating through
+the executive faculties of the worker.  There is considerably more
+restriction to food-related labels, and even a greater specificity of such 
+labels, but, lacking the diverse activations of food-related memories and 
+concepts from initial tasks, the richness of vocabulary is lower.
+
+Based on these observations, we submit several recommendations for the 
+consideration for the designers of croudsourced initiatives.
+\begin{enumerate}
+	\item{
+		Examples provide a valuable way to clarify intstructions, but 
+		training tasks should be preferred, since they activate concepts and 
+		faculties relevant to the subsequent task.
 	}
-	\label{fig:food}
-\end{figure}
+	\item{
+		Examples used for training should not be too ``clean'', but should 
+		contain the same distribution of noise, or distracting features, as 
+		is observed in the real dataset.
+		This may help desensitize the worker to the nonsalient features.
+		Using training tasks that are too clean will make the subsequent noise
+		more novel and thus more distracting.
+	}
+	\item{
+		It is common practice to plant \textit{validation tasks}, for which the
+		correct answer is known, to verify worker reliability.
+		These tasks should simultaneously be considered as 
+		\textit{callibration tasks}, which help
+		the worker to maintain an optimally primed state.
+		Giving feedback, for both correct and incorrect callibration tasks, 
+		may help further reinforce the salient features for the tasks.
+	}
+	\item{
+		Some tasks require the classification of imbalanced datasets.
+		For example, in the detection of pre-ictal (pre-siezure) EEG traces,
+		the majority of traces are normal.  The absence of exposure to the 
+		positive class can lead to a loss of activation for the
+		salient features and a drifting conceptualization of the class.
+		Using callibration tasks drawn from the underrepresented class may 
+		help sustain workers' attention and recall for that class.
+	}
+	\item{
+		When a very precice classification is needed, it may be helpful to
+		performing the classification in multiple steps.  For example, in a 
+		binary classification, the workers could initially perform a coarse
+		classification, using three options for response: 
+		``definitely class 0'', ``definitely class 1'', and 
+		``borderline''.  Following the coarse classification, the 
+		``borderline'' examples could be served in batches together, 
+		allowing workers to focus on finer distinctions which are salient 
+		in the context of borderline examples.
+	}
+\end{enumerate}
 
-It is reasonable to expect that exposing a worker to tasks containing images
-of food would increase her propensity to provide food-related labels in 
-subsequent tasks.  To test whether this straightforward elicitation occured,
-we used the wordnet corpus to operationalize the notion of food-related 
-labels.  While the coverage of most western food-related words is quite good
-we found that the names of many ethnic foods are missing, so we augmented
-the corpus by crawling the world food section of the recipes website 
-allrecipes.com.  We discuss the validation of our operationalization of 
-food-words in detail in the supplementary material.
+Each of these techniques can and should be tested directly, and the the
+lessons derived from those experiments should be encorporated into the best 
+practices for human computation.
 
-For \texttt{task1} and \texttt{frame1} we did find that exposing workers to 
-food-oriented primes led them to increase their provision of food-related 
-labels by about 2-3\% (see Fig.~\ref{fig:food}).  
-In \texttt{echo} this effect was stronger
-\texttt{echo:food} provided about 8\% more food-related words than 
-\texttt{echo:obj}.  Indeed, the \%-increase in food labels observed for
-\texttt{echo} was significantly larger than that for \texttt{taks1}, which is 
-interesting
-given that the overall priming effect observed for \texttt{task1} and 
-\texttt{echo} were on par (c.f. Fig.~\ref{fig:theta}).
-This makes sense, given that \texttt{echo:food} explicitly calls for a focus 
-on food, whereas \texttt{task1:food} probably works by activating certain 
-memories and concepts, with a more complex impact on labels.
+\paragraph{Conclusion.}
+Our results definitively show that intertask effects can
+be as strong as framing effects, and appear in general to be stronger.
+Intertask effects have are similar in strength to direct 
+statements about the purpose of the tasks, followed by the reiteration of the
+purpose by the worker.  However, they differ in the detailed effects that
+they bring about.  Initial tasks had a greater effect on richness of 
+spontaneously elicited vocabulary used to refer to the primed concept,
+whereas the echoed purpose had a somewhat stronger effect increasing the 
+quantity of references to the primed concept.
 
-In \texttt{exp2} we see a strikingly different effect: workers initially 
-exposed to food-related tasks actually show fewer food-related labels for the
-test tasks.  Recalling the content of the test tasks helps to explain this
-observation.  The test tasks in \texttt{exp2} embed both the prime concepts
-of food and culture, which we accomplished by using images of food having
-very particular and identifiable cultural origins.  The initial tasks in
-\texttt{task2:food} were, by comparison, culturally ambiguous, and the worker
-would presumably be struck by the appearance of strong cultural overtones
-in the test tasks.  On the other hand, due to the effect of negative priming,
-workers in \texttt{task2:cult} might be somewhat desensitized to the cultural
-content in the images, and instead be struck by the sudden appearance of food.
+The task designer would do well to give consideration to intetask effects
+when performing task batching, and when designing training and validation
+tasks.  Despite all efforts to eliminate biases in the microtask setup,
+the greatest source of biases may lurk in the tasks themselves.  
+But the task designer need not seek to factor out intertask effects altogether.
+Rather we advocate regarding intertask effects as a tunable parameter which
+can be used to optimize HPU performance.  By correctly directing attention
+and conceptual activation, intertask effects may be helpful in exceeding
+expert annotations using non-expert HPU computing in a wider variety of
+applications.
 
 \paragraph{Effects on label vocabulary and specificity.}
 \begin{figure}
