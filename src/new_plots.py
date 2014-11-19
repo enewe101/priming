@@ -296,10 +296,13 @@ def plot_theta(
 	data = json.loads(open(os.path.join(DATA_DIR, read_fname)).read())
 
 	# make a figure with two subplots
-	figWidth = 14.78 / 2.54 	# conversion from PNAS spec in cm to inches
-	figHeight = 2/5.*figWidth	# a reasonable aspect ratio
+	figWidth = 10.0 / 2.54 	# conversion from PNAS spec in cm to inches
+	figHeight = 3/5.*figWidth	# a reasonable aspect ratio
+	#figWidth = 14.78 / 2.54 	# conversion from PNAS spec in cm to inches
+	#figHeight = 2/5.*figWidth	# a reasonable aspect ratio
 	fig = plt.figure(figsize=(figWidth, figHeight))
-	gs = gridspec.GridSpec(1, 3, width_ratios=(3,5,5))
+	gs = gridspec.GridSpec(1, 2)
+	#gs = gridspec.GridSpec(1, 3, width_ratios=(5,5,5))
 
 	width = 0.75
 
@@ -310,14 +313,15 @@ def plot_theta(
 	# the img_food_obj test was tried under multiple permutations -- take avg
 	this_data['exp2.task'] = np.mean(this_data['exp2.task'])
 
-	test_names = ['exp2.task', 'exp2.frame', 'exp2.*']
+	test_names = ['exp2.task', 'exp2.frame', 'exp2.*', 'exp1.task', 
+			'exp1.frame']
 	accuracies = [this_data[tn] for tn in test_names]
 
 	# convert accuracy to priming difference (which is what we want to plot)
 	Y_aggregate = [2*a-1 for a in accuracies]
 	err_low = [
 		2*binomial_lower_confidence_p(n, int(n*a)) - 1
-		for a,n in zip(accuracies,[595,119,119])
+		for a,n in zip(accuracies,[595,119,119,119,119])
 	]
 	err_low = [y-y_err for y, y_err in zip(Y_aggregate, err_low)]
 	err_high = [0 for e in err_low]
@@ -335,9 +339,9 @@ def plot_theta(
 	#singificance_line = ax1.plot(
 	#		xlims, [theta_star, theta_star], color='0.55', linestyle=':')
 
-	ax1.set_ylabel(r'$\hat{\theta}_\mathrm{NB}$', size=12)
+	ax1.set_ylabel(r'$D^-_\mathrm{L1}$', size=12)
 
-	xlabels = [r'task', r'frame', r'echoed']
+	xlabels = [r'task1', r'frame1', r'echo', 'task2', 'frame2']
 
 	ax1.set_xticks(map(lambda x: x + width/2., X))
 	ax1.set_xticklabels(xlabels, rotation=45, size=12,
@@ -372,9 +376,6 @@ def plot_theta(
 	padding = 0.25
 	xlims = (-padding, len(X) - 1 + width + padding)
 	plt.xlim(xlims)
-	#theta_star = get_theta_star(119*5, 0.05)
-	#singificance_line = ax2.plot(
-	#		xlims, [theta_star, theta_star], color='0.55', linestyle=':')
 
 	xlabels = ['1st', '2nd', '3rd', '4th', '5th']
 
@@ -382,56 +383,54 @@ def plot_theta(
 	ax2.set_xticklabels(xlabels, rotation=45, size=12,
 		horizontalalignment='right')
 
-	# Plot the by_img data series
-	ax3 = plt.subplot(gs[2], sharey=ax1)
-	plt.setp(ax3.get_yticklabels(), visible=False)
+#	# Plot the by_img data series
+#	ax3 = plt.subplot(gs[2], sharey=ax1)
+#	plt.setp(ax3.get_yticklabels(), visible=False)
+#
+#	this_data = data['exp2.task']
+#	avg_accuracies = [np.mean(this_data[img]) for img in IMAGE_NAMES]
+#
+#	# convert accuracy to priming difference (which is what we want to plot)
+#	Y_by_img = [2*a-1 for a in avg_accuracies]
+#	err_low = [
+#		2*binomial_lower_confidence_p(595, int(595*a)) - 1
+#		for a in avg_accuracies
+#	]
+#	err_low = [y-y_err for y, y_err in zip(Y_by_img, err_low)]
+#	err_high = [0 for e in err_low]
+#	err = [err_low, err_high]
+#
+#	series = ax3.bar(X, Y_by_img, width, color='0.25', ecolor='0.85', yerr=err)
+#
+#	# adjust the padding, then add a horizontal line to indicate significance
+#	padding = 0.25
+#	xlims = (-padding, len(X) - 1 + width + padding)
+#	plt.xlim(xlims)
+#
+#
+#	xlabels = ['image %d'%i for i in range(1,6)]
+#
+#	ax3.set_xticks(map(lambda x: x + width/2., X))
+#	ax3.set_xticklabels(xlabels, rotation=45, size=12,
+#		horizontalalignment='right')
 
-	this_data = data['exp2.task']
-	avg_accuracies = [np.mean(this_data[img]) for img in IMAGE_NAMES]
+	ax1.set_yticks([0.1,0.2,0.3,0.4,0.5])
+	ax2.set_yticks([0.1,0.2,0.3,0.4,0.5])
+#	ax3.set_yticks([0.1,0.2,0.3,0.4,0.5])
 
-	# convert accuracy to priming difference (which is what we want to plot)
-	Y_by_img = [2*a-1 for a in avg_accuracies]
-	err_low = [
-		2*binomial_lower_confidence_p(595, int(595*a)) - 1
-		for a in avg_accuracies
-	]
-	err_low = [y-y_err for y, y_err in zip(Y_by_img, err_low)]
-	err_high = [0 for e in err_low]
-	err = [err_low, err_high]
-
-	series = ax3.bar(X, Y_by_img, width, color='0.25', ecolor='0.85', yerr=err)
-
-	# adjust the padding, then add a horizontal line to indicate significance
-	padding = 0.25
-	xlims = (-padding, len(X) - 1 + width + padding)
-	plt.xlim(xlims)
-
-	#singificance_line = ax3.plot(
-	#		xlims, [theta_star, theta_star], color='0.55', linestyle=':')
-
-	xlabels = ['image %d'%i for i in range(1,6)]
-
-	ax3.set_xticks(map(lambda x: x + width/2., X))
-	ax3.set_xticklabels(xlabels, rotation=45, size=12,
-		horizontalalignment='right')
-
-	ax1.set_yticks([0.1,0.2,0.3,0.4])
-	ax2.set_yticks([0.1,0.2,0.3,0.4])
-	ax3.set_yticks([0.1,0.2,0.3,0.4])
-
-	ylims = plt.ylim()
-	plt.ylim(0,ylims[1])
+	ylims = (0, 0.55)
+	plt.ylim(ylims)
 
 	left = 4.7
-	height = 0.43
-	for label, ax in zip(['A', 'B', 'C',], [ax1, ax2, ax3]):
+	height = 0.52
+	#for label, ax in zip(['A', 'B', 'C',], [ax1, ax2, ax3]):
+	for label, ax in zip(['A', 'B'], [ax1, ax2]):
 		ax.text(left, height, label, 
 			va='top', ha='right', size=18, color='0.55')
 
-
 	plt.draw()
 	plt.tight_layout()
-	fig.subplots_adjust(wspace=0.05, top=0.99, right=0.99, left=0.11, 
+	fig.subplots_adjust(wspace=0.05, top=0.99, right=0.99, left=0.15, 
 		bottom=0.29)
 	fig.savefig(os.path.join(FIGS_DIR, write_fname))
 
