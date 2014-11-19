@@ -341,12 +341,13 @@ def plot_theta(
 
 	ax1.set_ylabel(r'$D^-_\mathrm{L1}$', size=12)
 
-	xlabels = [r'task1', r'frame1', r'echo', 'task2', 'frame2']
+	xlabels = [r'$task1$', r'$frame1$', r'$echo$', '$task2$', '$frame2$']
 
-	ax1.set_xticks(map(lambda x: x + width/2., X))
+	eps = 0.2
+	ax1.set_xticks(map(lambda x: x + width/2. + eps, X))
+	ax1.tick_params(axis='x', colors='0.25')
 	ax1.set_xticklabels(xlabels, rotation=45, size=12,
-		horizontalalignment='right')
-
+		horizontalalignment='right', color='k')
 
 	# Plot the by_pos data series
 	ax2 = plt.subplot(gs[1], sharey=ax1)
@@ -377,11 +378,13 @@ def plot_theta(
 	xlims = (-padding, len(X) - 1 + width + padding)
 	plt.xlim(xlims)
 
-	xlabels = ['1st', '2nd', '3rd', '4th', '5th']
+	xlabels = ['1', '2', '3', '4', '5']
 
 	ax2.set_xticks(map(lambda x: x + width/2., X))
-	ax2.set_xticklabels(xlabels, rotation=45, size=12,
-		horizontalalignment='right')
+	ax2.tick_params(axis='x', colors='0.25')
+	ax2.set_xticklabels(xlabels, rotation=0, size=12,
+		horizontalalignment='center', color='k')
+	ax2.set_xlabel(r'test task position', size=12)
 
 #	# Plot the by_img data series
 #	ax3 = plt.subplot(gs[2], sharey=ax1)
