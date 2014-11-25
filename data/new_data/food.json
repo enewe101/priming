@@ -1,57 +1,62 @@
 {
-  "1_img_cult": {
-    "num_food_words": 1663, 
-    "fract_food": 0.46155981126838747, 
-    "num_words": 3603
+  "task2:food": {
+    "std": 0.019859053807120157, 
+    "num_food_words": 1543, 
+    "fract_food": 0.40828586421286667, 
+    "num_words": 3712
   }, 
-  "1_img_ingr": {
-    "num_food_words": 1862, 
-    "fract_food": 0.47139240506329116, 
-    "num_words": 3950
+  "frame2:cult": {
+    "std": 0.019567427219421001, 
+    "num_food_words": 1673, 
+    "fract_food": 0.45805221811831875, 
+    "num_words": 3610
   }, 
-  "2_sfrm_food": {
-    "num_food_words": 2317, 
-    "fract_food": 0.6074986890403775, 
-    "num_words": 3814
+  "frame1:food": {
+    "std": 0.013868630592966084, 
+    "num_food_words": 2368, 
+    "fract_food": 0.60093345698244349, 
+    "num_words": 3939
   }, 
-  "2_wfrm_obj": {
-    "num_food_words": 2045, 
-    "fract_food": 0.549140708915145, 
-    "num_words": 3724
+  "frame1:obj": {
+    "std": 0.013513839740720467, 
+    "num_food_words": 2088, 
+    "fract_food": 0.56186957792708769, 
+    "num_words": 3729
   }, 
-  "1_img_food": {
-    "num_food_words": 1443, 
-    "fract_food": 0.386448848419925, 
-    "num_words": 3734
+  "frame2:food": {
+    "std": 0.017714713086721907, 
+    "num_food_words": 1720, 
+    "fract_food": 0.45195331919467863, 
+    "num_words": 3731
   }, 
-  "2_sfrm_obj": {
-    "num_food_words": 2425, 
-    "fract_food": 0.5304024496937882, 
-    "num_words": 4572
+  "echo:obj": {
+    "std": 0.013534429957534835, 
+    "num_food_words": 2460, 
+    "fract_food": 0.54029416830684518, 
+    "num_words": 4557
   }, 
-  "1_wfrm_food": {
-    "num_food_words": 1596, 
-    "fract_food": 0.425713523606295, 
-    "num_words": 3749
+  "task1:obj": {
+    "std": 0.0059665297754035165, 
+    "num_food_words": 9898, 
+    "fract_food": 0.54510401556575572, 
+    "num_words": 18248
   }, 
-  "2_wfrm_food": {
-    "num_food_words": 2301, 
-    "fract_food": 0.5844551689103378, 
-    "num_words": 3937
+  "task2:cult": {
+    "std": 0.016067079811965212, 
+    "num_food_words": 1763, 
+    "fract_food": 0.48787138430816029, 
+    "num_words": 3609
   }, 
-  "1_wfrm_cult": {
-    "num_food_words": 1542, 
-    "fract_food": 0.4292873051224944, 
-    "num_words": 3592
+  "task1:food": {
+    "std": 0.0076489200178259257, 
+    "num_food_words": 10607, 
+    "fract_food": 0.57431541477425485, 
+    "num_words": 18459
   }, 
-  "2_img_obj": {
-    "num_food_words": 9675, 
-    "fract_food": 0.5271330500163453, 
-    "num_words": 18354
-  }, 
-  "2_img_food": {
-    "num_food_words": 10392, 
-    "fract_food": 0.5583794530116598, 
-    "num_words": 18611
+  "echo:food": {
+    "std": 0.017418446874230217, 
+    "num_food_words": 2363, 
+    "fract_food": 0.62793307337031268, 
+    "num_words": 3787
   }
 }

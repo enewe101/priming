@@ -29,6 +29,9 @@ x update all analyses to reflect spell checking with allrecipes words
 	X vocab size
 	[] relative specificity
 
+[] try reproducing food-classification data using only food.n.01 and food.n.02
+	or else reflect the choice to include more root synsets to define food
+	in the description within the supplementary material
 
 Decided to use
 	- lemmatization

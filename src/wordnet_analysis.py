@@ -78,7 +78,6 @@ class ExtendedWordnet(object):
 
 		# add the synset for new_word to the hyponyms of its parent
 		altered_synset._hyponyms.append(self.new_words[new_word])
-		print altered_synset.hyponyms()
 
 		# register the altered synset
 		self.altered_synsets[syn_spec] = altered_synset
@@ -488,12 +487,10 @@ def calculate_relative_specificity(
 	but gives the same result.
 	'''
 
-	print len(word_counts_1), len(word_counts_2)
 	word_counts_1 = filter_word_counts(
 		word_counts_1, include_food, include_nonfood)
 	word_counts_2 = filter_word_counts(
 		word_counts_2, include_food, include_nonfood)
-	print len(word_counts_1), len(word_counts_2)
 
 	synset_counts_1 = map_to_synsets(word_counts_1)
 	synset_counts_2 = map_to_synsets(word_counts_2)
@@ -606,8 +603,6 @@ class WordnetFoodDetector(object):
 			# each child returns a list, flatten this to one list
 			child_results = reduce(lambda x,y: x + y, child_vals, [])
 
-			print this_result + child_results
-
 			return this_result + child_results
 
 		def abort_branch_callback(node):
@@ -692,15 +687,12 @@ class WordnetRelativesCalculator(object):
 			node_name = node.name
 
 			if node_name in self.num_relatives_cache:
-				# print node_name, '(:)', self.num_relatives_cache[node_name]
 				return self.num_relatives_cache[node_name]
 
 			cur_node_val = synset_counts[node_name] + sum(child_vals)
 
 			# cache this for next time
 			self.num_relatives_cache[node_name] = cur_node_val
-
-			# print node_name, ' : ', cur_node_val
 
 			return cur_node_val 
 

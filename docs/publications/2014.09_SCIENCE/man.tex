@@ -4,6 +4,10 @@
 
 % My packages
 
+\usepackage{framed, color}
+\usepackage{soul}
+\definecolor{blu}{rgb}{0,0,1}
+\newcommand{\td}[1]{{\color{blu}\hl{TODO: #1}}}
 \usepackage{graphicx}
 \usepackage{amsthm}
 \newtheorem{mydef}{Definition}
@@ -151,7 +155,7 @@ Typical tasks include tagging and categorizing images
 or handwritten notes \cite{Berinsky2012351,Finnerty2013}, and judging the 
 relevancy of search results 
 \cite{le2010ensuring,grady2010crowdsourcing,alonso2009can,kazai2013analysis}.
-Originally used to distribute clerical work, these platforms 
+Originally used to distribute clerical work (\#), these platforms 
 increasingly serve as a means to engage experimental participants in a 
 research 
 setting \cite{paolacci2010running,Berinsky2012351,snow2008cheap,alonso2009can}.
@@ -159,8 +163,8 @@ This trend has seeded considerable interest in characterizing the parameters
 of task design, and validating the microtask platform methodology (\#).
 
 Computer scientists view microtask platforms in the context of general
-computation.  In this regard, the platforms enable a tight integration of 
-human and machine computation.  Researchers coined the term HPU 
+computation(\#).  In this regard, the platforms enable a tight integration of 
+human and machine computation(\#).  Researchers coined the term HPU 
 (Human co-Processing Unit) in analogy to CPUs and GPUs \cite{5543192}.  
 Ongoing research pursues the establishment of an HPU instruction set
 including basic operators like \texttt{vote}, \texttt{subdivide}, \texttt{map},
@@ -172,7 +176,7 @@ As with other architectures, the HPU architecture makes entirely new classes
 of problems tractable for the programmer (\#).
 
 But the ability to program with high-level human instructions comes with a 
-cost: HPU output is inherently noisy.  Part of this noise can be explained
+cost: HPU output is inherently noisy (\#).  Part of this noise can be explained
 in terms of worker demography (\#).  But systematic cognitive biases also 
 play a role (\#).   
 So far, investigation has explored how worker performance is influenced by
@@ -195,7 +199,7 @@ only a function of the current input, but also of the history of inputs, with
 important implications for the design of crowdsourcing initiatives.
 
 Here we describe a series of experiments, using the Amazon Mechanical
-Turk (MTurk) microtask platform, in which we studied intertask effects
+Turk (MTurk) microtask platform (\#), in which we studied intertask effects
 for image-labeling tasks.  Image-labeling tasks are among the most 
 common kinds of microtasks
 \cite{chandler2013breaking,Berinsky2012351,Finnerty2013,paolacci2010running}, 
@@ -209,23 +213,22 @@ and observed the effect this had on the workers' labels for the last five
 (\textit{test tasks}).
 
 The initial tasks were chosen to embed a certain \textit{prime concept}.
-In our first experiment, our prime concepts were \textit{food} and (non-food) 
-\textit{objects}.  In our second experiment, the prime concepts were 
-\textit{food} and \textit{culture}.  The test tasks for the experiments used 
-images that combined both prime concepts used in the initial tasks. Workers 
-participated in only one treatment of one experiment, and were randomly 
-assigned initial tasks based on one of the 
-prime concepts.  From the perspective of the worker, we made no distinction 
-between the initial tasks and test tasks.
+Our first experiment compares the prime concepts \textit{food} and (non-food) 
+\textit{objects}, while our second experiment compares \textit{food} and 
+\textit{culture}.  For both experiments, The test tasks used images that
+combined both prime concepts used for the initial tasks \td{reword}.  Workers participated 
+in only one treatment of one experiment, and were randomly assigned initial 
+tasks based on one of the prime concepts.  From the perspective of the worker, 
+we made no distinction between the initial tasks and test tasks.
 
 As a point of comparison, we included treatments in which we induced
-\textit{framing}.
+\textit{framing}. \td{what is framing?}
 In the framing treatments, before workers begin the tasks, we told them that 
 the purpose of study was to understand the visual perception of 
 ``food and ingredients'' in one case, or the 
 perception of ``objects and tools'' in another.  We varied the language of 
-the framing text (hereafter simply the \textit{frame}), and experimented with 
-requiring the worker to echo the frame using a combo-box input.
+the framing text (hereafter simply the \textit{frame}), and for some treatments
+we required the worker to echo the frame using a combo-box input.
 
 We found that intertask effects were stronger than framing, unless the worker
 was required to echo the frame, in which case the effects of both exposures were on par.  
@@ -300,7 +303,7 @@ in the supplementary material.
 \paragraph{Experimental setup.}
 \begin{figure}
 	\centering
-	\includegraphics[scale=0.7]{figs/images.jpg}
+	\includegraphics[scale=0.7]{figs/images.pdf}
 	\caption{
 		Examples of images used in labeling tasks. (The italicized treatment 
 		names that follow are defined in Table \ref{table:treatments}.) Images 
@@ -308,7 +311,7 @@ in the supplementary material.
 		\textit{task1:obj}, D) \textit{task2:food}, 
 		E) \textit{task2:cult}.  Images from  test tasks: C) \textit{exp1}, 
 		F) \textit{exp2}.  The full set of experimental materials is 
-		shown in the supplementary material.
+		shown in the supplementary material (S1).
 	}
 
 	\label{fig:task}
@@ -355,10 +358,10 @@ comprising a class of physical entities, it encapsulates
 sets of beliefs, values, and practices.  Examples of images from the initial 
 tasks in \textit{task2} are shown in Fig.~\ref{fig:task}, and the full 
 collection of 
-experimental materials is presented in the supplementary material.  We 
+experimental materials is presented in the supplementary material (S1).  We 
 ensured that all workers only participated in one treatment of one experiment.
 
-\setlength{\tabcolsep}{3pt}
+\setlength{\tabcolsep}{2pt}
 \begin{table}[t]
 \centering
 \begin{tabular}{ c c c c c }
@@ -658,60 +661,442 @@ expert-level annotation in a wider variety of applications.
 
 \section*{Supplementary Material}
 
-\subsection*{Assessing task similarity}
+\subsection*{S1: Experimental materials}
+The tasks for both experiments were presented as a series of slides.  In
+both cases, the first slide consisted of a brief set of instructions, followed
+by the frame if shown (only some treatments involved a frame), see 
+Fig. S\ref{fig:hit_preamble}.  Following the instructions and prime, a set
+of initial tasks was shown (except for the treatments in \textit{frame2}
+and \textit{echo}) followed by (in all cases) a set of test tasks.  In
+\textit{exp1}, two kinds of frame were used, one simple frame, and one where
+the worker was required to echo the frame using a combo-box input.  The
+instructions, both kinds of frame, and an example task slide, are shown 
+in Fig. S1.
+\begin{figure}
+	\includegraphics[scale=0.8]{figs/tasks.pdf}
+	\label{fig:hit_preamble}
+	\caption{Examples of A) instructions; B) a frame, as shown in 
+		\textit{frame1:obj}, and similar to those shown in 
+		\textit{frame1:food} and \textit{frame2:food}, and 
+		\textit{frame2:cult};  
+		C) an echoed frame, as used in \textit{echo:obj}, and similar to that
+		used in \textit{echo:food}; and D) an 
+		example of an image labeling task.
+	}
+\end{figure}
+
+All of the initial tasks had the format shown in Fig. S1D.  The images used
+in the initial tasks for \textit{task1:food} and \textit{task1:obj} are
+shown in Fig. S2 and S3, and the images used in the test tasks for 
+\textit{exp1} are shown in Fig. S4.  The images used in the initial tasks
+for \textit{task2:food} and \textit{task2:cult} are shown in Fig. S5 and
+Fig. S6 respectively, and the images used in the test tasks for \textit{exp2} 
+are shown in Fig. S7.
+
+\begin{figure}
+	\includegraphics{figs/task1-food.pdf}
+	\label{fig:task1:food}
+	\caption{
+		Figure S2: Images used in the initial tasks for 
+		\textit{task1:food}.  The numbers show the order in which the 
+		images were presented to workers.
+	}
+\end{figure}
+
+\begin{figure}
+	\includegraphics{figs/task1-obj.pdf}
+	\label{fig:task1:obj}
+	\caption{
+		Figure S3: Images used in the initial tasks for 
+		\textit{task1:obj}.  The numbers show the order in which the 
+		images were presented to workers.
+	}
+\end{figure}
+
+\begin{figure}
+	\includegraphics{figs/task1-test.pdf}
+	\label{fig:task1:test}
+	\caption{
+		Figure S2: Images used in the test tasks for 
+		\textit{exp1}.  The numbers show the order in which the 
+		images were presented to workers.
+	}
+\end{figure}
+
+\begin{figure}
+	\includegraphics{figs/task2-food.pdf}
+	\label{fig:task2:food}
+	\caption{
+		Figure S2: Images used in the initial tasks for 
+		\textit{task2:food}.  The numbers show the order in which the 
+		images were presented to workers.
+	}
+\end{figure}
+
+\begin{figure}
+	\includegraphics{figs/task2-cult.pdf}
+	\label{fig:task2:cult}
+	\caption{
+		Figure S2: Images used in the initial tasks for 
+		\textit{task2:cult}.  The numbers show the order in which the 
+		images were presented to workers.
+	}
+\end{figure}
+
+\begin{figure}
+	\includegraphics{figs/task2-test.pdf}
+	\label{fig:task2:test}
+	\caption{
+		Figure S2: Images used in the test tasks for 
+		\textit{exp2}.  The numbers show the order in which the 
+		images were presented to workers.
+	}
+\end{figure}
+
+\subsection*{S2: Access to raw data and code}
+The raw data and source code needed to reproduce the analyses 
+shown here and in the main text can be downloaded from 
+http://networkdynamics.org/publications/public/priming2014.09.
+
+\subsection*{S3: Additional results not shown in the main text}
+\begin{itemize}
+	\item{
+		the top 5 most suppressed and most activated terms between treatment
+		pairs.
+	}
+\end{itemize}
+
+\subsection*{S4: Data preprocessing}
+	\paragraph{Splitting, Lemmatization, removal of stop-words, and 
+		addition of position tags.} 
+
+	Before performing any analysis on the labels that workers provided, we
+	performed a series of preprocessing steps.  
+	\td{does this reflect the actual order in which the steps were done?}
+	First, words wore lematized 
+	using the
+	\td{whatzit} lemmatizer.  This lemmatizer is very mild, tending only to 
+	change plural words to their singular form.  Common
+	words such as ``the'', ``to'', or ``with'', were found using the
+	the \td{whatzit} stop-word list and removed.  Then, misspelled words were
+	automatically corrected using a spelling correction algorithm described 
+	below.  Finally, labels that contained
+	multiple words (separated by spaces or punctuation) were split, with
+	punctuation removed, and the separated words were treated as distinct 
+	features in subsequent analysis.
+
+	For the purpose of training and testing a naive Bayes classifier, we 
+	performed an additional preprocessing step.  We tagged words with the
+	position in which they had been entered (i.e. which of the five text 
+	inputs in the task interface) as well as the test tasks in which the word 
+	had been provided.
+	So, if the word ``wine'' was entered into the second text-input for 
+	the third test-task, after preprocessing, the feature ``3\_2\_wine'' would
+	appear.  Prepending the task number onto words was simply a means to 
+	retain correct attribution, which itself was essential since providing a
+	word during one task is not equivalent to providing the same word during 
+	another task.  
+	
+	\paragraph{Spelling correction.}  
+	Spelling correction was performed using an algorithm that first detected
+	if a word was likely to be misspelled, then generated a set of candidate 
+	corrections, and chose the best candidate based on a scoring mechanism.
+	
+	A word was considered misspelled if it was not contained in the 
+	\textit{legal set}, which was formed by the union of
+	the wordnet corpus, the stop-word list, and a set of words seen while 
+	crawling the world food section of the allrecipes.com website.  We
+	describe the crawling of the allrecipes.com website in a section below.
+
+	To correct misspellings, we first produced all possible modified forms 
+	that could be obtained applying one or two edits.  An edit consisted of 
+	adding or removing a letter, changing one letter into another, or 
+	swapping the positions of two adjacent letters.  For the purpose of these 
+	edits, spaces were treated as any other letter.
+
+	The candidates produced by these edits which were in the legal set were
+	then ranked based on a scoring mechanism, and the highest scoring word
+	was chosen as the correction.  A candidate $w$'s score, $s_w$, was 
+	calculated according to the following formula:
+	\begin{equation}
+		s_w = (f_w + 1) * p_1 * p_2,
+	\end{equation}
+	where $f_w$ is the frequency with wich the word occured (correctly 
+	spelled)
+	within the given task, $p_1$ was a penalty for the first edit, and
+	$p_2$ was a penalty for the second edit.  If the word was made using only
+	one edit, then $p_2 = 1$.  Any edit that did not involve adding a space
+	(i.e. separating a word) incured a penalty of 0.5, while the addition of
+	a space incurred a penalty of 0.1.  Word-separation edits were more 
+	strongly penalized because it is often possible to split a series of 
+	letters into many short two- or three-letter words, which otherwise leads 
+	to many erroneous corrections.  We found that setting the penalty for
+	word splitting at 0.1 worked well by testing on words taken from
+	initial tasks.
+
+	After all of our analyses had been performed, we checked the accuracy of 
+	the spelling correction algorithm using three human coders.  The coders
+	were shown a set of 
+	500 words that were randomly sampled from the labels attirubuted during 
+	test tasks (50 for each test task).  Before sampling, the labels from all
+	experimental treatments, for the given test task, were pooled together.
+	The coders did not know which treatment any given word came from.  
+	In addition to the words, coders were shown the spelling correction 
+	produced by the algorithm, as well as the image from the test task.
+	The coders were asked to identify any misspelled words which had not 
+	been corrected, as well as any corrections that appeared to be erroneous,
+	by indicating their own correction.
+
+	Based on this exercise, we found that, according to the human coders,
+	17\% of the words were misspelled, but that after applying the 
+	automated spelling correction, only 3.2\% of words were misspelled.
+
+	\paragraph{Crawling the world food section of allrecipes.com.}
+	The website allrecipes.com was accessed on 3-4 November 2014 using 
+	automated scripts.  A total of 2642 recipe listings and 15621 recipe
+	instruction pages were crawled.  Recipe listings were pages that provided 
+	lists of recipes, and contained a title and short description for each.  
+	The recipe instruction pages had lists of ingredients and preparation 
+	instructions.  All of the words found in recipe titles, short
+	descriptions, ingredients lists, and preparation instructions were
+	collected, and saved as an auxiliary set to aument the \textit{legal set}
+	used in spelling correction.
+	
+
+
+\subsection*{S5: Identification of food-related terms}
+The wordnet corpus is composed of synsets, which are particular senses 
+(meanings) and a set of word forms bearing that meaning. A given word form, 
+such as ``ring'' has multiple senses (``to ring a bell'', ``a wedding ring''), 
+and so can be part of many synsets.  Since the wordnet corpus was designed
+to carry semantic information, the synset is the basic organizing element
+of wordnet.
+
+We chose the synsets \textit{food.n.01} and \textit{food.n.02} to act as roots
+in defining which words should be considered food-related.  Any word form
+belonging to a synset which was a hyponym of one of the two root synsets
+identified above was considered to be a reference to food.  Here, as in the
+main text, when we say hyponym, we mean either a direct hyponym, or a hyponym
+of a hyponym, and so on.
+
+This is a stringent notion of a word being a food reference.  It roughly
+corresponds to whether or not a given thing is reasonably considered 
+consumable.  So, ``orange'' is food, but ``salty'' is not.  Although ``salty''
+would usually refer to something edible, it is not itself an edible thing.
+On the other hand, ``salt'' would be considered a reference to food under 
+this operationalization.
+
+The subset of the wordnet corpus induced by the hyponyms of \textit{food.n.01}
+and \textit{food.n.02} provide an extensive set of \td{X} words.  Manual
+testing appeared to show that the coverage was very extensive, except in 
+some cases references to ethnic foods were missing.  Since, especially in
+\textit{exp2} we had images containing many ethnic foods, we decided to 
+augment the wordnet corpus with words learned by crawling the world food
+section of the allrecipes.com website.  
+
+After collecting a set of words using an automated script 
+(\td{described above}), we collected the set of words that had been used by
+workers and which had been seen during crawling of the allrecipes.com website,
+but which were not included in wordnet.  We graphted these extra words into
+the wordnet hyponym-hypernym graph manually, which ensured that any references
+to ethnic words learned from crawling would be properly classified as 
+food references.
+
+\paragraph{Validation of the detection of food references.}
+To determine whether our extended version of wordnet provided a good approach
+to detecting food-related words, we sampled 500 words from the set of labels
+produced by workers and had three human coders manually decide if they were 
+food-related or not.  The method for randomly sampling the 500 words was 
+described in above in \td{section number}.
+
+The coders were instructed to consider whether a word was a noun signifying
+an edible item.  The guiding principle was, for the coder to ask herself,
+``can I eat this X'', where X is the word she is coding.  The coders were
+shown the used in the task from which the word came, to help resolve ambiguity
+in the sense of the word that had been given.  Coders were also shown the 
+spelling correction (if any) that the spell-correction algorithm had made,
+to help interpret mispelled words \td{we describe the spelling correction 
+algorithm in section X}.
+
+We evaluated the food detection algorithm in two ways.  First, we measured
+the inter-rater reliability between the three human coders and the algorithm
+(treating the algorithm just like any other coder).  Second, adopting the 
+majority code given by the human coders, we determined the accuracy of the
+food-detection algorithm.  Data sumarizing this validation process are given
+in table S1.
+
 \begin{table}
 \centering
-\begin{tabular}{ l  s s s s}
-
+\setlength{\tabcolsep}{12pt}
+\begin{tabular}{ r | c }
 \toprule    
-Image set   
-& \multicolumn{1}{c}{Ambig.} 
-& \multicolumn{1}{c}{Cultural} 
-& \multicolumn{1}{c}{Ingr.}
-& \multicolumn{1}{c}{Test} \\
-  
-\midrule
-
-Ambiguous  & 1 & 0.0418 & 0.142 & 0.167 \\
-
-Cultural  & 0.0418  & 1 & 0.0347 & 0.0561 \\
-
-Ingredients  & 0.142  & 0.0347 & 1 & 0.110 \\
-
-Test & 0.167  & 0.0561 & 0.110 & 1
-\\
+\# terms coded & 500 \\
+\# food references & 130 \\
+\# correct machine codes & 440 \\
+inter-rater reliability & 82.4\% \\
+human-machine code agreement & 88\% \\
+%machine recall & 80 \% \\
+%machine precision & 75.4 \% \\
+%machine code F1 & 0.78 \\
 \bottomrule
-
 \end{tabular}
 \caption{\footnotesize{
-Pairwise similarities of each image set based on the labels attributed to them (see \textbf{Eq. 4}).
+	\td{remove the automatic numbering}. Table S1. Results for the validation 
+	of the automatic detection of food references, by comparison to
+	human-generated coding on randomly sampled words.  In calculating the 
+	human-machine code agreement, the majority human code was used.
+	Inter-rater reliability was calculated as Krippendorff's alpha.
 }}
-\label{table:2}
 \end{table}
 
-One weakness of the above analysis is the reliance on the informal notion
-of the similarity of one set of images to another. The 
-characterization of image content is a deeply complex issue that has been 
-approached by many disciplines \cite{panofsky1939studies,shatford1986analyzing,Tversky1977327,Jaimes20002}. \textit{Perceptual similarity} is a 
-particularly recalcitrant concept.   But to formalize our claim, we seek a 
-measure of similarity between two sets of images, 
-\textit{with respect to the labeling task}.  This can be operationalized
-in a straightforward way, by using the similarity of the labels given to images
-as a proxy for the similarity of the images.  Thus, to measure the 
-similarity between two sets of images, X and Y , we computed the Jacquard 
-index between the sets of labels attributed to them:
-$$
-	\mathrm{Sim}(X,Y) = \frac{L(X) \cap L(Y)}{L(X) \cup L(Y)}
-$$
-where $L(X)$ denotes the set of labels attributed to images in $X$.
+The results show that good inter-rater reliability was achieved during the
+validation (82.4\%).  Looking at the agreement between the 
+machine codes and the majority human-generated codes, we find they agree
+88\% of the time.  This means that the concept used to instruct human coders
+provides a good approximation to what the wordnet-based machine codes actually
+represent. In other words, the machine codes correspond closely to indicating
+which words correspond to nouns that refer to edible things, and which ones
+don't, which provides a clear and simple interpretation for the machine
+coding of food and non-food words.
 
-The pairwise similarities of the image sets are presented in Table 2. This 
-shows that the workers that yielded higher specificity labels were from 
-treatments whose initial tasks were more similar to the test tasks (c.f.
-\textbf{Fig 3}).
+\subsection*{S6: Calculation of relative specificity}
+In the main text we present results for the relative specificity of labels
+produced by two experimental treatments.  In performing this calculation,
+we used the wordnet corpus, which has a set of hypernym-hyponym relationships
+as described in the main text.  The first step in performing this calculation
+was therefore to map the words occuring from (the labels of) a given 
+experimental treatment onto the wordnet synsets.  In general, a given word
+form can have multiple meanings, and therefore maps onto multiple wordnet 
+synsets.
 
-Such a phenomenon would be consistent with the psychological mechanism known as
-\textit{negative priming}.
+The result of mapping the words from two treatments onto the wordnet 
+hypernym-hyponym graph two sets of counts, one set per treatment, 
+indicating the number of times a word from a given synset occured among the
+labels of the treatment.  Then, for every synset in one treatment, we looked
+at the number of synsets in the other treatment that were more generic
+(reachable by following hypernym relations) less the number of words that
+were more specific (reachable by following hyponym relations).  This quantity
+tallied for all words in the original synset gives a (non-normalied) measure
+of the degree to which words from the first treatment are more specific
+than words from the second treatment, overall.  We then normalized this 
+quantity by the total number of possible comparisons between the words of
+one treatment to those of the other, where two words are considered comparable
+only if one word is the hypernym or hyponym of the other.  Hence, ``statue'' 
+and ``bread'' are not comparable, but ``pumpernickel'' and ``bread'' are.
+
+This calculation can be summarized by the following equation:
+\begin{equation}
+	S(P,Q) = \frac{
+		\sum_{w\in P}\sum_{v\in Q} \left(
+			\mathbf{1}_{[w>v]} - \mathbf{1}_{[v>w]} \right)
+	}{
+		\sum_{w\in P}\sum_{v\in Q} \left(
+			\mathbf{1}_{[w>v]} + \mathbf{1}_{[v>w]} \right)
+	},
+\end{equation}
+where $P$ and $Q$ are sets of synsets, and $\mathbf{1}_{[w>v]}$ evaluates
+to 1 if synset $w$ is more specific than (i.e. is a hyponym of) synset $v$.
+This measure counts the excess of cases where synsets from $P$ are more
+specific then synsets from $Q$, as a fraction of all comparable synset pairs. 
+
+In computing this quantity between two treatments, we first computed it 
+using the labels attributed to a particular test task, and then
+averaged the result obtained in this way for each of the five test tasks.
+
+\subsection*{S7: Analysis of variance}
+\begin{itemize}
+	\item{
+		classifier accuracy.  Why we used a one-tail CI.  
+		Why certain error bars are smaller.
+	}
+	\item{error in $\delta$ \%food.}
+	\item{error in size of food vocabulary}
+	\item{error in food specificity}
+\end{itemize}
+
+\subsection*{S8: Measuring computational hysteresis}
+\begin{itemize}
+	\item{principled use of cross-validation without optimization.}
+	\item{Adopting Naive Bayes due to the lack of optimization required.}
+	\item{
+		Usage of a principled set of pre-processing and representation 
+		techniques.
+	}
+	\item{
+		Comparison to other choices of representation
+	}
+	\item{
+		Comparison to SVM classifier
+	}
+	\item{
+		Reiterate why we cannot report optimized results.
+	}
+\end{itemize}
+
+\subsection*{S9: Justifications and statistical properties of classifier-based measurement of computational hysteresis}
+\begin{itemize}
+	\item{Relationship to L1-Distance}
+	\item{Relationship to bias}
+	\item{Relationship to Jenson-Shannon divergence}
+	\item{Other approaches to measuring L1-distance}
+	\item{Comparison to hypothesis testing using $\chi^2$}
+\end{itemize}
+
+
+%\subsection*{Assessing task similarity}
+%\begin{table}
+%\centering
+%\begin{tabular}{ l  s s s s}
+%
+%\toprule    
+%Image set   
+%& \multicolumn{1}{c}{Ambig.} 
+%& \multicolumn{1}{c}{Cultural} 
+%& \multicolumn{1}{c}{Ingr.}
+%& \multicolumn{1}{c}{Test} \\
+%  
+%\midrule
+%
+%Ambiguous  & 1 & 0.0418 & 0.142 & 0.167 \\
+%
+%Cultural  & 0.0418  & 1 & 0.0347 & 0.0561 \\
+%
+%Ingredients  & 0.142  & 0.0347 & 1 & 0.110 \\
+%
+%Test & 0.167  & 0.0561 & 0.110 & 1
+%\\
+%\bottomrule
+%
+%\end{tabular}
+%\caption{\footnotesize{
+%Pairwise similarities of each image set based on the labels attributed to them (see \textbf{Eq. 4}).
+%}}
+%\label{table:2}
+%\end{table}
+%
+%One weakness of the above analysis is the reliance on the informal notion
+%of the similarity of one set of images to another. The 
+%characterization of image content is a deeply complex issue that has been 
+%approached by many disciplines \cite{panofsky1939studies,shatford1986analyzing,Tversky1977327,Jaimes20002}. \textit{Perceptual similarity} is a 
+%particularly recalcitrant concept.   But to formalize our claim, we seek a 
+%measure of similarity between two sets of images, 
+%\textit{with respect to the labeling task}.  This can be operationalized
+%in a straightforward way, by using the similarity of the labels given to images
+%as a proxy for the similarity of the images.  Thus, to measure the 
+%similarity between two sets of images, X and Y , we computed the Jacquard 
+%index between the sets of labels attributed to them:
+%$$
+%	\mathrm{Sim}(X,Y) = \frac{L(X) \cap L(Y)}{L(X) \cup L(Y)}
+%$$
+%where $L(X)$ denotes the set of labels attributed to images in $X$.
+%
+%The pairwise similarities of the image sets are presented in Table 2. This 
+%shows that the workers that yielded higher specificity labels were from 
+%treatments whose initial tasks were more similar to the test tasks (c.f.
+%\textbf{Fig 3}).
+%
+%Such a phenomenon would be consistent with the psychological mechanism known as
+%\textit{negative priming}.
 
 \end{document}
 

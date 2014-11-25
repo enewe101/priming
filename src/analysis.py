@@ -84,6 +84,169 @@ class AnalysisError(Exception):
 	pass
 
 
+def assess_raters(
+		read_fname='data/new_data/food_coding_test/all_raters.csv',
+		write_fname='data/new_data/food_coding_test/rater_assessment.json'
+	):
+	'''
+		Calculate interrater reliability, and accuracy for the food coding
+		and spelling correction.
+	'''
+
+	rater_test_fh = open(read_fname)
+	rater_test = csv.reader(rater_test_fh)
+	rater_assessment_fh = open(write_fname, 'w')
+
+	# skip the line containing column headings
+	rater_test.next()
+
+	num_terms = 0
+	num_food_terms = 0	# based on majority human-coder consensus
+	num_misspelled = 0
+	num_machine_corrections = 0
+	num_machine_should_not_have_corrected = 0
+	num_correct_machine_corrections = 0
+	TP = 0				# True positives for machine classification as food
+	FP = 0				# False positives
+	TN = 0				# True negatives
+	FN = 0				# False negatives
+	num_correct_machine_food_ratings = 0	# machine tries to detect food
+	num_correct_machine_interp = 0			# machine recognizes words and 
+											# tries to interpret misspellings
+	for row in rater_test:
+
+		# parse the row
+		term, machine_correction = row[:2]
+		human_food_ratings = [t.strip() for t in row[2:5]]
+		machine_food_rating = row[5]
+		human_corrections = row[6:]
+
+		# is the majority rating food, and does the machine coding match?
+		num_positive_human_ratings = sum(
+			[int(fr.strip()=='y') for fr in human_food_ratings])
+		num_terms += 1
+		if num_positive_human_ratings > 1:
+			num_food_terms += 1
+			if machine_food_rating == 'y':
+				TP += 1
+				num_correct_machine_food_ratings += 1
+			else:
+				FN += 1
+
+		else:
+			if machine_food_rating == '':
+				TN += 1
+				num_correct_machine_food_ratings += 1
+			else:
+				FP += 1
+
+		# get the term that the machine used
+		machine_accepted = (machine_correction or term).strip()
+		human_accepted = [hc.strip() for hc in human_corrections]
+
+		# if the machine made a correction
+		if machine_correction.strip():
+			# but the humans think it was okay
+			if sum([hc == term for hc in human_accepted])>1:
+				num_machine_should_not_have_corrected += 1
+			# and the humans agree it needs correcting
+			else:
+				num_misspelled += 1
+
+		# the machine did not make a correction...
+		else:
+			# but did the humans?
+			if sum([bool(hc) for hc in human_accepted])>2:
+				num_misspelled += 1
+
+		# are most human corrections different from the machine_accepted one?
+		num_diff = sum([
+			(bool(hc) and hc != machine_accepted) 
+			for hc in human_corrections
+		])
+
+		if machine_correction.strip():
+			num_machine_corrections += 1
+			if num_diff < 2:
+				num_correct_machine_corrections += 1
+
+		if num_diff < 2:
+			num_correct_machine_interp += 1
+
+	# now extract the just the food-codings and convert to a 0-1 matrix
+	rater_test_fh.seek(0)	# rewind the csv file
+	rater_test.next()		# skip the first row containing column headings
+	food_ratings = [row[2:6] for row in rater_test]
+	food_ratings = [
+		[int(bool(a.strip())) for a in row] for row in food_ratings
+	]
+
+	# compute inter-rater reliability using that
+	reliability = compute_reliability(food_ratings)
+
+	net_machine_fixes = (num_correct_machine_corrections 
+			- num_machine_should_not_have_corrected)
+
+	recall = TP / float(TP + FN)
+	precision = TP / float(TP + FP)
+
+	results = {
+		'num_food_terms': num_food_terms,
+		'fract_misspelled': num_misspelled / float(num_terms),
+		'fract_misspelled_after_correction': (num_misspelled - 
+			net_machine_fixes)/(float(num_terms)),
+		'num_misspelled': num_misspelled,
+		'num_machine_corrections': num_machine_corrections,
+		'num_correct_machine_corrections': num_correct_machine_corrections,
+		'net_machine_fixes': net_machine_fixes,
+		'fract_correct_machine_corrections': (num_correct_machine_corrections 
+			/ float(num_machine_corrections)),
+		'num_machine_should_not_have_corrected': (
+			num_machine_should_not_have_corrected),
+		'fract_net_machine_fixes': net_machine_fixes / float(num_misspelled),
+		'num_terms': num_terms,
+		'num_correct_machine_food_ratings': num_correct_machine_food_ratings,
+		'fract_correct_machine_food_ratings':  (
+			num_correct_machine_food_ratings / float(num_terms)),
+		'food_coding_reliability': reliability,
+		'machine_food_TP': TP,
+		'machine_food_FP': FP,
+		'machine_food_TN': TN,
+		'machine_food_FN': FN,
+		'recall': recall,
+		'precision': precision,
+		'F1': 2*precision*recall / float(precision + recall),
+	}
+
+	# TODO: also calculate interrater reliability
+	rater_assessment_fh.write(json.dumps(results, indent=2))
+
+
+def compute_reliability(rows):
+	'''
+		computes interrater reliability when ratings are binary and there
+		are four raters.
+	'''
+	num_units = len(rows)
+	num_coders = len(rows[0])
+	values_by_units = [(num_coders - sum(row), sum(row)) for row in rows]
+	values = sum([sum(row) for row in rows])
+	values = (num_coders * num_units - values, values)
+
+	expected_agreements = values[0] * values[1]
+	disagreements = 0
+
+	for row in values_by_units:
+		disagreements += 1/float(num_coders) * row[0] * row[1] 
+
+	reliability = 1 - (num_coders * num_units - 1) * (
+			disagreements / float(expected_agreements))
+
+	return reliability
+
+
+
+
 def make_inter_rater_test(
 		k=50,
 		fname='data/new_data/rater_test.csv'
