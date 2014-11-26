@@ -367,6 +367,9 @@ def cross_val_svc(feature_vectors, outputs, C, gamma, CV=20):
 	all of the folds.  
 	'''
 
+	outputs = np.array(outputs)
+	feature_vectors = np.array(feature_vectors)
+
 	# do cross-validation of an svm classifier
 	clf = svm.SVC(kernel='rbf', C=C, gamma=gamma)
 	scores = cross_validation.cross_val_score(
@@ -376,98 +379,120 @@ def cross_val_svc(feature_vectors, outputs, C, gamma, CV=20):
 	return np.mean(scores)
 
 
-def calc_priming_diff_svm(fname=SVM_EXP2_L1_FNAME):
+COMPARISONS = [
+	{'name':'exp1.task', 'experiment':1, 'treatments': [0,1]},
+	{'name':'exp1.frame', 'experiment':1, 'treatments': [3,5]},
+	{'name':'exp2.task', 'experiment':2, 'treatments': [0,5]},
+	{'name':'exp2.frame', 'experiment':2, 'treatments': [10,11]},
+	{'name':'exp2.*', 'experiment':2, 'treatments': [12,13]}
+]
+
+
+
+def calc_priming_diff_svm(
+		fname='data/new_data/bound_l1_svm/l1_temp.json',
+		show_token_pos=True,
+		show_plain_token=True,
+		do_split=True,
+		remove_stops=True,
+		lemmatize=True,
+		spellcheck=True,
+		balance_classes=119,
+	):
 	'''
 	Using the best svm settings (as determined on experiment 1 data) estimate
 	the l1 distance between various classes for each image
 	'''
+
+	# shortcut for making a simple dataset with defaults as specified
+	# most of the arguments are derived from those of the outer function
+	def make_simple_dataset(which_experiment, class_idxs, images):
+		return dp.SimpleDataset(
+			which_experiment=which_experiment,
+			show_token_pos=show_token_pos,
+			show_plain_token=show_plain_token,
+			do_split=do_split,
+			class_idxs=class_idxs,
+			img_idxs=images,
+			spellcheck=spellcheck,
+			lemmatize=lemmatize,
+			remove_stops=remove_stops,
+			balance_classes=balance_classes
+		)
+
 	# open a file to write the results
-	write_fh = open(os.path.join(DATA_DIR, fname), 'w')
+	write_fh = open(fname, 'w')
 
 	# get the best parameters for SVM
 	best_params_path = os.path.join(SVM_OPTIMIZATION_DIR, BEST_PARAMS_FNAME)
 	best_params = json.loads(open(best_params_path).read())[0]['params']
 
-	l1_vals = {'intertask':{}, 'framing':{}}
+	results = {}
 
-	# first measure priming differences between intertask treatments
-	for class_idx in range(5):
+	for c in COMPARISONS:
+		name, exp, treatments = c['name'], c['experiment'], c['treatments']
 
-		# treatments separated by 5 have the same image permutation but
-		# different initial tasks
-		class_idxs = (class_idx,class_idx+5)
-		print 'measuring intertask priming for treatments %d and %d.' % class_idxs
-		l1_vals['intertask']['%d_%d' % class_idxs] = {'by_pos':[], 'by_idx':[]}
-		cur_results = l1_vals['intertask']['%d_%d' % class_idxs]
+		# we handle this treatment differently because of multiple replicates
+		if name == 'exp2.task':
+			continue
 
-		for img_idx in range(5,10):
-			print '\tcalculating priming for image %d' % img_idx
+		results[name] = []
+		for image in range(5,10):
 
-			data = dp.SimpleDataset(
-				which_experiment=2,
-				show_token_pos=True,
-				show_plain_token=True,
-				show_token_img=True,
-				do_split=True,
-				class_idxs=class_idxs,
-				img_idxs=[img_idx],
-				spellcheck=True,
-				lemmatize=True,
-				remove_stops=True,
-				balance_classes=True)
-
-			features, outputs = data.as_vect()
-
-			# Do leave-one-out CV
-			num_examples = data.num_examples
+			# do leave one out cross-val
+			ds = make_simple_dataset(exp, treatments, [image])
+			features, outputs = ds.as_vect()
+			num_examples = ds.num_examples
 			scores = cross_val_svc(
 				features, outputs, CV=num_examples, **best_params)
 
 			# keep the results
 			overall_accuracy = np.mean(scores)
-			print '\t\tpriming difference:', overall_accuracy
-			cur_results['by_idx'].append(overall_accuracy)
+			results[name].append(overall_accuracy)
 
-		# also keep the results ordered by position (i.e. in permuted order)
-		# before we can get the permuted order, we add 5 to each images
-		# index, because these are the test images, and so are offset by 5
-		cur_results['by_pos'] = dp.permute(cur_results['by_idx'], class_idx)
+	# calculate the same, but for experiment 2's inter-task comparison we
+	# have multiple replicates under different permutations of test tasks
+	results['exp2.task'] = defaultdict(lambda: [])
+	for image in range(5,10):
+		for pos in range(5):
+			treatments = dp.get_correct_treatments(image, pos)
+			ds = make_simple_dataset(2, treatments, [image])
+			features, outputs = ds.as_vect()
+			num_examples = ds.num_examples
+			accuracy = np.mean(cross_val_svc(
+				features, outputs, CV=num_examples, **best_params))
 
-	# now measure the priming differences between framing treatments
-	for class_idxs in [(10,11), (12,13)]:
-		print 'measuring intertask priming for treatments %d and %d.' % class_idxs
-		l1_vals['framing']['%d_%d' % class_idxs] = []
-		cur_results = l1_vals['framing']['%d_%d' % class_idxs] 
+			results['exp2.task']['test%d' % (image-5)].append(accuracy)
+	
 
-		for img_idx in range(5,10):
+	# calculate naive bayes accuracy for pairwise treatment comparisons
+	# when the classifier sees the labels attributed to all images
+	results['aggregates'] = {}
+	for c in COMPARISONS:
+		name, exp, treatments = c['name'], c['experiment'], c['treatments']
 
-			print '\tcalculating priming for image %d' % img_idx
-			data = dp.SimpleDataset(
-				which_experiment=2,
-				show_token_pos=True,
-				show_plain_token=True,
-				show_token_img=True,
-				do_split=True,
-				class_idxs=class_idxs,
-				img_idxs=[img_idx],
-				spellcheck=True,
-				lemmatize=True,
-				remove_stops=True,
-				balance_classes=True)
+		# we handle this treatment differently because of multiple replicates
+		if name == 'exp2.task':
+			continue
 
-			features, outputs = data.as_vect()
+		ds = make_simple_dataset(exp, treatments, range(5,10))
+		features, outputs = ds.as_vect()
+		num_examples = ds.num_examples
+		results['aggregates'][name] = np.mean(cross_val_svc(
+				features, outputs, CV=num_examples, **best_params))
 
-			# Do leave-one-out cross-validation
-			num_examples = data.num_examples
-			scores = cross_val_svc(
-				features, outputs, CV=num_examples, **best_params)
+	# calculate the same, but for experiment 2's inter-task comparison we
+	# have multiple replicates under different permutations of test tasks
+	results['aggregates']['exp2.task'] = []
+	for idx in range(5):
+		ds = make_simple_dataset(2, [idx, idx+5], range(5,10))
+		features, outputs = ds.as_vect()
+		num_examples = ds.num_examples
+		results['aggregates']['exp2.task'].append(np.mean(cross_val_svc(
+				features, outputs, CV=num_examples, **best_params)))
 
-			# keep the results
-			overall_accuracy = np.mean(scores)
-			print '\t\tpriming difference:', overall_accuracy
-			cur_results.append(overall_accuracy)
 
-	write_fh.write(json.dumps(l1_vals, indent=2))
+	write_fh.write(json.dumps(results, indent=2))
 	write_fh.close()
 
 

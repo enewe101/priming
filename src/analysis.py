@@ -16,6 +16,7 @@ degree the workers in one treatment are using more specific words than the
 workers from another treatment.
 '''
 
+from svm import calc_priming_diff_svm 
 import util
 import sys
 import random
@@ -741,69 +742,6 @@ def bound_l1(
 		ds = make_simple_dataset(2, [idx, idx+5], range(5,10))
 		results['aggregates']['exp2.task'].append(do_cross_val(ds))
 
-	## first, do this for the old data
-	#food_cult_accuracy = []
-	#for image in range(5,10):
-	#	ds = make_simple_dataset(1, [0,1], [image])
-	#	food_cult_accuracy.append(do_cross_val(ds))
-
-	#wfrm_food_cult = []
-	#for image in range(5,10):
-	#	ds = make_simple_dataset(1, [3,5], [image])
-	#	wfrm_food_cult.append(do_cross_val(ds))
-
-	# look at the distinguishability of IMG:FOOD and IMG:OBJ on a per-image
-	# per-position basis
-	#img_food_obj_accuracy = defaultdict(lambda: [])
-	#for image in range(5,10):
-	#	for pos in range(5):
-	#		treatments = dp.get_correct_treatments(image, pos)
-	#		ds = make_simple_dataset(2, treatments, [image])
-	#		accuracy = do_cross_val(ds)
-	#		img_food_obj_accuracy['test%d'%(image-5)].append(accuracy)
-
-	#wfrm_food_obj_accuracy = []
-	#for image in range(5,10):
-	#	ds = make_simple_dataset(2, [10,11], [image])
-	#	wfrm_food_obj_accuracy.append(do_cross_val(ds))
-
-	## now do the same, for sFRM:FOOD and sFRM:OBJ on a per-image basis
-	#sfrm_food_obj_accuracy = []
-	#for image in range(5,10):
-	#	ds = make_simple_dataset(2, [12,13], [image])
-	#	sfrm_food_obj_accuracy.append(do_cross_val(ds))
-
-	# now test the distinguishability of the treatment pairs based on all
-	# images
-	#aggregates = {}
-
-	#ds = make_simple_dataset(1, [0,1], range(5,10))
-	#aggregates['img_food_cult'] = do_cross_val(ds)
-
-	#ds = make_simple_dataset(1, [3,5], range(5,10))
-	#aggregates['wfrm_food_cult'] = do_cross_val(ds)
-
-	## TODO: use all the data from img_food_obj, not just one treatment pair
-	#aggregates['img_food_obj'] = []
-	#for idx in range(5):
-	#	ds = make_simple_dataset(2, [idx, idx+5], range(5,10))
-	#	aggregates['img_food_obj'].append(do_cross_val(ds))
-
-	#ds = make_simple_dataset(2, [10,11], range(5,10))
-	#aggregates['wfrm_food_obj']  = do_cross_val(ds)
-
-	#ds = make_simple_dataset(2, [12,13], range(5,10))
-	#aggregates['sfrm_food_obj']  = do_cross_val(ds)
-
-	## gather the results
-	#results = {
-	#	'aggregates': aggregates,
-	#	'img_food_cult': food_cult_accuracy,
-	#	'img_food_obj': img_food_obj_accuracy,
-	#	'wfrm_food_obj': wfrm_food_obj_accuracy,
-	#	'sfrm_food_obj': sfrm_food_obj_accuracy,
-	#	'wfrm_food_cult': wfrm_food_cult
-	#}
 
 	# write results to file
 	output_fh.write(json.dumps(results, indent=2))
@@ -1040,9 +978,18 @@ def get_counts_compliment(
 	return word_counts
 
 
-def try_everything(use_simple=True):
+def try_everything(
+		classifier='naive_bayes',	# 'svm'
+	):
 	
-	fname_prefix = 'data/new_data/l1'
+	if classifier == 'naive_bayes':
+		fname_prefix = 'data/new_data/bound_l1_naive_bayes/'
+
+	elif classifier == 'svm':
+		fname_prefix = 'data/new_data/bound_l1_svm/'
+
+	else:
+		raise ValueError('classifier must be either `naive_bayes` or `svm`.')
 
 	for show_token_pos in [True, False]:
 		for do_split in [True, False]:
@@ -1060,14 +1007,96 @@ def try_everything(use_simple=True):
 						fname += '.json'
 
 						# now do it
-						bound_l1(
-							fname=fname_prefix + fname,
-							show_token_pos=show_token_pos,
-							do_split=do_split,
-							remove_stops=remove_stops,
-							lemmatize=lemmatize,
-							spellcheck=spellcheck
-						)
+						if classifier == 'naive_bayes':
+							bound_l1(
+								fname=fname_prefix + fname,
+								show_token_pos=show_token_pos,
+								do_split=do_split,
+								remove_stops=remove_stops,
+								lemmatize=lemmatize,
+								spellcheck=spellcheck
+							)
+
+						elif classifier == 'svm':
+							calc_priming_diff_svm(
+								fname=fname_prefix + fname,
+								show_token_pos=show_token_pos,
+								do_split=do_split,
+								remove_stops=remove_stops,
+								lemmatize=lemmatize,
+								spellcheck=spellcheck
+							)
+
+						else:
+							raise ValueError(
+								'classifier must be either `naive_bayes` or '
+								'`svm`.'
+							)
+
+
+class TryEverything(object):
+	'''
+		This makes it possible to run the classifiers at all settings
+		using the simsweep paralellizer
+	'''
+	def __init__(self):
+		pass
+
+	def run(
+		self,
+		classifier='naive_bayes',
+		show_token_pos=True,
+		do_split=True,
+		remove_stops=True,
+		lemmatize=True,
+		spellcheck=True
+	):
+
+		if classifier == 'naive_bayes':
+			fname = 'data/new_data/bound_l1_naive_bayes/'
+
+		elif classifier == 'svm':
+			fname = 'data/new_data/bound_l1_svm/'
+
+		else:
+			raise ValueError(
+				'classifier must be either `naive_bayes` or `svm`.')
+
+		# get the file name sorted out
+		fname += 'l1'
+		fname += '_showpos' if show_token_pos else ''
+		fname += '_split' if do_split else ''
+		fname += '_nostops' if remove_stops else ''
+		fname += '_lem' if lemmatize else ''
+		fname += '_spell' if spellcheck else ''
+		fname += '.json'
+
+		# now do it
+		if classifier == 'naive_bayes':
+			bound_l1(
+				fname=fname,
+				show_token_pos=show_token_pos,
+				do_split=do_split,
+				remove_stops=remove_stops,
+				lemmatize=lemmatize,
+				spellcheck=spellcheck
+			)
+
+		elif classifier == 'svm':
+			calc_priming_diff_svm(
+				fname=fname,
+				show_token_pos=show_token_pos,
+				do_split=do_split,
+				remove_stops=remove_stops,
+				lemmatize=lemmatize,
+				spellcheck=spellcheck
+			)
+
+		else:
+			raise ValueError(
+				'classifier must be either `naive_bayes` or '
+				'`svm`.'
+			)
 
 
 

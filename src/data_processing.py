@@ -196,7 +196,6 @@ class SimpleDataset(object):
 			self.data[idx] = random.sample(self.data[idx], truncate_to)
 
 		self.num_examples = truncate_to
-		print 'truncated to %d examples.' % truncate_to
 
 
 	def read_dictionary(self):
@@ -414,7 +413,7 @@ class SimpleDataset(object):
 				self.word_map[w] if w in self.word_map
 				else w for w in words
 			]
-			
+
 			# bust up wordnet's compound words
 			words = [self.UNDERSCORE.sub(' ',w) for w in words]
 

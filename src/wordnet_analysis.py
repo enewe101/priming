@@ -11,6 +11,20 @@ import json
 
 SPLIT_RE = re.compile('[^-a-zA-Z]')
 
+
+def get_lemmas(synset_like):
+	'''
+		Depending on the version of wordnet, synset.lemmas is either a function
+		that returns a list, or the list itself.  This function helps resolve
+		that ambiguity.
+	'''
+	if isinstance(synset_like.lemmas, list):
+		return synset_like.lemmas
+
+	else:
+		return synset_like.lemmas()
+
+
 # Extend wordnet before it is used
 class ExtendedWordnet(object):
 
@@ -48,7 +62,7 @@ class ExtendedWordnet(object):
 		simple_synset = SimpleSynset(
 			name=synset.name, hypernyms=copy.copy(synset.hypernyms()), 
 			hyponyms=copy.copy(synset.hyponyms()), 
-			lemmas=copy.copy(synset.lemmas)
+			lemmas=copy.copy(get_lemmas(synset))
 		)
 
 		return simple_synset
@@ -598,7 +612,7 @@ class WordnetFoodDetector(object):
 			return node.hyponyms()
 		
 		def inter_node_callback(node, child_vals=[]):
-			this_result = [l.name for l in node.lemmas]
+			this_result = [l.name for l in get_lemmas(node)]
 
 			# each child returns a list, flatten this to one list
 			child_results = reduce(lambda x,y: x + y, child_vals, [])
