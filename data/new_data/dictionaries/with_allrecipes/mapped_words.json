@@ -1,0 +1,437 @@
+[
+  {
+    "image": 9, 
+    "experiment": 1, 
+    "word": "mochi",
+	"child_of": "dumpling.n.02"
+  }, 
+  {
+    "image": 9, 
+    "experiment": 1, 
+    "word": "sidedish",
+	"alias": "side_dish"
+  }, 
+  {
+    "image": 9, 
+    "experiment": 1, 
+    "word": "masala",
+	"child_of": "spice.n.02"
+  }, 
+  {
+    "image": 9, 
+    "experiment": 1, 
+    "word": "solianka",
+	"child_of": "soup.n.01"
+  }, 
+  {
+    "image": 9, 
+    "experiment": 1, 
+    "word": "weeble",
+	"child_of": "plaything.n.01"
+  }, 
+  {
+    "image": 9, 
+    "experiment": 1, 
+    "word": "vatrushka",
+	"child_of": "pastry.n.02"
+  }, 
+  {
+    "image": 9, 
+    "experiment": 1, 
+    "word": "vatrushki",
+	"alias": "vatrushka"
+  }, 
+  {
+    "image": 9, 
+    "experiment": 1, 
+    "word": "kulambu",
+	"child_of": "stew.n.02"
+  }, 
+  {
+    "image": 9, 
+    "experiment": 1, 
+    "word": "rosh",
+	"syn": "head.n.07"
+  }, 
+  {
+    "image": 6, 
+    "experiment": 1, 
+    "word": "muffaletta",
+	"child_of": "sandwich.n.01"
+  }, 
+  {
+    "image": 6, 
+    "experiment": 1, 
+    "word": "calzone",
+	"child_of": "pastry.n.02"
+  }, 
+  {
+    "image": 6, 
+    "experiment": 1, 
+    "word": "chappathi",
+	"alias": "chapati"
+  }, 
+  {
+    "image": 6, 
+    "experiment": 1, 
+    "word": "artisanal"
+  }, 
+  {
+    "image": 7, 
+    "experiment": 1, 
+    "word": "crunchy"
+  }, 
+  {
+    "image": 7, 
+    "experiment": 1, 
+    "word": "shumai",
+	"child_of": "dumpling.n.01"
+  }, 
+  {
+    "image": 7, 
+    "experiment": 1, 
+    "word": "siu mai",
+	"alias": "shumai"
+  }, 
+  {
+    "image": 7, 
+    "experiment": 1, 
+    "word": "lumpia",
+	"child_of": "pastry.n.02"
+  }, 
+  {
+    "image": 7, 
+    "experiment": 1, 
+    "word": "patti"
+  }, 
+  {
+    "image": 7, 
+    "experiment": 1, 
+    "word": "rasgullas",
+	"child_of": "dessert.n.01"
+  }, 
+  {
+    "image": 7, 
+    "experiment": 1, 
+    "word": "jillena"
+  }, 
+  {
+    "image": 7, 
+    "experiment": 1, 
+    "word": "kasoori",
+	"child_of": "herb.n.02"
+  }, 
+  {
+    "image": 7, 
+    "experiment": 1, 
+    "word": "balushka"
+  }, 
+  {
+    "image": 7, 
+    "experiment": 1, 
+    "word": "pakoras",
+	"child_of": "fritter.n.01"
+  }, 
+  {
+    "image": 7, 
+    "experiment": 1, 
+    "word": "taquito",
+	"syn": "taco.n.02"
+  }, 
+  {
+    "image": 7, 
+    "experiment": 1, 
+    "word": "maida",
+	"child_of": "wheat_flour.n.01"
+  }, 
+  {
+    "image": 7, 
+    "experiment": 1, 
+    "word": "bao",
+	"child_of": "pastry.n.02"
+  }, 
+  {
+    "image": 7, 
+    "experiment": 1, 
+    "word": "shui"
+  }, 
+  {
+    "image": 7, 
+    "experiment": 1, 
+    "word": "taquitos",
+	"alias": "taquito"
+  }, 
+  {
+    "image": 5, 
+    "experiment": 1, 
+    "word": "prasad",
+	"child_of": "meal.n.01"
+  }, 
+  {
+    "image": 5, 
+    "experiment": 1, 
+    "word": "tandoori",
+	"child_of": "food.n.02"
+  }, 
+  {
+    "image": 5, 
+    "experiment": 1, 
+    "word": "multi"
+  }, 
+  {
+    "image": 5, 
+    "experiment": 1, 
+    "word": "paneer",
+	"child_of": "cheese.n.01"
+  }, 
+  {
+    "image": 5, 
+    "experiment": 1, 
+    "word": "ladoo",
+	"child_of": "dessert.n.01"
+  }, 
+  {
+    "image": 5, 
+    "experiment": 1, 
+    "word": "pooja",
+	"child_of": "ritual.n.01"
+  }, 
+  {
+    "image": 5, 
+    "experiment": 1, 
+    "word": "kesari",
+	"child_of": "dessert.n.01"
+  }, 
+  {
+    "image": 5, 
+    "experiment": 1, 
+    "word": "pappadums",
+	"child_of": "bread.n.01"
+  }, 
+  {
+    "image": 5, 
+    "experiment": 1, 
+    "word": "halwa",
+	"child_of": "dessert.n.01"
+  }, 
+  {
+    "image": 5, 
+    "experiment": 1, 
+    "word": "yum"
+  }, 
+  {
+    "image": 5, 
+    "experiment": 1, 
+    "word": "cha"
+  }, 
+  {
+    "image": 5, 
+    "experiment": 1, 
+    "word": "kalonji",
+	"child_of": "fennel.n.02"
+  }, 
+  {
+    "image": 5, 
+    "experiment": 1, 
+    "word": "vina"
+  }, 
+  {
+    "image": 5, 
+    "experiment": 1, 
+    "word": "yaka"
+  }, 
+  {
+    "image": 5, 
+    "experiment": 1, 
+    "word": "adai",
+	"child_of": "bread.n.01"
+  }, 
+  {
+    "image": 5, 
+    "experiment": 1, 
+    "word": "bhuna",
+	"child_of": "curry.n.01"
+  }, 
+  {
+    "image": 5, 
+    "experiment": 1, 
+    "word": "laddu",
+	"alias": "ladoo"
+  }, 
+  {
+    "image": 5, 
+    "experiment": 1, 
+    "word": "halva",
+	"alias": "halwa"
+  }, 
+  {
+    "image": 5, 
+    "experiment": 1, 
+    "word": "thy"
+  }, 
+  {
+    "image": 5, 
+    "experiment": 1, 
+    "word": "payasa",
+	"child_of": "pudding.n.03"
+  }, 
+  {
+    "image": 5, 
+    "experiment": 1, 
+    "word": "pierogi",
+	"child_of": "dumpling.n.01"
+  }, 
+  {
+    "image": 5, 
+    "experiment": 1, 
+    "word": "aviyal",
+	"child_of": "soup.n.01"
+  }, 
+  {
+    "image": 8, 
+    "experiment": 1, 
+    "word": "nigiri",
+	"child_of": "sushi.n.01"
+  }, 
+  {
+    "image": 8, 
+    "experiment": 1, 
+    "word": "padi",
+	"child_of": "chili.n.02"
+  }, 
+  {
+    "image": 8, 
+    "experiment": 1, 
+    "word": "hekka",
+	"child_of": "dish.n.02"
+  }, 
+  {
+    "image": 8, 
+    "experiment": 1, 
+    "word": "unagi",
+	"child_of": "eel.n.01"
+  }, 
+  {
+    "image": 8, 
+    "experiment": 1, 
+    "word": "bento",
+	"child_of": "meal.n.01"
+  }, 
+  {
+    "image": 8, 
+    "experiment": 1, 
+    "word": "basa",
+	"child_of": "fish.n.02"
+  }, 
+  {
+    "image": 6, 
+    "experiment": 2, 
+    "word": "badam",
+	"syn": "almond.n.02"
+  }, 
+  {
+    "image": 6, 
+    "experiment": 2, 
+    "word": "mendi",
+	"child_of": "paint.n.01"
+  }, 
+  {
+    "image": 9, 
+    "experiment": 2, 
+    "word": "lowfat",
+	"alias": "low fat"
+  }, 
+  {
+    "image": 9, 
+    "experiment": 2, 
+    "word": "choco",
+	"syn": "chocolate.n.02"
+  }, 
+  {
+    "image": 9, 
+    "experiment": 2, 
+    "word": "chimi",
+	"child_of": "sandwich.n.01"
+  }, 
+  {
+    "image": 5, 
+    "experiment": 2, 
+    "word": "tajin",
+	"child_of": "spice.n.02"
+  }, 
+  {
+    "image": 5, 
+    "experiment": 2, 
+    "word": "restaraunt",
+	"alias": "restaurant"
+  }, 
+  {
+    "image": 5, 
+    "experiment": 2, 
+    "word": "shabbat",
+	"child_of": "ritual.n.01"
+  }, 
+  {
+    "image": 5, 
+    "experiment": 2, 
+    "word": "sopa",
+	"alias": "soup"
+  }, 
+  {
+    "image": 5, 
+    "experiment": 2, 
+    "word": "sufganiyot",
+	"child_of": "dessert.n.01"
+  }, 
+  {
+    "image": 5, 
+    "experiment": 2, 
+    "word": "cassoulet",
+	"child_of": "casserole.n.01"
+  }, 
+  {
+    "image": 5, 
+    "experiment": 2, 
+    "word": "dahi",
+	"child_of": "yogurt.n.01"
+  }, 
+  {
+    "image": 5, 
+    "experiment": 2, 
+    "word": "puri",
+	"child_of": "bread.n.01"
+  }, 
+  {
+    "image": 5, 
+    "experiment": 2, 
+    "word": "artisanal"
+  }, 
+  {
+    "image": 5, 
+    "experiment": 2, 
+    "word": "homestyle"
+  }, 
+  {
+    "image": 8, 
+    "experiment": 2, 
+    "word": "lunchmeat",
+	"alias": "lunch_meat.n.01"
+  }, 
+  {
+    "image": 8, 
+    "experiment": 2, 
+    "word": "hors"
+  }, 
+  {
+    "image": 8, 
+    "experiment": 2, 
+    "word": "shwarma",
+	"child_of": "sandwich.n.01"
+  }, 
+  {
+    "image": 7, 
+    "experiment": 2, 
+    "word": "mussaman",
+	"child_of": "curry.n.01"
+  } 
+]
