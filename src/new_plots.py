@@ -35,6 +35,58 @@ DATA_DIR = 'data/new_data'
 FIGS_DIR = 'figs/'
 
 
+def delta_counts_to_table(
+		read_fname = 'data/new_data/delta_counts.json',
+		write_fname = 'data/new_data/delta_counts_tables.txt'
+	):
+	'''
+		writes the delta food out as latex tables
+	'''
+
+	# open files
+	data = json.loads(open(read_fname).read())
+	write_fh = open(write_fname, 'w')
+
+	START_TABLE_SERIES = r'''
+	\setlength{\tabcolsep}{12pt}
+	\begin{tabular}{ c c c c c }
+	'''
+
+	END_TABLE_SERIES = r'''
+	\end{tabular}'''
+
+	START_TABLE = r'''
+		\setlength{\tabcolsep}{2pt}
+		\begin{tabular}{ r | c }
+		\toprule
+		\multicolumn{2}{c}{\textit{%s}} \\
+		\toprule'''
+
+	END_TABLE = r'''
+		\bottomrule
+		\end{tabular}'''
+
+	pairs = ['task1', 'frame1', 'echo', 'task2', 'frame2']
+	first = True
+	write_fh.write(START_TABLE_SERIES)
+	for pair_name in pairs:
+		deltas = data[pair_name]
+
+		if first:
+			first = False
+		else:
+			write_fh.write('\n&\n')
+
+		write_fh.write(START_TABLE % pair_name)
+
+		for word, delta_count in deltas:
+			write_fh.write('\n\t\t%s & %d \\\\' % (word, delta_count))
+
+		write_fh.write(END_TABLE + '\n')
+
+	write_fh.write(END_TABLE_SERIES)
+
+
 def plot_longit_vocab(
 		read_vocab_fname = 'data/new_data/vocabulary.json',
 		write_fname = 'figs/longit_vocab.pdf'

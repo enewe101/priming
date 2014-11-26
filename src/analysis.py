@@ -60,7 +60,6 @@ EXP2_TREATMENTS = {
 	'echo:obj': [13],
 }
 
-
 PAIRS = [
 	[
 		('task2:food', 'task2:cult'),
@@ -82,6 +81,9 @@ COMPARISONS = [
 
 class AnalysisError(Exception):
 	pass
+
+
+
 
 
 def assess_raters(

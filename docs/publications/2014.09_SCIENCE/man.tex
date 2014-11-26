@@ -759,12 +759,115 @@ shown here and in the main text can be downloaded from
 http://networkdynamics.org/publications/public/priming2014.09.
 
 \subsection*{S3: Additional results not shown in the main text}
-\begin{itemize}
-	\item{
 		the top 5 most suppressed and most activated terms between treatment
 		pairs.
-	}
-\end{itemize}
+
+\begin{table}
+	\centering
+	\setlength{\tabcolsep}{10pt}
+	\begin{tabular}{ c c c c c }
+	
+		\setlength{\tabcolsep}{4pt}
+		\begin{tabular}{ r | c }
+		\toprule
+		\multicolumn{2}{c}{\textit{task1}} \\
+		\toprule
+		coffee & 38 \\
+		meal & 34 \\
+		cheese & 34 \\
+		apple & 32 \\
+		dessert & 21 \\
+		cup & -30 \\
+		glass & -45 \\
+		table & -70 \\
+		candle & -74 \\
+		food & -80 \\
+		\bottomrule
+		\end{tabular}
+
+&
+
+		\setlength{\tabcolsep}{4pt}
+		\begin{tabular}{ r | c }
+		\toprule
+		\multicolumn{2}{c}{\textit{frame1}} \\
+		\toprule
+		bread & 18 \\
+		wine & 18 \\
+		cheese & 16 \\
+		apple & 14 \\
+		oil & 12 \\
+		table & -9 \\
+		meal & -10 \\
+		candle & -12 \\
+		dinner & -13 \\
+		food & -32 \\
+		\bottomrule
+		\end{tabular}
+
+&
+
+		\setlength{\tabcolsep}{4pt}
+		\begin{tabular}{ r | c }
+		\toprule
+		\multicolumn{2}{c}{\textit{echo}} \\
+		\toprule
+		apple & 24 \\
+		cheese & 23 \\
+		wine & 15 \\
+		coffee & 14 \\
+		oil & 7 \\
+		knife & -24 \\
+		dinner & -26 \\
+		fork & -27 \\
+		candle & -35 \\
+		food & -55 \\
+		\bottomrule
+		\end{tabular}
+
+&
+
+		\setlength{\tabcolsep}{4pt}
+		\begin{tabular}{ r | c }
+		\toprule
+		\multicolumn{2}{c}{\textit{task2}} \\
+		\toprule
+		spicy & 26 \\
+		sauce & 17 \\
+		indian & 15 \\
+		buffet & 14 \\
+		exotic & 12 \\
+		festival & -11 \\
+		offering & -12 \\
+		statue & -15 \\
+		india & -20 \\
+		food & -56 \\
+		\bottomrule
+		\end{tabular}
+
+&
+
+		\setlength{\tabcolsep}{4pt}
+		\begin{tabular}{ r | c }
+		\toprule
+		\multicolumn{2}{c}{\textit{frame2}} \\
+		\toprule
+		indian & 11 \\
+		banquet & 8 \\
+		spicy & 7 \\
+		asian & 6 \\
+		variety & 6 \\
+		delicious & -6 \\
+		meat & -7 \\
+		festival & -7 \\
+		spice & -7 \\
+		food & -9 \\
+		\bottomrule
+		\end{tabular}
+
+	\end{tabular}
+	\caption{blah}
+\end{table}
 
 \subsection*{S4: Data preprocessing}
 	\paragraph{Splitting, Lemmatization, removal of stop-words, and 
@@ -1016,7 +1119,71 @@ averaged the result obtained in this way for each of the five test tasks.
 
 \subsection*{S8: Measuring computational hysteresis}
 \begin{itemize}
-	\item{principled use of cross-validation without optimization.}
+	\paragraph{Using cross-validation accuracy to lower-bound L1-distance.}
+	In order for Eq.~\ref{l1} to be applicable, it is necessary to obtain
+	an unbiased estimate of a classifier's performance.  One well-known
+	pitfall in measuring this error is to underestimate it due to 
+	over-fitting of the data used.  As an example, if one were to try 
+	a large number of classifiers, eventually one would find one that
+	classifies the data perfectly, even though it might non generalize to
+	new data.
+
+	It is customary to use part of a data set to optimize hyperparameters of
+	a model, and then test the model on as-yet unseen data.  In our case,
+	don't have enough samples in each treatment to do this.  Instead, for 
+	this reason, we make principled decisions for all of the options used
+	in our classifier, and then test it's accuracy using cross validation,
+	with no optimization performed on the data.  It was cruicial for 
+	the statistical validity of our approach that we test our classifier on 
+	each datum only once, and report these results without any optimizations
+	of the classifier.
+
+	In performing the classification we had various options, and since we
+	could not optimize these choices, we made principled decisions based on
+	prior knowledge from text classification applications.  We describe the
+	options we faced and the choices we made below.
+	
+	\textit{whether to correct misspelled words.}  Because we used free-text
+	entry for the labels, there was bound to be many spelling mistakes.
+	This would tend to reduce the accuracy of a classifier, because the 
+	entries ``bread'' and ``braed'' would be regarded as completely different
+	features, even though they clearly correspond to the same 
+	\textit{intended word}.  While no algorithm can determine a worker's 
+	intentions, it is possible to check words against a corpus, and, in the
+	case of a misspelled word, look for plausible corrections based on 
+	edit distance.
+
+	\textit{Whether to split multiple words.}  Although workers were 
+	instructed to put one word per text input, many put multiple words.
+	Theoretically the original multi-word entry might bear additional 
+	information that could be useful in discerning a worker's exposure. 
+	In practice, it would be necessary for that word combination to recur,
+	which is unlikely.  Therefore we chose to split multi-word entries,
+	using the individual words as features.  This meant that the outputs of
+	some workers generated more features than those of others.
+
+	\textit{Lemmatization.}  In some cases it is helpful to simplify words 
+	before providing them to the classifier.  For example, the words 
+	``berries'' and ``berry'' only differ in number, but would normally be
+	treated as completely different features.  Lemmatization ensures that
+	nouns are in their sigular form, which helps to eliminate variations in
+	labels that increase sparsity without conveying discriminative 
+	information.
+
+	\textit{Removal of stop-words.}  Certain very common words such as `the',
+	``to'', and ``it'' are extremely common but don't help discriminate a 
+	worker's exposure.  Removing these words is a common practice because
+	they otherwise introduce noise into the classifier learning process.
+
+
+	the were many
+	missipellings
+
+		\item{whether to split multiple words 
+	\end{itemize}
+
+
+	opt for a one-shot approach where we do not optimize any 
 	\item{Adopting Naive Bayes due to the lack of optimization required.}
 	\item{
 		Usage of a principled set of pre-processing and representation 
