@@ -1042,7 +1042,7 @@ def get_counts_compliment(
 
 def try_everything(use_simple=True):
 	
-	fname_prefix = 'data/new_data/l1_spellcorrected'
+	fname_prefix = 'data/new_data/l1'
 
 	for show_token_pos in [True, False]:
 		for do_split in [True, False]:

@@ -242,15 +242,25 @@ class SvmCvalTest(object):
 		):
 
 		return calc_priming_svc(
+			# These arguments are passed to the SimpleDataset constructor
 			which_experiment=which_experiment,
 			show_token_pos=show_token_pos,
 			show_plain_token=show_plain_token,
+			show_token_img=True,
+			do_split=True,
 			class_idxs=class_idxs,
 			img_idxs=img_idxs,
-			weights=weights,
+			spellcheck=True,
+			lemmatize=True,
+			remove_stops=True,
+			balance_classes=True,
+
+			# These arguments are passed to the classifier constructor
 			kernel=kernel,
 			C=C,
 			gamma=gamma,
+
+			# Number of cross-validation folds to use
 			CV=20
 		)
 
@@ -267,10 +277,14 @@ def get_annealing_func(reps=1, CV=20):
 			which_experiment=1,
 			show_token_pos=True,
 			show_plain_token=True,
+			show_token_img=True,
+			do_split=True,
 			class_idxs=[1,2],
 			img_idxs=[img_idx],
 			spellcheck=False,
-			get_syns=False
+			lemmatize=True,
+			remove_stops=True,
+			balance_classes=True,
 		).as_vect(weights='tfidf')
 		for img_idx in range(5,10)
 	]
@@ -292,17 +306,25 @@ def get_annealing_func(reps=1, CV=20):
 
 
 def calc_priming_svc(
+		# These arguments are passed to the SimpleDataset constructor
 		which_experiment=2,
 		show_token_pos=True,
 		show_plain_token=True,
+		show_token_img=True,
+		do_split=True,
 		class_idxs=[0,5],
 		img_idxs=range(5,10),
-		weights='tfidf',
-		spellcheck=False,
-		get_syns=False,
+		spellcheck=True,
+		lemmatize=True,
+		remove_stops=True,
+		balance_classes=True,
+
+		# These arguments are passed to the classifier constructor
 		kernel='rbf',
 		C=1,
 		gamma=1e-3,
+
+		# Number of cross-validation folds to use
 		CV=20
 	):
 	'''
@@ -315,10 +337,14 @@ def calc_priming_svc(
 		which_experiment=which_experiment,
 		show_token_pos=show_token_pos,
 		show_plain_token=show_plain_token,
+		show_token_img=True,
+		do_split=True,
 		class_idxs=class_idxs,
 		img_idxs=img_idxs,
 		spellcheck=spellcheck,
-		get_syns=get_syns
+		lemmatize=True,
+		remove_stops=True,
+		balance_classes=True,
 	)
 
 	# extract the feature vectors
@@ -379,8 +405,17 @@ def calc_priming_diff_svm(fname=SVM_EXP2_L1_FNAME):
 
 			data = dp.SimpleDataset(
 				which_experiment=2,
+				show_token_pos=True,
+				show_plain_token=True,
+				show_token_img=True,
+				do_split=True,
 				class_idxs=class_idxs,
-				img_idxs=[img_idx])
+				img_idxs=[img_idx],
+				spellcheck=True,
+				lemmatize=True,
+				remove_stops=True,
+				balance_classes=True)
+
 			features, outputs = data.as_vect()
 
 			# Do leave-one-out CV
@@ -409,8 +444,17 @@ def calc_priming_diff_svm(fname=SVM_EXP2_L1_FNAME):
 			print '\tcalculating priming for image %d' % img_idx
 			data = dp.SimpleDataset(
 				which_experiment=2,
-				class_idxs = class_idxs,
-				img_idxs = [img_idx])
+				show_token_pos=True,
+				show_plain_token=True,
+				show_token_img=True,
+				do_split=True,
+				class_idxs=class_idxs,
+				img_idxs=[img_idx],
+				spellcheck=True,
+				lemmatize=True,
+				remove_stops=True,
+				balance_classes=True)
+
 			features, outputs = data.as_vect()
 
 			# Do leave-one-out cross-validation
