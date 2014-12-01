@@ -203,26 +203,37 @@ def plot_specificity(
 		('frame2:food', 'frame2:cult')
 	]
 
-	Y_2 = []
-	for treatment1, treatment2 in comparisons:
-		vocab_1 = sum(vocab_data[treatment1])
-		vocab_2 = sum(vocab_data[treatment2])
-		Y_2.append(100*(vocab_1 - vocab_2) / float(vocab_2))
-	
-	X_2 = range(len(Y_2))
-
-	series_2 = ax2.bar(X_2, Y_2, width, color='0.25')
-
-	xlims = (-padding, len(X_2) - 1 + width + padding)
-	plt.xlim(xlims)
-
-	xlabels = [
+	short_comparisons = [
 		'task1',
 		'frame1',
 		'echo',
 		'task2',
 		'frame2',
 	]
+	
+	Y_2 = []
+	for treatment1, treatment2 in comparisons:
+		vocab_1 = sum(vocab_data[treatment1])
+		vocab_2 = sum(vocab_data[treatment2])
+		Y_2.append(100*(vocab_1 - vocab_2) / float(vocab_2))
+
+	upper_CIs = []
+	for c in short_comparisons:
+		fname = 'data/new_data/vocabulary/vocabulary_null_%s.json' % c
+		data = json.loads(open(fname).read())
+		upper_CIs.append(data['upper_CI'])
+	
+	X_2 = range(len(Y_2))
+	X_2_CI = [x + width/2. for x in X_2]
+
+	series_2 = ax2.bar(X_2, Y_2, width, color='0.25')
+	series_3 = ax2.plot(
+		X_2_CI, upper_CIs, linestyle='None', marker='*', 
+		markeredgecolor='0.75', color='0.75'
+	)
+
+	xlims = (-padding, len(X_2) - 1 + width + padding)
+	plt.xlim(xlims)
 
 	ax2.set_xticks([x + width/2. for x in X_2])
 	plt.setp(ax2.get_xticklabels(), visible=False)
