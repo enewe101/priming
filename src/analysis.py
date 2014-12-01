@@ -16,7 +16,11 @@ degree the workers in one treatment are using more specific words than the
 workers from another treatment.
 '''
 
-from svm import calc_priming_diff_svm 
+try:
+	from svm import calc_priming_diff_svm 
+except ImportError:
+	pass
+
 import util
 import sys
 import random
@@ -991,11 +995,14 @@ def try_everything(
 	else:
 		raise ValueError('classifier must be either `naive_bayes` or `svm`.')
 
+	i = 0
 	for show_token_pos in [True, False]:
 		for do_split in [True, False]:
 			for remove_stops in [True, False]:
 				for lemmatize in [True, False]:
 					for spellcheck in [True, False]:
+
+						print '%2.1f %%' % (100 * i / float(2**5))
 
 						# get the file name sorted out
 						fname = 'l1'
@@ -1032,6 +1039,8 @@ def try_everything(
 								'classifier must be either `naive_bayes` or '
 								'`svm`.'
 							)
+
+						i += 1
 
 
 class TryEverything(object):

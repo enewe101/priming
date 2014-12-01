@@ -1107,15 +1107,20 @@ using the labels attributed to a particular test task, and then
 averaged the result obtained in this way for each of the five test tasks.
 
 \subsection*{S7: Analysis of variance}
-\begin{itemize}
-	\item{
-		classifier accuracy.  Why we used a one-tail CI.  
-		Why certain error bars are smaller.
-	}
-	\item{error in $\delta$ \%food.}
-	\item{error in size of food vocabulary}
-	\item{error in food specificity}
-\end{itemize}
+	\paragraph{Variance in the average fraction food-related labels}
+	In the main text, Fig.~\ref{fig:specificity}A shows the difference in 
+	the fraction of food related labels used by workers in from different 
+	treatments.  The error bars show the 95\% confidence intervals around 
+	the estimated difference of means.  It was computed from the
+	observed sample standard deviation in the fraction of food labels given
+	by individual workers.
+
+	\paragraph{Variance in food vocabulary size.}
+	\td{Not sure how to calculate this yet.}
+
+	\paragraph{Variance in food specificity.}
+	\td{Need to calculate this using bootstrapping.}
+
 
 \subsection*{S8: Measuring computational hysteresis}
 	\paragraph{Using cross-validation accuracy to lower-bound L1-distance.}
@@ -1141,7 +1146,7 @@ averaged the result obtained in this way for each of the five test tasks.
 	could not optimize these choices, we made principled decisions based on
 	prior knowledge from text classification applications.  We describe the
 	options we faced and the choices we made below.
-	
+
 	\textit{whether to correct misspelled words.}  Because we used free-text
 	entry for the labels, there was bound to be many spelling mistakes.
 	This would tend to reduce the accuracy of a classifier, because the 
@@ -1151,15 +1156,6 @@ averaged the result obtained in this way for each of the five test tasks.
 	intentions, it is possible to check words against a corpus, and, in the
 	case of a misspelled word, look for plausible corrections based on 
 	edit distance.
-
-	\textit{Whether to split multiple words.}  Although workers were 
-	instructed to put one word per text input, many put multiple words.
-	Theoretically the original multi-word entry might bear additional 
-	information that could be useful in discerning a worker's exposure. 
-	In practice, it would be necessary for that word combination to recur,
-	which is unlikely.  Therefore we chose to split multi-word entries,
-	using the individual words as features.  This meant that the outputs of
-	some workers generated more features than those of others.
 
 	\textit{Lemmatization.}  In some cases it is helpful to simplify words 
 	before providing them to the classifier.  For example, the words 
@@ -1174,25 +1170,160 @@ averaged the result obtained in this way for each of the five test tasks.
 	worker's exposure.  Removing these words is a common practice because
 	they otherwise introduce noise into the classifier learning process.
 
+	\textit{Whether to split multiple words.}  Although workers were 
+	instructed to put one word per text input, many put multiple words.
+	Theoretically the original multi-word entry might bear additional 
+	information that could be useful in discerning a worker's exposure. 
+	In practice, it would be necessary for that word combination to recur,
+	which is unlikely.  Therefore we chose to split multi-word entries,
+	using the individual words as features.  This meant that the outputs of
+	some workers generated more features than those of others.
 
+	\textit{Preserving the location of labels.}  When workers completed image
+	labeling tasks, they had to fill five text inputs, which were stacked
+	vertically.  Presumably, they began with the top input and proceeded 
+	downwards.  It seems likely that exposure effects might influence the
+	\textit{order} in which workers apply labels, so when processing the 
+	labels we prepended an integer to indicate into which text input the 
+	label been input.  This meant that the classifier could distinguish
+	``bread'' entered into the first text input from ``bread'' entered into
+	the second.  A drawback is that this increases sparsity, preventing the
+	classifier from accounting for the fact that different though they are,
+	these entries should be treated similarly.  For this reason, we also
+	provided features to the classifier which did not encode the particular
+	input that had been used.  Thus, two workers that entered ``bread''
+	into different inputs would generate both a feature in common indicating
+	the use of the word ``bread'', as well as distinct features, indicating
+	entry of the word ``bread'' \textit{in a particular input}.
 
+	\textit{Preserving the connection between tasks and labels.}  In many
+	cases a particular label would appear in many tasks.  For example, the
+	word ``food'' appears in all test tasks.  It stands to reason that
+	exposure effects play out differently for different tasks, and that
+	the attribution of a particular label during one task provides different
+	information from the attribution of the same label during a different 
+	task.  So, as we did in the case of input location, we prepended labels
+	with the identity of the task in which they were added, so that the 
+	two otherwise identical labels added for different tasks were treated
+	by the classifier as unique features.  Unlike in the case of input 
+	position attribution, we didn't include raw labels unadorned with 
+	the task number.  Our rationale for this is that the task defines the 
+	context in which a label is applied, and so the elicitation of a label 
+	during one task represents a distinct output from the elicitaiton of the 
+	same label during a different task.  
 
-\begin{itemize}
-	\item{Adopting Naive Bayes due to the lack of optimization required.}
-	\item{
-		Usage of a principled set of pre-processing and representation 
-		techniques.
+\paragraph{Selection of the naive Bayes classifier.}
+A great deal of work has been done in the application of classifiers to
+text documents, which provides the bacground for our choice of classifier.
+The Support Vector Machine (SVM) approach is known to perform well, better in 
+general than naive Bayes.  However, three considerations drove us to use
+a naive Bayes classifier in favor of SVM.
+
+First, we used 119 examples (workers) per treatment, but the number of 
+features
+for each worker (i.e. the number of distinct labels, or modifications 
+thereof produced in preprocessing), was generally in the thousands.  
+This tends to
+be problematic for many classifier algorithms, including SVM, because it
+leads to very high variance models, which manifests as overfitting and poor
+performance.  To deal with this, some approach to culling features is 
+generally used, but this raises the issue of how to decide the culling in 
+a principled manner, generally adding further hyperparameters which could
+be optimized.  However, one of the strengths of the naive Bayes classifier
+is that it's performance is not generally degraded from the inclusion of 
+large numbers of features, even when the number of examples is comparatively
+small.  We expected this feature of the naive Bayes classifier to be 
+advantageous in our case.
+
+Second, the standard implementation of the naive Bayes classifier has no 
+hyperparameters to optimize.  This allows us to forgo the common practice 
+of holding out a test set, and instead use cross-validation as a method to
+estimate the true classification error, \textit{since we did not perform
+any kind of model selection or optimization whatsoever using our data}.
+This point is crucial, because if we did optimize our classifier during 
+cross-validation, then the validation error would no longer provide an 
+unbiased estimate of the true classification error, but would instead lead
+to us over-reporting exposure effects.
+
+Third, the naive Bayes algorithm is based on an assumption that the 
+probability of observing one feature is independant from the observation
+of any other, \textit{when conditioned on the class}.  This
+\textit{conditional independance} assumption is generally made for
+pragmatic rather than theoretical reasons, and is rarely satisfied.  However,
+if it \textit{is} satisfied, then the naive Bayes classifier is optimal.
+In our case, conditional independence means that, provided we know the 
+exposure of a worker, knowing one label they provided to an image does
+not in any way help us guess any other label for that image.  In most
+text documents, the existence of topics and language structure certainly
+vioalates the conditional independance of words.  But in our case, such 
+effects are less likely to carry from one text input to the next, and in the
+small space provided by five inputs, any overarching topics are likely to
+be in relation to the image itself, upon which we are conditioning.  In other
+words, we believe that, in our setup, conditional independence is better 
+satisfied than in most text classification contexts.  That being the case,
+one would not expect much improvement in using a more sophisticated algorithm,
+such as SVM.
+
+\paragraph{Comparison to other classifiers.} 
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.75]{figs/theta_sup.pdf}
+	\label{fig:theta_sup}
+	\caption{
+		Figure S2: Bias induced by exposure to initial tasks and frames.
+		Bias is defined to be the difference in the probability 
+		distribution over workers' labels (L1-distance).  The plotted values
+		give a lower bound to the L1-distance, $D_{L1}^-$, which was 
+		determined from a classifier's performance in 
+		distinguishing workers that had undergone different exposures.
+		The bias was determined using (A-F) a naive Bayes classifier, and 
+		(G-L) an SVM classifier.
+		In panels A through F, each plot adds an additional
+		preprocessing step to those used in the previous plot; the same is 
+		done for panels G through H: A,G) No 
+		preprocessing; B,H) spelling correction; C,I) stopword removal; 
+		D,J) lemmatization; E,K) splitting of multiple-word labels; 
+		F,L) distinguishing identical labels entered in different form inputs.
 	}
-	\item{
-		Comparison to other choices of representation
-	}
-	\item{
-		Comparison to SVM classifier
-	}
-	\item{
-		Reiterate why we cannot report optimized results.
-	}
-\end{itemize}
+\end{figure}
+The inequality in Eq.~\ref{l1}
+asserts that a classifiers performance in predicting class membership
+bounds the L1-distance between the distributions of features for the classes.
+This bound is tight for the optimal classifier, and in general, the slack
+depends on how the classifier is constructed.
+
+Therefore there may exist a classifier that is 
+significantly better than the one used to generate our results.  Even before
+commiting to a particular classifier algorithm, various decisions about
+preprocessing need to be made.  For example, we chose to remove stopwords,
+lemmatize, split multi-word labels, distinguish the input used to enter 
+labels, and correct spelling.  All of these decisions affect the classifier
+performance.  The particular classifier algorithm chosen also has a strong 
+effect.
+
+Since we did not have enough data to create a separate test set, we could not
+optimize these decisions.  Doing so would lead to the inflation of the 
+performance, which could then only be estimated using an independant test set.
+Instead, we made principled decisions as described above.
+
+Although we cannot optimize these decisions, it is appropriate to look at
+what affect these decisions had, post-hoc.  We reproduce the plot shown in 
+Fig.~\ref{fig:theta}A using different combinations of pre-processing options,
+and using both the naive Bayes and an SVM classifier.
+
+Unlike the naive Bayes classifier, it is necesarry to tune the cost and 
+gamma hyperparameters of the SVM classifier, as well as choose a kernel.
+We used simulated annealing to optimize the cost and gamma settings in the
+classification of $task2:food$ vs $task2:cult$.  For this reason, we expect
+the bar for $task2$ in Fig.~S8G-J is likely to be an overestimate due to
+overfitting on those data.
+
+These plots show that the result shown in Fig.~\ref{fig:theta}A is 
+representative, and supports the validity of the lower bounds on the 
+exposures exposure effects presented in the main text, in terms of induced 
+L1-distance.
+
 
 \subsection*{S9: Justifications and statistical properties of classifier-based measurement of computational hysteresis}
 \begin{itemize}
@@ -1204,60 +1335,6 @@ averaged the result obtained in this way for each of the five test tasks.
 \end{itemize}
 
 
-%\subsection*{Assessing task similarity}
-%\begin{table}
-%\centering
-%\begin{tabular}{ l  s s s s}
-%
-%\toprule    
-%Image set   
-%& \multicolumn{1}{c}{Ambig.} 
-%& \multicolumn{1}{c}{Cultural} 
-%& \multicolumn{1}{c}{Ingr.}
-%& \multicolumn{1}{c}{Test} \\
-%  
-%\midrule
-%
-%Ambiguous  & 1 & 0.0418 & 0.142 & 0.167 \\
-%
-%Cultural  & 0.0418  & 1 & 0.0347 & 0.0561 \\
-%
-%Ingredients  & 0.142  & 0.0347 & 1 & 0.110 \\
-%
-%Test & 0.167  & 0.0561 & 0.110 & 1
-%\\
-%\bottomrule
-%
-%\end{tabular}
-%\caption{\footnotesize{
-%Pairwise similarities of each image set based on the labels attributed to them (see \textbf{Eq. 4}).
-%}}
-%\label{table:2}
-%\end{table}
-%
-%One weakness of the above analysis is the reliance on the informal notion
-%of the similarity of one set of images to another. The 
-%characterization of image content is a deeply complex issue that has been 
-%approached by many disciplines \cite{panofsky1939studies,shatford1986analyzing,Tversky1977327,Jaimes20002}. \textit{Perceptual similarity} is a 
-%particularly recalcitrant concept.   But to formalize our claim, we seek a 
-%measure of similarity between two sets of images, 
-%\textit{with respect to the labeling task}.  This can be operationalized
-%in a straightforward way, by using the similarity of the labels given to images
-%as a proxy for the similarity of the images.  Thus, to measure the 
-%similarity between two sets of images, X and Y , we computed the Jacquard 
-%index between the sets of labels attributed to them:
-%$$
-%	\mathrm{Sim}(X,Y) = \frac{L(X) \cap L(Y)}{L(X) \cup L(Y)}
-%$$
-%where $L(X)$ denotes the set of labels attributed to images in $X$.
-%
-%The pairwise similarities of the image sets are presented in Table 2. This 
-%shows that the workers that yielded higher specificity labels were from 
-%treatments whose initial tasks were more similar to the test tasks (c.f.
-%\textbf{Fig 3}).
-%
-%Such a phenomenon would be consistent with the psychological mechanism known as
-%\textit{negative priming}.
 
 \end{document}
 

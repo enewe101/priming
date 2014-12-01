@@ -338,6 +338,116 @@ def plot_delta_food(
 		bottom=0.22)
 	fig.savefig(write_fname)
 
+SUPPLEMENTARY_THETA_FNAMES = [
+	'l1.json', 'l1_spell.json', 'l1_nostops_spell.json', 
+	'l1_nostops_lem_spell.json', 'l1_split_nostops_lem_spell.json',
+	'l1_showpos_split_nostops_lem_spell.json'
+]
+
+
+
+def plot_theta_supplementary(
+		write_fname='theta_sup.pdf'
+	):
+
+	# make a figure with two subplots
+	figWidth = 6
+	figHeight = 8
+	fig = plt.figure(figsize=(figWidth, figHeight))
+	gs = gridspec.GridSpec(4, 3)
+	plot_labels = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L']
+	width = 0.75
+	eps = 0.2
+
+	for i, fname in enumerate(SUPPLEMENTARY_THETA_FNAMES*2):
+
+		# The first set of panels plot naive bayes data, second set plot svm.
+		if i >= len(SUPPLEMENTARY_THETA_FNAMES):
+			data_dir = 'data/new_data/bound_l1_svm'
+		else:
+			data_dir = 'data/new_data/bound_l1_naive_bayes'
+
+		# get the data and a new axis for plotting
+		path = os.path.join(data_dir, fname)
+		data = json.loads(open(path).read())
+
+		if i == 0:
+			ax = plt.subplot(gs[i])
+			ax0 = ax
+		else:
+			ax = plt.subplot(gs[i], sharey=ax0)
+
+		# p.lot the data
+		plot_theta_panel(ax, data)
+
+		# take care of axis labelling
+		if i > 8:
+			ax.set_xticks(map(lambda x: x + width/2. + eps, range(5)))
+			ax.tick_params(axis='x', colors='0.25')
+			xlabels = [
+				r'$task1$', r'$frame1$', r'$echo$', '$task2$', '$frame2$'
+			]
+			ax.set_xticklabels(xlabels, rotation=45, size=12,
+				horizontalalignment='right', color='k')
+		else:
+			plt.setp(ax.get_xticklabels(), visible=False)
+
+		if i % 3 != 0:
+			plt.setp(ax.get_yticklabels(), visible=False)
+		else:
+			ax.set_ylabel(r'$D^-_\mathrm{L1}$', size=12)
+
+		left = 4.7
+		height = 0.59
+		plot_label = plot_labels[i]
+		ax.text(left, height, plot_label, 
+			va='top', ha='right', size=16, color='0.55')
+
+	plt.draw()
+	plt.tight_layout()
+	fig.subplots_adjust(wspace=0.05, hspace=0.05, top=0.99, right=0.99, 
+		left=0.1, bottom=0.1)
+	fig.savefig(os.path.join(FIGS_DIR, write_fname))
+
+
+def plot_theta_panel(ax, data):
+
+	width = 0.75
+	this_data = data['aggregates']
+
+	# the img_food_obj test was tried under multiple permutations -- take avg
+	this_data['exp2.task'] = np.mean(this_data['exp2.task'])
+	test_names = [
+		'exp2.task', 'exp2.frame', 'exp2.*', 'exp1.task', 'exp1.frame'
+	]
+	accuracies = [this_data[tn] for tn in test_names]
+
+	# convert accuracy to priming difference (which is what we want to plot)
+	Y_aggregate = [2*a-1 for a in accuracies]
+	err_low = [
+		2*binomial_lower_confidence_p(n, int(n*a)) - 1
+		for a,n in zip(accuracies,[595,119,119,119,119])
+	]
+	err_low = [y-y_err for y, y_err in zip(Y_aggregate, err_low)]
+	err_high = [0 for e in err_low]
+	err = [err_low, err_high]
+	X = range(len(Y_aggregate))
+
+	series = ax.bar(
+		X, Y_aggregate, width, color='0.25', ecolor='0.75', yerr=err
+	)
+
+	padding = 0.25
+	xlims = (-padding, len(X) - 1 + width + padding)
+	plt.xlim(xlims)
+
+
+	ax.set_yticks([0.1,0.2,0.3,0.4,0.5, 0.6])
+
+	ylims = (0, 0.62)
+	plt.ylim(ylims)
+
+
 
 def plot_theta(
 		read_fname='l1.json',
