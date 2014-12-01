@@ -25,6 +25,19 @@ def get_lemmas(synset_like):
 		return synset_like.lemmas()
 
 
+def get_name(synset_like):
+	'''
+		Depending on the version of wordnet, synset.name is either a function
+		that returns a string, or the string itself.  This function helps 
+		resolve that ambiguity.
+	'''
+	if isinstance(synset_like.name, basestring):
+		return synset_like.name
+
+	else:
+		return synset_like.name()
+
+
 # Extend wordnet before it is used
 class ExtendedWordnet(object):
 
@@ -60,7 +73,7 @@ class ExtendedWordnet(object):
 			return synset
 
 		simple_synset = SimpleSynset(
-			name=synset.name, hypernyms=copy.copy(synset.hypernyms()), 
+			name=get_name(synset), hypernyms=copy.copy(synset.hypernyms()), 
 			hyponyms=copy.copy(synset.hyponyms()), 
 			lemmas=copy.copy(get_lemmas(synset))
 		)
@@ -112,7 +125,10 @@ class ExtendedWordnet(object):
 
 				# now assume it is an ordinary synset.  This may raise
 				# a WordNetError, per usual behavior
-				synset = wn.synset(syn_spec)
+				try:
+					synset = wn.synset(syn_spec)
+				except AttributeError:
+					print syn_spec
 
 		return synset
 
@@ -122,7 +138,7 @@ class ExtendedWordnet(object):
 		# first check if there is already such a token in wordnet
 		# map to the synset names, and then map back to synsets
 		# this ensures we used the altered form for synsets that were altered
-		existing_synsets = [s.name for s in wn.synsets(token)]
+		existing_synsets = [get_name(s) for s in wn.synsets(token)]
 		existing_synsets = [self.synset(s) for s in existing_synsets]
 
 		if len(existing_synsets) > 0:
@@ -442,7 +458,7 @@ def get_all_synsets(label):
 
 	synsets = set()
 	for token in all_tokens_to_try:
-		synsets.update([s.name for s in ewn.synsets(token)])
+		synsets.update([get_name(s) for s in ewn.synsets(token)])
 
 	return synsets
 
@@ -561,7 +577,7 @@ class WordnetFoodDetector(object):
 		# We will build a DFS walker to help with the calculation
 		# To do so, we need to define a bunch of callbacks
 		def get_node_hash(node):
-			return node.name
+			return get_name(node)
 
 		# We alter the get children callback to get parents if we want to
 		# count the number of ancestors instead of descendants.
@@ -570,7 +586,7 @@ class WordnetFoodDetector(object):
 
 
 		def inter_node_callback(node, child_vals=[]):
-			node_name = node.name
+			node_name = get_name(node)
 
 			if node_name in self.foodish_cache:
 				return self.foodish_cache[node_name]
@@ -588,7 +604,7 @@ class WordnetFoodDetector(object):
 		def abort_branch_callback(node):
 			# if we have a cached value for this node, no need to continue
 			# the traversal any deeper
-			if node.name in self.foodish_cache:
+			if get_name(node) in self.foodish_cache:
 				return True
 			return False
 
@@ -610,7 +626,7 @@ class WordnetFoodDetector(object):
 		# we will bulid a DFS that accumulates all of the food-related lemmas
 		# begin by defining the DFS's callback functions
 		def get_node_hash(node):
-			return node.name
+			return get_name(node)
 
 		def get_children_callback(node):
 			return node.hyponyms()
@@ -689,7 +705,7 @@ class WordnetRelativesCalculator(object):
 		# We will build a DFS walker to help with the calculation
 		# To do so, we need to define a bunch of callbacks
 		def get_node_hash(node):
-			return node.name
+			return get_name(node)
 
 		# We alter the get children callback to get parents if we want to
 		# count the number of ancestors instead of descendants.
@@ -702,7 +718,7 @@ class WordnetRelativesCalculator(object):
 				return node.hyponyms()
 
 		def inter_node_callback(node, child_vals=[]):
-			node_name = node.name
+			node_name = get_name(node)
 
 			if node_name in self.num_relatives_cache:
 				return self.num_relatives_cache[node_name]
@@ -716,7 +732,7 @@ class WordnetRelativesCalculator(object):
 
 
 		def abort_branch_callback(node):
-			if node.name in self.num_relatives_cache:
+			if get_name(node) in self.num_relatives_cache:
 				return True
 			return False
 
