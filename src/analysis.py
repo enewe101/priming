@@ -486,27 +486,138 @@ def calculate_vocabulary_sizes(
 	return results
 
 
-#class BootstrapSweepable(object):
-#	'''
-#		An adaptor to make bootstrap_relative_specificity runnable by
-#		the simsweep multiprocessing module
-#	'''
-#	def __init__(self):
-#		pass
-#
-#	def run(
-#		(exp1, tmts1),
-#		(exp2, tmts2),
-#		images=[5],
-#		num_bootstraps=1000,
-#		resample_size=119,
-#		fname='data/new_data/specificity_bootstrap.json'
-#	):
-#		bootstrap_relative_specificity(
-#			(exp1,tmts1), (exp2,tmts2), images, num_bootstraps, 
-#			resample_size, fname
-#		)
-#
+def vocabulary_null_model(
+		comparison='task1',
+		include_food=True,
+		include_nonfood=False,
+		num_bootstraps=1000,
+		num_workers=119,
+		images=range(5,10),
+		fname='data/new_data/vacabulary_null.json'
+	):
+
+	fname = 'data/new_data/vocabulary/vocabulary_null_%s.json' % comparison
+	comparisons = {
+		'task1': ((2,0), (2,5)),
+		'frame1': ((2,10), (2,11)),
+		'echo': ((2,12), (2,13)),
+		'task2': ((1,0), (1,1)),
+		'frame2': ((1,3), (1,5))
+	}
+	assert(comparison in comparisons)
+	fh = open(fname, 'w')
+
+	upper_CI_idx = int(np.ceil(0.975 * num_bootstraps)) - 1
+	lower_CI_idx = int(np.floor(0.025 * num_bootstraps))
+
+	# unpack the comparison specifications
+	spec1, spec2 = comparisons[comparison]
+	exp1, treatment1 = spec1
+	exp2, treatment2 = spec2
+
+	# get the comparison data.
+	ds1 = get_worker_features(exp1, [treatment1], images, num_workers)
+	ds2 = get_worker_features(exp2, [treatment2], images, num_workers)
+
+	# mix the two datasets to create the null model
+	ds = ds1 + ds2
+
+	boot_results = []
+	for b in range(num_bootstraps):
+		print '%2.1f %%' % (100 * b / float(num_bootstraps))
+		rel_diff = compare_vocab_size_random_partition(
+			ds, num_workers, images, include_food, include_nonfood)
+		boot_results.append(rel_diff)
+
+	boot_results.sort()
+	result = {
+		'mean': np.mean(boot_results),
+		'upper_CI': boot_results[upper_CI_idx],
+		'lower_CI': boot_results[lower_CI_idx]
+	}
+
+	fh.write(json.dumps(result, indent=2))
+	fh.close()
+	return result
+
+
+
+
+
+def compare_vocab_size_random_partition(
+		dataset,
+		num_workers,
+		images,
+		include_food,
+		include_nonfood
+	):
+
+	result = []
+
+	# randomly partition the dataset in two
+	ds1_indices = random.sample(range(2*num_workers), num_workers)
+	ds2_indices = list(set(range(2*num_workers)) - set(ds1_indices))
+	split1 = [dataset[i] for i in ds1_indices]
+	split2 = [dataset[i] for i in ds2_indices]
+
+	vocab_size1, vocab_size2 = 0, 0
+	for image in range(len(images)):
+		vocab_size1 += get_vocab_size(
+			image,split1,include_food,include_nonfood)
+
+		vocab_size2 += get_vocab_size(
+			image,split2,include_food,include_nonfood)
+
+	diff = vocab_size1 - vocab_size2
+	avg = (vocab_size1 + vocab_size2) / 2.0
+	relative_percent_diff = 100 * diff / avg
+	return relative_percent_diff
+
+				
+
+def get_vocab_size(image,split,include_food, include_nonfood):
+	counts = Counter(reduce(lambda x,y: x + y[image], split, []))
+	counts = wna.filter_word_counts(counts, include_food, include_nonfood)
+	vocab_size = len(counts)
+	return vocab_size
+
+
+
+def get_worker_features(exp, treatments, images, num_workers):
+
+	# load the datasets into memory
+	datasets = []
+	for im_no, image in enumerate(images):
+		add_dataset = dp.SimpleDataset(
+			which_experiment=exp,
+			show_token_pos=False,
+			show_token_img=False,
+			class_idxs=treatments,
+			img_idxs=[image],
+			balance_classes=num_workers
+		)
+
+		# pool the workers records from all treatments
+		add_dataset = reduce(
+			lambda x,treatment: x + add_dataset.data[treatment],
+			treatments,
+			[]
+		)
+
+		# Now the records for workers from different treatments were 
+		# pooled.  Next, extract the labels ('features') from those 
+		# records
+		# extract just the labels given by workers from each record
+		add_dataset = [w['features'] for w in add_dataset]
+
+		datasets.append(add_dataset)
+
+	# The desired data was extracted.  The data are organized first by
+	# image, then by worker.  Instead, organize by worker, then image
+	datasets = zip(*datasets)
+
+	return datasets
+
 
 def bootstrap_relative_specificity(
 		(exp1,tmts1), 
@@ -607,7 +718,7 @@ def bootstrap_relative_specificity(
 	# Find the 95% confidence interval using the 5th and 95th percentile
 	boot_results.sort()
 	idx_percentile_2 = int(np.floor(0.025*num_bootstraps))
-	idx_percentile_98 = int(np.ceil(0.975*num_bootstraps))
+	idx_percentile_98 = int(np.ceil(0.975*num_bootstraps)) - 1
 	mean = np.mean(boot_results)
 	stderr = np.std(boot_results)
 	upper_CI = boot_results[idx_percentile_98]

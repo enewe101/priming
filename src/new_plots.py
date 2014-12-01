@@ -165,7 +165,6 @@ def plot_specificity(
 		('frame2:cult', 'frame2:food'),
 	]
 
-	# convert accuracy to priming difference (which is what we want to plot)
 	Y_0 = [
 		(food_data[p[1]]['fract_food'] - food_data[p[0]]['fract_food']) * 100
 		for p in pairs
@@ -187,7 +186,6 @@ def plot_specificity(
 	# Fuss with axes labelling
 	ax1.set_xticks([x + width/2.0 for x in X_0])
 	plt.ylim(-13, 13)
-	ax1.text(4.7, 11.5, 'A', va='top', ha='right', size=25, color='0.55')
 	ax1.set_ylabel(r'$\Delta$ % food labels', size=12)
 	plt.setp(ax1.get_xticklabels(), visible=False)
 
@@ -230,11 +228,9 @@ def plot_specificity(
 	plt.setp(ax2.get_xticklabels(), visible=False)
 	ylims = plt.ylim()
 	plt.ylim(-6, 22)
-	ax2.text(4.7, 20.5, 'B', va='top', ha='right', size=25, color='0.55')
 	ax2.set_ylabel(r'$\Delta$ % food vocabulary', size=12)
 
 	# now plot the specificity data.  First get organized
-	#
 	specificity_data = json.loads(open(read_specificity_fname).read())
 	ax3 = plt.subplot(gs[2])
 	width = 0.75
@@ -246,22 +242,45 @@ def plot_specificity(
 		('frame2', 'frame2'),
 	]
 
+	# read the data from the bootstrapped specificity data
+	specificity_data = []
+	specificity_error_low = []
+	specificity_error_high = []
+	specificity_error = (specificity_error_low, specificity_error_high)
+	for key, label in specificity_keys_labels:
+		fh = open('data/new_data/specificity/specificity_%s.json' % key)
+		data = json.loads(fh.read())
+		mean = 100 * data['mean']
+		err_high = abs(100 * data['lower_CI'] - mean)
+		err_low = abs(100 * data['upper_CI'] - mean)
+		specificity_data.append(mean)
+		specificity_error_high.append(err_high)
+		specificity_error_low.append(err_low)
+
 	# Now actually plot the data
-	Y_3 = [specificity_data[k][0]*100 for k,l in specificity_keys_labels]
+	#Y_3 = [specificity_data[k][0]*100 for k,l in specificity_keys_labels]
+
+	Y_3 = specificity_data
+	Y_err = specificity_error
+
 	X_3 = range(len(Y_3))
-	series_3 = ax3.bar(X_3, Y_3, width, color='0.25')
+	series_3 = ax3.bar(
+		X_3, Y_3, width, color='0.25', ecolor='0.75', yerr=Y_err)
 
 	# fiddle with axes
 	xlims = (-padding, len(X_3) - 1 + width + padding)
 	plt.xlim(xlims)
 	ylims = plt.ylim()
-	plt.ylim(ylims[0], 22)
+	plt.ylim(ylims[0], 28)
 	ax3.set_ylabel(r'$\Delta$ % food specificity', size=12)
 	xlabels = [l for k,l in specificity_keys_labels]
 	ax3.set_xticks([x + width/2. for x in X_3])
 	ax3.set_xticklabels(xlabels, rotation=45, size=12,
 		horizontalalignment='right')
-	ax3.text(4.7, 20.5, 'C', va='top', ha='right', size=25, color='0.55')
+
+	ax1.text(4.7, 11.5, 'A', va='top', ha='right', size=18, color='0.55')
+	ax2.text(4.7, 20.5, 'B', va='top', ha='right', size=18, color='0.55')
+	ax3.text(4.7, 26.5, 'C', va='top', ha='right', size=18, color='0.55')
 	#ax3.set_yticks([0.01,0.02,0.03])
 
 	# control overall layout.  Save and return.
