@@ -501,11 +501,13 @@ def calculate_relative_specificity(
 	but gives the same result.
 	'''
 
+	# filter out counts of non-food and food tokens, according to arguments.
 	word_counts_1 = filter_word_counts(
 		word_counts_1, include_food, include_nonfood)
 	word_counts_2 = filter_word_counts(
 		word_counts_2, include_food, include_nonfood)
 
+	# convert token counts into synset counts.
 	synset_counts_1 = map_to_synsets(word_counts_1)
 	synset_counts_2 = map_to_synsets(word_counts_2)
 
@@ -534,8 +536,10 @@ def calculate_relative_specificity(
 		num_possible_comparisons = float(
 			sum(word_counts_1.values()) * sum(word_counts_2.values()))
 
-		return specificity_score / float(num_actual_comparisons)
-		#return specificity_score / num_possible_comparisons
+		try:
+			return specificity_score / float(num_actual_comparisons)
+		except ZeroDivisionError:
+			return 0
 
 	return specificity_score
 

@@ -1,6 +1,9 @@
 manuscript notes
 ~~~~~~~~~~~~~~~~
 
+[] note that the specificity data concerns only the first image!
+	I need to mention that in the text!
+
 Galaxy zoo refs:
 Galaxy Zoo Volunteers Share Pain and Glory of Research
 Galaxy Zoo: Motivations of Citizen Scientists, Raddick+ 2013.

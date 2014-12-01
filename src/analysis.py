@@ -486,11 +486,38 @@ def calculate_vocabulary_sizes(
 	return results
 
 
+#class BootstrapSweepable(object):
+#	'''
+#		An adaptor to make bootstrap_relative_specificity runnable by
+#		the simsweep multiprocessing module
+#	'''
+#	def __init__(self):
+#		pass
+#
+#	def run(
+#		(exp1, tmts1),
+#		(exp2, tmts2),
+#		images=[5],
+#		num_bootstraps=1000,
+#		resample_size=119,
+#		fname='data/new_data/specificity_bootstrap.json'
+#	):
+#		bootstrap_relative_specificity(
+#			(exp1,tmts1), (exp2,tmts2), images, num_bootstraps, 
+#			resample_size, fname
+#		)
+#
+
 def bootstrap_relative_specificity(
 		(exp1,tmts1), 
 		(exp2,tmts2), 
-		num_bootstraps
+		images=[5],
+		num_bootstraps=1000,
+		resample_size=119,
+		fname='data/new_data/specificity_bootstrap.json'
 	):
+
+	write_fh = open(fname, 'w')
 
 	dataset_specs = [
 		{'exp': exp1, 'treatments': tmts1},
@@ -500,63 +527,99 @@ def bootstrap_relative_specificity(
 
 	# load the datasets into memory
 	for i, spec in enumerate(dataset_specs):
-		for image in range(5,10):
+		for image in images:
 			datasets[i].append(dp.SimpleDataset(
 				which_experiment=spec['exp'],
 				show_token_pos=False,
 				show_token_img=False,
 				class_idxs=spec['treatments'],
 				img_idxs=[image],
-				balance_classes=False
+				balance_classes=resample_size
 			))
 
-	# reorganize the data
-	for i in datasets:
-		for j in datasets[i]:
+	# reorganize the data.
+	#
+	# Currently, separate datasets for each image, within which we have
+	# separate workers.  Make the worker the dominant organizing division.
+	# This enables us to do worker-based resampling, which is important for
+	# the integrity of the bootstrap, since each worker is an HPU, and we
+	# are measuring the distribution over HPU characteristics.
+	for ds in range(len(datasets)):
+		for image in range(len(images)):
 
-			# pool the workers from all treatments
-			datasets[i][j] = reduce(
-				lambda x,y: x + datasets[i][j].data[y],
-				datset_specs[i]['treatments'],
+			# pool the workers records from all treatments
+			datasets[ds][image] = reduce(
+				lambda x,treatment: x + datasets[ds][image].data[treatment],
+				dataset_specs[ds]['treatments'],
 				[]
 			)
 
-		# Currently, we have the datasets sorted by image, then worker
-		# Make it sorted by worker, then image
-		datasets[i] = zip(*datasets[i])
+			# Now the records for workers from different treatments were 
+			# pooled.  Next, extract the labels ('features') from those 
+			# records
+			# extract just the labels given by workers from each record
+			datasets[ds][image] = [w['features'] for w in datasets[ds][image]]
 
+		# The desired data was extracted.  The data are organized first by
+		# image, then by worker.  Instead, organize by worker, then image
+		datasets[ds] = zip(*datasets[ds])
 
+	boot_results = []
 	for b in range(num_bootstraps):
 
-		# resample both datasets (the bootstrapping principle)
-		resample1 = np.random.choice(entries1, 119, replace=True)
-		resample2 = np.random.choice(entries1, 119, replace=True)
+		# show progress
+		if b % 10 == 0:
+			print '%2.1f %%' % (100 * b / float(num_bootstraps))
 
+		# resample workers from both datasets (the bootstrapping principle)
+		resample1= [
+			random.choice(datasets[0]) 
+			for i in range(resample_size*min(len(tmts1),len(tmts2)))
+		]
+		resample2= [
+			random.choice(datasets[1]) 
+			for i in range(resample_size*min(len(tmts1), len(tmts2)))
+		]
 
-	# pool all the workers from ds1 and ds2
-	entries1 = reduce(lambda x: x + ds1.data[y], ds1.data.keys(), [])
-	entries2 = reduce(lambda x: x + ds2.data[y], ds2.data.keys(), [])
+		# Debug: try doing sampling w/o replacement -- should give the non
+		# bootstrap result for each bootstrap
+		#resample1 = random.sample(datasets[0], resample_size)
+		#resample2 = random.sample(datasets[1], resample_size)
 
-	for b in range(num_bootstraps):
+		this_boot_results = []
+		for image in range(len(images)):
 
-		for image in range(5,10):
+			# extract the features related to this image
+			tokens1 = reduce(lambda x,y: x + y[image], resample1, [])
+			tokens2 = reduce(lambda x,y: x + y[image], resample2, [])
 
-
-			# collect the words from each resampling
-			tokens1 = reduce(lambda x,y: x+y['features'], resample1, [])
-			tokens2 = reduce(lambda x,y: x+y['features'], resample2, [])
-
-			# count the words
+			# convert the token lists to counts
 			counts1 = Counter(tokens1)
 			counts2 = Counter(tokens2)
 
-			counts_food = get_word_counts(1, [0], [image])
-			counts_cult = get_word_counts(1, [1], [image])
+			# calculate the relative specificity for this image
+			this_boot_results.append(
+				wna.calculate_relative_specificity(counts1, counts2)
+			)
 
-			results['img_food_cult'].append(wna.calculate_relative_specificity(
-				counts_food, counts_cult, ignore_food))
+		boot_results.append(np.mean(this_boot_results))
 
-	results[comparison] = np.mean(results[comparison])
+	# Find the 95% confidence interval using the 5th and 95th percentile
+	boot_results.sort()
+	idx_percentile_2 = int(np.floor(0.025*num_bootstraps))
+	idx_percentile_98 = int(np.ceil(0.975*num_bootstraps))
+	mean = np.mean(boot_results)
+	stderr = np.std(boot_results)
+	upper_CI = boot_results[idx_percentile_98]
+	lower_CI = boot_results[idx_percentile_2]
+
+	results = {
+		'mean': mean,
+		'std': stderr,
+		'upper_CI': upper_CI,
+		'lower_CI': lower_CI
+	}
+
 	write_fh.write(json.dumps(results, indent=2))
 
 	return results
@@ -566,10 +629,10 @@ def calculate_all_relative_specificities(
 		include_food=True,
 		include_nonfood=False,
 		normalize=True,
-		average=False
+		average=False,
+		fname='data/new_data/specificity.json'
 	):
 
-	fname= 'data/new_data/specificity.json'
 	write_fh = open(fname, 'w')
 	images = range(5,10)
 	results = defaultdict(lambda: [])

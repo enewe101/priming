@@ -195,7 +195,18 @@ class SimpleDataset(object):
 		for idx in self.data:
 			self.data[idx] = random.sample(self.data[idx], truncate_to)
 
+		# syncronize some properties
 		self.num_examples = truncate_to
+
+		# recalculate the vocabulary counts
+		self.vocab_counts = Counter()
+		for tmt in self.data:
+			self.vocab_counts.update(
+				reduce(lambda x,y: x+y['features'], self.data[tmt], [])
+			)
+
+		self.vocab_list = self.vocab_counts.keys()
+
 
 
 	def read_dictionary(self):
