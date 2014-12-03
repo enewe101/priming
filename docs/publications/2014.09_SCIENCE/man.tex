@@ -123,31 +123,35 @@
 
 \begin{sciabstract}
 
-Microtask platforms combine the efforts of large numbers 
-of people to perform tasks that are difficult to automate with computers 
-alone.  These platforms support near-real-time task completion, mimicking a
-compute server, and shift the role of the human from consumer to 
-producer of computing resources.  To realize its full
-potential, we must understand how human computation differs from machine 
-computation, and address the biases inherent in 
-human cognition.  The effects of various task-design variables on worker
-performance have been investigated, but there has been little 
-investigation into how consecutive tasks influence one another. Here we show 
-that the responses in later tasks are strongly influenced by the content of 
-earlier ones, an effect that is as strong or stronger than the effect of 
-framing.  Our findings are not solely cautionary; we find
-that these \textit{intertask effects} can be harnessed to improve the quality 
-of responses, and might thereby help to achieve expert-level judgments in 
-citizen science and other crowdsourcing initiatives. 
-As an ancillary contribution, we demonstrate the use of machine learning 
-algorithms measure exposure-induced human bias, in terms of its ability to 
-influence human computations. 
+Faced with the scale and complexity of the data revolution, researchers and
+industry are increasingly relying on \textit{human computation}.  Microtask
+platforms, like Amazon Mechanical Turk, act like a human compute server,
+making it possible to access human cognition quickly and inexpensively. 
+This has lead to broad adoption across a spectrum of disciplines
+in the humanities and computer science, in research into medical imaging
+technologies, and in many applications where expert opinion would normally be 
+sought.  Here we show that an inherent
+feature of microtask platforms, the repetition of similar tasks,
+acts as a strong, but as yet unexplored source of bias.  
+These \textit{intertask effects}, rival the
+severity of overtly framing a task's purpose.  
+Using image labeling as a canonical microtask, we found that prior 
+tasks influences the vocabulary that a worker uses when labeling 
+subsequent images in profound an nuanced ways.  Prior tasks not only 
+alter what a worker focuses on, 
+but also modulate the richness and specialization of her vocabulary.  
+While they can be a source of systematic bias, our
+results suggest that intertask effects can be leveraged
+to hone worker focus and specificity.  Though we focused on microtask 
+platforms due to their emerging prominence, our results apply to  
+citizen science, crowdsourcing, and any application involving repetitive 
+tasks relying on human judgment.
 \end{sciabstract}
 
 \section*{Introduction}
-Microtask crowdsourcing platforms like Amazon Mechanical Turk (MTurk) make it 
-possible for requesters to submit batches of tasks to a large pool of 
-workers, who do the tasks for fun, a sense of purpose, and remuneration 
+Microtask platforms are online marketplaces on which \textit{requesters} 
+post batches of tasks, and \textit{workers} complete them
+for remuneration, a sense of purpose, and for fun
 \cite{kazai2013analysis,Antin20122925}.  
 Typical tasks include tagging and categorizing images 
 \cite{6116320,Zhai2012357}, transcribing voice recordings 
@@ -155,211 +159,117 @@ Typical tasks include tagging and categorizing images
 or handwritten notes \cite{Berinsky2012351,Finnerty2013}, and judging the 
 relevancy of search results 
 \cite{le2010ensuring,grady2010crowdsourcing,alonso2009can,kazai2013analysis}.
-Originally used to distribute clerical work (\#), these platforms 
-increasingly serve as a means to engage experimental participants in a 
-research 
-setting \cite{paolacci2010running,Berinsky2012351,snow2008cheap,alonso2009can}.
-This trend has seeded considerable interest in characterizing the parameters
-of task design, and validating the microtask platform methodology (\#).
 
-Computer scientists view microtask platforms in the context of general
-computation(\#).  In this regard, the platforms enable a tight integration of 
-human and machine computation(\#).  Researchers coined the term HPU 
-(Human co-Processing Unit) in analogy to CPUs and GPUs \cite{5543192}.  
-Ongoing research pursues the establishment of an HPU instruction set
-including basic operators like \texttt{vote}, \texttt{subdivide}, \texttt{map},
-\texttt{reduce}, \texttt{sentiment}, and \texttt{image\_tag} (\#).  Libraries 
-are being developed to give the programmer more seamless access to HPU 
-resources 
+While microtask platforms have been widely adopted as a research tool,
+computer scientists also hold such platforms as the object of 
+research, viewing  microtask platforms as a new kind of computing 
+architecture.  In analogy to CPUs (central 
+processing units) and GPUs (graphics processing units), 
+Davis \textit{et al} invoked the \textit{human processing unit}, or HPU \cite{5543192}.
+Meanwhile, researchers have sought to define a basic HPU instruction set, and
+libraries for HPU programming are under active development
  \cite{little2010turkit,minder2011crowdlang,minder2012crowdlang,kittur2011crowdforge}.  
-As with other architectures, the HPU architecture makes entirely new classes 
-of problems tractable for the programmer (\#).
 
-But the ability to program with high-level human instructions comes with a 
-cost: HPU output is inherently noisy (\#).  Part of this noise can be explained
-in terms of worker demography (\#).  But systematic cognitive biases also 
-play a role (\#).   
-So far, investigation has explored how worker performance is influenced by
-such design factors as the level of 
-pay \cite{kazai2013analysis}, training \cite{le2010ensuring}, pre-screening of 
-workers \cite{paolacci2010running}, and user-interface design 
-\cite{Finnerty2013}.  Researchers have also investigated \textit{framing}, 
-by testing the effects of describing the workflow context 
+Unlike CPUs and GPUs, the experiments we present here suggest HPUs
+are subject to \textit{hysteresis}, meaning that their output depends
+on the history of their inputs.  Given the
+increasing prevalence of microtask-based methodologies, other factors 
+affecting HPU outputs have received considerable attention.
+This includes various task-design parameters such as the level of 
+pay \cite{kazai2013analysis}, the training \cite{le2010ensuring} and 
+pre-screening \cite{paolacci2010running} of workers, and user-interface 
+design factors \cite{Finnerty2013}.  
+Researchers have also investigated \textit{framing} effects, 
+such as the effects of describing the workflow context 
 \cite{Kinnaird2012281}, the purpose of tasks 
-\cite{chandler2013breaking}, or using alternate problem descriptions
-\cite{thibodeau2013natural}.  To our knowledge, no study has investigated 
-the influences that consecutive microtasks exert on one another.
+\cite{chandler2013breaking}, or altering the problem description
+\cite{thibodeau2013natural}.  Results in psychology show that people are 
+susceptible to various kinds of priming 
+\cite{BJOP1796,No2007,beller1971priming}, and, in particular, 
+task-repetition effects \cite{Gass1999549,sohn2001task}.  But to our 
+knowledge, no study has investigated the practical ramifications 
+of intertask effects on human computation.
 
-It is known that people are susceptible to priming effects 
-\cite{BJOP1796,No2007,beller1971priming}, and, in particular, task-repetition 
-effects \cite{Gass1999549,sohn2001task}.  Thus, a worker's response during
-one task may depend on previous ones.  Such \textit{intertask} effects
-would amount to a kind of \textit{hysteresis}, meaning that HPU outputs are not
-only a function of the current input, but also of the history of inputs, with
-important implications for the design of crowdsourcing initiatives.
+We investigated intertask effects using image-labeling tasks on the Amazon 
+Mechanical Turk (MTurk) microtask platform.  Image labeling tasks are among
+the most common MTurk tasks \cite{chandler2013breaking,Berinsky2012351,Finnerty2013,paolacci2010running}, a trend which will probably continue 
+in the long term because of their role in computer vision research 
+\cite{5543192}.
+In our experiments, workers performed a set of \textit{initial tasks}, 
+followed by a set of \textit{test tasks}. Crucially, no distinction was
+made between these sets from the perspective of the worker. We varied the 
+initial tasks (for example, having workers label images of food or objects), 
+and observed the ensuing effects on responses in test tasks.  
+As a point of 
+comparison, we also included treatments in which we framed the tasks in terms 
+of different purposes.
 
-Here we describe a series of experiments, using the Amazon Mechanical
-Turk (MTurk) microtask platform (\#), in which we studied intertask effects
-for image-labeling tasks.  Image-labeling tasks are among the most 
-common kinds of microtasks
-\cite{chandler2013breaking,Berinsky2012351,Finnerty2013,paolacci2010running}, 
-and it seems likely that this will remain the case in the long term because
-they provide a source of ground truth in computer vision research 
-\cite{5543192}.  
-During the experiments, workers were presented with a series of images (one at
-a time), and had to provide five descriptive words (\textit{labels}) for each.
-We varied first five images (hereafter the \textit{initial tasks})
-and observed the effect this had on the workers' labels for the last five
-(\textit{test tasks}).
-
-The initial tasks were chosen to embed a certain \textit{prime concept}.
-Our first experiment compares the prime concepts \textit{food} and (non-food) 
-\textit{objects}, while our second experiment compares \textit{food} and 
-\textit{culture}.  For both experiments, The test tasks used images that
-combined both prime concepts used for the initial tasks \td{reword}.  Workers participated 
-in only one treatment of one experiment, and were randomly assigned initial 
-tasks based on one of the prime concepts.  From the perspective of the worker, 
-we made no distinction between the initial tasks and test tasks.
-
-As a point of comparison, we included treatments in which we induced
-\textit{framing}. \td{what is framing?}
-In the framing treatments, before workers begin the tasks, we told them that 
-the purpose of study was to understand the visual perception of 
-``food and ingredients'' in one case, or the 
-perception of ``objects and tools'' in another.  We varied the language of 
-the framing text (hereafter simply the \textit{frame}), and for some treatments
-we required the worker to echo the frame using a combo-box input.
-
-We found that intertask effects were stronger than framing, unless the worker
-was required to echo the frame, in which case the effects of both exposures were on par.  
-Our results demonstrate that initial tasks can change 
-workers' focus in later tasks.  Using the wordnet corpus, we analyzed 
-the effects on the vocabulary used by workers when 
-labeling test tasks. 
-Exposure to both framing and initial tasks significantly altered the 
-diversity of vocabulary that workers used when referring to the prime concept,
-as well as the degree to which workers used specialized (rather than generic) 
-words.
-
-Contrary to our initial expectations, our findings suggest that the HPU 
-programmer can leverage intertask effects.  By carefully designing workflows,
-it is possible to tune worker focus, specificity, and expressivity.  Our 
-findings carry two lessons for the task designer: intertask
-effects can severely bias HPU output if uncontrolled, but if properly 
-controlled, intertask effects might be of significant utility in achieving 
-expert-level output.
-
-\paragraph*{Measuring computational hysteresis.}
-Before describing the details of our experiments, we explain some 
-choices made in measuring intertask and framing effects 
-(hereafter collectively \textit{exposure effects}).  
-In trying to establish a measure of exposure effects, it might be tempting to 
-invoke the notion of a ``neutral frame of mind'' to serve as a baseline. 
-But such a concept seems both difficult to define, and unlikely to arise.
-Therefore, we always consider the effect of one exposure 
-\textit{relative} to another.  We organized our experiments 
-into pairs of treatments, between which it is possible to make meaningful 
-comparisons.  
-
-Our goal in measuring exposure effects is determine whether they can actually 
-alter the course of algorithms.
-We could, by means of a $\chi^2$ test, reject the null hypothesis that
-differently exposed HPUs have the same distribution of outputs.
-However, this alone would not demonstrate a practically significant effect, in 
-terms altering the execution path of algorithms.
-
-We developed a more stringent measure in which we train classifier algorithms 
-to infer the exposure of an HPU from its outputs.
-If a classifier infers an HPU's exposure with significantly 
-better accuracy than provided by chance, then the HPU outputs must have 
-been affected by the exposure.  
-But in addition, the classifier serves as a kind of certificate, since it is 
-an example of an algorithm whose path of execution is influenced by the 
-exposure of 
-individual HPUs.  In the supplementary material, we ground our approach 
-rigorously in terms of the L1-distance metric, which is a measure of 
-divergence between distributions.  The L1-distance ranges from 
-0 to 1.  In our case, a value of 1 indicates that the HPU's exposure
-influences its output so strongly that the exposure can be inferred from the
-output without ambiguity.  A value of 0 indicates that the exposure has no
-impact on the HPU's outputs.  The connection between the
-L1-distance, $D_\mathrm{L1}$, and a classifier's accuracy, $\eta$, is given by:
-\begin{equation}
-	D_\mathrm{L1} \geq 2 \eta - 1, 
-	\label{l1}
-\end{equation}
-Since a classifier's performance provides a lower bound on the L1-distance, 
-we shall denote $D_\mathrm{L1}^-\equiv 2\eta-1$.
-The L1-distance admits the following interpretation: if two distributions
-$P$ and $Q$ have an L1-distance $d$, then in the worst case, the 
-frequency with which a binary algorithm operating on samples
-from $P$ outputs a 1, will differ from that when operating on samples from 
-$Q$ by $d \times 100\%$.  
-Thus, we can interpret $D_\mathrm{L1}^-$ as a kind of
-lower bound for the worst-case bias induced by HPU hysteresis.
-We provide further discussion of the statistical properties of our approach 
-in the supplementary material.
+The results showed that intertask effects are stronger than framing effects.  
+Framing effects were comparable to intertask effects only when we had the
+workers actively reiterate the frame by means of a combo-box input.
+Using the wordnet corpus (\#), we found that intertask 
+effects can hone a worker's focus, and boost the specialization
+and lexical richness of her labels.  Thus, while intertask effects may be a 
+serious source of bias, they can also be leveraged to help achieve
+expert-level performance in crowdsourcing when properly controlled.
 
 \paragraph{Experimental setup.}
 \begin{figure}
 	\centering
 	\includegraphics[scale=0.7]{figs/images.pdf}
 	\caption{
-		Examples of images used in labeling tasks. (The italicized treatment 
-		names that follow are defined in Table \ref{table:treatments}.) Images 
-		from initial tasks: A) \textit{task1:food}, B) 
-		\textit{task1:obj}, D) \textit{task2:food}, 
-		E) \textit{task2:cult}.  Images from  test tasks: C) \textit{exp1}, 
-		F) \textit{exp2}.  The full set of experimental materials is 
-		shown in the supplementary material (S1).
+		Examples of images used for various experiments and treatments:
+		A) initial tasks for \textit{task1:food}, B) initial tasks for 
+		\textit{task1:obj}, C) test tasks for treatments in \textit{exp1}, 
+		D) initial tasks for \textit{task2:food}, 
+		E) initial tasks for \textit{task2:cult},  
+		F) test tasks for \textit{exp2}.  The full set of experimental 
+		materials is shown in the supplementary material.
 	}
 
 	\label{fig:task}
 \end{figure}
-We performed two experiments, soliciting respectively 2300, and 900 MTurk 
-workers to label images depicting food, kitchen- and dining-ware, and cultural
-scenes.  In a given experiment, all workers performed the same test
-tasks, the output of which was our main dependent variable.  Before performing
-the test tasks, workers were subjected to an exposure, via two 
-\textit{modalities}: either they completed a set of initial tasks, or 
-were exposed to a frame, or both.  As mentioned, from the perspective of the worker, 
-there was no distinction or discontinuity between initial and test tasks.
 
-We organized the experiments into \textit{treatment pairs}.  Both treatments in a 
-pair involved the same exposure modality, but differed in the
-content of the exposure.  In Table 1, we summarize the various experimental
-treatments, and introduce a naming convention that we use to refer to 
-treatments and treatment pairs.
-In the treatment pairs that studied intertask effects (\textit{task1} and
-\textit{task2}), workers performed 10 image-labeling tasks, with the first 
-five tasks comprising the initial tasks and the last five tasks comprising the
-test tasks.
+We performed two experiments, \textit{exp1} and \textit{exp2}, which consisted
+of various pairs of treatments.  The treatments in each pair were subjected to
+the same exposure modality, either initial tasks or framing, but differed in
+the content of the exposure.  Table \ref{table:treatments}  
+summarizes the treatments and introduces a naming convention that we use 
+in what follows.
+In \textit{exp1}, workers in the treatment pair \textit{task1} initially
+labeled 5 images containing either food (treatment \textit{task1:food}), or 
+objects, (treatment \textit{task1:obj}), and then performed test tasks, in 
+which they 
+labeled images containing both food and objects (see Fig.~\ref{fig:task} for 
+examples of the images used). In \textit{exp1}, we included two other 
+treatment pairs, \textit{frame1} and \textit{echo1}, in which workers did not 
+perform initial tasks, but instead were given information which framed the 
+purpose of the tasks.  Workers in \textit{frame1} were told that the tasks 
+were ``Funded by the laboratory for the visual perception of 
+\{ Food and Ingredients $\vert$ Objects and Tools~\}''.  In \textit{echo1},
+we sharpened the frame, by indicating that ``The purpose of this study is to 
+understand the visual perception of 
+\{ Food and Ingredients $\vert$ Objects and Tools~\}'' and then asking the
+worker to reiterate the purpose of the task using a combo-box input.
 
-In the first experiment, the content of the exposures was based on the prime
-concepts \textit{food} and \textit{objects} (throughout, ``objects'' should be
-taken to imply ``non-edible objects'').  So, 
-in \textit{task1:food}, the initial tasks contained images depicting food, 
-while in \textit{task1:obj}, they contained images depicting objects, 
-including kitchen and dining-ware (see Fig~\ref{fig:task}).  Meanwhile, 
-for the exposures in \textit{frame1} we indicating that the study was
-``funded by the laboratory for the visual perception of \{ Food and Ingredients
-$\vert$ Objects and Tools~\}''.  To further strengthen the frame, we 
-introduced another pair of framing treatments, \textit{echo}, with stronger
-wording: ``The purpose of this study is to understand the visual perception
-of \{ Food and Ingredients $\vert$ Objects and Tools~\}'', and required
-the worker to echo the purpose of the study by selecting it among other 
-options in a combo-box input.
+In contrast to \textit{exp1}, which was based on concepts of food and
+objects, \textit{exp2} was based food and \textit{culture}.
+Since culture is more abstract, one might expect different effects 
+in \textit{exp2}.  We again compared
+intertask effects (in treatment pair \textit{task2}) to framing effects 
+(\textit{frame2}), but with a slight variation in the framing treatments.
+In \textit{frame2}, workers were not only exposed to a frame, but also 
+performed a set of initial tasks before the test tasks.  Since its purpose 
+was still
+to investigate framing effects, the initial tasks in \textit{frame2}
+were not varied. Thus, \textit{frame2} provides insight into the moderating 
+effect that intervening tasks might have on framing effects.
 
-Note that food and objects are both relatively well-defined classes of 
-physical entities.  To explore a different conceptual axis, in 
-\textit{exp2} we adopted the prime concepts \textit{food} and \textit{culture}.
-Compared to food and objects, culture is more abstract, and, rather than 
-comprising a class of physical entities, it encapsulates
-sets of beliefs, values, and practices.  Examples of images from the initial 
-tasks in \textit{task2} are shown in Fig.~\ref{fig:task}, and the full 
-collection of 
-experimental materials is presented in the supplementary material (S1).  We 
-ensured that all workers only participated in one treatment of one experiment.
+In all treatments, workers were shown images one at a time, and provided
+5 labels for each.  From the perspective of the worker, there was no
+distinction or interruption between the initial and test tasks.  We used
+workers' unique identifiers to ensure that they only participated in a 
+one treatment of a single experiment.
 
 \setlength{\tabcolsep}{2pt}
 \begin{table}[t]
@@ -396,35 +306,77 @@ ensured that all workers only participated in one treatment of one experiment.
 
 	\caption{ \footnotesize{ 
 		We use the treatment names shown to refer to specific sections of 
-		the data collected.  For example, \textit{task2:food} refers to the
-		treatment in the second experiment which was not exposed to a frame, 
-		and whose initial tasks contained images of food (7th row).
+		the experimental data.
 	}}
 	\label{table:treatments}
 \end{table}
 
 
 
-\paragraph{The strength of intertask effects.}
+\paragraph*{Measuring computational hysteresis.}
+While our study builds on research into the psychological mechanisms
+of task performance, there is a crucial difference in the question at issue. 
+Our goal is to measure the practical ramifications of intertask effects on 
+the microtask methodology. Whereas a statistically significant effect, even 
+if small, might be sufficient to distinguish one psychological mechanism 
+from another (\#), in our study 
+\textit{effect size} is central.  Thus our main goal is not merely to reject 
+the null hypothesis that initial tasks have no effect
+(we do this in the supplementary text).
 
-We assessed the strength of intertask and framing effects
-by training a multinomial naive Bayes classifier to infer a worker's exposure
-based on the labels provided in the test tasks (see Fig.~\ref{fig:theta}).
-This inference was made over the two possibilities for a given treatment pair.
-We found that in \textit{task1}, whether a worker performed food- or 
-object-containing initial tasks had a strong effect on their subsequent 
-labels, introducing a bias that probably exceeds 30\%.  In comparison, the 
-framing effect in \textit{frame1} did 
-not influence workers' labels enough for the classifier to make predictions 
-with significantly better accuracy than that afforded by chance.  The results 
-for \textit{exp2} show a similar, but even more pronounced trend, with the bias
-induced by intertask effects in \textit{task2} probably exceeding 50\%.
+To couch intertask effects in a practical yet general setting, we imagine
+that, after a worker performs a task, her response is used to make some 
+kind of yes-or-no decision, $\mathcal{D}$.  For example, this decision 
+could be whether or not to flag a certain comment
+below a news article as inappropriate; but for now, we leave 
+$\mathcal{D}$ unspecified.  Since worker's responses may
+vary, repeating the same task might lead to different outcomes for 
+$\mathcal{D}$.  We shall define the notion of \textit{bias} in terms of the
+effect that prior tasks have on the probability of a positive outcome
+from $\mathcal{D}$.
 
-We see a comparable effect size in the \textit{echo} treatment pair.
-We expected \textit{echo} to show a very strong effect because, by requiring
-the worker to echo the purported purpose of the task, we signal that it
-is of particular importance.  The fact that the intertask effects were on par with the framing 
-effects in \textit{echo} shows just how powerful intertask effects can be.
+The nature of $\mathcal{D}$ will affect our measurement of bias.
+If $\mathcal{D}$ has random output, or if it always outputs ``yes'' 
+irrespective of the worker's response, then of course we will 
+find zero bias.  Likewise, there is an upper limit to the bias induced on $\mathcal{D}$. In a precise sense, the bias of $\mathcal{D}$ can only be as
+great as the bias inherent in the worker's response 
+(this is formalized in the supplementary text).  Therefore, to estimate the 
+bias induced in workers' outputs, we adopt an 
+adversarial approach: we seek to construct the decision that 
+is the most susceptible to workers' biases. In the supplementary text, we 
+show that this
+problem can be formulated as a  machine learning problem, wherein one
+constructs a classifier that infers the exposure of a worker from her 
+responses in test tasks.  The bias, $\theta$, induced by 
+prior exposures, can then be bounded using the classifier's accuracy, 
+$\eta$ (\#):
+\begin{equation}
+	\theta \geq 2\eta - 1
+	\label{l1}
+\end{equation}
+
+
+\paragraph{The strength and dynamics of intertask effects.}
+For each treatment pair, we trained a naive Bayes classifier (\# in the 
+supplementary material we discuss the choice of classifier, the
+approach to measuring accuracy, and draw a comparison to results using 
+a support vector machine in place of the naive Bayes classifier) to 
+distinguish workers from one treatment
+(e.g \textit{task1:food}) from those of the conjugate treatment 
+(e.g. \textit{task1:obj}).  In \textit{task1} and \textit{task2}, intertask 
+effects profoundly biased worker outputs, whereas we could not detect 
+a statistically significant bias induced by framing in \textit{frame1} and 
+\textit{frame2} (see Fig.~\ref{fig:theta}).  The bias induced
+by framing was only of a comparable level to that induced by intertask 
+effects in \textit{echo1}.  
+Moreover, asking workers to reiterate the
+frame, as was done in \textit{echo1}, is probably interpreted as
+a direct signal from the requester that the frame should be acted upon.  In that sense, 
+\textit{echo1} is perhaps more indicative of the effects of an 
+\textit{instruction}.  This shows that
+intertask effects profoundly affect the responses of workers, producing an
+effect that is stronger than framing, and on par with the combination of 
+framing and reiteration.
 
 \begin{figure}
 	\centering
@@ -441,23 +393,16 @@ effects in \textit{echo} shows just how powerful intertask effects can be.
 	\label{fig:theta}
 \end{figure}
 
-\paragraph{Dynamics of intertask effects.} It is natural to expect 
-intertask effects to attenuate as a worker proceeds through the test tasks.  
-In \textit{task1}, we permuted the test tasks, allowing us to 
-measure intertask effects as a function of task position, while factoring
-out the content-dependent differences between tasks
-(see Fig.~\ref{fig:theta}B). 
-We found intertask effects were most pronounced for the first test task,
-dropping off substantially for the second, but maintaining a 
-significant effect through until the fifth test task.  
-This shows that the range of intertask effects extends across at least five 
-tasks, and probably substantially more.
-This makes intertask effects of greater concern, but as we will show, it also
-makes intertask effects of greater potential utility.
-In future work, it would be interesting to investigate whether a worker's
-susceptibility to intertask effects varies across a large batch.  For example,
-It is conceivable that the first few tasks induce especially strong
-or long-lasting effects, in effect ``setting the tone'' for the rest of the batch.
+To observe the dynamics of intertask effects, we trained a naive Bayes
+classifier to distinguish workers in \textit{task1} based on responses to
+individual test tasks.  We permuted 
+the test tasks to eliminate effects arising from differences in the images 
+therein (more details are provided in the supplementary text). The first test 
+task shows the greatest bias, after which the effects drop off, but 
+substantial bias persists through the fifth test task
+(see Fig. \ref{fig:theta}B).  Presumably, this decay profile reflects the
+fact that workers are also influenced by their exposure to the test tasks, 
+which washes out the effects of initial tasks.
 
 \paragraph{Detailed influences on worker outputs.} 
 \begin{figure}
@@ -475,185 +420,152 @@ or long-lasting effects, in effect ``setting the tone'' for the rest of the batc
 	\label{fig:specificity}
 \end{figure}
 
-Having observed significant effects from framing and task-exposure,
-we looked in greater detail at the nature of the effects.  For instance,
-does a food-oriented exposure induce workers to provide more food-related
-labels?  And if so, does this explain the classifier's ability to distinguish
-a worker's initial exposure? 
+Using the wordnet corpus, we analyzed exposure effects in finer detail.
+Wordnet encodes semantic information in various ways, including in the form 
+of synsets (groups of synonymous words), and hypernym-hyponym relations.
+Hypernyms are generalizations (``bread'' is a hypernym of ``pumpernickel''),
+while hyponyms are specialisations.
 
-To answer these questions, we used the wordnet corpus, augmented with names of
-ethnic foods learned from the Internet.  Wordnet provides a (roughly)
-hierarchical set of relationships between nouns, called hypernym-hyponym
-relationships.  A hypernym is a generalization, while a hyponym is a 
-specialization.  So, for example, ``bread'' is hypernym to ``rye bread'' 
-and hyponym to ``baked goods''.
+First, we used wordnet to identify nouns depicting foods (\# We 
+operationalized food-references by taking all hyponyms of the synsets 
+\texttt{food.n.01} and \texttt{food.n.02}, with the addition of ethnic foods 
+learned by crawling a recipe website, as described in the supplementary text),
+to see whether 
+workers from the various food-exposed treatments (\textit{*:food}), 
+provided more references to food than their conjugate treatments, overall.
+The \textit{exp1:*:food} treatments
+did produce more food references, but, unexpectedly, 
+the number of food references in \textit{task2:food} was
+less than that in \textit{task2:cult}. Also, the effects on the
+number of food references was, overall, somewhat smaller than one might 
+have expected given the extent of bias observed for \textit{task1}, 
+\textit{echo1}, and \textit{task2}.  This means that task and frame exposures
+induce other effects which are more subtle than a bulk shift in number 
+of references to the primed concept (food).
 
-Using the augmented hypernym-hyponym structure of wordnet to identify nouns 
-depicting food, we found that, for the experimental pairings in 
-\textit{exp1}, the
-food-exposed treatments did produce a significantly larger fraction of 
-food-related labels (see Fig.~\ref{fig:specificity}A).  While the shift in 
-focus with regard to food does help explain the classifier's ability to 
-infer worker exposures, it is insufficient to explain the observed performance
-(*).
-Furthermore, in \textit{exp2:task2} we see a significant but reversed effect
-(see Fig.~\ref{fig:specificity}A), which suggests a more complicated 
-relationship between exposure and label usage.
-Given the difference between the food-culture and food-object conceptual axes, 
-it should perhaps not be surprising that the effect of initial task exposure 
-is different.  It would appear that we must be prepared to accommodate 
-multiple 
-countervailing factors influencing the number of references to the prime 
-concept (food).  We will come back to this point momentarily.
+Next, we looked at the change in the frequency of occurrence of particular 
+words.  Surprisingly, the word ``food'' was the \textit{most suppressed} word
+for workers in \textit{*:food} across all treatment pairs (Table S1 shows the
+top five most promoted and suppressed words for each treatment pair).
+Initially, this seems at odds with the fact that (at least in \textit{exp1})
+the \textit{*:food} treatments had more food references than their conjugate
+treatments.  But taken together, these facts indicate that workers are opting 
+to use more specialized food-references in place of ``food''.  
+Indeed, when we look at the total number of unique
+words (lexical richness) used to refer to food, we found that 
+a significantly richer lexicon was used by all \textit{*:food} treatments,
+except in \textit{frame2} (see Fig.~\ref{fig:specificity}B).  This effect 
+was especially pronounced in \textit{task1} and 
+\textit{task2}.
 
-To explore these effects further, we looked more closely at which particular
-labels were most suppressed (activated) by a worker's exposure.  Remarkably,
-we found that, for all treatment pairs, ``food'' was always the most 
-suppressed label among 
-the food-exposed workers.  This is surprising, considering 
-that the overall incidence of food-related labels mostly \textit{increased} 
-among food-exposed workers.  But taken together, the increase in references to 
-food 
-and the decrease in the incidence of ``food'' per se (which is the most generic
-food-reference in the wordnet-based ontology), necessarily implies that
-food-exposed workers have opted for more specialized references in place of 
-``food''. 
+Finally, we directly calculated the degree of specialization of food 
+references using wordnet's hypernym-hyponym relations.  To determine the 
+relative specialization between the words of two treatments, we computed 
+the proportion of words in the first treatment that were hyponyms of the 
+those in the 
+second, less those in the first that were hypernyms of those in the second 
+(this calculation is formalized in the supplementary text).  Except in the
+case of \textit{frame2}, workers in \textit{*:food} treatments used 
+substantially more specialized terms in reference to food than workers 
+from the conjugate treatments.
 
-In a crowdsourcing task, considerable effort must be given to shaping the 
-vocabulary with which a worker engages a task.  To draw an example from the 
-domain of citizen science, in galaxy zoo, workers catalog images of galaxies 
-in terms of \textit{smoothness}, and the presence of \textit{rings}, 
-\textit{dust lanes}, \textit{digital disturbances}, and so on.  Shaping this 
-vocabulary is crucial to the reliability of results.  The interface of
-galaxy zoo helps by constraining and prompting the user with this basic 
-vocabulary.  But this would not appear to be sufficient, since
-a set of positive and negative training examples are used, together with
-peer-to-peer and peer-to-expert exchange in discussion areas, presumably to
-further refine and standardize the vocabulary (\#).  
+\paragraph{Positive and negative priming.}
+Taken together, the results of the experiments presented here can be 
+explained through a combination of positive and negative priming.
+Positive priming (usually simply ``priming'') occurs when a prior stimulus 
+predisposes a person to give certain responses in an ensuing task, and
+is often observed as an increase in the speed or accuracy of a response, or
+the ability to recognize objects in a briefer, quieter, or noisier signal (\#).
+Negative priming occurs when repeated exposure to a stimulus that is 
+perceived to be non-salient begins to be ignored (\#).  
 
-In our set-up, where the worker's vocabulary is unconstrained, we can 
-directly observe the effects that frames and initial tasks have on worker 
-vocabulary.  By looking at the number of unique food-related labels that 
-workers produced, we assessed the richness of vocabulary that workers used when
-referring to food (see Fig.~\ref{fig:specificity}B).  We found that the 
-food-exposed workers use a richer vocabulary of 
-food-related words, even in cases like \textit{task2:food}, where they 
-made fewer references to food overall.  
-Interestingly, task-based exposure to food had a stronger enriching effect 
- than did framing-based exposures. (* explain why vocab 
-diversity is useful.) 
+Workers exposed to images containing food will be (positively) primed, 
+as memories, concepts, and vocabulary related to food are activated.  
+However, as the worker labels successive images containing food, the basic 
+fact that an image contains food does not appear to be salient, since it 
+does not serve to distinguish one image from another.  Thus, the most 
+generic reference to the fact that food appears, namely the label ``food'', 
+is suppressed, as by negative priming, while more specialized
+references are activated.  Whether workers in \textit{*:food} treatments
+produce an excess of food references overall depends in part on the balance 
+of these factors.  The reduction in food references from workers in 
+\textit{task2:food} relative
+to those in \textit{task2:cult} may also be related to the novelty that 
+workers in 
+\textit{task2:cult} experience when they first encounter food in the test 
+tasks.
 
-Using the ontology of food induced by wordnet, along with foods learned from
-the Internet, we were able to directly calculate the relative specificity of 
-workers from different treatments.
-To do this, we considered all the labels from one treatment
-(for example \textit{task1:food}) and compared these to all the labels from 
-another (\textit{task1:obj}).  For all possible comparisons, we observed 
-which treatment's label was more specific more often, and normalized this
-quantity as a percentage (we provide greater detail in the supplementary 
-material).
+More generally, we are suggesting that, even though workers are not 
+instructed to compare the content of tasks in any way, prior tasks form a 
+context relative to which workers judge salience.  Thus, a worker's focus 
+in repeated tasks tends to be directed away from generic, shared features, 
+toward specific and distinguishing ones.
 
-We calculated the relative specificity for all treatment pairs, while 
-restricting focus to 
-food-related labels (see Fig.~\ref{fig:specificity}C).  We found that 
-the food-exposed workers always provided food-references of substantially 
-greater specificity.  Workers that had labeled images containing food 
-were about 12\% more specific than those that labeled images of objects,
-and about 20\% more specific than those that labeled images of cultural 
-scenes.  With respect to the specificity of food references, framing effects 
-were on par with intertask effects.
-
-Taken together, the results presented in Fig.~\ref{fig:specificity} can 
-be explained by a combination of priming and  \textit{negative} priming.
-Negative priming occurs when a repeated stimulus, which is perceived to be
-non-salient, begins to be ignored (\#).  
-
-We propose that, as a worker from \textit{task1:food} proceeds through the 
-initial tasks, food-related memories and concepts are activated, increasing 
-the likelihood that she uses a variety of food-related labels.  This accounts
-for the overall increases the number of food-related labels, as well as the 
-richness and specificity of her food-related vocabulary.  At the same time,
-since all images up to that point contained food, \textit{whether or not}
-an image contains food begins to appear non-salient, suppressing the most 
-generic references, such as ``food''.  Thus, there is a simultaneous emphasis of the specialized 
-references to the prime concept and de-emphasis of generic references. 
-
-This view can account for the observation that there are fewer
-food-related references overall in \textit{task2:food} compared to 
-\textit{task2:cult}.  Workers in \textit{task2:food}, like those in 
-\textit{task1:food}, are primed to use
-specialized food references and negatively primed against using generic
-ones.  Then, when these workers encounter the test tasks, with images 
-containing more prominent cultural content, they attend to this novel content, 
-decreasing their balance of food references.  
-Meanwhile, workers in \textit{task2:cult}, having seen only cultural scenes,
-experience novelty from the appearance of food-oriented content in the test 
-tasks, and, attending to it, drive the relative difference in the quantity of 
-food-related labels further toward the negative in in 
-Fig.~\ref{fig:specificity}A.
-
-Based on these observations, we submit the following ideas for consideration 
-by the designers of crowdsourced initiatives.
+Based on our observations throughout, we submit the following 
+recommendations for the consideration of those in the position of designing 
+any microtask, citizen science, or crowdsourcing initiative:
 \begin{enumerate}
 	\item{
-		Training tasks should be preferred over examples, since the immediate
-		active use of information appears to increase its impact.
+		Require active feedback to emphasize important details, 
+		as we did in \textit{echo1}.  Similarly, use training tasks rather
+		than (only) examples.
 	}
 	\item{
-		Training tasks should contain the same distribution of 
-		noise (or ``distracting features''), as the real dataset.
-		Exposing workers to irrelevant features, and identifying them as such,
-		will free up worker attention for salient features, by virtue of
-		negative priming.
+		Although ``clean'' examples may be useful to provide clarity,
+		training tasks should contain the same kinds of noise or otherwise
+		distracting features as are expected in the real tasks.
+		This exposure will negatively prime the worker against non-salient 
+		features.
 	}
 	\item{
 		\textit{Validation tasks}, for which the correct output is known,
 		are often used as a quality control measure.
-		These should be dually considered as \textit{calibration tasks}, and
-		should be designed to help workers maintain an optimally primed 
-		state. Feedback, for both correct and incorrect responses, 
-		may further reinforce salient features.
+		These should be dually considered as \textit{calibration tasks}.  
+		Feedback, for both correct and incorrect responses may further 
+		reinforce the desired competency. \label{item:valid}
 	}
 	\item{
-		In many applications, such as the detection of pre-ictal 
-		(pre-seizure) EEG traces, workers encounter few positive examples
-		(most traces are not pre-ictal)(\#).  In the absence of positive 
+		A special case of item~\ref{item:valid} applies when workers are 
+		required to detect rare occurrences.
+		For example, in the detection of pre-ictal (pre-seizure) EEG traces, 
+		most traces are not negative (\#).  In the absence of positive 
 		examples, the target concept may degrade or drift.
-		Drawing calibration tasks from the underrepresented class may 
-		help sustain the target concept.
+		Drawing validation/calibration tasks from the underrepresented class,
+		while providing feedback might help sustain the target concept.
 	}
 	\item{
-		For the most precise classifications, it may be helpful to
-		begin with a coarse classification.  For example, workers could 
-		initially choose from  \texttt{class0}, \texttt{class1}, and 
-		\texttt{borderline}.  Following the coarse classification, the 
-		\texttt{borderline} examples could be batched together, allowing 
-		workers to focus on features that are only salient for such fine 
-		distinctions.
+		For more precise classifications, it may help to begin with
+		an initial coarse classification.  For example, in detecting 
+		inappropriate comments, workers might initially choose from  
+		\texttt{okay}, \texttt{inappropriate}, and \texttt{borderline}.  
+		Following the coarse classification, the 
+		\texttt{borderline} examples could be batched together.  Workers could
+		then calibrate to finer distinctions while coding a more homogeneous 
+		set of images.
 	}
 \end{enumerate}
 
-These recommendations follow logically from our observations, but they are 
-educated guesses.  We leave their direct testing to future work.
+While these recommendations are informed by the observations we have made 
+here, we hope to see them tested directly in future work.
 
 \paragraph{Conclusion.}
-Our results show that intertask effects are 
-as strong as framing effects, and are stronger when the frame is not echoed.
-Our analysis using wordnet reveals that intertask and framing effects
-act on workers' vocabulary in subtle ways.  Both exposure modalities 
-increased the richness of workers' vocabulary in reference to the prime 
-concept, but more so in the case of task-based exposure.  Both modalities 
-also increased the specialization of workers' vocabulary in reference to the 
-prime concept.
-
-We recommend that intertask effects be considered when designing crowdsourced
-studies.  Despite efforts to eliminate biases from the context of tasks,
-the greatest source of biases may lurk in the tasks themselves.
-At the same time, their positive effects on workers' vocabulary suggest 
-that, when properly controlled, intertask effects may be
-used to optimize HPU performance.  Based on the enriching effects we observed
-for worker vocabulary, intertask effects might be leveraged to achieve 
-expert-level annotation in a wider variety of applications.
+We have shown that intertask effects are stronger than framing effects, and
+as strong as the effects induced when framing is combined with reiteration.
+Intertask and framing effects act on workers' vocabulary in subtle ways.  
+Both increase the richness of workers' vocabulary in reference a target
+concept, with a more pronounced effect induced by task exposure.
+Both exposures also increase the specialization of workers' vocabulary in 
+reference to the target concept.  Framing, and other aspects of task design 
+have received substantial methodological scrutiny; our results show that 
+intertask effects, which were overlooked until now, merit similar 
+consideration.  Although we found that intertask effects can be a major 
+source of bias, they might be used to drive tune workers' attention and 
+specificity relative to
+a target concept.  Microtask work, citizen science, and other crowdsourcing
+initiatives, as well task requiring expert opinions, often share the common 
+feature that they rely on repetitive human judgments.  Therefore, such 
+applications all stand to benefit from the findings and suggestions 
+presented here.
 
 \bibliography{newbib}
 \bibliographystyle{Science}
@@ -924,12 +836,12 @@ http://networkdynamics.org/publications/public/priming2014.09.
 	\begin{equation}
 		s_w = (f_w + 1) * p_1 * p_2,
 	\end{equation}
-	where $f_w$ is the frequency with wich the word occured (correctly 
+	where $f_w$ is the frequency with which the word occurred (correctly 
 	spelled)
 	within the given task, $p_1$ was a penalty for the first edit, and
 	$p_2$ was a penalty for the second edit.  If the word was made using only
 	one edit, then $p_2 = 1$.  Any edit that did not involve adding a space
-	(i.e. separating a word) incured a penalty of 0.5, while the addition of
+	(i.e. separating a word) incurred a penalty of 0.5, while the addition of
 	a space incurred a penalty of 0.1.  Word-separation edits were more 
 	strongly penalized because it is often possible to split a series of 
 	letters into many short two- or three-letter words, which otherwise leads 
@@ -940,7 +852,7 @@ http://networkdynamics.org/publications/public/priming2014.09.
 	After all of our analyses had been performed, we checked the accuracy of 
 	the spelling correction algorithm using three human coders.  The coders
 	were shown a set of 
-	500 words that were randomly sampled from the labels attirubuted during 
+	500 words that were randomly sampled from the labels attributed during 
 	test tasks (50 for each test task).  Before sampling, the labels from all
 	experimental treatments, for the given test task, were pooled together.
 	The coders did not know which treatment any given word came from.  
@@ -962,7 +874,7 @@ http://networkdynamics.org/publications/public/priming2014.09.
 	The recipe instruction pages had lists of ingredients and preparation 
 	instructions.  All of the words found in recipe titles, short
 	descriptions, ingredients lists, and preparation instructions were
-	collected, and saved as an auxiliary set to aument the \textit{legal set}
+	collected, and saved as an auxiliary set to augment the \textit{legal set}
 	used in spelling correction.
 	
 
@@ -1000,7 +912,7 @@ section of the allrecipes.com website.
 After collecting a set of words using an automated script 
 (\td{described above}), we collected the set of words that had been used by
 workers and which had been seen during crawling of the allrecipes.com website,
-but which were not included in wordnet.  We graphted these extra words into
+but which were not included in wordnet.  We grafted these extra words into
 the wordnet hyponym-hypernym graph manually, which ensured that any references
 to ethnic words learned from crawling would be properly classified as 
 food references.
@@ -1018,14 +930,14 @@ an edible item.  The guiding principle was, for the coder to ask herself,
 shown the used in the task from which the word came, to help resolve ambiguity
 in the sense of the word that had been given.  Coders were also shown the 
 spelling correction (if any) that the spell-correction algorithm had made,
-to help interpret mispelled words \td{we describe the spelling correction 
+to help interpret misspelled words \td{we describe the spelling correction 
 algorithm in section X}.
 
 We evaluated the food detection algorithm in two ways.  First, we measured
 the inter-rater reliability between the three human coders and the algorithm
 (treating the algorithm just like any other coder).  Second, adopting the 
 majority code given by the human coders, we determined the accuracy of the
-food-detection algorithm.  Data sumarizing this validation process are given
+food-detection algorithm.  Data summarizing this validation process are given
 in table S1.
 
 \begin{table}
@@ -1067,19 +979,19 @@ In the main text we present results for the relative specificity of labels
 produced by two experimental treatments.  In performing this calculation,
 we used the wordnet corpus, which has a set of hypernym-hyponym relationships
 as described in the main text.  The first step in performing this calculation
-was therefore to map the words occuring from (the labels of) a given 
+was therefore to map the words occurring from (the labels of) a given 
 experimental treatment onto the wordnet synsets.  In general, a given word
 form can have multiple meanings, and therefore maps onto multiple wordnet 
 synsets.
 
 The result of mapping the words from two treatments onto the wordnet 
 hypernym-hyponym graph two sets of counts, one set per treatment, 
-indicating the number of times a word from a given synset occured among the
+indicating the number of times a word from a given synset occurred among the
 labels of the treatment.  Then, for every synset in one treatment, we looked
 at the number of synsets in the other treatment that were more generic
 (reachable by following hypernym relations) less the number of words that
 were more specific (reachable by following hyponym relations).  This quantity
-tallied for all words in the original synset gives a (non-normalied) measure
+tallied for all words in the original synset gives a (non-normalized) measure
 of the degree to which words from the first treatment are more specific
 than words from the second treatment, overall.  We then normalized this 
 quantity by the total number of possible comparisons between the words of
@@ -1137,7 +1049,7 @@ averaged the result obtained in this way for each of the five test tasks.
 	don't have enough samples in each treatment to do this.  Instead, for 
 	this reason, we make principled decisions for all of the options used
 	in our classifier, and then test it's accuracy using cross validation,
-	with no optimization performed on the data.  It was cruicial for 
+	with no optimization performed on the data.  It was crucial for 
 	the statistical validity of our approach that we test our classifier on 
 	each datum only once, and report these results without any optimizations
 	of the classifier.
@@ -1161,7 +1073,7 @@ averaged the result obtained in this way for each of the five test tasks.
 	before providing them to the classifier.  For example, the words 
 	``berries'' and ``berry'' only differ in number, but would normally be
 	treated as completely different features.  Lemmatization ensures that
-	nouns are in their sigular form, which helps to eliminate variations in
+	nouns are in their singular form, which helps to eliminate variations in
 	labels that increase sparsity without conveying discriminative 
 	information.
 
@@ -1209,12 +1121,12 @@ averaged the result obtained in this way for each of the five test tasks.
 	position attribution, we didn't include raw labels unadorned with 
 	the task number.  Our rationale for this is that the task defines the 
 	context in which a label is applied, and so the elicitation of a label 
-	during one task represents a distinct output from the elicitaiton of the 
+	during one task represents a distinct output from the elicitation of the 
 	same label during a different task.  
 
 \paragraph{Selection of the naive Bayes classifier.}
 A great deal of work has been done in the application of classifiers to
-text documents, which provides the bacground for our choice of classifier.
+text documents, which provides the background for our choice of classifier.
 The Support Vector Machine (SVM) approach is known to perform well, better in 
 general than naive Bayes.  However, three considerations drove us to use
 a naive Bayes classifier in favor of SVM.
@@ -1246,16 +1158,16 @@ unbiased estimate of the true classification error, but would instead lead
 to us over-reporting exposure effects.
 
 Third, the naive Bayes algorithm is based on an assumption that the 
-probability of observing one feature is independant from the observation
+probability of observing one feature is independent from the observation
 of any other, \textit{when conditioned on the class}.  This
-\textit{conditional independance} assumption is generally made for
+\textit{conditional independence} assumption is generally made for
 pragmatic rather than theoretical reasons, and is rarely satisfied.  However,
 if it \textit{is} satisfied, then the naive Bayes classifier is optimal.
 In our case, conditional independence means that, provided we know the 
 exposure of a worker, knowing one label they provided to an image does
 not in any way help us guess any other label for that image.  In most
 text documents, the existence of topics and language structure certainly
-vioalates the conditional independance of words.  But in our case, such 
+violates the conditional independence of words.  But in our case, such 
 effects are less likely to carry from one text input to the next, and in the
 small space provided by five inputs, any overarching topics are likely to
 be in relation to the image itself, upon which we are conditioning.  In other
@@ -1295,7 +1207,7 @@ depends on how the classifier is constructed.
 
 Therefore there may exist a classifier that is 
 significantly better than the one used to generate our results.  Even before
-commiting to a particular classifier algorithm, various decisions about
+committing to a particular classifier algorithm, various decisions about
 preprocessing need to be made.  For example, we chose to remove stopwords,
 lemmatize, split multi-word labels, distinguish the input used to enter 
 labels, and correct spelling.  All of these decisions affect the classifier
@@ -1304,15 +1216,15 @@ effect.
 
 Since we did not have enough data to create a separate test set, we could not
 optimize these decisions.  Doing so would lead to the inflation of the 
-performance, which could then only be estimated using an independant test set.
+performance, which could then only be estimated using an independent test set.
 Instead, we made principled decisions as described above.
 
 Although we cannot optimize these decisions, it is appropriate to look at
 what affect these decisions had, post-hoc.  We reproduce the plot shown in 
-Fig.~\ref{fig:theta}A using different combinations of pre-processing options,
+Fig.~\ref{fig:theta}A using different combinations of preprocessing options,
 and using both the naive Bayes and an SVM classifier.
 
-Unlike the naive Bayes classifier, it is necesarry to tune the cost and 
+Unlike the naive Bayes classifier, it is necessary to tune the cost and 
 gamma hyperparameters of the SVM classifier, as well as choose a kernel.
 We used simulated annealing to optimize the cost and gamma settings in the
 classification of $task2:food$ vs $task2:cult$.  For this reason, we expect
