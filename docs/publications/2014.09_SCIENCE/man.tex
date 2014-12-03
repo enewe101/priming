@@ -128,20 +128,20 @@ industry are increasingly relying on \textit{human computation}.  Microtask
 platforms, like Amazon Mechanical Turk, act like a human compute server,
 making it possible to access human cognition quickly and inexpensively. 
 This has lead to broad adoption across a spectrum of disciplines
-in the humanities and computer science, in research into medical imaging
-technologies, and in many applications where expert opinion would normally be 
-sought.  Here we show that an inherent
+in the humanities and computer science, as well as in research into medical 
+imaging technologies and other applications where expert opinion would 
+normally be sought.  Here we show that an inherent
 feature of microtask platforms, the repetition of similar tasks,
 acts as a strong, but as yet unexplored source of bias.  
 These \textit{intertask effects}, rival the
 severity of overtly framing a task's purpose.  
-Using image labeling as a canonical microtask, we found that prior 
+Using image-labeling as a canonical microtask, we found that prior 
 tasks influences the vocabulary that a worker uses when labeling 
 subsequent images in profound an nuanced ways.  Prior tasks not only 
 alter what a worker focuses on, 
 but also modulate the richness and specialization of her vocabulary.  
-While they can be a source of systematic bias, our
-results suggest that intertask effects can be leveraged
+While intertask effects can be a source of systematic bias, our
+results suggest that, when properly controlled, they can be leveraged
 to hone worker focus and specificity.  Though we focused on microtask 
 platforms due to their emerging prominence, our results apply to  
 citizen science, crowdsourcing, and any application involving repetitive 
@@ -171,9 +171,9 @@ libraries for HPU programming are under active development
  \cite{little2010turkit,minder2011crowdlang,minder2012crowdlang,kittur2011crowdforge}.  
 
 Unlike CPUs and GPUs, the experiments we present here suggest HPUs
-are subject to \textit{hysteresis}, meaning that their output depends
+are subject to \textit{hysteresis}, meaning that their outputs depend
 on the history of their inputs.  Given the
-increasing prevalence of microtask-based methodologies, other factors 
+increasing prevalence of microtask-based research methods, other factors 
 affecting HPU outputs have received considerable attention.
 This includes various task-design parameters such as the level of 
 pay \cite{kazai2013analysis}, the training \cite{le2010ensuring} and 
@@ -191,7 +191,7 @@ knowledge, no study has investigated the practical ramifications
 of intertask effects on human computation.
 
 We investigated intertask effects using image-labeling tasks on the Amazon 
-Mechanical Turk (MTurk) microtask platform.  Image labeling tasks are among
+Mechanical Turk (MTurk) microtask platform.  Image-labeling tasks are among
 the most common MTurk tasks \cite{chandler2013breaking,Berinsky2012351,Finnerty2013,paolacci2010running}, a trend which will probably continue 
 in the long term because of their role in computer vision research 
 \cite{5543192}.
@@ -205,13 +205,13 @@ comparison, we also included treatments in which we framed the tasks in terms
 of different purposes.
 
 The results showed that intertask effects are stronger than framing effects.  
-Framing effects were comparable to intertask effects only when we had the
-workers actively reiterate the frame by means of a combo-box input.
+Framing effects were comparable to intertask effects only when the workers 
+were asked to actively reiterate the frame by means of a combo-box input.
 Using the wordnet corpus (\#), we found that intertask 
 effects can hone a worker's focus, and boost the specialization
 and lexical richness of her labels.  Thus, while intertask effects may be a 
 serious source of bias, they can also be leveraged to help achieve
-expert-level performance in crowdsourcing when properly controlled.
+expert-level performance in crowdsourcing, when properly controlled.
 
 \paragraph{Experimental setup.}
 \begin{figure}
@@ -224,7 +224,7 @@ expert-level performance in crowdsourcing when properly controlled.
 		D) initial tasks for \textit{task2:food}, 
 		E) initial tasks for \textit{task2:cult},  
 		F) test tasks for \textit{exp2}.  The full set of experimental 
-		materials is shown in the supplementary material.
+		materials is shown in the supplementary text.
 	}
 
 	\label{fig:task}
@@ -238,7 +238,7 @@ summarizes the treatments and introduces a naming convention that we use
 in what follows.
 In \textit{exp1}, workers in the treatment pair \textit{task1} initially
 labeled 5 images containing either food (treatment \textit{task1:food}), or 
-objects, (treatment \textit{task1:obj}), and then performed test tasks, in 
+objects (\textit{task1:obj}), and then performed test tasks, in 
 which they 
 labeled images containing both food and objects (see Fig.~\ref{fig:task} for 
 examples of the images used). In \textit{exp1}, we included two other 
@@ -255,8 +255,8 @@ worker to reiterate the purpose of the task using a combo-box input.
 In contrast to \textit{exp1}, which was based on concepts of food and
 objects, \textit{exp2} was based food and \textit{culture}.
 Since culture is more abstract, one might expect different effects 
-in \textit{exp2}.  We again compared
-intertask effects (in treatment pair \textit{task2}) to framing effects 
+in \textit{exp2}.  In \textit{exp2}, we again investigated both
+intertask effects (in treatment pair \textit{task2}) and framing effects 
 (\textit{frame2}), but with a slight variation in the framing treatments.
 In \textit{frame2}, workers were not only exposed to a frame, but also 
 performed a set of initial tasks before the test tasks.  Since its purpose 
@@ -265,8 +265,8 @@ to investigate framing effects, the initial tasks in \textit{frame2}
 were not varied. Thus, \textit{frame2} provides insight into the moderating 
 effect that intervening tasks might have on framing effects.
 
-In all treatments, workers were shown images one at a time, and provided
-5 labels for each.  From the perspective of the worker, there was no
+In all treatments, workers were shown images one at a time, and had to
+provide 5 labels for each.  From the perspective of the worker, there was no
 distinction or interruption between the initial and test tasks.  We used
 workers' unique identifiers to ensure that they only participated in a 
 one treatment of a single experiment.
@@ -315,11 +315,11 @@ one treatment of a single experiment.
 
 \paragraph*{Measuring computational hysteresis.}
 While our study builds on research into the psychological mechanisms
-of task performance, there is a crucial difference in the question at issue. 
+of task performance, there is a crucial difference in our present goal. 
 Our goal is to measure the practical ramifications of intertask effects on 
 the microtask methodology. Whereas a statistically significant effect, even 
 if small, might be sufficient to distinguish one psychological mechanism 
-from another (\#), in our study 
+from another (\#), in our study, 
 \textit{effect size} is central.  Thus our main goal is not merely to reject 
 the null hypothesis that initial tasks have no effect
 (we do this in the supplementary text).
@@ -329,14 +329,17 @@ that, after a worker performs a task, her response is used to make some
 kind of yes-or-no decision, $\mathcal{D}$.  For example, this decision 
 could be whether or not to flag a certain comment
 below a news article as inappropriate; but for now, we leave 
-$\mathcal{D}$ unspecified.  Since worker's responses may
+$\mathcal{D}$ unspecified.  Since workers' responses may
 vary, repeating the same task might lead to different outcomes for 
-$\mathcal{D}$.  We shall define the notion of \textit{bias} in terms of the
-effect that prior tasks have on the probability of a positive outcome
-from $\mathcal{D}$.
+$\mathcal{D}$.  This decision not only models the reality that responses are
+actually used---introducing $\mathcal{D}$ allows us to define of \textit{bias}
+in a practical yet general way. We shall define bias in terms of the
+change in the probability of a positive outcome from $\mathcal{D}$, induced 
+by prior exposures.
 
-The nature of $\mathcal{D}$ will affect our measurement of bias.
-If $\mathcal{D}$ has random output, or if it always outputs ``yes'' 
+The kind of decision that $\mathcal{D}$ represents will affect our 
+measurement of bias.  For instance, if $\mathcal{D}$ is random, or if 
+it always generates ``yes'' 
 irrespective of the worker's response, then of course we will 
 find zero bias.  Likewise, there is an upper limit to the bias induced on $\mathcal{D}$. In a precise sense, the bias of $\mathcal{D}$ can only be as
 great as the bias inherent in the worker's response 
@@ -344,9 +347,8 @@ great as the bias inherent in the worker's response
 bias induced in workers' outputs, we adopt an 
 adversarial approach: we seek to construct the decision that 
 is the most susceptible to workers' biases. In the supplementary text, we 
-show that this
-problem can be formulated as a  machine learning problem, wherein one
-constructs a classifier that infers the exposure of a worker from her 
+show that this can be formulated as a  machine learning problem, wherein one
+constructs a classifier that infers the prior exposure of a worker from her 
 responses in test tasks.  The bias, $\theta$, induced by 
 prior exposures, can then be bounded using the classifier's accuracy, 
 $\eta$ (\#):
@@ -357,24 +359,24 @@ $\eta$ (\#):
 
 
 \paragraph{The strength and dynamics of intertask effects.}
-For each treatment pair, we trained a naive Bayes classifier (\# in the 
+For each treatment pair, we trained a na\"ive Bayes classifier (\# in the 
 supplementary material we discuss the choice of classifier, the
-approach to measuring accuracy, and draw a comparison to results using 
-a support vector machine in place of the naive Bayes classifier) to 
-distinguish workers from one treatment
-(e.g \textit{task1:food}) from those of the conjugate treatment 
+approach to measuring accuracy, and draw a comparison to the results obtained 
+if a support vector machine is used.) to distinguish workers from one 
+treatment (e.g \textit{task1:food}) from those of the conjugate treatment 
 (e.g. \textit{task1:obj}).  In \textit{task1} and \textit{task2}, intertask 
-effects profoundly biased worker outputs, whereas we could not detect 
+effects profoundly biased worker outputs, by approximately 30 and 50\% 
+respectively, whereas we could not detect 
 a statistically significant bias induced by framing in \textit{frame1} and 
-\textit{frame2} (see Fig.~\ref{fig:theta}).  The bias induced
-by framing was only of a comparable level to that induced by intertask 
-effects in \textit{echo1}.  
-Moreover, asking workers to reiterate the
-frame, as was done in \textit{echo1}, is probably interpreted as
-a direct signal from the requester that the frame should be acted upon.  In that sense, 
+\textit{frame2} (see Fig.~\ref{fig:theta}A).  The bias induced
+by framing was only appreciable in \textit{echo1}, reaching approximately 
+35\%.  
+We suspect that asking workers to reiterate the
+frame, as was done in \textit{echo1}, might be interpreted by workers as
+a direct signal that the frame should be acted upon.  In that sense, 
 \textit{echo1} is perhaps more indicative of the effects of an 
-\textit{instruction}.  This shows that
-intertask effects profoundly affect the responses of workers, producing an
+\textit{instruction}.  These observations show that
+prior tasks profoundly influence the responses of workers, producing an
 effect that is stronger than framing, and on par with the combination of 
 framing and reiteration.
 
@@ -384,7 +386,7 @@ framing and reiteration.
 	\caption{
 		Lower-bound estimates for the  worst-case bias introduced in image
 		labeling tasks due to worker exposure effects.  The estimate was 
-		based on the performance of a multinomial naive Bayes classifier,
+		based on the performance of a multinomial na\"ive Bayes classifier,
 		trained to infer HPU exposures. A) Bias induced through various
 		modalities and prime concepts (see Table 1). B) Bias induced in 
 		\textit{task1}, as a function of test task position.  Error bars
@@ -393,16 +395,16 @@ framing and reiteration.
 	\label{fig:theta}
 \end{figure}
 
-To observe the dynamics of intertask effects, we trained a naive Bayes
+To observe the dynamics of intertask effects, we trained a na\"ive Bayes
 classifier to distinguish workers in \textit{task1} based on responses to
 individual test tasks.  We permuted 
 the test tasks to eliminate effects arising from differences in the images 
 therein (more details are provided in the supplementary text). The first test 
-task shows the greatest bias, after which the effects drop off, but 
+task shows the greatest bias, after which the effects drop somewhat, but 
 substantial bias persists through the fifth test task
 (see Fig. \ref{fig:theta}B).  Presumably, this decay profile reflects the
 fact that workers are also influenced by their exposure to the test tasks, 
-which washes out the effects of initial tasks.
+which begins to wash out the effects of initial tasks.
 
 \paragraph{Detailed influences on worker outputs.} 
 \begin{figure}
@@ -436,11 +438,10 @@ provided more references to food than their conjugate treatments, overall.
 The \textit{exp1:*:food} treatments
 did produce more food references, but, unexpectedly, 
 the number of food references in \textit{task2:food} was
-less than that in \textit{task2:cult}. Also, the effects on the
+less than that in \textit{task2:cult} (see Fig.~\ref{fig:specificity}A). Also, the effects on the
 number of food references was, overall, somewhat smaller than one might 
-have expected given the extent of bias observed for \textit{task1}, 
-\textit{echo1}, and \textit{task2}.  This means that task and frame exposures
-induce other effects which are more subtle than a bulk shift in number 
+expect given the extent of bias observed in Fig.~\ref{fig:theta}A.  This means that task and frame exposures
+induce other effects which are more subtle than a bulk shift in the number 
 of references to the primed concept (food).
 
 Next, we looked at the change in the frequency of occurrence of particular 
@@ -476,16 +477,18 @@ Positive priming (usually simply ``priming'') occurs when a prior stimulus
 predisposes a person to give certain responses in an ensuing task, and
 is often observed as an increase in the speed or accuracy of a response, or
 the ability to recognize objects in a briefer, quieter, or noisier signal (\#).
-Negative priming occurs when repeated exposure to a stimulus that is 
-perceived to be non-salient begins to be ignored (\#).  
+Negative priming occurs when, after being repeatedly exposed to a stimulus 
+that is perceived to be non-salient, the person begins to ignore that 
+stimulus (\#).  
 
 Workers exposed to images containing food will be (positively) primed, 
 as memories, concepts, and vocabulary related to food are activated.  
-However, as the worker labels successive images containing food, the basic 
-fact that an image contains food does not appear to be salient, since it 
+However, we argue that as the worker labels successive images containing food,
+the basic 
+fact that an image contains food will not appear to be salient, since it 
 does not serve to distinguish one image from another.  Thus, the most 
-generic reference to the fact that food appears, namely the label ``food'', 
-is suppressed, as by negative priming, while more specialized
+generic references to that fact, such as the label ``food'', 
+are suppressed, as by negative priming, while more specialized
 references are activated.  Whether workers in \textit{*:food} treatments
 produce an excess of food references overall depends in part on the balance 
 of these factors.  The reduction in food references from workers in 
@@ -501,18 +504,19 @@ context relative to which workers judge salience.  Thus, a worker's focus
 in repeated tasks tends to be directed away from generic, shared features, 
 toward specific and distinguishing ones.
 
+\paragraph{Recommendations and future work.} 
 Based on our observations throughout, we submit the following 
-recommendations for the consideration of those in the position of designing 
+recommendations for the consideration of people designing 
 any microtask, citizen science, or crowdsourcing initiative:
 \begin{enumerate}
 	\item{
-		Require active feedback to emphasize important details, 
-		as we did in \textit{echo1}.  Similarly, use training tasks rather
-		than (only) examples.
+		Require active feedback to emphasize important details about the 
+		tasks, as we did in \textit{echo1}.  Similarly, use training tasks 
+		rather than only examples.
 	}
 	\item{
 		Although ``clean'' examples may be useful to provide clarity,
-		training tasks should contain the same kinds of noise or otherwise
+		use training tasks that contain the same kinds of noise or otherwise
 		distracting features as are expected in the real tasks.
 		This exposure will negatively prime the worker against non-salient 
 		features.
@@ -520,7 +524,8 @@ any microtask, citizen science, or crowdsourcing initiative:
 	\item{
 		\textit{Validation tasks}, for which the correct output is known,
 		are often used as a quality control measure.
-		These should be dually considered as \textit{calibration tasks}.  
+		Treat these as \textit{calibration tasks}, and use them to regulate
+		the focus of the worker.
 		Feedback, for both correct and incorrect responses may further 
 		reinforce the desired competency. \label{item:valid}
 	}
@@ -528,20 +533,20 @@ any microtask, citizen science, or crowdsourcing initiative:
 		A special case of item~\ref{item:valid} applies when workers are 
 		required to detect rare occurrences.
 		For example, in the detection of pre-ictal (pre-seizure) EEG traces, 
-		most traces are not negative (\#).  In the absence of positive 
+		most traces are negative (\#).  In the absence of positive 
 		examples, the target concept may degrade or drift.
-		Drawing validation/calibration tasks from the underrepresented class,
-		while providing feedback might help sustain the target concept.
+		Draw calibration tasks from the underrepresented class,
+		and provide feedback, to help sustain the worker's target concept.
 	}
 	\item{
 		For more precise classifications, it may help to begin with
 		an initial coarse classification.  For example, in detecting 
-		inappropriate comments, workers might initially choose from  
-		\texttt{okay}, \texttt{inappropriate}, and \texttt{borderline}.  
-		Following the coarse classification, the 
-		\texttt{borderline} examples could be batched together.  Workers could
-		then calibrate to finer distinctions while coding a more homogeneous 
-		set of images.
+		inappropriate comments, provide the choices   
+		\texttt{okay}, \texttt{inappropriate}, and \texttt{borderline},
+		and incentivise inter-worker agreement
+		Next, batch the \texttt{borderline}.  Coding this more homogeneous
+		borderline set will help workers to calibrate to the finer 
+		distinctions necessary for the task.
 	}
 \end{enumerate}
 
@@ -558,14 +563,13 @@ Both exposures also increase the specialization of workers' vocabulary in
 reference to the target concept.  Framing, and other aspects of task design 
 have received substantial methodological scrutiny; our results show that 
 intertask effects, which were overlooked until now, merit similar 
-consideration.  Although we found that intertask effects can be a major 
-source of bias, they might be used to drive tune workers' attention and 
+attention.  Although we found that intertask effects can be a major 
+source of bias, they might be used to tune workers' attention and 
 specificity relative to
 a target concept.  Microtask work, citizen science, and other crowdsourcing
-initiatives, as well task requiring expert opinions, often share the common 
-feature that they rely on repetitive human judgments.  Therefore, such 
-applications all stand to benefit from the findings and suggestions 
-presented here.
+initiatives, as well task requiring expert opinions, often rely on repetitive 
+human judgments.  Therefore, such applications all stand to benefit from the 
+findings and suggestions presented here.
 
 \bibliography{newbib}
 \bibliographystyle{Science}
@@ -593,7 +597,7 @@ in Fig. S1.
 		\textit{frame2:cult};  
 		C) an echoed frame, as used in \textit{echo:obj}, and similar to that
 		used in \textit{echo:food}; and D) an 
-		example of an image labeling task.
+		example of an image-labeling task.
 	}
 \end{figure}
 
@@ -800,7 +804,7 @@ http://networkdynamics.org/publications/public/priming2014.09.
 	punctuation removed, and the separated words were treated as distinct 
 	features in subsequent analysis.
 
-	For the purpose of training and testing a naive Bayes classifier, we 
+	For the purpose of training and testing a na\"ive Bayes classifier, we 
 	performed an additional preprocessing step.  We tagged words with the
 	position in which they had been entered (i.e. which of the five text 
 	inputs in the task interface) as well as the test tasks in which the word 
@@ -1124,12 +1128,12 @@ averaged the result obtained in this way for each of the five test tasks.
 	during one task represents a distinct output from the elicitation of the 
 	same label during a different task.  
 
-\paragraph{Selection of the naive Bayes classifier.}
+\paragraph{Selection of the na\"ive Bayes classifier.}
 A great deal of work has been done in the application of classifiers to
 text documents, which provides the background for our choice of classifier.
 The Support Vector Machine (SVM) approach is known to perform well, better in 
-general than naive Bayes.  However, three considerations drove us to use
-a naive Bayes classifier in favor of SVM.
+general than na\"ive Bayes.  However, three considerations drove us to use
+a na\"ive Bayes classifier in favor of SVM.
 
 First, we used 119 examples (workers) per treatment, but the number of 
 features
@@ -1141,13 +1145,13 @@ leads to very high variance models, which manifests as overfitting and poor
 performance.  To deal with this, some approach to culling features is 
 generally used, but this raises the issue of how to decide the culling in 
 a principled manner, generally adding further hyperparameters which could
-be optimized.  However, one of the strengths of the naive Bayes classifier
+be optimized.  However, one of the strengths of the na\"ive Bayes classifier
 is that it's performance is not generally degraded from the inclusion of 
 large numbers of features, even when the number of examples is comparatively
-small.  We expected this feature of the naive Bayes classifier to be 
+small.  We expected this feature of the na\"ive Bayes classifier to be 
 advantageous in our case.
 
-Second, the standard implementation of the naive Bayes classifier has no 
+Second, the standard implementation of the na\"ive Bayes classifier has no 
 hyperparameters to optimize.  This allows us to forgo the common practice 
 of holding out a test set, and instead use cross-validation as a method to
 estimate the true classification error, \textit{since we did not perform
@@ -1157,12 +1161,12 @@ cross-validation, then the validation error would no longer provide an
 unbiased estimate of the true classification error, but would instead lead
 to us over-reporting exposure effects.
 
-Third, the naive Bayes algorithm is based on an assumption that the 
+Third, the na\"ive Bayes algorithm is based on an assumption that the 
 probability of observing one feature is independent from the observation
 of any other, \textit{when conditioned on the class}.  This
 \textit{conditional independence} assumption is generally made for
 pragmatic rather than theoretical reasons, and is rarely satisfied.  However,
-if it \textit{is} satisfied, then the naive Bayes classifier is optimal.
+if it \textit{is} satisfied, then the na\"ive Bayes classifier is optimal.
 In our case, conditional independence means that, provided we know the 
 exposure of a worker, knowing one label they provided to an image does
 not in any way help us guess any other label for that image.  In most
@@ -1189,7 +1193,7 @@ such as SVM.
 		give a lower bound to the L1-distance, $D_{L1}^-$, which was 
 		determined from a classifier's performance in 
 		distinguishing workers that had undergone different exposures.
-		The bias was determined using (A-F) a naive Bayes classifier, and 
+		The bias was determined using (A-F) a na\"ive Bayes classifier, and 
 		(G-L) an SVM classifier.
 		In panels A through F, each plot adds an additional
 		preprocessing step to those used in the previous plot; the same is 
@@ -1222,9 +1226,9 @@ Instead, we made principled decisions as described above.
 Although we cannot optimize these decisions, it is appropriate to look at
 what affect these decisions had, post-hoc.  We reproduce the plot shown in 
 Fig.~\ref{fig:theta}A using different combinations of preprocessing options,
-and using both the naive Bayes and an SVM classifier.
+and using both the na\"ive Bayes and an SVM classifier.
 
-Unlike the naive Bayes classifier, it is necessary to tune the cost and 
+Unlike the na\"ive Bayes classifier, it is necessary to tune the cost and 
 gamma hyperparameters of the SVM classifier, as well as choose a kernel.
 We used simulated annealing to optimize the cost and gamma settings in the
 classification of $task2:food$ vs $task2:cult$.  For this reason, we expect
