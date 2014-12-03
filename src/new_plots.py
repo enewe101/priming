@@ -516,7 +516,8 @@ def plot_theta(
 		for a,n in zip(accuracies,[595,119,119,119,119])
 	]
 	err_low = [y-y_err for y, y_err in zip(Y_aggregate, err_low)]
-	err_high = [0 for e in err_low]
+	#err_high = [0 for e in err_low]
+	err_high = err_low
 	err = [err_low, err_high]
 	X = range(len(Y_aggregate))
 
@@ -559,7 +560,8 @@ def plot_theta(
 		for a in avg_accuracies
 	]
 	err_low = [y-y_err for y, y_err in zip(Y_by_pos, err_low)]
-	err_high = [0 for e in err_low]
+	#err_high = [0 for e in err_low]
+	err_high = err_low
 	err = [err_low, err_high]
 
 	series = ax2.bar(
