@@ -219,12 +219,13 @@ expert-level performance in crowdsourcing, when properly controlled.
 	\includegraphics[scale=0.7]{figs/images.pdf}
 	\caption{
 		Examples of images used for various experiments and treatments:
-		A) initial tasks for \textit{task1:food}, B) initial tasks for 
-		\textit{task1:obj}, C) test tasks for treatments in \textit{exp1}, 
-		D) initial tasks for \textit{task2:food}, 
-		E) initial tasks for \textit{task2:cult},  
-		F) test tasks for \textit{exp2}.  The full set of experimental 
-		materials is shown in the supplementary text.
+		A) initial task for \textit{task1:food}, B) initial task for 
+		\textit{task1:obj}, C) test task for treatments in \textit{exp1}, 
+		D) initial task for \textit{task2:food}, 
+		E) initial task for \textit{task2:cult},  
+		F) test task for treatments in \textit{exp2}.  
+		The full set of experimental materials is shown in the 
+		supplementary text.
 	}
 
 	\label{fig:task}
@@ -265,8 +266,8 @@ to investigate framing effects, the initial tasks in \textit{frame2}
 were not varied. Thus, \textit{frame2} provides insight into the moderating 
 effect that intervening tasks might have on framing effects.
 
-In all treatments, workers were shown images one at a time, and had to
-provide 5 labels for each.  From the perspective of the worker, there was no
+In all treatments, workers were shown images one at a time, and provided five 
+labels for each.  From the perspective of the worker, there was no
 distinction or interruption between the initial and test tasks.  We used
 workers' unique identifiers to ensure that they only participated in a 
 one treatment of a single experiment.
@@ -276,11 +277,11 @@ one treatment of a single experiment.
 \centering
 \begin{tabular}{ c c c c c }
 		\hline \noalign{\smallskip}
-		\multicolumn{3}{c}{\textbf{Treatment name}} & \parbox[c]{1.6cm}{\centering \textbf{Frame}} & \parbox[c]{1.3cm}{\centering \textbf{Initial\\ tasks}}	\\ 
+		\multicolumn{3}{c}{\textbf{Treatment name}} & \parbox[c]{1.4cm}{\centering \textbf{Frame}} & \parbox[c]{1.3cm}{\centering \textbf{Initial\\ tasks}}	\\ 
 
 		\noalign{\smallskip} \hline \noalign{\smallskip}
 
-		\multirow{6}{*}{ \parbox[c]{0.7cm}{ \phantom{XXX} exp1}} 
+		\multirow{6}{*}{ \parbox[c]{0.8cm}{ \phantom{XX} exp1}} 
 			& \multirow{2}{*}{task1} & food & none & food\\
 			& & obj & none & objects\\
 
@@ -294,7 +295,7 @@ one treatment of a single experiment.
 
 		\noalign{\smallskip} \hline \noalign{\smallskip}
 
-		\multirow{4}{*}{exp2} 
+		\multirow{4}{*}{\parbox[c]{0.8cm}{exp2}} 
 			& \multirow{2}{*}{task2}  &  food & none & food\\
 			& 	&  cult & none & culture\\
 			\noalign{\smallskip} \cline{2-5} \noalign{\smallskip}
@@ -304,10 +305,10 @@ one treatment of a single experiment.
 		\noalign{\smallskip} \hline  
 	\end{tabular}
 
-	\caption{ \footnotesize{ 
+	\caption{ 
 		We use the treatment names shown to refer to specific sections of 
 		the experimental data.
-	}}
+	}
 	\label{table:treatments}
 \end{table}
 
@@ -384,13 +385,14 @@ framing and reiteration.
 	\centering
 	\includegraphics[scale=1]{figs/theta.pdf}
 	\caption{
-		Lower-bound estimates for the  worst-case bias introduced in image
-		labeling tasks due to worker exposure effects.  The estimate was 
-		based on the performance of a multinomial na\"ive Bayes classifier,
-		trained to infer HPU exposures. A) Bias induced through various
-		modalities and prime concepts (see Table 1). B) Bias induced in 
-		\textit{task1}, as a function of test task position.  Error bars
-		show the one-tailed 95\% confidence interval.
+		Bias as measured by a na\"ive Bayes classifier, $\theta_\mathrm{NB}$,
+		induced in image-labeling tasks, due to framing and 
+		intertask effects. 
+		A) Bias in the responses to five test tasks,
+		measured between the pairs of treatments indicated on the abscissa.  
+		B) Bias between the treatments of \textit{task1}, 
+		measured for individual test tasks, and plotted as a function of 
+		task position.  Error bars show the 95\% confidence intervals.
 	}
 	\label{fig:theta}
 \end{figure}

@@ -186,8 +186,9 @@ def plot_specificity(
 	# Fuss with axes labelling
 	ax1.set_xticks([x + width/2.0 for x in X_0])
 	plt.ylim(-13, 13)
-	ax1.set_ylabel(r'$\Delta$ % food labels', size=12)
+	ax1.set_ylabel(r'$\Delta$ references $(\%)$', size=12)
 	plt.setp(ax1.get_xticklabels(), visible=False)
+	ax1.yaxis.labelpad = 0
 
 	vocab_data = json.loads(open(read_vocab_fname).read())
 
@@ -239,7 +240,8 @@ def plot_specificity(
 	plt.setp(ax2.get_xticklabels(), visible=False)
 	ylims = plt.ylim()
 	plt.ylim(-6, 22)
-	ax2.set_ylabel(r'$\Delta$ % food vocabulary', size=12)
+	ax2.set_ylabel(r'$\Delta$ richness $(\%)$', size=12)
+	ax2.yaxis.labelpad = 7.5
 
 	# now plot the specificity data.  First get organized
 	specificity_data = json.loads(open(read_specificity_fname).read())
@@ -283,11 +285,12 @@ def plot_specificity(
 	plt.xlim(xlims)
 	ylims = plt.ylim()
 	plt.ylim(ylims[0], 28)
-	ax3.set_ylabel(r'$\Delta$ % food specificity', size=12)
+	ax3.set_ylabel(r'$\Delta$ specialization $(\%)$', size=12)
 	xlabels = [l for k,l in specificity_keys_labels]
 	ax3.set_xticks([x + width/2. for x in X_3])
 	ax3.set_xticklabels(xlabels, rotation=45, size=12,
 		horizontalalignment='right')
+	ax3.yaxis.labelpad = 7.5
 
 	ax1.text(4.7, 11.5, 'A', va='top', ha='right', size=18, color='0.55')
 	ax2.text(4.7, 20.5, 'B', va='top', ha='right', size=18, color='0.55')
@@ -510,9 +513,9 @@ def plot_theta(
 	accuracies = [this_data[tn] for tn in test_names]
 
 	# convert accuracy to priming difference (which is what we want to plot)
-	Y_aggregate = [2*a-1 for a in accuracies]
+	Y_aggregate = [100*(2*a-1) for a in accuracies]
 	err_low = [
-		2*binomial_lower_confidence_p(n, int(n*a)) - 1
+		100*(2*binomial_lower_confidence_p(n, int(n*a)) - 1)
 		for a,n in zip(accuracies,[595,119,119,119,119])
 	]
 	err_low = [y-y_err for y, y_err in zip(Y_aggregate, err_low)]
@@ -532,7 +535,7 @@ def plot_theta(
 	#singificance_line = ax1.plot(
 	#		xlims, [theta_star, theta_star], color='0.55', linestyle=':')
 
-	ax1.set_ylabel(r'$D^-_\mathrm{L1}$', size=12)
+	ax1.set_ylabel(r'$\theta_\mathrm{NB}\;(\%)$', size=12)
 
 	xlabels = [r'$task1$', r'$frame1$', r'$echo$', '$task2$', '$frame2$']
 
@@ -552,11 +555,11 @@ def plot_theta(
 	]
 
 	# convert accuracy to priming difference (which is what we want to plot)
-	Y_by_pos = [2*a-1 for a in avg_accuracies]
+	Y_by_pos = [100*(2*a-1) for a in avg_accuracies]
 	X = range(len(Y_by_pos))
 
 	err_low = [
-		2*binomial_lower_confidence_p(595, int(595*a)) - 1
+		100*(2*binomial_lower_confidence_p(595, int(595*a)) - 1)
 		for a in avg_accuracies
 	]
 	err_low = [y-y_err for y, y_err in zip(Y_by_pos, err_low)]
@@ -611,15 +614,15 @@ def plot_theta(
 #	ax3.set_xticklabels(xlabels, rotation=45, size=12,
 #		horizontalalignment='right')
 
-	ax1.set_yticks([0.1,0.2,0.3,0.4,0.5])
-	ax2.set_yticks([0.1,0.2,0.3,0.4,0.5])
+	ax1.set_yticks(range(0,60,10))
+	ax2.set_yticks(range(0,60,10))
 #	ax3.set_yticks([0.1,0.2,0.3,0.4,0.5])
 
-	ylims = (0, 0.55)
+	ylims = (0, 55)
 	plt.ylim(ylims)
 
 	left = 4.7
-	height = 0.52
+	height = 52
 	#for label, ax in zip(['A', 'B', 'C',], [ax1, ax2, ax3]):
 	for label, ax in zip(['A', 'B'], [ax1, ax2]):
 		ax.text(left, height, label, 
