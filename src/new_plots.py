@@ -537,7 +537,7 @@ def plot_theta(
 
 	ax1.set_ylabel(r'$\theta_\mathrm{NB}\;(\%)$', size=12)
 
-	xlabels = [r'$task1$', r'$frame1$', r'$echo$', '$task2$', '$frame2$']
+	xlabels = [r'$task1$', r'$frame1$', r'$echo1$', '$task2$', '$frame2$']
 
 	eps = 0.2
 	ax1.set_xticks(map(lambda x: x + width/2. + eps, X))
@@ -581,7 +581,7 @@ def plot_theta(
 	ax2.tick_params(axis='x', colors='0.25')
 	ax2.set_xticklabels(xlabels, rotation=0, size=12,
 		horizontalalignment='center', color='k')
-	ax2.set_xlabel(r'test task position', size=12)
+	ax2.set_xlabel(r'test task position', size=8)
 
 #	# Plot the by_img data series
 #	ax3 = plt.subplot(gs[2], sharey=ax1)
