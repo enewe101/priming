@@ -216,7 +216,7 @@ expert-level performance in crowdsourcing, when properly controlled.
 \paragraph{Experimental setup.}
 \begin{figure}
 	\centering
-	\includegraphics[scale=0.7]{figs/images.pdf}
+	\includegraphics[scale=0.6]{figs/images.pdf}
 	\caption{
 		Examples of images used for various experiments and treatments:
 		A) initial task for \textit{task1:food}, B) initial task for 
@@ -1029,7 +1029,8 @@ In computing this quantity between two treatments, we first computed it
 using the labels attributed to a particular test task, and then
 averaged the result obtained in this way for each of the five test tasks.
 
-\subsection*{S7: Analysis of variance}
+\subsection*{S7: Variance and significance tests}
+
 	\paragraph{Variance in the average fraction food-related labels}
 	In the main text, Fig.~\ref{fig:specificity}A shows the difference in 
 	the fraction of food related labels used by workers in from different 
@@ -1038,11 +1039,42 @@ averaged the result obtained in this way for each of the five test tasks.
 	observed sample standard deviation in the fraction of food labels given
 	by individual workers.
 
-	\paragraph{Variance in food vocabulary size.}
-	\td{Not sure how to calculate this yet.}
+	\paragraph{Variance in food vocabulary size (lexical richness).}
+	The number of unique words in a text is strongly dependant on the size
+	of the text: as more text is sampled, previously unseen words continue
+	to be found, though at a decreasing rate.  This means that when the 
+	lexical richness is measured for a large and small sample, they are not 
+	actually estimates of the same quantity.  It is not clear that drawing 
+	confidence intervals around the lexical richness measured at one sample 
+	size is meaningful, nor is it easily done.
+
+	However, we can construct a null model based on the hypothesis that
+	two treatment's have the same probability distribution over tokens
+	(and hence the same lexical richness). If treatments $A$ and $B$ have
+	the same word frequency distributions, then, they are samples from
+	the same population.  Pooling the workers from both treatments together,
+	then randomly partitioning them into balanced sets $A'$ and $B'$ will
+	still yield samples from the same underlying population.  By repeating 
+	this pooling and re-partitioning many times, and computing the 
+	relative lexical richness, we can determine the critical difference in
+	lexical richness from the 97.5 and 2.5 percentiles.  We can then test 
+	the hypothesis that $A$ and $B$ were from the same population by 
+	observing whether the difference in lexical richness of the original 
+	sets is within this percentile range.
+	
+	We performed this calculation using 1000 pooling and resampling 
+	iterations, and plotted the 97.5 percentile as a star in 
+	Fig~\ref{fig:specificity}B in the main text.  All of the differences
+	in lexical richness were significant except that of \textit{frame2}.
 
 	\paragraph{Variance in food specificity.}
-	\td{Need to calculate this using bootstrapping.}
+	The variance in the specificity measurements was calculated using a 
+	bootstrapping proceedure.  For two given treatments $A$ and $B$, 
+	119 workers were sampled from each with replacement, giving the bootstrap
+	samples $A'$ and $B'$, and the relative specificity between these 
+	was measured as described in \textsection S6.
+	This was repeated 1000 times.  The 2.5 and 97.5 percentiles were used
+	to create the 95\% confidence intervals.
 
 
 \subsection*{S8: Measuring computational hysteresis}
