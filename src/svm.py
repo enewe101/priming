@@ -35,7 +35,7 @@ def find_best_svm_params(write_fname=BEST_PARAMS_FNAME):
 	good parameters for svm classfier, we take the best candidates 
 	among those and then independantly run cross validation several times
 	on each, and take the best result.  
-	
+
 	This is to defend against the fact that variance in reported accuracy
 	during cross validation can to a particular parameter value seeming 
 	better than the others when it is not.
@@ -214,55 +214,6 @@ class LognormalSimulatedAnnealer(object):
 				best_params = params
 
 		return best_val, best_params
-
-
-class SvmCvalTest(object):
-	'''
-	A wrapper around the cross-validation of svm on experimental data.
-	This makes it possible to run using my sim_sweep parallelization utility
-	In the end, I found it better to do simulated annealing, for which this
-	is not needed.  However, it is useful to try an exhaustive combination
-	of settings for the svm classfier.
-	'''
-
-	def __init__(self):
-		pass
-
-	def run(
-			self,
-			which_experiment=2,
-			show_token_pos=True,
-			show_plain_token=True,
-			class_idxs=[0,5],
-			img_idxs=range(5,10),
-			weights='tfidf',
-			kernel='linear',
-			C=1,
-			gamma=1e-3
-		):
-
-		return calc_priming_svc(
-			# These arguments are passed to the SimpleDataset constructor
-			which_experiment=which_experiment,
-			show_token_pos=show_token_pos,
-			show_plain_token=show_plain_token,
-			show_token_img=True,
-			do_split=True,
-			class_idxs=class_idxs,
-			img_idxs=img_idxs,
-			spellcheck=True,
-			lemmatize=True,
-			remove_stops=True,
-			balance_classes=True,
-
-			# These arguments are passed to the classifier constructor
-			kernel=kernel,
-			C=C,
-			gamma=gamma,
-
-			# Number of cross-validation folds to use
-			CV=20
-		)
 
 
 def get_annealing_func(reps=1, CV=20):
