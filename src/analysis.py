@@ -34,6 +34,7 @@ from collections import defaultdict, Counter
 import os
 import copy
 import csv
+from scipy.stats import chi2_contingency as chi2
 
 CORRECTIONS_PATH = 'data/new_data/dictionaries/with_allrecipes/'
 DICTIONARY_FNAMES = ['dictionary_1.json', 'dictionary_2.json']
@@ -84,10 +85,206 @@ COMPARISONS = [
 	{'name':'exp2.*', 'experiment':2, 'treatments': [12,13]}
 ]
 
+
 class AnalysisError(Exception):
 	pass
 
 
+def do_all_chi_squared_tests(
+		data_fname='data/new_data/chi2.json',
+		table_fname='data/new_data/chi2.tex'
+	):
+
+	data_fh = open(data_fname, 'w')
+	table_fh = open(table_fname, 'w')
+	comparisons = {
+		'intertask-food-objects':[0,5], 
+		'frame-food-objects':[10,11], 
+		'echo-food-objects':[12,13], 
+		'intertask-food-culture':[0,1], 
+		'frame-food-culture':[3,5]
+	}
+	treatments = {
+		'intertask-food-objects': {
+			'food': (2,0),
+			'objects': (2,5),
+		},
+		'frame-food-objects': {
+			'food': (2,10),
+			'objects': (2,11),
+		},
+		'echo-food-objects': {
+			'food': (2,12),
+			'objects': (2,13),
+		},
+		'intertask-food-culture': {
+			'food': (1,0),
+			'culture': (1,1),
+		},
+		'frame-food-culture': {
+			'food': (1,3),
+			'culture': (1,5),
+		}
+	}
+	experiments = [
+		['intertask-food-culture', 'frame-food-culture'], 
+		['intertask-food-objects', 'frame-food-objects', 'echo-food-objects']
+	]
+
+	# Test within-treatment homogeneity 
+	within_treatment_chi2_vals = {}
+	table_fh.write(
+		'\\begin{table}\n\\centering\n\\begin{tabular}{c c c c c}\n'
+		'\\toprule\nExperiment & Treatment & Degrees of freedom & $\chi^2$ & $p$-value'
+		'\\\\\n\\toprule\n'
+	)
+	for exp_idx in [1,0]:
+		for key in experiments[exp_idx]:
+			spec = treatments[key]
+			table_fh.write(
+				'\\noalign{\\smallskip}\n\\multirow{2}{*}{\\textit{%s}}' % key
+			)
+			for treatment_name, (exp, treatment) in spec.items():
+				chi_val, p_val, dof  = within_treatment_chi_squared_test(
+					exp, treatment)
+				within_treatment_chi2_vals[treatment_name] = {
+					'chi2': chi_val, 'dof':dof, 'p_val': p_val}
+				p_val_str = util.as_scientific_latex(p_val, 2)
+				table_fh.write(
+					' & \\textit{%s} & %d & %3.1f & %s\\\\\n' % (
+						treatment_name, dof, chi_val, p_val_str)
+				)
+
+	table_fh.write(
+		'\\noalign{\\smallskip}\n'
+		'\\bottomrule\n\\end{tabular}\n\\end{table}\n\n\n'
+	)
+
+	# Test homogeneity between the treatments of given experiments
+	table_fh.write(
+		'\\begin{table}\n\\centering\n\\begin{tabular}{c c c c}\n'
+		'\\toprule\nExperiment & Degrees of freedom & $\chi^2$ & $p$-value'
+		'\\\\\n\\toprule\n'
+	)
+	between_treatment_chi2_vals = {}
+	for exp in [1,0]:
+		for key in experiments[exp]:
+			treatments = comparisons[key]
+			chi_val, p_val, dof  = between_treatment_chi_squared_test(
+				experiment=exp+1,
+				treatment_1 = treatments[0],
+				treatment_2 = treatments[1]
+			)
+			between_treatment_chi2_vals[key] = {
+				'chi2': chi_val, 'dof':dof, 'p_val': p_val}
+			p_val_str = util.as_scientific_latex(p_val, 2)
+			table_fh.write(
+				'\\textit{%s} & %d & %3.1f & %s\\\\\n' % (
+					key, dof, chi_val, p_val_str)
+			)
+
+	table_fh.write('\\bottomrule\n\\end{tabular}\n\\end{table}\n\n\n')
+
+	chi2_vals = {
+		'within_treatment': within_treatment_chi2_vals,
+		'between_treatment': between_treatment_chi2_vals,
+	}
+
+	data_fh.write(json.dumps(chi2_vals, indent=2))
+	data_fh.close()
+	table_fh.close()
+
+	return chi2_vals
+
+
+def within_treatment_chi_squared_test(experiment=1, treatment=0):
+	'''
+		Performs a chi-squared test, to see if a random division of 
+		workers from a treatment have homogeneous word frequencies.
+	'''
+	ds = dp.SimpleDataset(
+		which_experiment=experiment,
+		show_token_pos=False,
+		show_token_img=True,
+		class_idxs=[treatment],
+		img_idxs=range(5,10),
+		balance_classes=119
+	)
+	data = [d['features'] for d in ds.data[treatment]]
+
+	# randomly partition workers between two sets
+	list1, list2 = [], []
+	for d in data:
+		if random.randint(0,1):
+			list1.extend(d)
+		else:
+			list2.extend(d)
+
+	c1 = Counter(list1) 
+	c2 = Counter(list2) 
+
+	chi_val, p_val, dof = chi_squared_test(c1, c2)
+	return chi_val, p_val, dof
+
+
+def between_treatment_chi_squared_test(
+		experiment=1,
+		treatment_1=0,
+		treatment_2=1
+	):
+	'''
+		Performs a chi-squared test, to see if the word frequencies used
+		in treatment_1 are significantly different from those in treatment_2.
+		Uses Pearson's chi-squared test.
+	'''
+
+	# get the word frequencies for two different treatments
+	c1 = get_word_counts(experiment, [treatment_1], range(5,10), balance=119,
+		show_token_img=True)
+	c2 = get_word_counts(experiment, [treatment_2], range(5,10), balance=119,
+		show_token_img=True)
+
+	chi_val, p_val, dof = chi_squared_test(c1, c2)
+	return chi_val, p_val, dof
+
+
+	
+def chi_squared_test(counts1, counts2):
+	''' 
+		accepts two word frequency Counters, and performs a chi-squared 
+		test of homogeneity between them.  It handles the case where
+		less than 5 occurences are expected (i.e. less than 10 observations 
+		between both treatments), by lumping infrequent words into an OTHER
+		category.
+	'''
+	# get the full set of all words
+	vocab = set(counts1.keys() + counts2.keys())
+
+	# to create a contingency table for the chi2 test, we flatten the counts
+	# into lists.  We only include words that appear at least 10 times between
+	# both treatments.  All other words are added to an "other" bin
+	other_count_1, other_count_2 = 0,0
+	list_1, list_2 = [],[]
+
+	for w in vocab:
+		if counts1[w] + counts2[w] < 10:
+			other_count_1 += counts1[w]
+			other_count_2 += counts2[w]
+			del counts1[w]
+			del counts2[w]
+
+		else:
+			list_1.append(counts1[w])
+			list_2.append(counts2[w])
+
+	list_1.append(other_count_1)
+	list_2.append(other_count_2)
+
+	contingency_table = np.array([list_1, list_2])
+
+	chi_val, p_val, dof, expected = chi2(contingency_table, correction=True)
+
+	return chi_val, p_val, dof
 
 
 
@@ -385,7 +582,13 @@ class SpellingCorrector(object):
 		return spell_checker.auto_correct(corpus)
 
 
-def get_word_counts(experiment, treatments, images, balance=119):
+def get_word_counts(
+		experiment, 
+		treatments, 
+		images, 
+		balance=119, 
+		show_token_img=False
+	):
 	'''
 		set balance=0 to apply no truncation of the dataset (which is 
 		normally done to balance the number of data points per treatment).
@@ -393,7 +596,7 @@ def get_word_counts(experiment, treatments, images, balance=119):
 	d = dp.SimpleDataset(
 		which_experiment=experiment,
 		show_token_pos=False,
-		show_token_img=False,
+		show_token_img=show_token_img,
 		class_idxs=treatments,
 		img_idxs=images,
 		balance_classes=balance

@@ -1,6 +1,43 @@
 import sys
 import random
 
+def as_scientific(float_number, precision):
+	formatter = '%%1.%de' % (precision-1)
+	as_str = formatter % float_number
+	digits, exp = as_str.split('e')
+	return float(digits), int(exp)
+
+def as_scientific_latex(
+		float_number,
+		precision,
+		min_exp=None, 
+		math_delimiters=True
+	):
+	'''
+		renders a float as latex-formatted string with pretty scientific 
+		notation.  min_exp is the minimum absolute value of the exponent,
+		below which the string will be prented in plain decimals.
+	'''
+
+	if min_exp is None:
+		min_exp = precision
+
+	digits, exp = as_scientific(float_number, precision)
+
+	if abs(exp) < min_exp:
+		formatter = '%%1.%df' % (abs(exp) + precision - 1)
+		formatted =  formatter % (float_number)
+
+	else:
+		formatter = '%%1.%df \\times 10^{%%d}' % (precision-1)
+		formatted = formatter % (digits, exp)
+
+	if math_delimiters:
+		return '$%s$' % formatted
+
+	return formatted
+
+
 def writeNow(string):
 	sys.stdout.write(string)
 	sys.stdout.flush()

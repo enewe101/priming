@@ -565,11 +565,11 @@ class WordnetFoodDetector(object):
 		self.food_synsets = [
 			'food.n.02', 
 			'food.n.01', 
-			'helping.n.01',
-			'taste.n.01', 
-			'taste.n.05', 
-			'taste.n.06', 
-			'taste.n.07'
+			#'helping.n.01',
+			#'taste.n.01', 
+			#'taste.n.05', 
+			#'taste.n.06', 
+			#'taste.n.07'
 		]
 
 		self.foodish_cache = dict([(s,True) for s in self.food_synsets])
