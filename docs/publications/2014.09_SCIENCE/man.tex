@@ -125,25 +125,26 @@
 
 Faced with the ever-growing scale and complexity of data, academic and 
 industrial researchers are increasingly relying on \textit{human computation} 
-as a means to extract useful knowledge.  Microtask
+to extract useful knowledge.  Microtask
 platforms, like Amazon Mechanical Turk, act like a human compute cluster,
 making it possible to access human cognition quickly and inexpensively. 
 This has lead to their broad adoption by social and computer scientists.  
-Human computation is being used in applications
+Human computation is being used experimentally in applications
 where expert opinion would normally be sought, such as in reviewing 
 medical images.
-Here we show that the repetition of similar tasks, which is an inherent
+Here we show that the repeated performance of similar tasks, an inherent
 feature of microtask and crowdsourcing platforms, acts as a strong
-and largely unexplored source of bias.  The effects of previous tasks on
-later ones---\textit{intertask effects}---are more severe than the effects 
-of framing, such as by disclosing a task's purpose.  
+and largely unexplored source of bias.  Previous tasks exert strong 
+influences on how workers perform later tasks, which we call 
+\textit{intertask effects}.  These effects are more severe than effects 
+caused by framing, such as by disclosing a task's purpose.  
 Using image-labeling, the canonical microtask, we show that prior 
 tasks influence the content that workers chose to focus on, as well as the 
 richness and specialization of their vocabulary.    
 While intertask effects can be a source of systematic bias, our
-results suggest that, when properly controlled, they might be leveraged
-to hone worker focus and specificity, and could play a key role in engineering
-tasks that elicit reproducible, expert-level judgments.
+results suggest that with appropriate task-engineering, it might be possible
+to leverage intertask effects to hone worker focus and specificity, helping
+to elicit reproducible, expert-level judgments.
 \end{sciabstract}
 
 \section*{Main text}
@@ -180,21 +181,23 @@ by altering the description of the workflow context
 \cite{chandler2013breaking}, and the problem description
 \cite{thibodeau2013natural}.  
 
-Microtasks are typically distributed to workers in bundles.  For example, a 
-worker might be assigned a set of ten images, and asked to provide 
-descriptive words (or \textit{labels}) for each.  
-On MTurk, these bundles are called Human Intelligence Tasks (HITs).
+Here we focus on an aspect of the microtask setup that is ubiquitous, but 
+has not yet received much attention.  Microtasks are typically distributed 
+to workers in bundles.  For example, a worker might be assigned a set of ten 
+images, and asked to provide descriptive words (or \textit{labels}) for 
+each.  On MTurk, these bundles are called Human Intelligence Tasks (HITs).
 But for the sake of clarity, we will use ``task'' to mean the smallest 
 repeatable unit of work, which, in our study, consists of labeling a single
 image.
 
-Results in psychology show that people are susceptible to various kinds of 
-priming \cite{BJOP1796,No2007,beller1971priming}, including 
+Results in psychology show that people are 
+susceptible to various kinds of priming 
+\cite{BJOP1796,No2007,beller1971priming}, including 
 task-repetition effects \cite{Gass1999549,sohn2001task}.  
-Yet to our knowledge, no study has investigated the bias that might
+But to our knowledge, no study has investigated the bias that might
 result from the fact that microtask workers typically perform many tasks in 
 succession.  The experiments we present here show that a worker's response 
-to a task depends strongly on the tasks she had performed beforehand.
+during a task depends strongly on the tasks performed beforehand.
 In other words, unlike CPUs and GPUs, HPUs are subject to 
 \textit{hysteresis}, meaning that their outputs depend on the 
 \textit{history} of their inputs.
@@ -204,9 +207,10 @@ We call the effects that prior tasks induce on later ones
 We investigated intertask effects using image-labeling tasks on the Amazon 
 Mechanical Turk (MTurk) microtask platform.  Image-labeling tasks are among
 the most common MTurk tasks \cite{chandler2013breaking,Berinsky2012351,Finnerty2013,paolacci2010running}.  This trend will probably continue 
-in the long term because of their role in computer vision research 
-\td{find another application} \cite{5543192}.  In our first experiment, 
-which we will refer to as 
+in the long term, because image labeling is still very difficult to automate
+\cite{5543192}, and is used in many applications, such as website moderation, 
+computer vision research, and social media analytics (\# insert other refs) 
+\cite{5543192}.  In our first experiment, which we will refer to as 
 \textit{intertask-food-objects}, workers were assigned to either a
 \textit{food} or \textit{objects} treatment.  Workers in these treatments
 performed a set of five \textit{initial tasks}, which each involved 
@@ -215,8 +219,8 @@ either food or (non-food) objects, depending on the worker's
 treatment (see Fig.~\ref{fig:task}A and B).  Following the initial 
 tasks, workers performed five \textit{test tasks}, which were identical for 
 both treatments.  The test tasks contained images depicting a 
-mixture of food and other objects (see Fig.~\ref{fig:task}C), and workers
-were again asked to supply five labels.  Five initial 
+mixture of food and objects (see Fig.~\ref{fig:task}C), and workers
+were again asked to provide five labels.  Five initial 
 tasks, together with the test tasks, comprised one HIT 
 (\# workers were only allowed to participate once). During the HIT, workers 
 were presented images one at a time, and, crucially, there was no distinction
@@ -234,25 +238,27 @@ understand the nature and severity of the bias induced by prior task
 exposures.  
 We define the extent of bias, $\theta$, induced by alternative exposures, to 
 be the resulting change in the probability with which workers provide given 
-responses (formally the totatal variation distance):
+responses (formally the total variation distance):
 \begin{equation}
 	\theta = \frac{1}{2}\sum_{x \in X} \left| p_1(x) - p_2(x) \right|,
 \end{equation}
 where $p_i(x)$ is the probability that a worker subjected to treatment $i$
 provides response $x$, from the set of possible responses $X$.
-The problem of determining $\theta$ from finite samples of responses is 
-difficult, which leads us to reformulate it as a classification problem: 
-given a worker's 
-response, can a machine reliably infer what her priming exposure had been?  
-Intuitively, the greater the effect that priming exposures have on workers' 
+It is important to emphasize that a sigificant result from a $\chi^2$ test 
+only allows us to conclude that $\theta$ is non-zero.  Determining $\theta$ from finite samples of 
+responses, using purely statistical approaches, is difficult (\#), which 
+leads us to reformulate the
+problem in terms of classification: given a worker's 
+response, can a machine reliably infer what her prior task-exposure had 
+been?  Intuitively, the greater the effect that prior tasks have on subsequent
 responses, the more accurate the classifier can be.  Formally, as we show
-in the supplementary text, the performance of such a classifier, $\eta$,
-yields a lower bound on the true bias:
+in the supplementary text, the accuracy of such a classifier, $\eta$,
+yields a lower bound on the bias:
 \begin{equation}
 	\theta \geq 2\eta - 1.
 	\label{l1}
 \end{equation}
-Thus, measuring the performance of a classifier allows us to establish a
+Thus, measuring the accuracy of a classifier allows us to establish a
 lower bound on the extent of bias. This approach can be used to bound the 
 bias induced by any perturbation, including both intertask effects and 
 framing.  As we have defined it, bias ranges from 0 (meaning the exposures 
@@ -320,24 +326,24 @@ different sets of responses).
 Using a na\"ive Bayes classifier (\# in the 
 supplementary material we discuss the choice of classifier, the
 approach to measuring accuracy, and draw a comparison to the results obtained 
-if a support vector machine is used.), we found that intertask effects 
+if a support vector machine is used), we found that intertask effects 
 lead to a 30\% bias between workers from the \textit{food} and 
 \textit{objects} treatments.
 
-As mentioned, the effects of framing on workers' responses to microtasks has 
-been studied in various ways 
-\cite{Kinnaird2012281,chandler2013breaking,thibodeau2013natural}.
-Therefore, as a point of comparison, we performed a similar experiment 
-in which we framed the purpose of the tasks.  Workers were either told that 
+There has been considerable interest in the effects that framing can have
+on microtask responses
+\cite{Kinnaird2012281,chandler2013breaking,thibodeau2013natural}, so,
+as a point of comparison, we performed a similar experiment 
+in which we framed the purpose of the tasks.  In the experiment 
+\textit{frame-food-objects}, workers were either told that 
 the tasks were ``Funded by the laboratory for the visual perception of Food 
-and Ingredients'', or ``\ldots of Objects and Tools''.  We did not observe a 
-statistically significant framing-induced bias, using a na\"ive Bayes 
-classifier (see Fig.~\ref{fig:theta}).  This suggests
-that prior task exposure is a stronger priming modality than framing.
-\td{I need to talk about the $\chi^2$ result here.}
-
-
-
+and Ingredients'', or ``\ldots of Objects and Tools''.  
+Framing did induce statistically significant changes in the frequencies of 
+word usage (as determined by $\chi^2$ test; $p=0.0012$), albeit at a much 
+lower significance than for intertask effects.  But we did not find a 
+significant amount of framing-induced bias, using a na\"ive Bayes classifier 
+(see Fig.~\ref{fig:theta}).  This suggests that prior task exposure is a 
+stronger priming modality than framing.
 
 We conducted variants of these experiments using different images, to see 
 whether this trend was robust.  In the experiment 
@@ -356,7 +362,7 @@ strong bias as a result of intertask effects (about 50\%)
 framing, by performing an experiment (\textit{frame-food-culture}) using 
 the same test tasks as in \textit{intertask-food-culture}, in which we exposed
 workers to a statement framing the purpose of the tasks as the recognition 
-of either food or cultures.  
+of either food or culture.  
 For this framing experiment, we did not observe a statistically significant 
 difference between the labels attributed by the \textit{food} and 
 \textit{culture} treatments during test tasks (see Fig.~\ref{fig:theta}).
@@ -427,46 +433,54 @@ subsequent tasks, but does not necessarily increase it.
 
 To deepen our understanding, we investigated workers' lexical richness in 
 reference to food, that is, the number of \textit{unique} food-related words
-used.
+used.  Even if workers provide an abundance of food-related words, if the 
+same words are often repeated, there will of course be a smaller total 
+diversity.  This could happen, for example, if workers use generic references 
+to food.
 Both \textit{intertask} experiments showed that food-exposed workers had 
 greater lexical richness, in reference to food, than their non-food-primed 
-counterparts (as much as 20\% more; see Fig.~\ref{fig:specificity}).  This
-held in the case of \textit{intertask-food-culture}, even though, in that 
-experiment, food-primed workers referred to food less often overall.  
-This enrichment of the food-related lexicon 
-was also observed in the \textit{priming-food-objects}, and 
-\textit{echo-food-objects} experiments, but to a lesser extent.
+counterparts (as much as 20\% more) (see Fig.~\ref{fig:specificity}).  
+The increase in lexical richness in the case of 
+\textit{intertask-food-culture} is quite interesting, because in that 
+experiment, food-primed workers made fewer total references to food.  
+We also observed enrichment of the food-related lexicon in the 
+\textit{priming-food-objects}, and \textit{echo-food-objects} experiments, 
+although to a lesser extent.
 
-This lexical enrichment suggests that priming, whether by prior task 
-exposure or framing, leads workers to use more refined 
-or specialized words, in reference to concepts present in the prime.
-To test this directly, we used the wordnet corpus to operationalize the 
-notion of word specialization.
-Wordnet provides a set of hypernym-hyponym relations between \# English 
-nouns.  
-Hypernyms are generalizations (for example, ``bread'' is a hypernym for 
+The observations regarding lexical richness lead us to suspect that 
+initial tasks might influence workers to use more refined or specialized 
+words, when refering to aspects of content that had been present in the 
+initial tasks (i.e. food).  This would help explain why, in the case of 
+\textit{intertask-food-culture}, we observed a significantly greater 
+\textit{diversity} of food-related words despite their significantly lesser 
+\textit{total amount}.
+To test whether exposure to food in initial tasks increased the specialization
+of food-references, we used the wordnet corpus to operationalize the 
+notion of word specialization.  Wordnet provides a set of hypernym-hyponym 
+relations between \# English nouns.  Hypernyms are generalizations 
+(for example, ``bread'' is a hypernym for 
 ``pumpernickel''), while hyponyms are specializations.
-To assess the relative specialization of words from two different treatments,
-we compared all pairs of words from one treatment to the other. 
-We tallied the cases where one treatment's word was more specialized
-than the other, as well as the cases wher roles were reversed.  
-The difference of these tallies, as a percentage of their total, served as 
-the relative specialization of one treatment's vocabulary relative to the 
-other (\#) (see Fig.~\ref{fig:specificity}).  
-Using this approach, we compared the specialization of food-related words 
-for the treatments of all experiments.
+For each experiment, we compared food-related words provided by workers from 
+one treatment to those from the other, and tallied the excess number of cases
+where one treatment's words were more specialized than the other.
+Expressed as a percentage of their total, this tally served to 
+measure the relative specialization of the vocabulary used in one 
+treatment's vocabulary relative to the other 
+(\# full detail for this calculation is provided the supplementary text) 
+(see Fig.~\ref{fig:specificity}).  
 
 In all experiments except \textit{frame-food-culture}, food-primed workers 
 used significantly more specialized words than their non-food-primed 
 counterparts (about 15\% more; see Fig.~\ref{fig:specificity}C).
 It is interesting that such substantial increases in both the lexical 
 richness and specialization of food-related words 
-held for \textit{intertask-food-culture}, where, again, we observed fewer 
-references to food by food-primed workers overall. These observations point 
+held for \textit{intertask-food-culture}, where, as mentioned, we observed 
+that food-exposed workers had made \textit{fewer} references to food overall. 
+These observations point 
 to countervailing factors: one factor tending to activate the more 
 specialized and less common food-related words 
 (yielding greater lexical richness and specialization), and the other tending 
-to suppress certain, presumably more common or generic words 
+to suppress certain, presumably more common and generic words 
 (yielding fewer food-related words in total).
 
 This hypothesis is corroborated when we look at those words whose 
@@ -476,7 +490,7 @@ always \textit{suppressed} among food-primed workers.  In fact,
 for all experiments, ``food'' was the \textit{most suppressed} word.
 
 Taken together, our results can be 
-explained through a combination of positive and negative priming.
+explained through a combination of positive and negative priming effects.
 Positive priming (usually simply ``priming'') occurs when a prior stimulus 
 predisposes a person to give certain responses in an ensuing task, and
 is often observed as an increase in the speed or accuracy of a response, or
@@ -507,27 +521,29 @@ Prior to this study, little thought appears to have been given to the
 ordering and bundling of microtasks.  But our findings show that these are 
 powerful design factors.  A natural response to our findings 
 might be simply to randomize task ordering, a practice that is commonly 
-observed.  But the sheer extent of bias that we observed leads us to question 
-whether that is the best approach, since this would tend to raise 
-the ``noise floor'' of the study.
+employed.  But the sheer extent of bias that we observed leads us to question 
+whether that is the best approach.  Although the bias is random in 
+that case, it is still on the order of 30-50\%, which is a major contribution
+to noise in the results.  It would be preferable to understand intertask
+effects in greater depth so that they might \textit{controlled} rather than
+simply randomized.
 
-Furthermore, our findings suggest that, through careful task engineering,
-it might be possible to achieve much more.  The boost that we observed to the 
-richness and specialization of workers' responses motivates further 
-investigation to acquire a deeper understanding of intertask effects.  
-We hope that future work will yield techniques to leverage intertask effects, 
-enabling one to tune the focus, diversity, and specificity of worker 
-responses.
-
+Our findings suggest that, through careful task engineering,
+it might be possible to achieve greater quality and reproducibility
+of responses.  
 A consistent goal in human computation is the achievement of expert-level
 judgments from non-expert workers (\#).  This has been achieved in some
 applications (\#). The distinction between experts and novices can be 
 attributed in part to the posession of specialized knowledge and heuristics. 
 But to a large degree, this distinction lies in the ability of 
 experts to direct their focus toward salient features, while filtering out 
-non-salient ones \cite{kellman2009perceptual}.  Using prior task exposure to 
-guide focus and salience attribution might enable expert-level 
-judgment in a wider variety of crowdsourced applications.
+non-salient ones \cite{kellman2009perceptual}.  Using strategic exposure to
+prior tasks, it might be possible to guide workers' focus and salience 
+attribution, enabling expert-level judgment in a wider variety of 
+crowdsourced applications.
+We anticipate that future work will yield techniques to control intertask 
+effects, enabling one to both reduce unwanted bias, as well as tune the 
+focus, diversity, and specificity of worker responses.
 
 Here we have shown that a large bias can be introduced into microtask 
 responses, simply from the performance of earlier tasks. 
@@ -537,10 +553,10 @@ current state of microtask design, they also reveal potential opportunities
 for more 
 refined control over worker focus and acuity.  Any application that relies
 on the repetitive use of human judgment is likely subject to the phenomena
-we described here.  It remains to be determined by future work whether 
-intertask effects can be leveraged for more performant and reliable human 
+we described here.  Exploring the concerns and opportunities posed by 
+intertask effects are important directions for future work, 
+in the effort to develop performant and reliable methods for human 
 computation.
-
 \bibliography{newbib}
 \bibliographystyle{Science}
 
