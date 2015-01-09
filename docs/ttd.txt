@@ -36,6 +36,10 @@ x update all analyses to reflect spell checking with allrecipes words
 	or else reflect the choice to include more root synsets to define food
 	in the description within the supplementary material
 
+[] "multinomial naive bayes"
+[] "machine learning" and "wordnet" in abstract
+[] make sure workers in exp1 really didn't participate in exp2
+
 Decided to use
 	- lemmatization
 	- stop-word removal

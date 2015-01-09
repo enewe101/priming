@@ -264,8 +264,8 @@ def plot_specificity(
 		fh = open('data/new_data/specificity/specificity_%s.json' % key)
 		data = json.loads(fh.read())
 		mean = 100 * data['mean']
-		err_high = abs(100 * data['lower_CI'] - mean)
-		err_low = abs(100 * data['upper_CI'] - mean)
+		err_high = abs(100 * data['std'])
+		err_low = abs(100 * data['std'])
 		specificity_data.append(mean)
 		specificity_error_high.append(err_high)
 		specificity_error_low.append(err_low)
@@ -515,7 +515,7 @@ def plot_theta(
 	# convert accuracy to priming difference (which is what we want to plot)
 	Y_aggregate = [100*(2*a-1) for a in accuracies]
 	err_low = [
-		100*(2*binomial_lower_confidence_p(n, int(n*a)) - 1)
+		100*(2*binomial_lower_confidence_p(n, int(n*a), alpha=0.15865) - 1)
 		for a,n in zip(accuracies,[595,119,119,119,119])
 	]
 	err_low = [y-y_err for y, y_err in zip(Y_aggregate, err_low)]
@@ -537,12 +537,14 @@ def plot_theta(
 
 	ax1.set_ylabel(r'$\theta_\mathrm{NB}\;(\%)$', size=12)
 
-	xlabels = [r'$task1$', r'$frame1$', r'$echo1$', '$task2$', '$frame2$']
+	xlabels = [
+		r'$intertask$', r'$frame$', r'$echo$', '$intertask$', '$frame$'
+	]
 
 	eps = 0.2
 	ax1.set_xticks(map(lambda x: x + width/2. + eps, X))
 	ax1.tick_params(axis='x', colors='0.25')
-	ax1.set_xticklabels(xlabels, rotation=45, size=12,
+	ax1.set_xticklabels(xlabels, rotation=45, size=10,
 		horizontalalignment='right', color='k')
 
 	# Plot the by_pos data series
@@ -559,7 +561,7 @@ def plot_theta(
 	X = range(len(Y_by_pos))
 
 	err_low = [
-		100*(2*binomial_lower_confidence_p(595, int(595*a)) - 1)
+		100*(2*binomial_lower_confidence_p(595, int(595*a),alpha=0.15865) - 1)
 		for a in avg_accuracies
 	]
 	err_low = [y-y_err for y, y_err in zip(Y_by_pos, err_low)]

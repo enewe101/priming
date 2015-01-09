@@ -696,7 +696,6 @@ def vocabulary_null_model(
 		num_bootstraps=1000,
 		num_workers=119,
 		images=range(5,10),
-		fname='data/new_data/vacabulary_null.json'
 	):
 
 	fname = 'data/new_data/vocabulary/vocabulary_null_%s.json' % comparison
@@ -710,6 +709,7 @@ def vocabulary_null_model(
 	assert(comparison in comparisons)
 	fh = open(fname, 'w')
 
+	
 	upper_CI_idx = int(np.ceil(0.975 * num_bootstraps)) - 1
 	lower_CI_idx = int(np.floor(0.025 * num_bootstraps))
 
