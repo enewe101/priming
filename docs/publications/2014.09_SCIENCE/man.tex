@@ -168,9 +168,9 @@ Researchers have sought to define a basic HPU instruction set, and
 libraries for HPU programming are under active development
  \cite{little2010turkit,minder2011crowdlang,minder2012crowdlang,kittur2011crowdforge}.  
 
-Given the increasing prevalence of microtask-based research methods, there
-is a desire to understand factors affecting the reliability of HPU
-outputs.  Researchers have investigated task-design parameters such as the 
+Given the increasing prevalence of microtask-based methods, there
+is a desire to understand factors affecting the reliability of microtask
+platforms.  Researchers have investigated task-design parameters such as the 
 level of pay \cite{kazai2013analysis}, the training and pre-screening of 
 workers \cite{le2010ensuring,paolacci2010running}, and user-interface 
 design \cite{Finnerty2013}.  
@@ -363,7 +363,8 @@ the tasks were ``Funded by the laboratory for the visual perception of Food
 and Ingredients'', or ``\ldots of Objects and Tools''.  
 Framing did induce changes in the frequencies of 
 word usage at significance (as determined by $\chi^2$ test; $p=0.0012$), but 
-the \textit{extent} of framing-induced bias we found was insignificant 
+the \textit{extent} of framing-induced bias we found was statistically 
+insignificant (\td{insert p-value})
 (see Fig.~\ref{fig:theta}).  This suggests 
 that prior task exposure is a stronger priming modality than framing.
 
@@ -450,22 +451,22 @@ during test tasks
 (\# food related words were identified using the wordnet corpus, augmented
 with additional words obtained by crawling a recipe website (see supplementary
 information for details)) (see Fig.~\ref{fig:specificity}).  This finding
-rules out a seemingly-simple mechanism in which workers emphasize
-content that had been present in earlier tasks.  Seeing content in prior tasks
+rules out a seemingly-simple idea that workers emphasize
+content that has been present in earlier tasks: seeing content in prior tasks
 affects the probability that a worker refers to it in subsequent tasks, but 
 does not necessarily \textit{increase} the probability.
 
 To deepen our understanding, we investigated workers' lexical richness in 
 reference to food, that is, the number of \textit{unique} food-related words
 used.  Even if workers provide an abundance of food-related words, if the 
-same words are often repeated, there will of course be a smaller 
-diversity.  This could happen, for example, if workers use generic references 
+same words are often repeated, there will be less diversity.  
+This could happen, for example, if workers use generic references 
 to food.
 Both \textit{intertask} experiments showed that food-exposed workers had 
 greater lexical richness, in reference to food, than their non-food-primed 
 counterparts (as much as 20\% more) (see Fig.~\ref{fig:specificity}).  
 The increase in lexical richness in the case of 
-\textit{intertask-food-culture} is quite interesting, because in that 
+\textit{intertask-food-culture} is particularly noteworthy, because in that 
 experiment, food-primed workers made fewer total references to food.  
 We also observed enrichment of the food-related lexicon in the 
 \textit{priming-food-objects}, and \textit{echo-food-objects} experiments, 
@@ -544,8 +545,9 @@ powerful design factors.  A natural response might be simply to randomize
 task ordering, a practice that is commonly employed.  But the sheer extent of 
 bias that we observed leads us to question 
 whether that is the best approach.  Although the bias would be random in 
-that case, it is still on the order of 30-50\%, which is a major contribution
-to noise in the results.  It would be preferable to understand intertask
+that case, our results suggest that it is on the order of 30-50\%, 
+which is a major contribution to noise in the results.
+It would be preferable to understand intertask
 effects in greater depth so that they might \textit{controlled} rather than
 simply randomized.
 
@@ -574,7 +576,7 @@ current state of microtask design, they also reveal potential opportunities
 for more 
 refined control over worker focus and acuity.  Any application that relies
 on the repetitive use of human judgment is likely subject to the phenomena
-we described here.  Exploring the concerns and opportunities posed by 
+we described here.  Exploring the issues and opportunities posed by 
 intertask effects are important directions for future work, 
 in the effort to develop performant and reliable methods for human 
 computation.
