@@ -5,7 +5,7 @@ in the paper
 
 import json
 import util
-from analysis import get_theta_star, binomial_lower_confidence_p
+from analysis import get_theta_star, binomial_lower_confidence_p, binomial_confidence_intervals
 import sys
 import random
 import naive_bayes
@@ -456,14 +456,22 @@ def plot_theta_panel(ax, data):
 	accuracies = [this_data[tn] for tn in test_names]
 
 	# convert accuracy to priming difference (which is what we want to plot)
-	Y_aggregate = [2*a-1 for a in accuracies]
-	err_low = [
-		2*binomial_lower_confidence_p(n, int(n*a)) - 1
-		for a,n in zip(accuracies,[595,119,119,119,119])
+	Y_aggregate = [100*(2*a-1) for a in accuracies]
+
+	# construct the confidence intervals
+	confidence_intervals = [
+		binomial_confidence_intervals(n, int(round(n*a)), alpha=0.15865, as_theta=True)
+		for n,a in zip([1190,238,238,238,238], accuracies)
 	]
-	err_low = [y-y_err for y, y_err in zip(Y_aggregate, err_low)]
-	err_high = [0 for e in err_low]
+
+	err_low = [
+		y - 100*c[1] for y,c in zip(Y_aggregate, confidence_intervals)
+	]
+	err_high = [
+		100*c[0] - y for y,c in zip(Y_aggregate, confidence_intervals)
+	]
 	err = [err_low, err_high]
+
 	X = range(len(Y_aggregate))
 
 	series = ax.bar(
@@ -474,10 +482,9 @@ def plot_theta_panel(ax, data):
 	xlims = (-padding, len(X) - 1 + width + padding)
 	plt.xlim(xlims)
 
+	ax.set_yticks([10,20,30,40,50,60])
 
-	ax.set_yticks([0.1,0.2,0.3,0.4,0.5, 0.6])
-
-	ylims = (0, 0.62)
+	ylims = (0, 62)
 	plt.ylim(ylims)
 
 
@@ -514,14 +521,20 @@ def plot_theta(
 
 	# convert accuracy to priming difference (which is what we want to plot)
 	Y_aggregate = [100*(2*a-1) for a in accuracies]
-	err_low = [
-		100*(2*binomial_lower_confidence_p(n, int(n*a), alpha=0.15865) - 1)
-		for a,n in zip(accuracies,[595,119,119,119,119])
+
+	confidence_intervals = [
+		binomial_confidence_intervals(n, int(round(n*a)), alpha=0.15865, as_theta=True)
+		for n,a in zip([1190,238,238,238,238], accuracies)
 	]
-	err_low = [y-y_err for y, y_err in zip(Y_aggregate, err_low)]
-	#err_high = [0 for e in err_low]
-	err_high = err_low
+
+	err_low = [
+		y - 100*c[1] for y,c in zip(Y_aggregate, confidence_intervals)
+	]
+	err_high = [
+		100*c[0] - y for y,c in zip(Y_aggregate, confidence_intervals)
+	]
 	err = [err_low, err_high]
+
 	X = range(len(Y_aggregate))
 
 	series = ax1.bar(

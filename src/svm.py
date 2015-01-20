@@ -216,7 +216,7 @@ class LognormalSimulatedAnnealer(object):
 		return best_val, best_params
 
 
-def get_annealing_func(reps=1, CV=20):
+def get_annealing_func(exp=1, reps=1, CV=20):
 	'''
 	wrapper for svm cross_validation on experiment 1 data.
 	It's output is used as the annealing_func argument to the simulated 
@@ -225,14 +225,14 @@ def get_annealing_func(reps=1, CV=20):
 
 	datas = [
 		dp.SimpleDataset(
-			which_experiment=1,
+			which_experiment=exp,
 			show_token_pos=True,
 			show_plain_token=True,
 			show_token_img=True,
 			do_split=True,
-			class_idxs=[1,2],
+			class_idxs=[1,2] if exp==1 else [0,5],
 			img_idxs=[img_idx],
-			spellcheck=False,
+			spellcheck=True,
 			lemmatize=True,
 			remove_stops=True,
 			balance_classes=True,

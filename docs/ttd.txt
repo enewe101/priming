@@ -1,8 +1,19 @@
 manuscript notes
 ~~~~~~~~~~~~~~~~
 
+[] significance tests
+	[] Theta
+		[] update the actual plot to reflect the fact than N = 238, not 119
+		[] aggregate numbers
+		[] individual task-based numbers
+
+	[] Number of references to food
+	[] Food lexical richness
+	[] relative specialization
+
 [] note that the specificity data concerns only the first image!
 	I need to mention that in the text!
+[] discuss the fact that image D is also of "identifiable cultural origin"
 
 Galaxy zoo refs:
 Galaxy Zoo Volunteers Share Pain and Glory of Research
