@@ -1,4 +1,5 @@
 import os
+import sys
 import numpy as np
 from sklearn import cross_validation
 from sklearn import svm
@@ -8,9 +9,9 @@ import naive_bayes as nb
 import random as r
 import json
 
+BEST_PARAMS_FNAME = 'best.json'
 SVM_EXP2_L1_FNAME = 'exp2.l1.svm.json'
 SVM_OPTIMIZATION_DIR = 'data/new_data/svm_optimization'
-BEST_PARAMS_FNAME = 'exp1.best.json'
 DATA_DIR = 'data/new_data'
 
 
@@ -37,17 +38,30 @@ def find_best_svm_params(write_fname=BEST_PARAMS_FNAME):
 	on each, and take the best result.  
 
 	This is to defend against the fact that variance in reported accuracy
-	during cross validation can to a particular parameter value seeming 
+	during cross validation can lead to a particular parameter value seeming 
 	better than the others when it is not.
 	'''
 
-	# open a file where results will be written
+	# open a file for writing
 	write_fh = open(os.path.join(SVM_OPTIMIZATION_DIR, write_fname), 'w')
 
-	# get a listing of the simulated annealing results which will be ranked
-	fnames = os.popen(
-		'ls %s | grep exp1.run' % SVM_OPTIMIZATION_DIR).read().split()
+	# for exp1 and exp2, find the best parameter settings
+	rescored_params = {}
+	for exp in [1, 2]:
 
+		# get a listing of the simulated annealing results for this exp
+		fnames = os.popen(
+			'ls %s | grep exp%d.run' % (SVM_OPTIMIZATION_DIR, exp)
+		).read().split()
+
+		# independantly rescore and rank these parameter settings
+		rescored_params['exp%d' % exp] = rescore_svm_params(fnames, exp)
+
+	write_fh.write(json.dumps(rescored_params, indent=2))
+	write_fh.close()
+
+
+def rescore_svm_params(fnames, exp):
 	# read all simulated annealing results.  Take the best 5 from each.
 	top_params = []
 	for fname in fnames:
@@ -66,7 +80,13 @@ def find_best_svm_params(write_fname=BEST_PARAMS_FNAME):
 	# for better performance, use the same function that was designed for
 	# testing in simulated annealing (it loads the data vectors into memory
 	# only once)
-	test_func = get_annealing_func(CV=40)
+
+	if exp == 1:
+		class_idxs = [0,1]
+	elif exp == 2:
+		class_idxs = [0,5]
+
+	test_func = get_annealing_func(exp, class_idxs, CV=40)
 
 	# independantly re-score all the top parameters
 	re_scored_params = []
@@ -81,8 +101,8 @@ def find_best_svm_params(write_fname=BEST_PARAMS_FNAME):
 
 	# write these to file, in ranked order
 	re_scored_params.sort(None, lambda x: x['accuracy'], True)
-	write_fh.write(json.dumps(re_scored_params, indent=2))
-	write_fh.close()
+	return re_scored_params
+
 
 
 class LognormalSimulatedAnnealer(object):
@@ -93,7 +113,6 @@ class LognormalSimulatedAnnealer(object):
 		objective_func,
 		ranges={'C':[1,20000],'gamma':[1e-8,1]},
 		sigma=1,
-		fname='test4.json',
 		num_steps=20,
 		B=50,
 		max_tries=100,
@@ -216,7 +235,7 @@ class LognormalSimulatedAnnealer(object):
 		return best_val, best_params
 
 
-def get_annealing_func(exp=1, reps=1, CV=20):
+def get_annealing_func(exp, class_idxs, reps=1, CV=20):
 	'''
 	wrapper for svm cross_validation on experiment 1 data.
 	It's output is used as the annealing_func argument to the simulated 
@@ -230,7 +249,7 @@ def get_annealing_func(exp=1, reps=1, CV=20):
 			show_plain_token=True,
 			show_token_img=True,
 			do_split=True,
-			class_idxs=[1,2] if exp==1 else [0,5],
+			class_idxs=class_idxs,
 			img_idxs=[img_idx],
 			spellcheck=True,
 			lemmatize=True,
@@ -376,12 +395,18 @@ def calc_priming_diff_svm(
 
 	# get the best parameters for SVM
 	best_params_path = os.path.join(SVM_OPTIMIZATION_DIR, BEST_PARAMS_FNAME)
-	best_params = json.loads(open(best_params_path).read())[0]['params']
+	best_params = json.loads(open(best_params_path).read())
+	params_exp1 = best_params['exp1'][0]['params']
+	params_exp2 = best_params['exp2'][0]['params']
 
 	results = {}
 
 	for c in COMPARISONS:
 		name, exp, treatments = c['name'], c['experiment'], c['treatments']
+		if exp == 1:
+			params = params_exp1
+		elif exp == 2:
+			params = params_exp2
 
 		# we handle this treatment differently because of multiple replicates
 		if name == 'exp2.task':
@@ -395,7 +420,7 @@ def calc_priming_diff_svm(
 			features, outputs = ds.as_vect()
 			num_examples = ds.num_examples
 			scores = cross_val_svc(
-				features, outputs, CV=num_examples, **best_params)
+				features, outputs, CV=num_examples, **params)
 
 			# keep the results
 			overall_accuracy = np.mean(scores)
@@ -411,7 +436,7 @@ def calc_priming_diff_svm(
 			features, outputs = ds.as_vect()
 			num_examples = ds.num_examples
 			accuracy = np.mean(cross_val_svc(
-				features, outputs, CV=num_examples, **best_params))
+				features, outputs, CV=num_examples, **params_exp2))
 
 			results['exp2.task']['test%d' % (image-5)].append(accuracy)
 	
@@ -421,6 +446,10 @@ def calc_priming_diff_svm(
 	results['aggregates'] = {}
 	for c in COMPARISONS:
 		name, exp, treatments = c['name'], c['experiment'], c['treatments']
+		if exp == 1:
+			params = params_exp1
+		elif exp == 2:
+			params = params_exp2
 
 		# we handle this treatment differently because of multiple replicates
 		if name == 'exp2.task':
@@ -430,7 +459,7 @@ def calc_priming_diff_svm(
 		features, outputs = ds.as_vect()
 		num_examples = ds.num_examples
 		results['aggregates'][name] = np.mean(cross_val_svc(
-				features, outputs, CV=num_examples, **best_params))
+				features, outputs, CV=num_examples, **params))
 
 	# calculate the same, but for experiment 2's inter-task comparison we
 	# have multiple replicates under different permutations of test tasks
@@ -440,10 +469,34 @@ def calc_priming_diff_svm(
 		features, outputs = ds.as_vect()
 		num_examples = ds.num_examples
 		results['aggregates']['exp2.task'].append(np.mean(cross_val_svc(
-				features, outputs, CV=num_examples, **best_params)))
+				features, outputs, CV=num_examples, **params_exp2)))
 
 
 	write_fh.write(json.dumps(results, indent=2))
 	write_fh.close()
+
+
+if __name__ == '__main__':
+
+	# get command line args
+	exp = int(sys.argv[1])
+	run = sys.argv[2]
+
+	fname = 'exp%d.run%s.json' % (exp, run)
+
+	if exp == 1:
+		class_idxs = [0,1]
+	elif exp == 2:
+		class_idxs = [0,5]
+	else:
+		raise ValueError(
+			'First argument, which specifies the experimental '
+			'data to use, must be 1 or 0.'
+		) 
+
+	afunc = get_annealing_func(exp=exp, class_idxs=class_idxs, reps=1, CV=20)
+	lsa = LognormalSimulatedAnnealer(afunc)
+	lsa.walk()
+	lsa.write_path(fname)
 
 
