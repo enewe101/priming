@@ -418,7 +418,7 @@ def plot_theta_supplementary(
 			ax.set_xticks(map(lambda x: x + width/2. + eps, range(5)))
 			ax.tick_params(axis='x', colors='0.25')
 			xlabels = [
-				r'$task1$', r'$frame1$', r'$echo$', '$task2$', '$frame2$'
+				r'$intertask$', r'$frame$', r'$echo$', '$intertask$', '$frame$'
 			]
 			ax.set_xticklabels(xlabels, rotation=45, size=12,
 				horizontalalignment='right', color='k')
@@ -431,7 +431,7 @@ def plot_theta_supplementary(
 			ax.set_ylabel(r'$D^-_\mathrm{L1}$', size=12)
 
 		left = 4.7
-		height = 0.59
+		height = 59
 		plot_label = plot_labels[i]
 		ax.text(left, height, plot_label, 
 			va='top', ha='right', size=16, color='0.55')
