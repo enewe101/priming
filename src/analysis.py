@@ -35,9 +35,11 @@ import os
 import copy
 import csv
 from scipy.stats import chi2_contingency as chi2
+from scipy.stats import norm
 
 CORRECTIONS_PATH = 'data/new_data/dictionaries/with_allrecipes/'
 DICTIONARY_FNAMES = ['dictionary_1.json', 'dictionary_2.json']
+IMAGE_NAMES = ['test%d' %i for i in range(5)]
 
 # Number of stardard deviations equivalent to the % condifdence for a 
 # normal variate
@@ -1175,6 +1177,142 @@ def get_k_star(n, alpha):
 	return k_star
 
 
+def get_all_theta_stats_per_image(
+		read_fname='data/new_data/l1.json',
+		as_latex=False
+	):
+	N=238
+	data = json.loads(open(read_fname).read())
+	this_data = data['exp2.task']
+
+	avg_accuracies = [
+		np.mean([this_data[img][i] for img in IMAGE_NAMES]) 
+		for i in range(5)
+	]
+
+	theta_stats = [get_theta_stats(N, aa) for aa in avg_accuracies]
+
+	if not as_latex:
+		return theta_stats
+
+	latex_out = ''
+	for ts in theta_stats:
+		latex_out += '%d & %d & %d & %f & %f & %f \\\\\n' % (
+			ts['n'], ts['x'], ts['x_star'], ts['theta'], ts['theta_low'],
+			ts['theta_high'])
+
+	return latex_out
+
+def calc_specificity_stats():
+
+	specificity_keys_labels = [
+		('task1', 'task1', 'intertask-food-objects'),
+		('frame1', 'frame1', 'frame-food-objects'),
+		('echo', 'echo', 'echo-food-objects'),
+		('task2', 'task2', 'intertask-food-culture'),
+		('frame2', 'frame2', 'frame-food-culture'),
+	]
+
+	latex_out = ''
+	for key, label, exp_name in specificity_keys_labels:
+		fh = open('data/new_data/specificity/specificity_%s.json' % key)
+		data = json.loads(fh.read())
+
+		S = 100 * data['mean']
+		upper_CI = abs(100 * data['upper_CI'])
+		lower_CI = abs(100 * data['lower_CI'])
+
+		latex_out += '%s & %2.1f & %2.1f & %2.1f \\\\\n' % (
+			exp_name, S, upper_CI, lower_CI)
+
+	return latex_out
+
+
+
+
+
+def calc_vocab_size_stats():
+
+	comparisons = [
+		('task1:food', 'task1:obj', 'intertask-food-objects', 'task1'),
+		('frame1:food', 'frame1:obj', 'frame-food-objects', 'frame1'),
+		('echo:food', 'echo:obj', 'echo-food-objects', 'echo'),
+		('task2:food', 'task2:cult', 'intertask-food-culture', 'task2'),
+		('frame2:food', 'frame2:cult', 'frame-food-culture', 'frame2')
+	]
+
+	read_vocab_fname = 'data/new_data/vocabulary.json'
+	vocab_data = json.loads(open(read_vocab_fname).read())
+
+	latex_out = ''
+	for key1, key2, exp_name, key3 in comparisons:
+		vocab_1 = sum(vocab_data[key1])
+		vocab_2 = sum(vocab_data[key2])
+		diff = (100*(vocab_1 - vocab_2) / float(vocab_2))
+		null_fname = 'data/new_data/vocabulary/vocabulary_null_%s.json' % key3
+		null_data = json.loads(open(null_fname).read())
+		upper_CI = null_data['upper_CI']
+		lower_CI = null_data['lower_CI']
+
+		latex_out += '%s & %d & %d & %2.1f & %2.1f & %2.1f \\\\\n' % (
+			exp_name, vocab_1, vocab_2, diff, lower_CI, upper_CI
+		)
+	
+	return latex_out
+
+
+def calc_vocab_zscore():
+
+	read_food_fname = 'data/new_data/food.json'
+	food_data = json.loads(open(read_food_fname).read())
+
+	pairs = [
+		('task1:obj', 'task1:food'),
+		('frame1:obj', 'frame1:food'),
+		('echo:obj', 'echo:food'),
+		('task2:cult', 'task2:food'),
+		('frame2:cult', 'frame2:food'),
+	]
+
+	latex_out = ''
+	for key0, key1 in pairs:
+
+		Y_0 = food_data[key0]['fract_food']*100
+		Y_1 = food_data[key1]['fract_food']*100
+		Y = Y_1 - Y_0
+		Y_0_std = food_data[key0]['std']*100
+		Y_1_std = food_data[key1]['std']*100
+		Y_std = np.sqrt(Y_0_std**2 + Y_1_std**2)
+		z = Y/Y_std
+		p_value_two_tailed = util.as_scientific_latex(norm.sf(abs(Y/Y_std)),2)
+
+		latex_out += (
+		"%2.1f & %2.1f & %2.1f & %2.1f & %2.1f & %2.1f & %2.1f & %s"
+		+ "\\\\\n") % (
+			Y_0, Y_0_std, Y_1, Y_1_std, Y,  Y_std, z, p_value_two_tailed
+		)
+
+	return latex_out
+
+
+
+
+
+
+def get_theta_stats(n,p, alpha=0.05):
+	x = int(round(n*p))
+	x_star = get_k_star(n, alpha)
+	theta = 2*p - 1
+	theta_high, theta_low = binomial_confidence_intervals(
+		n,x,alpha,as_theta=True)
+
+	return {
+		'n':n, 'x':x, 'x_star':x_star,
+		'theta':theta, 'theta_low':theta_low,
+		'theta_high':theta_high
+	}
+
+
 def binomial_confidence_intervals(
 		n,k,alpha=0.05, tolerance=1e-6, as_theta=False
 	):
@@ -1206,7 +1344,9 @@ def binomial_confidence_intervals(
 				'produce z-scores for non alpha=0.05 cases.'
 			)
 
-		std_dev = np.sqrt(1/float(n)*(k/float(n))*(1-k/float(n)))
+		std_dev = np.sqrt(
+			1/float(n)*(k/float(n))*(1-k/float(n))
+		)
 		upper = k/float(n) + z * std_dev
 		lower = k/float(n) - z * std_dev
 
@@ -1324,6 +1464,27 @@ def k_upper_conf(n,x,alpha):
 		of success?
 	'''
 	x_low
+
+
+def prob_at_least_k_successes(n,k,p=0.5):
+	'''
+		Returns the one-tailed survival probability (p-value) --- that is
+		the probability of getting k or more successes.
+		note p_val is the survival probability, p is the probability of a 
+		single success (a parameter of the bniomial distribution).
+	'''
+	p_val = 0
+	try:
+		for k_prime in range(k,n+1):
+			p_val += prob_k_successes(n, k_prime, p)
+	
+	# if we get an overflow error, approximate using normal distribution
+	except OverflowError:
+		print 'OF'
+		p_val = norm.sf((k - n*p) / np.sqrt(n * p * (1-p)))
+
+	return p_val
+
 
 # Test
 def prob_k_successes(n,k,p=0.5):

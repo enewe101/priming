@@ -20,6 +20,8 @@ from random import shuffle
 from nltk.corpus import wordnet as wn
 import nltk
 
+# ensure that we don't include the
+from ignore_workers import workers_to_ignore
 
 def get_correct_treatments(image_num, pos):
 	'''
@@ -164,6 +166,9 @@ class SimpleDataset(object):
 		# state variables
 		self.data = defaultdict(lambda: [])
 		self.worker_ids = set()
+		self.workers_to_ignore = (set() if which_experiment==1 
+			else workers_to_ignore)
+		self.these_worker_ids = set()
 		self.vocab_list = []
 		self.vocab_counts = Counter()
 		self.num_docs = 0
@@ -190,6 +195,12 @@ class SimpleDataset(object):
 		# what is the min number of examples in each class?
 		if truncate_to is None:
 			truncate_to = min([len(self.data[idx]) for idx in self.data])
+
+		print 'truncated to: %d' % truncate_to
+		for idx in self.data:
+			if len(self.data[idx]) == truncate_to:
+				print idx
+
 
 		# truncate all data (randomly) to even out number of examples
 		for idx in self.data:
@@ -266,6 +277,9 @@ class SimpleDataset(object):
 		'''
 
 		if worker_id in self.worker_ids:
+			return True
+
+		if worker_id in self.workers_to_ignore:
 			return True
 
 		self.worker_ids.add(worker_id)
@@ -359,6 +373,8 @@ class SimpleDataset(object):
 			# we only load data for the desired classes
 			if class_idx not in self.class_idxs and self.class_idxs != 'all':
 				continue
+
+			self.these_worker_ids.add(record['WorkerId'])
 
 			# we look at the position where the desired images are found
 			# note that the images are permuted based on treatment (class)

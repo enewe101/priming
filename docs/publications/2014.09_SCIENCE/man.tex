@@ -123,28 +123,48 @@
 % Place your abstract within the special {sciabstract} environment.
 
 \begin{sciabstract}
+Microtask platforms have become commonplace tools for obtaining human 
+annotations for large datasets.  Such platforms connect requesters 
+(researchers or companies) with large populations (crowds) of workers, who 
+will individually complete small information-processing jobs, each taking 
+typically between one to five minutes.  
+A major challenge in using such platforms, 
+and a topic of ongoing research, concerns designing jobs that elicit high 
+quality annotations. Here we identify a feature of nearly all crowdsourcing 
+jobs that can act as a strong and systemic source of bias in annotations 
+produced by workers. Specifically, many microtask jobs consist of a sequence 
+of tasks which share a common format (e.g., label pictures, identify people, 
+circle galaxies). Using image-labeling, a canonical microtask job format, we 
+discover that earlier tasks shift the distribution of future answers by 
+30-50\%, irrespective of the images used. 
+Moreover, we show that prior tasks influence 
+the content that workers chose to focus on, as well as the richness and 
+specialization of their word choice. While these intertask effects can be a 
+source of systematic bias, our results suggest that, with appropriate job 
+design, it might be possible to leverage these biases to hone worker focus 
+and specificity, helping to elicit reproducible, expert-level judgments.
 
-Faced with the ever-growing scale and complexity of data, academic and 
-industrial researchers are increasingly relying on \textit{human computation} 
-to extract useful knowledge.  Microtask
-platforms, like Amazon Mechanical Turk, act like a human compute cluster,
-making it possible to access human cognition quickly and inexpensively. 
-This has lead to their broad adoption by social and computer scientists.  
-Human computation is being used experimentally in applications
-where expert opinion would normally be sought, such as in reviewing 
-medical images.
-Here we show that the repeated performance of similar tasks, an inherent
-feature of microtask and crowdsourcing platforms, acts as a strong
-and largely unexplored source of bias.  The effects that earlier tasks exert
-on later ones are more severe than effects caused by framing, 
-such as by disclosing a task's purpose.  
-Using image-labeling, the canonical microtask, we show that prior 
-tasks influence the content that workers chose to focus on, as well as the 
-richness and specialization of their vocabulary.    
-While intertask effects can be a source of systematic bias, our
-results suggest that with appropriate task-engineering, it might be possible
-to leverage intertask effects to hone worker focus and specificity, helping
-to elicit reproducible, expert-level judgments.
+%Faced with the ever-growing scale and complexity of data, academic and 
+%industrial researchers are increasingly relying on \textit{human computation} 
+%to extract useful knowledge.  Microtask
+%platforms, like Amazon Mechanical Turk, act like a human compute cluster,
+%making it possible to access human cognition quickly and inexpensively. 
+%This has lead to their broad adoption by social and computer scientists.  
+%Human computation is being used experimentally in applications
+%where expert opinion would normally be sought, such as in reviewing 
+%medical images.
+%Here we show that the repeated performance of similar tasks, an inherent
+%feature of microtask and crowdsourcing platforms, acts as a strong
+%and largely unexplored source of bias.  The effects that earlier tasks exert
+%on later ones are more severe than effects caused by framing, 
+%such as by disclosing a task's purpose.  
+%Using image-labeling, the canonical microtask, we show that prior 
+%tasks influence the content that workers chose to focus on, as well as the 
+%richness and specialization of their vocabulary.    
+%While intertask effects can be a source of systematic bias, our
+%results suggest that with appropriate task-engineering, it might be possible
+%to leverage intertask effects to hone worker focus and specificity, helping
+%to elicit reproducible, expert-level judgments.
 \end{sciabstract}
 
 \section*{Main text}
@@ -159,29 +179,26 @@ or handwritten notes \cite{Berinsky2012351,Finnerty2013}, and judging the
 relevancy of search results 
 \cite{le2010ensuring,grady2010crowdsourcing,alonso2009can,kazai2013analysis}.
 
-These platforms allow requesters to make use of human intelligence
-\textit{algorithmically}.  Tasks are posted and results fetched by transfering
-files over the Internet, making it possible to embed microtask work in an
-automated process.  To the surrounding process, workers seem like 
-input-output devices, which provides much of the flexibility and 
-cost-savings of actually automating the work: the workforce is available
-on demand, over the Internet, without any contracts or interviews, at a rate
-of about 6 USD\$/ hr.  Many kinds of work can be performed at a fraction of 
-the cost that would otherwise be required, either to recruit temporary 
-workers, or to research and design a sophisticated automated solution.
+Microtask platforms enable a workflow in which workers are like 
+input-output devices.  This provides much of the flexibility and 
+cost-savings of fully automating the work in a computer program: 
+the workforce is available on demand over the Internet using automated 
+scripts, and  no contracts or interviews are required.  Many tasks can be
+can be performed at a fraction of the cost of recruiting temporary workers.
 
 For this reason, there has been a surge in demand for microtask work
 in both industry and academia.  Industry employs microtask workers
 for clerical tasks, such as digitizing records and correcting errors; 
 and for marketing activities, such as running focus groups, writing product 
-reviews,
-and moderating website content.  Academia turns to microtask workers as 
-a way to recruit study participants, and to annotate datasets, for example,
-to provide ground-truth in training artificial intelligence systems.
+reviews, and moderating website content.  
+Academia turns to microtask workers as a way to recruit study participants, 
+and to annotate datasets, for example, to provide ground-truth in training 
+artificial intelligence systems.
 
-Given the increasing prevalence of microtask-based methods, there
-is a desire to understand the factors affecting the reliability of microtask
-platforms.  Researchers have investigated task-design parameters such as the 
+Given their increasing prevalence, there
+is a desire to understand the factors affecting the reliability of 
+microtask-based methods.  Researchers have investigated task-design 
+parameters such as the 
 level of pay \cite{kazai2013analysis}, the training and pre-screening of 
 workers \cite{le2010ensuring,paolacci2010running}, and user-interface 
 design \cite{Finnerty2013}.  
@@ -197,7 +214,8 @@ Even if a worker performs the minimum possible amount of work,
 she will likely have performed several microtasks, since they are typically 
 distributed to workers in bundles.  For example, in one bundle, a worker 
 might be assigned a set of ten images, and asked to provide descriptive words 
-(or \textit{labels}) for each.  On MTurk, these bundles are called Human 
+(or \textit{labels}) for each.  On one popular microtask platforms,
+Amazon's Mechanical Turk (MTurk), these bundles are called Human 
 Intelligence Tasks (HITs), but for the sake of clarity, we will use 
 ``task'' to mean the smallest repeatable unit of work, which, in our study, 
 consists of labeling a single image.
@@ -216,14 +234,15 @@ found that ratings that microtask workers give to items in a list
 depend on the order in which the list is presented, an effect known as
 \textit{positional bias} \cite{lerman2014leveraging}.  This serves as an 
 example of a basic psychological phenomenon impacting crowdsourced data,
-and raises a serious question about what other cognitive biases might
+and raises questions about what other cognitive biases might
 affect microtask work, and how prevelant induced bias might be.  
 
-We therefore turn to the question of bias induced by taks-repetition effects, 
-which, if present, would impact virtually every microtask workflow.
+Here we investigate the potential for task-repetition to induce bias in 
+microtask-based work.  If such bias is present, it would impact virtually 
+every microtask and crowdsourced workflow.
 The results we present here show that a worker's response during a task
 does indeed depend strongly on the tasks performed beforehand.   
-We call the effects that earlier tasks exert on later ones 
+We call these effects that earlier tasks exert on later ones 
 \textit{intertask effects}.
 
 As we have described, microtask platforms have been widely adopted as a 
@@ -239,10 +258,10 @@ HPU outputs are inherently stochastic, but our revelation of strong intertask
 effects shows that HPUs are subject to \textit{hysteresis}, 
 meaning that their 
 outputs depend on the history of their inputs.  Reproducibility and 
-path-independance are crucial for properties for the basic components in a 
-computing architecture, so it will be necessary to understand the 
-computational ramifications of these psychological phenomena to further this 
-interesting line of investigation.
+path-independance are crucial properties of the components in a 
+computing architecture, so it to maintaning the view of the HPU computing 
+architecture, necessitates a better understanding of the computational 
+ramifications of many psychological phenomena. 
 
 We investigated intertask effects using image-labeling tasks on the Amazon 
 Mechanical Turk (MTurk) microtask platform.  
@@ -250,7 +269,7 @@ In addition to being one of the most common kinds of tasks
 \cite{chandler2013breaking,Berinsky2012351,Finnerty2013,paolacci2010running},
 image-labeling is prototypical for any kind of task in which the worker is 
 asked to provide a qualitative free-text response to a prompt.  
-This includes such such examples as describing
+This includes such examples as describing
 video and audio recordings, summarizing texts, or providing personal 
 experiential feedback to a product review.
 %in the long run, because image labeling is still very difficult to automate
@@ -269,8 +288,10 @@ tasks, workers performed five \textit{test tasks}, which were identical for
 both treatments.  The test tasks contained images depicting a 
 mixture of food and objects (see Fig.~\ref{fig:task}C), and workers
 were again asked to provide five labels.  Five initial 
-tasks, together with the test tasks, comprised one HIT 
-(\# workers were only allowed to participate once). During the HIT, workers 
+tasks, together with the test tasks, comprised one HIT\footnote{
+	Workers were only allowed to participate in one HIT of a single treatment 
+	of a single experiment.
+}. During the HIT, workers 
 were presented images one at a time, and, crucially, we made no 
 distinction between the initial and test tasks.
 
@@ -288,9 +309,10 @@ the strength of influence that a perturbation has on worker's responses.
 Since different workers generally provide different responses for the same 
 task, we characterize worker's responses by a probability distribution.  
 The extent of bias is then defined by the difference in the response 
-distribution for different treatments of workers
-(\# this is a general divergence metric between probability 
-distributions known as the \textit{total variation distance}):
+distribution for different treatments of workers\footnote{
+	This is a general divergence metric between probability 
+	distributions known as the \textit{total variation distance.}
+}:
 \begin{equation}
 	\theta = \frac{1}{2}\sum_{x \in X} \left| p_0(x) - p_1(x) \right|,
 	\label{eq:theta}
@@ -298,14 +320,16 @@ distributions known as the \textit{total variation distance}):
 where $p_i(x)$ is the probability that a worker subjected to treatment $i$
 provides response $x$, from the set of possible responses $X$.
 It is important to emphasize that a significant result from a $\chi^2$ test 
-only allows us to conclude that $\theta$ is non-zero.  Determining $\theta$ from finite samples of 
+only allows us to conclude that $\theta$ is non-zero 
+(see the supplementary text).  
+Determining $\theta$ from finite samples of 
 responses, using purely statistical approaches, is difficult (\#), which 
 leads us to reformulate the
 problem in terms of classification: given a worker's 
 response, can a machine reliably infer what her prior task-exposure had 
 been?  Intuitively, the greater the effect that prior tasks have on subsequent
-responses, the more accurate the classifier can be.  Formally, as we show
-in the supplementary text, the accuracy of such a classifier, $\eta$,
+responses, the more accurate the classifier can be.  Formally (as shown
+in the supplementary text), the accuracy of such a classifier, $\eta$,
 yields a lower bound on the bias:
 \begin{equation}
 	\theta \geq 2\eta - 1.
@@ -378,10 +402,11 @@ different sets of responses).
 %	\label{table:treatments}
 %\end{table}
 
-Using a na\"ive Bayes classifier (\# in the 
-supplementary material we discuss the choice of classifier, the
-approach to measuring accuracy, and draw a comparison to the results obtained 
-if a support vector machine is used), we found that intertask effects 
+Using a na\"ive Bayes classifier\footnote{
+	We discuss our choice of classifier and preprocessing methods, 
+	and show similar results obtained by using a support vector 
+	machine, in the supplementary material.
+}, we found that intertask effects 
 lead to a 30\% bias between workers from the \textit{food} and 
 \textit{objects} treatments.  This represents a substantial potential to 
 distort microtask data.
@@ -397,8 +422,7 @@ and Ingredients'', or ``\ldots of Objects and Tools''.
 Framing did induce changes in the frequencies of 
 word usage at significance (as determined by $\chi^2$ test; $p=0.0012$), but 
 the \textit{extent} of framing-induced bias we found was statistically 
-insignificant (\td{insert p-value})
-(see Fig.~\ref{fig:theta}).  This suggests 
+insignificant ($p =0.37$) (see Fig.~\ref{fig:theta}).  This suggests 
 that prior task exposure is a stronger priming modality than framing.
 
 We conducted variants of these experiments using different images, to see 
@@ -411,14 +435,17 @@ In the \textit{culture} treatment,
 the initial tasks contained images depicting cultural scenes 
 (of dance, sport, or music) (see Fig.~\ref{fig:task}E).  The test tasks, which were identical for both
 treatments, included images depicting meals of identifiable cultural 
-origin (\# the initial tasks in 
-\textit{intertask-food-culture} are arguably also of identifiable cultural 
-origin, but this would tend to reduce, rather than inflate, our results
-(we discuss this further in the supplementary material).)
+origin\footnote{
+	Though we attempted to choose more globalized foods, the initial tasks 
+	in \textit{intertask-food-culture} are arguably still of
+	identifiable cultural origin. This would tend to reduce, rather than 
+	inflate, the bias observed in our results 
+	(we discuss this further in the supplementary text).
+}
 (see Fig.~\ref{fig:task}F).  
 
 Results for this experiment again showed a 
-strong bias as a result of intertask effects (about 50\%) 
+strong bias as a result of intertask effects ($\theta$~about 50\%) 
 (see Fig.~\ref{fig:theta}A).  Again, we compared intertask effects to 
 framing, by performing an experiment (\textit{frame-food-culture}) using 
 the same test tasks as in \textit{intertask-food-culture}, in which we exposed
@@ -426,7 +453,8 @@ workers to a statement framing the purpose of the tasks as the recognition
 of either food or culture.  
 For this framing experiment, we did not observe a statistically significant 
 difference between the labels attributed by the \textit{food} and 
-\textit{culture} treatments during test tasks (see Fig.~\ref{fig:theta}).
+\textit{culture} treatments during test tasks ($p=0.29$) 
+(see Fig.~\ref{fig:theta}).
 
 It was only when we combined the use of framing, with an active 
 reiteration step, that bias reached a level comparable to that achieved 
@@ -485,10 +513,11 @@ more often than their non-food-primed counterparts.  However, this was not
 generally 
 the case. In the \textit{intertask-food-culture} experiment, food-primed
 workers actually used significantly \textit{fewer} food-related words 
-during test tasks
-(\# food related words were identified using the wordnet corpus, augmented
-with additional words obtained by crawling a recipe website (see supplementary
-information for details)) (see Fig.~\ref{fig:specificity}).  This finding
+during test tasks\footnote{
+	food-related words were identified using the wordnet corpus, 
+	augmented with additional words obtained by crawling a recipe website 
+	(see supplementary information for details)
+} (see Fig.~\ref{fig:specificity}).  This finding
 rules out a seemingly-simple idea that workers emphasize
 content that has been present in earlier tasks: seeing content in prior tasks
 affects the probability that a worker refers to it in subsequent tasks, but 
@@ -496,8 +525,8 @@ does not necessarily \textit{increase} the probability.
 
 To deepen our understanding, we investigated workers' lexical richness in 
 reference to food, that is, the number of \textit{unique} food-related words
-used.  Even if workers provide an abundance of food-related words, if the 
-same words are often repeated, there will be less diversity.  
+used.  Even if workers provide an abundance of food-related words, there
+can be less diversity if the same words are often repeated.  
 This could happen, for example, if workers use generic references 
 to food.
 Both \textit{intertask} experiments showed that food-exposed workers had 
@@ -520,18 +549,19 @@ initial tasks (i.e. food).  This would help explain why, in the case of
 To test whether exposure to food in initial tasks increased the specialization
 of food-references, we used the wordnet corpus to operationalize the 
 notion of word specialization.  Wordnet provides a set of hypernym-hyponym 
-relations between \# English nouns.  Hypernyms are generalizations 
+relations between 117,798 English nouns (\#).  Hypernyms are generalizations 
 (for example, ``bread'' is a hypernym for 
 ``pumpernickel''), while hyponyms are specializations.
 For each experiment, we compared food-related words provided by workers from 
 one treatment to those from the other, and tallied the excess number of cases
 where one treatment's words were more specialized than the other, as a 
-percentage of the total (see Fig.~\ref{fig:specificity}B) (\# full detail for 
-this calculation is provided the supplementary text). 
+percentage of the total 
+(see Fig.~\ref{fig:specificity}B) 
+(details for this calculation are in the supplementary text). 
 
 In all experiments except \textit{frame-food-culture}, food-primed workers 
 used significantly more specialized words than their non-food-primed 
-counterparts (about 15\% more; see Fig.~\ref{fig:specificity}C).
+counterparts (about 15\% more) (see Fig.~\ref{fig:specificity}C).
 It is interesting that such substantial increases in both the lexical 
 richness and specialization of food-related words 
 held for \textit{intertask-food-culture}, where, as mentioned, we observed 
@@ -622,21 +652,66 @@ computation.
 
 
 \section*{Supplementary Material}
+\renewcommand{\figurename}{Figure S\!\!}
+\renewcommand{\tablename}{Table S\!\!}
+\setcounter{figure}{0}
+\setcounter{table}{0}
 
-\subsection*{S1: Experimental materials}
-The tasks for both experiments were presented as a series of slides.  In
-both cases, the first slide consisted of a brief set of instructions, followed
-by the frame if shown (only some treatments involved a frame), see 
-Fig. S\ref{fig:hit_preamble}.  Following the instructions and prime, a set
-of initial tasks was shown (except for the treatments in \textit{frame2}
-and \textit{echo1}) followed by (in all cases) a set of test tasks.  In
-\textit{exp1}, two kinds of frame were used, one simple frame, and one where
+\subsection*{Materials and Methods}
+
+\paragraph{Microtask setup.}
+Altogether the experiments presented here consisted of data from 3200 HITs 
+(bundles of 10-image labeling tasks).  In all experiments, each treatment
+consisted of results from at least 119 workers.  
+For the purpose of statistical calculations,
+treatments having more than 119 workers were subsampled, producing a uniform
+sample size accross all treatments.  The \textit{food} and \textit{objects}
+treatments in the \textit{intertask-food-objects} experiment were further
+broken down into sub-treatments (each containing at least 119 workers),
+corresponding to different orderings of the test tasks.  These alternative
+orderings were obtained by rotation of the test tasks 
+(i.e. moving all tasks forward by one position, and making the last task 
+become the first test task).  This ensured that each test task appeared in
+each of the five test-task positions.
+
+The HITs (as defined in the main text) for all treatments were presented as 
+a series of slides.  The first 
+slide consisted of a brief set of instructions.  In framing-treatments, a 
+framing slide was shown immediately after the instructions, see 
+Fig. S\ref{fig:hit_preamble}.  In intertask-treatments, a set of initial
+tasks were presented (and no framing slide).  Following the
+framing slide or initial tasks, the test-tasks were presented.
+
+All initial and test tasks had the format shown in 
+Fig.~S\ref{fig:hit_preamble}: an image taking up most of
+the task pane, with five text inputs and a ``next'' button.  Images were
+presented in this way, one at a time. 
+For treatments having initial tasks, the test
+tasks followed seemlessly, and no distinction was made between the test 
+tasks and the initial tasks.
+
+In an attempt to increase the strength of framing, we included the
+\textit{echo-food-objects} treatment, in which, during the framing slide,
 the worker was required to echo the frame using a combo-box input.  The
-instructions, both kinds of frame, and an example task slide, are shown 
-in Fig. S1.
+instructions, both kinds of framing slide (simple and echoed), 
+and an example task slide, are shown 
+in Fig.~S\ref{fig:hit_preamble}.
+
+Given the setup described above, the only tasks that workers in framing 
+treatments perform are the test tasks, whereas in the 
+intertask-treatments, the test tasks were performed as tasks
+5 through 10.  
+It could be argued that a better comparison would be achieved
+by having all workers perform some initial tasks, and simply ensuring that
+the initial tasks are \textit{not} varied between framing treatments. 
+We took this approach in the experiment 
+\textit{frame-food-culture}, in which workers performed the same 
+initial tasks containing images that depicted food in both the \textit{food}
+and \textit{culture} treatments.  If anything, this appears
+to have reduced the strength of framing for that experiment.
+
 \begin{figure}
 	\includegraphics[scale=0.8]{figs/tasks.pdf}
-	\label{fig:hit_preamble}
 	\caption{Examples of A) instructions; B) a frame, as shown in 
 		\textit{frame1:obj}, and similar to those shown in 
 		\textit{frame1:food} and \textit{frame2:food}, and 
@@ -645,101 +720,128 @@ in Fig. S1.
 		used in \textit{echo1:food}; and D) an 
 		example of an image-labeling task.
 	}
+	\label{fig:hit_preamble}
 \end{figure}
 
-All of the initial tasks had the format shown in Fig. S1D.  The images used
-in the initial tasks for \textit{task1:food} and \textit{task1:obj} are
-shown in Fig. S2 and S3, and the images used in the test tasks for 
-\textit{exp1} are shown in Fig. S4.  The images used in the initial tasks
-for \textit{task2:food} and \textit{task2:cult} are shown in Fig. S5 and
-Fig. S6 respectively, and the images used in the test tasks for \textit{exp2} 
-are shown in Fig. S7.
+\paragraph{Selection of images.} 
+
+
+The images used in the initial tasks for \textit{intertask-food-objects}  
+are shown in Figs.~S\ref{fig:task1:food} (\textit{food} treatment) and 
+S\ref{fig:task1:obj} (\textit{objects} treatment).
+We selected images for the initial tasks that show either food or objects, 
+according to the treatment in which they were used.  
+We took care to exclude objects from
+the food-images (except in some cases a dish supporting the food), and 
+to exclude food from the object-images.  The images used for the test tasks
+of \textit{intertask-food-objects} and \textit{frame-food-objects} are shown 
+in Fig.~S\ref{fig:task1:test}.
+
+The images used in the initial tasks
+for \textit{intertask-food-culture} are shown in Figs.~S\ref{fig:task2:food} 
+(\textit{food} treatment) and S\ref{fig:task2:cult} 
+(\textit{culture} treatment).
+We selected the initial images for the treatments of this experiment to 
+respectively reflect depict food and culture.
+
+Naturally, since food is a very
+important aspect of culture, pictorial depictions of the two concepts 
+cannot be cleanly separated,
+and images depicting food inevitably also depict culture.
+The fact that the inital-task images for the food treatment of 
+\textit{intertask-food-culture} do also depict culture
+will only tend to make them more similar to those from the \textit{culture}
+treatment, which would tend to \textit{reduce} the severity of intertask 
+effects.  In any case, since we still found strong intertask effects, 
+the presence of culture in the food-related initial images of 
+\textit{intertask-food-culture} does not seem to have been problematic.
+The images used in the test tasks of \textit{intertask-food-culture} and
+\textit{frame-food-culture} are shown in Fig.~S\ref{fig:task2:test}.
 
 \begin{figure}
 	\includegraphics{figs/task1-food.pdf}
-	\label{fig:task1:food}
 	\caption{
-		Figure S2: Images used in the initial tasks for 
-		\textit{task1:food}.  The numbers show the order in which the 
+		Images used in the initial tasks for the
+		\textit{food} treatment of \textit{intertask-food-objects}.  
+		The numbers show the order in which the 
 		images were presented to workers.
 	}
+	\label{fig:task1:food}
 \end{figure}
 
 \begin{figure}
 	\includegraphics{figs/task1-obj.pdf}
-	\label{fig:task1:obj}
 	\caption{
-		Figure S3: Images used in the initial tasks for 
-		\textit{task1:obj}.  The numbers show the order in which the 
-		images were presented to workers.
+		Images used in the initial tasks for the
+		\textit{objects} treatment of \textit{intertask-food-objects}.  
+		The numbers show the order in which the images were presented to 
+		workers.
 	}
+	\label{fig:task1:obj}
 \end{figure}
 
 \begin{figure}
 	\includegraphics{figs/task1-test.pdf}
-	\label{fig:task1:test}
 	\caption{
-		Figure S2: Images used in the test tasks for 
-		\textit{exp1}.  The numbers show the order in which the 
-		images were presented to workers.
+		Images used in the test tasks for \textit{intertask-food-objects}
+		and \textit{frame-food-objects}.  
+		The numbers show the order in which the 
+		images were presented to workers in \textit{frame-food-objects};
+		in \textit{intertask-food-objects}, five different orderings were
+		used, which can be obtained by taking the numbers shown, $n$,
+		and replacing them by $n + c \bmod 5$ for $c$ running from 0 to 4.
 	}
+	\label{fig:task1:test}
 \end{figure}
 
 \begin{figure}
 	\includegraphics{figs/task2-food.pdf}
-	\label{fig:task2:food}
 	\caption{
-		Figure S2: Images used in the initial tasks for 
-		\textit{task2:food}.  The numbers show the order in which the 
+		Images used in the initial tasks for the
+		\textit{food} treatment of \textit{intertask-food-culture}.  
+		The numbers show the order in which the 
 		images were presented to workers.
 	}
+	\label{fig:task2:food}
 \end{figure}
 
 \begin{figure}
 	\includegraphics{figs/task2-cult.pdf}
-	\label{fig:task2:cult}
 	\caption{
-		Figure S2: Images used in the initial tasks for 
-		\textit{task2:cult}.  The numbers show the order in which the 
+		Images used in the initial tasks for the
+		\textit{culture} treatment of \textit{intertask-food-culture}.  
+		The numbers show the order in which the 
 		images were presented to workers.
 	}
+	\label{fig:task2:cult}
 \end{figure}
 
 \begin{figure}
 	\includegraphics{figs/task2-test.pdf}
-	\label{fig:task2:test}
 	\caption{
-		Figure S2: Images used in the test tasks for 
-		\textit{exp2}.  The numbers show the order in which the 
+		Images used in the test tasks for \textit{intertask-food-culture} 
+		and \textit{frame-food-culture}.  
+		The numbers show the order in which the 
 		images were presented to workers.
 	}
+	\label{fig:task2:test}
 \end{figure}
 
-\subsection*{S2: Access to raw data and code}
-The raw data and source code needed to reproduce the analyses 
-shown here and in the main text can be downloaded from 
-http://networkdynamics.org/publications/public/priming2014.09.
-
-\subsection*{S3: Additional results not shown in the main text}
-\paragraph{Testing intertask and framing effects using 
-	Pearson's $\chi^2$ test of homogeneity.
-}
+\subsection*{Testing for intertask and framing effects using $\chi^2$}
 To test whether intertask and framing effects induced statistically 
 significant changes in word frequencies, we assembled a contingency table
-for each experiment, containing the frequencies of words in each treatment
-for a given experiment.  Any words that appeared less than 10 times for
-an experiment (i.e. appearing less than 5 averaged over each treatment)
+for each experiment, containing the frequencies of words in each treatment.  
+Any words that appeared less than ten times for
+an experiment (i.e. appearing less than five times averaged over each 
+treatment)
 were lumped together into a separate `OTHER' category, to ensure validity
 of the test.  The degrees of freedom, test statistic, and $p$-values were
 then calculated according to Pearson's $\chi^2$ test, using 
-Yate's correction.  Results are tabulated in Table~\ref{table:chi2}.
-All experiments showed significant changes in word-frequencies in response
+Yate's correction.  Results are tabulated in Table~S\ref{table:chi2}.
+With the exception of \textit{frame-food-culture}, all experiments showed s
+ignificant changes in word-frequencies in response
 to the task or framing exposures, at $\alpha=0.05$, leading us to 
 reject the null hypothesis that the priming exposures had no effect.
-Note, however, that while the other tests showed very high significance, 
-\textit{frame-food-culture} was marginally significant.  This is consistent 
-with our finding weak effects for \textit{frame-food-culture}, throughout our 
-results.
 
 The use of Pearson's $\chi^2$ test has been criticized in linguistic 
 applications, due to the finding that many corpuses are not themselves
@@ -751,15 +853,17 @@ to be encountered again in the same text, which making the word's frequency
 within the text far from the average.  As a result,
 if a corpus is randomly split, putting half of the texts in one set, 
 and half in another, there can be a significant non-homogeneity between the 
-two halves, when tested using Pearson's $\chi^2$ test.  Thus, finding two
-corpuses to be different might simply be an artifact of the corpus' own
-inhomogeneity.
+two halves, when tested using Pearson's $\chi^2$ test.  Thus, it has 
+been argued that finding two
+corpuses to be different according to a $\chi^2$ test might simply be an 
+artifact of the corpus' own inhomogeneity.
 
-We don't expect this to be a concern in our case, because the ``texts'' are 
+This concern does not apply to our case, because the ``texts'' are 
 individual responses from workers, which will not, in general, be subject to 
-the burstiness phenomenon.  But to test this, we randomly divided the workers 
+the burstiness phenomenon.  Nevertheless, to test this, 
+we randomly divided the workers 
 from each experimental treatment into two sets, and tested the homogeneity 
-between these sets.  Results are tabulated in Table~\ref{table:chi2_within}, 
+between these sets.  Results are tabulated in Table~S\ref{table:chi2_within}, 
 and show that treatments 
 \textit{are} homogeneous.  Thus, the lack of homogeneity \textit{between} 
 the treatments of given experiments can be attributed to the framing / 
@@ -797,17 +901,22 @@ Experiment & Treatment & Degrees of freedom & $\chi^2$ & $p$-value\\
 \multirow{2}{*}{\textit{intertask-food-objects}} & \textit{food} & 65 & 39.0 & $1.0$\\
  & \textit{objects} & 65 & 53.2 & $0.85$\\
 \noalign{\smallskip}
+\noalign{\smallskip}
 \multirow{2}{*}{\textit{frame-food-objects}} & \textit{food} & 67 & 41.3 & $0.99$\\
  & \textit{objects} & 62 & 66.9 & $0.31$\\
+\noalign{\smallskip}
 \noalign{\smallskip}
 \multirow{2}{*}{\textit{echo-food-objects}} & \textit{food} & 66 & 40.9 & $0.99$\\
  & \textit{objects} & 66 & 35.6 & $1.0$\\
 \noalign{\smallskip}
+\noalign{\smallskip}
 \multirow{2}{*}{\textit{intertask-food-culture}} & \textit{food} & 62 & 65.9 & $0.34$\\
  & \textit{culture} & 68 & 57.2 & $0.82$\\
 \noalign{\smallskip}
+\noalign{\smallskip}
 \multirow{2}{*}{\textit{frame-food-culture}} & \textit{food} & 57 & 49.6 & $0.75$\\
  & \textit{culture} & 64 & 55.1 & $0.78$\\
+\noalign{\smallskip}
 \noalign{\smallskip}
 \bottomrule
 \end{tabular}
@@ -819,418 +928,207 @@ Experiment & Treatment & Degrees of freedom & $\chi^2$ & $p$-value\\
 \label{table:chi2_within}
 \end{table}
 
+\subsection*{Measuring intertask and framing effects.}
 
-\paragraph{Most suppressed / activated terms.}
-The words whose frequencies differed most between the treatments of given 
-experiments are shown in Table~\ref{table:top-words}.  Note that 
-the word that was most suppressed in food-exposed treatments was always 
-``food''.
+\paragraph{Comparing $\theta$ and $\chi^2$.}
+The following is an illustrative example to show why it is important to 
+have a measure of effect size, like $\theta$, in addition to effect 
+significance, like $\chi^2$.
+Suppose that we have a very slightly unfairly weighted coin, which turns
+up heads ($x=\mathbf{H}$) more often than expected by one part in one hundred:
+$\Pr\{x=\mathbf{H}\} = 0.501$. Such a coin would be fine for many 
+practical purposes, like deciding who buys lunch.  We could
+perform a $\chi^2$ test to determine if the coin is biased, by flipping 
+it 100 million times, while doing the same with a coin we know is fair.
+Simulating this with a random number generator yields the results shown
+in Table~S\ref{table:coin}, and results from a $\chi^2$ test of the 
+hypothesis that the two coins have the same probability of turning up heads 
+is shown in Table~S\ref{table:coin_stats}.
 
-\begin{table}
-	\centering
-	\setlength{\tabcolsep}{10pt}
-	\begin{tabular}{ c c c c c }
-	
-		\setlength{\tabcolsep}{4pt}
-		\begin{tabular}{ r | c }
-		\toprule
-		\multicolumn{2}{c}{\textit{task1}} \\
-		\toprule
-		coffee & 38 \\
-		meal & 34 \\
-		cheese & 34 \\
-		apple & 32 \\
-		dessert & 21 \\
-		cup & -30 \\
-		glass & -45 \\
-		table & -70 \\
-		candle & -74 \\
-		food & -80 \\
-		\bottomrule
-		\end{tabular}
-
-&
-
-		\setlength{\tabcolsep}{4pt}
-		\begin{tabular}{ r | c }
-		\toprule
-		\multicolumn{2}{c}{\textit{frame1}} \\
-		\toprule
-		bread & 18 \\
-		wine & 18 \\
-		cheese & 16 \\
-		apple & 14 \\
-		oil & 12 \\
-		table & -9 \\
-		meal & -10 \\
-		candle & -12 \\
-		dinner & -13 \\
-		food & -32 \\
-		\bottomrule
-		\end{tabular}
-
-&
-
-		\setlength{\tabcolsep}{4pt}
-		\begin{tabular}{ r | c }
-		\toprule
-		\multicolumn{2}{c}{\textit{echo1}} \\
-		\toprule
-		apple & 24 \\
-		cheese & 23 \\
-		wine & 15 \\
-		coffee & 14 \\
-		oil & 7 \\
-		knife & -24 \\
-		dinner & -26 \\
-		fork & -27 \\
-		candle & -35 \\
-		food & -55 \\
-		\bottomrule
-		\end{tabular}
-
-&
-
-		\setlength{\tabcolsep}{4pt}
-		\begin{tabular}{ r | c }
-		\toprule
-		\multicolumn{2}{c}{\textit{task2}} \\
-		\toprule
-		spicy & 26 \\
-		sauce & 17 \\
-		indian & 15 \\
-		buffet & 14 \\
-		exotic & 12 \\
-		festival & -11 \\
-		offering & -12 \\
-		statue & -15 \\
-		india & -20 \\
-		food & -56 \\
-		\bottomrule
-		\end{tabular}
-
-&
-
-		\setlength{\tabcolsep}{4pt}
-		\begin{tabular}{ r | c }
-		\toprule
-		\multicolumn{2}{c}{\textit{frame2}} \\
-		\toprule
-		indian & 11 \\
-		banquet & 8 \\
-		spicy & 7 \\
-		asian & 6 \\
-		variety & 6 \\
-		delicious & -6 \\
-		meat & -7 \\
-		festival & -7 \\
-		spice & -7 \\
-		food & -9 \\
-		\bottomrule
-		\end{tabular}
-
-	\end{tabular}
-	\caption{
-		Top 5 words, used to label the first test image, whose usage frequency
-		increased or decreased the most between treatments of given 
-		experiments.  Positive values indicate that the food-exposed treatment
-		used the word with higher frequency.  Word frequencies for 
-		\textit{intertask-food-objects} are aggregated across 5 
-		permutations, and hence tend to show larger absolute differences.
-	}
-	\label{table:top-words}
-\end{table}
-
-\subsection*{S4: Data preprocessing}
-	\paragraph{Splitting, Lemmatization, removal of stop-words, and 
-		addition of position tags.} 
-
-	Before performing any analysis on the labels that workers provided, we
-	performed a series of preprocessing steps.  
-	Labels that contained
-	multiple words (separated by spaces or punctuation) were split, with
-	punctuation removed, and the separated words were treated as distinct 
-	features in subsequent analysis.
-	Misspelled words were automatically corrected using a spelling 
-	correction algorithm described below.  
-	Next, words were lemmatized using the
-	wordnet lemmatizer \cite{miller1995wordnet,felbaum1998wordnet}.  
-	Common words such as ``the'', ``to'', or ``with'', were found using the
-	the NLTK's English stop-word list and removed \cite{loper2002nltk}.  
-
-	For the purpose of training and testing a na\"ive Bayes classifier, we 
-	performed an additional preprocessing step.  We tagged words with the
-	position in which they had been entered (i.e. which of the five text 
-	inputs in the task interface) as well as the test tasks in which the word 
-	had been provided.
-	So, if the word ``wine'' was entered into the second text-input for 
-	the third test-task, after preprocessing, the feature ``3\_2\_wine'' would
-	appear.  Prepending the task number onto words was simply a means to 
-	retain correct attribution, which itself was essential since providing a
-	word during one task is not equivalent to providing the same word during 
-	another task.  
-	
-	\paragraph{Spelling correction.}  
-	Spelling correction was performed using an algorithm that first detected
-	if a word was likely to be misspelled, then generated a set of candidate 
-	corrections, and chose the best candidate based on a scoring mechanism.
-	
-	A word was considered misspelled if it was not contained in the 
-	\textit{legal set}, which was formed by the union of
-	the wordnet corpus, the stop-word list, and a set of words seen while 
-	crawling the world food section of the allrecipes.com website.  We
-	describe the crawling of the allrecipes.com website in a section below.
-
-	To correct misspellings, we first produced all possible modified forms 
-	that could be obtained applying one or two edits.  An edit consisted of 
-	adding or removing a letter, changing one letter into another, or 
-	swapping the positions of two adjacent letters.  For the purpose of these 
-	edits, spaces were treated as any other letter.
-
-	The candidates produced by these edits which were in the legal set were
-	then ranked based on a scoring mechanism, and the highest scoring word
-	was chosen as the correction.  A candidate $w$'s score, $s_w$, was 
-	calculated according to the following formula:
-	\begin{equation}
-		s_w = (f_w + 1) * p_1 * p_2,
-	\end{equation}
-	where $f_w$ is the frequency with which the word occurred (correctly 
-	spelled)
-	within the given task, $p_1$ was a penalty for the first edit, and
-	$p_2$ was a penalty for the second edit.  If the word was made using only
-	one edit, then $p_2 = 1$.  Any edit that did not involve adding a space
-	(i.e. separating a word) incurred a penalty of 0.5, while the addition of
-	a space incurred a penalty of 0.1.  Word-separation edits were more 
-	strongly penalized because it is often possible to split a series of 
-	letters into many short two- or three-letter words, which otherwise leads 
-	to many erroneous corrections.  We found that setting the penalty for
-	word splitting at 0.1 worked well by testing on words taken from
-	initial tasks.
-
-	After all of our analyses had been performed, we checked the accuracy of 
-	the spelling correction algorithm using three human coders.  The coders
-	were shown a set of 
-	500 words that were randomly sampled from the labels attributed during 
-	test tasks (50 for each test task).  Before sampling, the labels from all
-	experimental treatments, for the given test task, were pooled together.
-	The coders did not know which treatment any given word came from.  
-	In addition to the words, coders were shown the spelling correction 
-	produced by the algorithm, as well as the image from the test task.
-	The coders were asked to identify any misspelled words which had not 
-	been corrected, as well as any corrections that appeared to be erroneous,
-	by indicating their own correction.
-
-	Based on this exercise, we found that, according to the human coders,
-	17\% of the words were misspelled, but that after applying the 
-	automated spelling correction, only 3.2\% of words were misspelled.
-
-	\paragraph{Crawling the world food section of allrecipes.com.}
-	The website allrecipes.com was accessed on 3-4 November 2014 using 
-	automated scripts.  A total of 2642 recipe listings and 15621 recipe
-	instruction pages were retrieved.  Recipe listings were pages that 
-	provided lists of recipes, and contained a title and short description 
-	for each.  
-	The recipe instruction pages had lists of ingredients and preparation 
-	instructions.  All of the words found in recipe titles, short
-	descriptions, ingredients lists, and preparation instructions were
-	collected, and saved as an auxiliary set to augment the \textit{legal set}
-	used in spelling correction.
-	
-
-
-\subsection*{Determination of $\theta$}
-
-\subsection*{S5: Identification of food-related terms}
-The wordnet corpus is composed of synsets, which are particular senses 
-(meanings) and a set of word forms bearing that meaning. A given word form, 
-such as ``ring'' has multiple senses (``to ring a bell'', ``a wedding ring''), 
-and so can be part of many synsets.  Since the wordnet corpus was designed
-to carry semantic information, the synset is the basic organizing element
-of wordnet.
-
-We chose the synsets \texttt{food.n.01} and \texttt{food.n.02} to act as roots
-in defining which words should be considered food-related.  Any word form
-belonging to a synset which was a hyponym of one of the two root synsets
-identified above was considered to be a reference to food.  Here, as in the
-main text, when we say hyponym, we mean either a direct hyponym, or a hyponym
-of a hyponym, and so on.
-
-This is a stringent notion of a word being a food reference.  It roughly
-corresponds to whether or not a given thing is reasonably considered 
-consumable.  So, ``orange'' is food, but ``salty'' is not.  Although ``salty''
-would usually qualify something edible, it is not itself an edible thing.
-On the other hand, ``salt'' would be considered a reference to food under 
-this operationalization.
-
-The subset of the wordnet corpus induced by the hyponyms of \textit{food.n.01}
-and \textit{food.n.02} provide a set of 3590 words.  Manual
-testing showed good coverage, except for references to ethnic foods.  
-Since, especially in \textit{exp2}, we had images containing many ethnic 
-foods, we decided to augment the wordnet corpus with words learned by 
-crawling the world food section of the allrecipes.com website.  
-
-After collecting a set of words using an automated script 
-(described above), we collected the set of words that had been used by
-workers and which had been seen during crawling of the allrecipes.com website,
-but which were not included in wordnet.  We grafted these extra words into
-the wordnet hyponym-hypernym graph manually, which ensured that any references
-to ethnic words learned from crawling would be properly classified as 
-food references.
-
-\paragraph{Validation of the detection of food references.}
-To determine whether our extended version of wordnet provided a good approach
-to detecting food-related words, we sampled 500 words 
-(50 from each test task)  from the set of labels produced by workers and had 
-three human coders manually decide if they were 
-food-related or not.
-
-The coders were instructed to consider whether a word was a noun signifying
-an edible item.  The guiding principle was, for the coder to ask herself,
-``can I eat X'', where X is the word she is coding.  The coders were
-shown the used in the task from which the word came, to help resolve ambiguity
-in the sense of the word that had been given.  Coders were also shown the 
-spelling correction (if any) that the spell-correction algorithm had made,
-to help interpret misspelled words.
-
-We evaluated the food detection algorithm in two ways.  First, we measured
-the inter-rater reliability between the three human coders and the algorithm
-(treating the algorithm just like any other coder).  Second, adopting the 
-majority code given by the human coders, we determined the accuracy of the
-food-detection algorithm.  Data summarizing this validation process are given
-in table S1.
+\setlength{\floatsep}{30pt plus 1.0pt minus 2.0pt}
 
 \begin{table}
 \centering
-\setlength{\tabcolsep}{12pt}
-\begin{tabular}{ r | c }
-\toprule    
-\# terms coded & 500 \\
-\# food references & 130 \\
-\# correct machine codes & 440 \\
-inter-rater reliability & 82.4\% \\
-human-machine code agreement & 88\% \\
-%machine recall & 80 \% \\
-%machine precision & 75.4 \% \\
-%machine code F1 & 0.78 \\
+\begin{tabular}{c c c c}
+\toprule
+coin & $N_\mathbf{H}$ & $N_{\mathbf{T}}$ & total \\
+\toprule
+\textit{fair} & 50002283 & 49997717 & $10^8$\\
+\textit{biased} & 50101115 & 49898885 & $10^8$ \\
+\bottomrule
+total & 100103398 & 99896602 & $2\times 10^8$ \\
 \bottomrule
 \end{tabular}
-\caption{\footnotesize{
-	\td{remove the automatic numbering}. Table S1. Results for the validation 
-	of the automatic detection of food references, by comparison to
-	human-generated coding on randomly sampled words.  In calculating the 
-	human-machine code agreement, the majority human code was used.
-	Inter-rater reliability was calculated as Krippendorff's alpha.
-}}
+\caption{
+	Simulated counts of heads ($N_\mathbf{H}$) and tails ($N_\mathbf{T}$)
+	occurences, for a fair coin, and a coin biased to have a probability
+	of turning up heads of 0.501.
+}
+\label{table:coin}
 \end{table}
 
-The results show that good inter-rater reliability was achieved during the
-validation (82.4\%).  Looking at the agreement between the 
-machine codes and the majority human-generated codes, we find they agree
-88\% of the time.  This means that the concept used to instruct human coders
-provides a good approximation to what the wordnet-based machine codes actually
-represent. In other words, the machine codes correspond closely to indicating
-which words correspond to nouns that refer to edible things, and which ones
-do not, which provides a clear and simple interpretation for the machine
-coding of food and non-food words.
 
-\subsection*{S6: Calculation of relative specificity}
-In the main text we present results for the relative specificity of labels
-produced by two experimental treatments.  In performing this calculation,
-we used the wordnet corpus, which has a set of hypernym-hyponym relationships
-as described in the main text.  The first step in performing this calculation
-was therefore to map the words occurring from (the labels of) a given 
-experimental treatment onto the wordnet synsets.  In general, a given word
-form can have multiple meanings, and therefore maps onto multiple wordnet 
-synsets.
+\begin{table}
+\centering
+	\begin{tabular}{c c c c }
+	\toprule
+	Degrees of freedom & $\chi^2$ & $p$-value \\
+	\toprule
+	1 & 195.4 & $2.2 \times 10^{-44}$ \\
+	\bottomrule
+	\end{tabular}
+\caption{
+	Statistics for a $\chi^2$ test of the hypothesis that a fair and 
+	unfair coin have the same probability of turning up heads.  
+	The result overwhelmingly favors rejection of the hypothesis, even
+	though the coins differ only slightly.
+}
+\label{table:coin_stats}
+\end{table}
 
-The result of mapping the words from two treatments onto the wordnet 
-hypernym-hyponym graph two sets of counts, one set per treatment, 
-indicating the number of times a word from a given synset occurred among the
-labels of the treatment.  Then, for every synset in one treatment, we looked
-at the number of synsets in the other treatment that were more generic
-(reachable by following hypernym relations) less the number of words that
-were more specific (reachable by following hyponym relations).  This quantity
-tallied for all words in the original synset gives a (non-normalized) measure
-of the degree to which words from the first treatment are more specific
-than words from the second treatment, overall.  We then normalized this 
-quantity by the total number of possible comparisons between the words of
-one treatment to those of the other, where two words are considered comparable
-only if one word is the hypernym or hyponym of the other.  Hence, ``statue'' 
-and ``bread'' are not comparable, but ``pumpernickel'' and ``bread'' are.
+Even though the $\chi^2$ test shows, with tremendous statistical 
+significance, that the unfair coin is indeed unfair, the actual extent
+of bias is small, 
+$\theta = \frac{1}{2}\left( |0.501 - 0.499| + |0.499 - 0.501| \right) = 0.002$.
+This demonstrates how a sufficiently large sample size will lead to the 
+detection an arbitrarily 
+small bias with arbitrarily high statistical significance. 
+This is why, to measure the practical significance of intertask effects,
+we rely on a measure of effect size, which is in this case a measure
+of statistical divergence, $\theta$.
 
-This calculation can be summarized by the following equation:
-\begin{equation}
-	S(P,Q) = \frac{
-		\sum_{w\in P}\sum_{v\in Q} \left(
-			\mathbf{1}_{[w>v]} - \mathbf{1}_{[v>w]} \right)
-	}{
-		\sum_{w\in P}\sum_{v\in Q} \left(
-			\mathbf{1}_{[w>v]} + \mathbf{1}_{[v>w]} \right)
-	},
-\end{equation}
-where $P$ and $Q$ are sets of synsets, and $\mathbf{1}_{[w>v]}$ evaluates
-to 1 if synset $w$ is more specific than (i.e. is a hyponym of) synset $v$.
-This measure counts the excess of cases where synsets from $P$ are more
-specific then synsets from $Q$, as a fraction of all comparable synset pairs. 
+\paragraph{Statistical approaches to measuring bias.}
+Recall that in Eq.~\ref{eq:theta} in the main text, we defined the
+extent of bias that exists between two groups of workers to be $\theta$:
+$$
+	\theta = \frac{1}{2}\sum_{x \in X} \left| p_0(x) - p_1(x) \right|,
+$$
+where $p_0(x)$ and $p_1(x)$ represent the probability mass functions
+for responses from two differently treated populations of workers.  
+Let us denote these two populations by $P_0$ and $P_1$.
+As mentioned, this is a measure of the divergence between $p_0$ and $p_1$ 
+which is called either the \textit{total variation} or the 
+\textit{L1-distance}.
 
-In computing this quantity between two treatments, we first computed it 
-using the labels attributed to a particular test task, and then
-averaged the result obtained in this way for each of the five test tasks.
+Measuring the \textit{L1-distance} between two probability distributions,
+given only samples, is difficult.  The na\"ive approach is to take
+the maximum likelihood estimate of $p(x)$, which sets it equal to the 
+frequency with which the response $x$ has been observed, 
+$\hat{p}(x) = \frac{N_x}{N}$, and then estimate $\theta$ 
+using these frequencies: 
+$\hat{\theta} = \sum_{x \in X}|\hat{p}_1(x) - \hat{p}_2(x)|$.  
+However, this method tends to drastically overestimate $\theta$.
+Recently progress has been made on this problem, and two algorithms have 
+been proposed to estimate the L1-distance between distributions
+given only samples.  \td{cite these} But these methods provide only asymptotic guarantees
+which cannot be directly applied to our case.  However, machine learning
+approaches provide a general alternative that we describe in the next 
+section.
 
-\subsection*{S7: Variance and significance tests}
+\paragraph{The relationship of bias and classifier accuracy.}
+We will now show that, any classifier algorithm, $\mathcal{A}$, that
+takes the response, $x$, of a worker, and guesses the population to which
+the worker belongs ($P_0$ or $P_1$), will do so with an accuracy, $\eta$,
+that is bounded according to Eq.~\ref{l1}, which is reproduced here:
+$$
+	\theta \geq 2\eta - 1.
+$$
 
-	\paragraph{Variance in the average fraction food-related labels}
-	In the main text, Fig.~\ref{fig:specificity}A shows the difference in 
-	the fraction of food related labels used by workers in from different 
-	treatments.  The error bars show the 95\% confidence intervals around 
-	the estimated difference of means.  It was computed from the
-	observed sample standard deviation in the fraction of food labels given
-	by individual workers.
+To do so, we will first formalize $\eta$ by defining a 
+\textit{validation test}.  In a validation test, a uniform random bit 
+$z\in\{0,1\}$ is sampled, and then, according to the value of $z$, the
+response of a worker, $x$, is sampled uniformly randomly from $P_z$.  
+The algorithm is provided
+with $x$ and yields a guess, $b=\mathcal{A}(x)$, as to whether the worker was 
+from $P_0$ or $P_1$.  We shall denote such a validation test by 
+$V(P_0, P_1, \mathcal{A})$, and define the value of the test to be 1 if 
+$b=z$ and zero otherwise.  
 
-	\paragraph{Variance in food vocabulary size (lexical richness).}
-	The number of unique words in a text is strongly dependent on the size
-	of the text: as more text is sampled, previously unseen words continue
-	to be found, though at a decreasing rate.  This means that when the 
-	lexical richness is measured for a large and small sample, they are not 
-	actually estimates of the same quantity.  It is not clear that drawing 
-	confidence intervals around the lexical richness measured at one sample 
-	size is meaningful, nor is it easily done.
+We then define the accuracy of classifier $\mathcal{A}$ to be $\eta$ according
+to:
+$$
+\eta = \mathrm{E\{V(P_0, P_1, \mathcal{A})\}} 
+	= \mathrm{Pr}\{V(P_0, P_1, \mathcal{A})=1\}.
+$$
 
-	However, we can construct a null model based on the hypothesis that
-	two treatment's have the same probability distribution over tokens
-	(and hence the same lexical richness). If treatments $A$ and $B$ have
-	the same word frequency distributions, then, they are samples from
-	the same population.  Pooling the workers from both treatments together,
-	then randomly partitioning them into balanced sets $A'$ and $B'$ will
-	still yield samples from the same underlying population.  By repeating 
-	this pooling and re-partitioning many times, and computing the 
-	relative lexical richness, we can determine the critical difference in
-	lexical richness from the 97.5 and 2.5 percentiles.  We can then test 
-	the hypothesis that $A$ and $B$ were from the same population by 
-	observing whether the difference in lexical richness of the original 
-	sets is within this percentile range.
-	
-	We performed this calculation using 1000 pooling and resampling 
-	iterations, and plotted the 97.5 percentile as a star in 
-	Fig~\ref{fig:specificity}B in the main text.  All of the differences
-	in lexical richness were significant except that of \textit{frame2}.
+To develop the relationship between $\eta$ and $\theta$, let us consider
+the accuracy $\eta^*$ of the best possible classifier $\mathcal{A}^*$.
+The best possible classifier will not in general have perfect accuracy:
+if the responses from workers in $P_0$ and $P_1$ are distributed 
+identically, then there is no hope of determining which population the worker 
+came from given only her response $x$.  But, assuming that responses are
+not distributed identically, then given some $x$, the best possible 
+classifier must always guess 1 whenever $p_1(x) > p_0(x)$ and otherwise 
+guess 0.
 
-	\paragraph{Variance in food specificity.}
-	The variance in the specificity measurements was calculated using a 
-	bootstrapping procedure.  For two given treatments $A$ and $B$, 
-	119 workers were sampled from each with replacement, giving the bootstrap
-	samples $A'$ and $B'$, and the relative specificity between these 
-	was measured as described in \textsection S6.
-	This was repeated 1000 times.  The 2.5 and 97.5 percentiles were used
-	to create the 95\% confidence intervals.
+Sacrificing, for a moment, some generality, let us assume that, for a given 
+$x$, $p_1(x) > p_0(x)$.  
+Then, given some $x'$ has been chosen during a 
+validation test, the optimal classifier must guess that 
+$z = \arg\!\max_{z'}(p_{z'}(x)) = 1$.
+The probability that the classifier guesses correctly, given a validation
+test in which the resonse $x$ was chosen, is therefore:
+\begin{align}
+	\mathrm{Pr}\{V = 1 | x' = x \} 
+		&= \mathrm{Pr}\{\mathcal{A^*}(x) = z | x' = x \} \\
+		&= \mathrm{Pr}\{z = 1 | x' = x \}  \\
+		&= \frac{\mathrm{Pr}\{z = 1 , x' = x\}}
+			{ \mathrm{Pr}\{z=0 , x'=x\} + \mathrm{Pr}\{z=1 , x'=x\}} \\
+		&= \frac{p_1(x)}{p_0(x) + p_1(x)}.
+\end{align}
+And now, with full generally,
+\begin{align}
+	\mathrm{Pr}\{V=1 | x' = x \} 
+		&= \mathrm{Pr}\{\mathcal{A^*}(x) = z | x' = x \} \\
+		&= \mathrm{Pr}\{z = \arg\!\max_{z'}\big(p_{z'}(x)\big)| x' = x \}  \\
+		&= \frac{\max\big( p_0(x),p_1(x) \big)}
+		{ p_0(x) + p_1(x) }.
+\end{align}
+We can rewrite:
+\begin{align}
+	\max\big(p_0(x),p_1(x)\big) = \frac{1}{2}
+		\big(
+			p_0(x) + p_1(x) + |p_0(x) - p_1(x)|
+		\big),
+\end{align}
+so,
+\begin{align}
+	\mathrm{Pr}\{V = 1 | x' = x \} 
+	&= \frac{1}{2} + \frac{|p_0(x) - p_1(x)|}{2 \big(p_0(x) + p_1(x) \big)}.
+\end{align}
+Then the overall accuracy that probability that $\mathcal{A^*}$ guesses correctly in 
+any validation test is:
+\begin{align}
+	\eta^* &= \mathrm{Pr}\{V=1\} \\
+		&=\sum_{x\in X} \mathrm{Pr}\{V = 1 | x' = x \} \mathrm{Pr}\{x' = x\}\\
+		&= \sum_{x\in X} \left(
+				\frac{1}{2} + 
+				\frac{|p_0(x) - p_1(x)|}{2 \big(p_0(x) + p_1(x) \big)}
+			\right)
+			\left(
+				\frac{p_0(x) + p_1(x)}{2}
+			\right)\\
+		&= \frac{1}{2}\left(
+				\frac{1}{2}(
+					\sum_{x \in X}p_0(x) + \sum_{x \in X}p_1(x)
+				) + 
+				\frac{1}{2} \sum_{x \in X} \big(|p_0(x) + p_1(x)|\big)
+			\right) \\
+		&= \frac{1}{2} \left( \frac{1}{2}(1 + 1) + \theta \right)\\
+		&= \frac{1 + \theta}{2}\\
+		\implies \theta &= 2\eta^* - 1.
+\end{align}
+By definition, no classifier can be more accurate than $\mathcal{A^*}$, so
+for every $\mathcal{A}$
+\begin{align}
+		\theta \geq 2\eta - 1.
+\end{align}
 
-
-\subsection*{S8: Measuring computational hysteresis}
-	\paragraph{Using cross-validation accuracy to lower-bound L1-distance.}
+\paragraph{Using cross-validation accuracy to lower-bound bias.}
 	In order for Eq.~\ref{l1} to be applicable, it is necessary to obtain
-	an unbiased estimate of a classifier's performance.  One well-known
-	pitfall in measuring this error is to underestimate it due to 
-	over-fitting of the data used.  As an example, if one were to try 
+	an unbiased estimate of a classifier's accuracy.  One well-known
+	pitfall in measuring classifier accuracy is to underestimate it due to 
+	over-fitting to the data used.  As an example, if one were to try 
 	a large number of classifiers, eventually one would find one that
 	classifies the data perfectly, even though it might non generalize to
 	new data.
@@ -1474,27 +1372,34 @@ Since the significance values are to be shown on a plot of $\theta$, we
 transform them into equivalent values of 
 $\theta$: $\theta^*_\mathrm{high} = 2\eta^*_\mathrm{high} - 1$ and 
 $\theta^*_\mathrm{low} = 2\eta^*_\mathrm{low} - 1$.
-The statistics collected for the measurement of $\theta$ are tabulated in 
+The statistics collected for the measurement of $\theta$, corresponding to
+Fig.~\ref{fig:theta}A are tabulated in 
 table X.
 
 \begin{table}
 \begin{center}
-\begin{tabular}{c c c c c c c}
+\begin{tabular}{c c c c c c c c }
 	\toprule
-	Experiment & $N$ & $X$ & $x^*$ &
-		$\hat{\theta}$ & $\theta^*_\mathrm{low}$ & 
-		$\theta^*_\mathrm{high}$ \\
+	\multirow{2}{*}{Experiment} & \multirow{2}{*}{$N$} & 
+	\multirow{2}{*}{$X$} & \multirow{2}{*}{$x^*$} & \multicolumn{3}{c}{(\%)}
+		& \multirow{2}{*}{$p$}\\ \cline{5-7} \noalign{\smallskip}
+	& & & & $\hat{\theta}$ & $\theta^*_\mathrm{low}$ 
+		& $\theta^*_\mathrm{high}$  \\
 	\midrule
 	\textit{intertask-food-objects} & 1190 & 777 & 624 & \textbf{30.6} 
-		& 25.2 & 36.0 \\
-	\textit{frame-food-objects} & 238 & 122 & 133 & 2.5 & -10.6 & 14.7 \\
+		& 25.2 & 36.0 & $2.5 \times 10^{-26}$ \\
+	\textit{frame-food-objects} & 238 & 122 & 133 & 2.5 & -10.6 & 14.7
+		& 0.37 \\
 	\textit{echo-food-objects} & 238 & 162 &  133 & \textbf{36.1} & 23.4 
-		& 47.1  \\
+		& 47.1 & $1.3 \times 10^{-8}$ \\
 	\textit{intertask-food-culture} & 238 & 180 & 133 & \textbf{51.3} & 39.3 
-		& 61.1 \\
-	\textit{frame-food-culture} & 238 & 130 & 133 & 9.2 & -3.9 & 21.3 \\
+		& 61.1 & $5.0 \times 10^{-16}$ \\
+	\textit{frame-food-culture} & 238 & 130 & 133 & 9.2 & -3.9 & 21.3 
+		& 0.087\\
 	\bottomrule
+
 \end{tabular}
+
 \caption{Statistics for the measurement of the extent of bias, $\theta$,
 	induced by intertask and framing effects in various experiments.
 	Number of validation tests, $N$; number of successful classifications, 
@@ -1508,183 +1413,579 @@ table X.
 	confidence intervals are based on a significance of $\alpha=0.05$.
 	Values for $\hat{\theta}$ in boldface are significantly greater than 0.
 }
+\end{center}
+\end{table}
+
+The statistics for Fig.~\ref{fig:theta}B are shown in table X.
+
+\begin{table}
+\begin{center}
+\begin{tabular}{c c c c c c c c }
+	\toprule
+	\multirow{2}{*}{Task position} & \multirow{2}{*}{$N$} & 
+	\multirow{2}{*}{$X$} & \multirow{2}{*}{$x^*$} & \multicolumn{3}{c}{(\%)}
+		& \multirow{2}{*}{$p$}\\ \cline{5-7}\noalign{\smallskip}
+	& & & & $\hat{\theta}$ & $\theta^*_\mathrm{low}$ 
+		& $\theta^*_\mathrm{high}$  \\
+	\midrule
+	1 & 238 & 152 & 133 & \textbf{28.1} & 14.8 & 39.1 
+		& $1.12 \times 10^{-5}$\\
+	2 & 238 & 138 & 133 & \textbf{15.6} & 2.9 & 27.8  
+		& $8.14 \times 10^{-3}$\\
+	3 & 238 & 140 & 133 & \textbf{17.8} & 4.6 & 29.5  
+		& $3.87 \times 10^{-3}$\\
+	4 & 238 & 135 & 133 & \textbf{13.6} & 0.3 & 25.4  
+		& $0.0221$ \\
+	5 & 238 & 134 & 133 & \textbf{12.4} & 0.5 & 24.6 & $0.0300$ \\
+	\bottomrule
+\end{tabular}
+\caption{Statistics for the measurement of the extent of bias, $\theta$,
+	induced by intertask for \textit{intertask-food-objects}, measured 
+	for test images at specific positions in the sequence of 5 test images.
+	These values are averaged over 5 different permutations, such that 
+	the strength of intertask effects are measured for each of the test images
+	in each of the positions.
+	Number of validation tests, $N$; number of successful classifications, 
+	$X$; critical number of succesful classifications to reject the null 
+	hypotheses that the classifier does no better than chance 
+	(one-tailed test), $x^*$; 
+	lower bound estimate of bias based on observed number of successful
+	classifications, $\hat{\theta}$; lower confidence interval for lower
+	bound estimate of bias, $\theta^*_\mathrm{low}$; upper confidence 
+	interval for same, $\theta^*_\mathrm{high}$.  Hypothesis test and 
+	confidence intervals are based on a significance of $\alpha=0.05$.
+	Values for $\hat{\theta}$ in boldface are significantly greater than 0.
+}
+
+
+
+
+
 
 \end{center}
 \end{table}
 
-\subsection*{S9: Justifications and statistical properties of classifier-based measurement of computational hysteresis}
 
 
-\paragraph{Comparing $\theta$ to a $\chi^2$ significance test}
-Suppose that we have a very slightly unfairly weighted coin, which turns
-up heads ($x=\mathbf{H}$) more often than expected by 1 part in one hundred:
-$\Pr\{x=\mathbf{H}\} = 0.500001$. Such a coin would be fine for many 
-practical purposes, like deciding who buys lunch.  We could
-perform a $\chi^2$ test to determine if the coin is biased, by flipping 
-it 100 million times, while doing the same with a coin we know is fair.
-Simulating this with a random number generator yields the following results:
 
-\begin{center}
-\begin{tabular}{c c c c}
-\toprule
-coin & $N_\mathbf{H}$ & $N_{\mathbf{T}}$ & total \\
-\toprule
-\textit{fair} & 50002283 & 49997717 & $10^8$\\
-\textit{biased} & 50101115 & 49898885 & $10^8$ \\
-\bottomrule
-total & 100103398 & 99896602 & $2\times 10^8$ \\
+
+\subsection*{Data preprocessing}
+	\paragraph{Splitting, Lemmatization, removal of stop-words, and 
+		addition of position tags.} 
+
+	Before performing any analysis on the labels that workers provided, we
+	performed a series of preprocessing steps.  
+	Labels that contained
+	multiple words (separated by spaces or punctuation) were split, with
+	punctuation removed, and the separated words were treated as distinct 
+	features in subsequent analysis.
+	Misspelled words were automatically corrected using a spelling 
+	correction algorithm described below.  
+	Next, words were lemmatized using the
+	wordnet lemmatizer \cite{miller1995wordnet,felbaum1998wordnet}.  
+	Common words such as ``the'', ``to'', or ``with'', were found using the
+	the NLTK's English stop-word list and removed \cite{loper2002nltk}.  
+
+	For the purpose of training and testing a na\"ive Bayes classifier, we 
+	performed an additional preprocessing step.  We tagged words with the
+	position in which they had been entered (i.e. which of the five text 
+	inputs in the task interface) as well as the test tasks in which the word 
+	had been provided.
+	So, if the word ``wine'' was entered into the second text-input for 
+	the third test-task, after preprocessing, the feature ``3\_2\_wine'' would
+	appear.  Prepending the task number onto words was simply a means to 
+	retain correct attribution, which itself was essential since providing a
+	word during one task is not equivalent to providing the same word during 
+	another task.  
+	
+	\paragraph{Spelling correction.}  
+	Spelling correction was performed using an algorithm that first detected
+	if a word was likely to be misspelled, then generated a set of candidate 
+	corrections, and chose the best candidate based on a scoring mechanism.
+	
+	A word was considered misspelled if it was not contained in the 
+	\textit{legal set}, which was formed by the union of
+	the wordnet corpus, the stop-word list, and a set of words seen while 
+	crawling the world food section of the allrecipes.com website.  We
+	describe the crawling of the allrecipes.com website in a section below.
+
+	To correct misspellings, we first produced all possible modified forms 
+	that could be obtained applying one or two edits.  An edit consisted of 
+	adding or removing a letter, changing one letter into another, or 
+	swapping the positions of two adjacent letters.  For the purpose of these 
+	edits, spaces were treated as any other letter.
+
+	The candidates produced by these edits which were in the legal set were
+	then ranked based on a scoring mechanism, and the highest scoring word
+	was chosen as the correction.  A candidate $w$'s score, $s_w$, was 
+	calculated according to the following formula:
+	\begin{equation}
+		s_w = (f_w + 1) \times p_1 \times p_2,
+	\end{equation}
+	where $f_w$ is the frequency with which the word occurred (correctly 
+	spelled)
+	within the given task, $p_1$ was a penalty for the first edit, and
+	$p_2$ was a penalty for the second edit.  If the word was made using only
+	one edit, then $p_2 = 1$.  Any edit that did not involve adding a space
+	(i.e. separating a word) incurred a penalty of 0.5, while the addition of
+	a space incurred a penalty of 0.1.  Word-separation edits were more 
+	strongly penalized because it is often possible to split a series of 
+	letters into many short two- or three-letter words, which otherwise leads 
+	to many erroneous corrections.  We found that setting the penalty for
+	word splitting at 0.1 worked well by testing on words taken from
+	initial tasks.
+
+	After all of our analyses had been performed, we checked the accuracy of 
+	the spelling correction algorithm using three human coders.  The coders
+	were shown a set of 
+	500 words that were randomly sampled from the labels attributed during 
+	test tasks (50 for each test task).  Before sampling, the labels from all
+	experimental treatments, for the given test task, were pooled together.
+	The coders did not know which treatment any given word came from.  
+	In addition to the words, coders were shown the spelling correction 
+	produced by the algorithm, as well as the image from the test task.
+	The coders were asked to identify any misspelled words which had not 
+	been corrected, as well as any corrections that appeared to be erroneous,
+	by indicating their own correction.
+
+	Based on this exercise, we found that, according to the human coders,
+	17\% of the words were misspelled, but that after applying the 
+	automated spelling correction, only 3.2\% of words were misspelled.
+
+	\paragraph{Crawling the world food section of allrecipes.com.}
+	The website allrecipes.com was accessed on 3-4 November 2014 using 
+	automated scripts.  A total of 2642 recipe listings and 15621 recipe
+	instruction pages were retrieved.  Recipe listings were pages that 
+	provided lists of recipes, and contained a title and short description 
+	for each.  
+	The recipe instruction pages had lists of ingredients and preparation 
+	instructions.  All of the words found in recipe titles, short
+	descriptions, ingredients lists, and preparation instructions were
+	collected, and saved as an auxiliary set to augment the \textit{legal set}
+	used in spelling correction.
+	
+
+\subsection*{Most suppressed / activated terms}
+The words whose frequencies differed most between the treatments of given 
+experiments are shown in Table~S\ref{table:top-words}.  Note that 
+the word that was most suppressed in food-exposed treatments was always 
+``food''.
+
+\begin{table}
+	\centering
+	\setlength{\tabcolsep}{10pt}
+	\begin{tabular}{ c c c c c }
+	
+		\setlength{\tabcolsep}{4pt}
+		\begin{tabular}{ r | c }
+		\toprule
+		\multicolumn{2}{c}{\textit{task1}} \\
+		\toprule
+		coffee & 38 \\
+		meal & 34 \\
+		cheese & 34 \\
+		apple & 32 \\
+		dessert & 21 \\
+		cup & -30 \\
+		glass & -45 \\
+		table & -70 \\
+		candle & -74 \\
+		food & -80 \\
+		\bottomrule
+		\end{tabular}
+
+&
+
+		\setlength{\tabcolsep}{4pt}
+		\begin{tabular}{ r | c }
+		\toprule
+		\multicolumn{2}{c}{\textit{frame1}} \\
+		\toprule
+		bread & 18 \\
+		wine & 18 \\
+		cheese & 16 \\
+		apple & 14 \\
+		oil & 12 \\
+		table & -9 \\
+		meal & -10 \\
+		candle & -12 \\
+		dinner & -13 \\
+		food & -32 \\
+		\bottomrule
+		\end{tabular}
+
+&
+
+		\setlength{\tabcolsep}{4pt}
+		\begin{tabular}{ r | c }
+		\toprule
+		\multicolumn{2}{c}{\textit{echo1}} \\
+		\toprule
+		apple & 24 \\
+		cheese & 23 \\
+		wine & 15 \\
+		coffee & 14 \\
+		oil & 7 \\
+		knife & -24 \\
+		dinner & -26 \\
+		fork & -27 \\
+		candle & -35 \\
+		food & -55 \\
+		\bottomrule
+		\end{tabular}
+
+&
+
+		\setlength{\tabcolsep}{4pt}
+		\begin{tabular}{ r | c }
+		\toprule
+		\multicolumn{2}{c}{\textit{task2}} \\
+		\toprule
+		spicy & 26 \\
+		sauce & 17 \\
+		indian & 15 \\
+		buffet & 14 \\
+		exotic & 12 \\
+		festival & -11 \\
+		offering & -12 \\
+		statue & -15 \\
+		india & -20 \\
+		food & -56 \\
+		\bottomrule
+		\end{tabular}
+
+&
+
+		\setlength{\tabcolsep}{4pt}
+		\begin{tabular}{ r | c }
+		\toprule
+		\multicolumn{2}{c}{\textit{frame2}} \\
+		\toprule
+		indian & 11 \\
+		banquet & 8 \\
+		spicy & 7 \\
+		asian & 6 \\
+		variety & 6 \\
+		delicious & -6 \\
+		meat & -7 \\
+		festival & -7 \\
+		spice & -7 \\
+		food & -9 \\
+		\bottomrule
+		\end{tabular}
+
+	\end{tabular}
+	\caption{
+		Top 5 words, used to label the first test image, whose usage frequency
+		increased or decreased the most between treatments of given 
+		experiments.  Positive values indicate that the food-exposed treatment
+		used the word with higher frequency.  Word frequencies for 
+		\textit{intertask-food-objects} are aggregated across 5 
+		permutations, and hence tend to show larger absolute differences.
+	}
+	\label{table:top-words}
+\end{table}
+
+\subsection*{Identification of food-related terms}
+The wordnet corpus is composed of synsets, which are particular senses 
+(meanings) and a set of word forms bearing that meaning. A given word form, 
+such as ``ring'' has multiple senses (``to ring a bell'', ``a wedding ring''), 
+and so can be part of many synsets.  Since the wordnet corpus was designed
+to carry semantic information, the synset is the basic organizing element
+of wordnet.
+
+We chose the synsets \texttt{food.n.01} and \texttt{food.n.02} to act as roots
+in defining which words should be considered food-related.  Any word form
+belonging to a synset which was a hyponym of one of the two root synsets
+identified above was considered to be a reference to food.  Here, as in the
+main text, when we say hyponym, we mean either a direct hyponym, or a hyponym
+of a hyponym, and so on.
+
+This is a stringent notion of a word being a food reference.  It roughly
+corresponds to whether or not a given thing is reasonably considered 
+consumable.  So, ``orange'' is food, but ``salty'' is not.  Although ``salty''
+would usually qualify something edible, it is not itself an edible thing.
+On the other hand, ``salt'' would be considered a reference to food under 
+this operationalization.
+
+The subset of the wordnet corpus induced by the hyponyms of \textit{food.n.01}
+and \textit{food.n.02} provide a set of 3590 words.  Manual
+testing showed good coverage, except for references to ethnic foods.  
+Since, especially in \textit{exp2}, we had images containing many ethnic 
+foods, we decided to augment the wordnet corpus with words learned by 
+crawling the world food section of the allrecipes.com website.  
+
+After collecting a set of words using an automated script 
+(described above), we collected the set of words that had been used by
+workers and which had been seen during crawling of the allrecipes.com website,
+but which were not included in wordnet.  We grafted these extra words into
+the wordnet hyponym-hypernym graph manually, which ensured that any references
+to ethnic words learned from crawling would be properly classified as 
+food references.
+
+\paragraph{Validation of the detection of food references.}
+To determine whether our extended version of wordnet provided a good approach
+to detecting food-related words, we sampled 500 words 
+(50 from each test task)  from the set of labels produced by workers and had 
+three human coders manually decide if they were 
+food-related or not.
+
+The coders were instructed to consider whether a word was a noun signifying
+an edible item.  The guiding principle was, for the coder to ask herself,
+``can I eat X'', where X is the word she is coding.  The coders were
+shown the used in the task from which the word came, to help resolve ambiguity
+in the sense of the word that had been given.  Coders were also shown the 
+spelling correction (if any) that the spell-correction algorithm had made,
+to help interpret misspelled words.
+
+We evaluated the food detection algorithm in two ways.  First, we measured
+the inter-rater reliability between the three human coders and the algorithm
+(treating the algorithm just like any other coder).  Second, adopting the 
+majority code given by the human coders, we determined the accuracy of the
+food-detection algorithm.  Data summarizing this validation process are given
+in Table~S\ref{table:inter-rater}.
+
+\begin{table}
+\centering
+\setlength{\tabcolsep}{12pt}
+\begin{tabular}{ r | c }
+\toprule    
+\# terms coded & 500 \\
+\# food references & 130 \\
+\# correct machine codes & 440 \\
+inter-rater reliability & 82.4\% \\
+human-machine code agreement & 88\% \\
+%machine recall & 80 \% \\
+%machine precision & 75.4 \% \\
+%machine code F1 & 0.78 \\
 \bottomrule
 \end{tabular}
-\end{center}
-A $\chi^2$ test yields the following results:
-\begin{center}
-	\begin{tabular}{c c c c }
+\caption{
+	Results for the validation 
+	of the automatic detection of food references, by comparison to
+	human-generated coding on randomly sampled words.  In calculating the 
+	human-machine code agreement, the majority human code was used.
+	Inter-rater reliability was calculated as Krippendorff's alpha.
+}
+\label{table:inter-rater}
+\end{table}
+
+The results show that good inter-rater reliability was achieved during the
+validation (82.4\%).  Looking at the agreement between the 
+machine codes and the majority human-generated codes, we find they agree
+88\% of the time.  This means that the concept used to instruct human coders
+provides a good approximation to what the wordnet-based machine codes actually
+represent. In other words, the machine codes correspond closely to indicating
+which words correspond to nouns that refer to edible things, and which ones
+do not, which provides a clear and simple interpretation for the machine
+coding of food and non-food words.
+
+\paragraph{Testing differences in proportions of food-related labels.}
+We calculate the proportion of food-related labels in a treatment by first
+calculating the proportion of food-related labels per worker, and then
+taking the average of this value for all workers.  We calculate the
+sample standard deviation for workers' proportions of food-related terms,
+$s_w$ and then estimate the standard deviation of the average proportion
+to be $s = s_w / \sqrt{N}$, where $N$ is the number of workers in the 
+treatment.  The proportions of food-related words for all treatments,
+and the statistics for the hypothesis test that the proportions between
+treatments within given experiments differ, are shown in 
+Table~S\ref{table:proportion-food}.
+
+\begin{table}
+\centering{
+\setlength{\tabcolsep}{4pt}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{c c c c c c c c c c c}
 	\toprule
-	Degrees of freedom & $\chi^2$ & $p$-value \\
-	\toprule
-	1 & 195.4 & $2.2 \times 10^{-44}$ \\
+	\multirow{2}{*}{Experiment} 
+		& \multicolumn{2}{c}{food treatment}
+		& \ 
+		& \multicolumn{2}{c}{other treatment} 
+		& \
+		& \multicolumn{2}{c}{(other - food)} 
+	& \multirow{2}{*}{$z$-score}
+	& \multirow{2}{*}{$p$-value} \\ \cline{2-3} \cline{5-6} \cline{8-9}
+	& \% refs. 
+	& $s$ 					
+	& \
+	& \% refs. 
+	& $s$ 					
+	& \
+	& $\Delta$\% refs. 
+	& $s$ 					 \\ 
+	\midrule
+	\textit{intertask-food-objects} & 54.5 & 0.6 & \ & 57.4 & 0.8 & \ 
+		& \textbf{2.9} & 1.0 & 3.0 & $1.3 \times 10^{-3}$\\
+	\textit{frame-food-objects} & 56.2 & 1.4 & \ & 60.1 & 1.4 & \ 
+		& \textbf{3.9} & 1.9 & 2.0 & $2.2 \times 10^{-2}$\\
+	\textit{echo-food-objects} & 54.0 & 1.4 & \ & 62.8 & 1.7 & \ 
+		& \textbf{8.8} & 2.2 & 4.0 & $3.5 \times 10^{-5}$\\
+	\textit{intertask-food-culture} & 48.8 & 1.6 & \ & 40.8 & 2.0 & \ 
+		& \textbf{-8.0} & 2.6 & -3.1 & $9.2 \times 10^{-4}$\\
+	\textit{frame-food-culture} & 45.8 & 2.0 & \ & 45.2 & 1.8 & \ 
+		& -0.6 & 2.6 & -0.2 & $0.41$\\
 	\bottomrule
-	\end{tabular}
-\end{center}
-Even though the $\chi^2$ test shows, with tremendous statistical 
-significance, that the unfair coin is indeed unfair, the actual extent
-of bias is small, 
-$\theta = \frac{1}{2}\left( |0.501 - 0.499| + |0.499 - 0.501| \right) = 0.002$.
-A sufficiently large sample size will lead to the detection an arbitrarily 
-small bias with arbitrarily high statistical significance.
-This is why to measure the practical significance of intertask effects
-we rely on a measure of effect size, which is in this case a measure
-of statistical divergence, $\theta$.
+\end{tabular}
+}
+\caption{Statistics for the comparison of the proportions of food-related
+	labels between treatments of all experiments.  $s$: sample standard
+	deviation.
+}
+\label{table:proportion-food}
+\end{table}
+
+\subsection*{Calculation of relative specificity}
+In the main text we present results for the relative specificity of labels
+produced by two experimental treatments.  In performing this calculation,
+we used the wordnet corpus, which has a set of hypernym-hyponym relationships
+as described in the main text.  The first step in performing this calculation
+was therefore to map the words occurring from (the labels of) a given 
+experimental treatment onto the wordnet synsets.  In general, a given word
+form can have multiple meanings, and therefore maps onto multiple wordnet 
+synsets.
+
+The result of mapping the words from two treatments onto the wordnet 
+hypernym-hyponym graph two sets of counts, one set per treatment, 
+indicating the number of times a word from a given synset occurred among the
+labels of the treatment.  Then, for every synset in one treatment, we looked
+at the number of synsets in the other treatment that were more generic
+(reachable by following hypernym relations) less the number of words that
+were more specific (reachable by following hyponym relations).  This quantity
+tallied for all words in the original synset gives a (non-normalized) measure
+of the degree to which words from the first treatment are more specific
+than words from the second treatment, overall.  We then normalized this 
+quantity by the total number of possible comparisons between the words of
+one treatment to those of the other, where two words are considered comparable
+only if one word is the hypernym or hyponym of the other.  Hence, ``statue'' 
+and ``bread'' are not comparable, but ``pumpernickel'' and ``bread'' are.
+
+This calculation can be summarized by the following equation:
+\begin{equation}
+	S(P,Q) = \frac{
+		\sum_{w\in P}\sum_{v\in Q} \left(
+			\mathbf{1}_{[w>v]} - \mathbf{1}_{[v>w]} \right)
+	}{
+		\sum_{w\in P}\sum_{v\in Q} \left(
+			\mathbf{1}_{[w>v]} + \mathbf{1}_{[v>w]} \right)
+	},
+\end{equation}
+where $P$ and $Q$ are sets of synsets, and $\mathbf{1}_{[w>v]}$ evaluates
+to 1 if synset $w$ is more specific than (i.e. is a hyponym of) synset $v$.
+This measure counts the excess of cases where synsets from $P$ are more
+specific then synsets from $Q$, as a fraction of all comparable synset pairs. 
+
+In computing this quantity between two treatments, we first computed it 
+using the labels attributed to a particular test task, and then
+averaged the result obtained in this way for each of the five test tasks.
+
+To assess statistical significance, we used the bootstrap method.
+For two given treatments $A$ and $B$, 
+119 workers were sampled from each with replacement, giving the bootstrap
+samples $A'$ and $B'$, and the relative specificity between these 
+was measured as described in \textsection S6.
+This was repeated 1000 times.  The 2.5 and 97.5 percentiles from the 
+bootstrap sample to create the 95\% confidence intervals.  If the confidence
+interval did not contain zero it indicates a statistically significant 
+difference in specificity.  The statistics for relative specificity 
+calculations are shown in Table~S\ref{table:specificity}.
+
+\begin{table}
+\centering{
+	\setlength{\tabcolsep}{4pt}
+\begin{tabular}{c c c c c c c c c c c}
+	\toprule
+	Experiment & $S$ & $S^*_\mathrm{lowCI}$ & $S^*_\mathrm{highCI}$ \\ 
+	\midrule
+	\textit{intertask-food-objects} & \textbf{13.6} & 9.1 & 17.8 \\
+	\textit{frame-food-objects} & \textbf{12.4}     & 7.6 & 17.0 \\
+	\textit{echo-food-objects} & \textbf{17.1}      & 12.1 & 21.9 \\
+	\textit{intertask-food-culture} & \textbf{19.6} & 13.7 & 25.4 \\
+	\textit{frame-food-culture} & \textbf{7.0}      & 2.1 & 15.3 \\
+	\bottomrule
+\end{tabular}
+}
+\caption{Relative specificity ($S$) of food-related words between the food- 
+	and non-food-exposed treatments of all experiments. 
+	Positive values indicates the food-exposed treatment was relatively more
+	specific; boldfaced values indicate a disparity in specificity that 
+	is statistically significant.  
+	$S^*_\mathrm{lowCI}, S^*_\mathrm{upCI}$: lower and upper
+	confidence intervals for $S$ based on the bootstrapping approach.  All
+values are expressed as percentages.}
+\label{table:specificity}
+\end{table}
 
 
 
-\paragraph{Statistical approaches to measuring bias.}
-Recall that in Eq.~\ref{eq:theta} in the main text, we defined the
-extent of bias that exists between two groups of workers to be $\theta$:
-$$
-	\theta = \frac{1}{2}\sum_{x \in X} \left| p_0(x) - p_1(x) \right|,
-$$
-where $p_0(x)$ and $p_1(x)$ represent the probability mass functions
-for responses from two differently treated populations of workers.  
-Let us denote these two populations by $P_0$ and $P_1$.
-As mentioned, this is a measure of the divergence between $p_0$ and $p_1$ 
-which is called either the \textit{total variation} or the 
-\textit{L1-distance}.
 
-Measuring the \textit{L1-distance} between two probability distributions,
-given only samples, is difficult.  The na\"ive approach is to take
-the maximum likelihood estimate of $p(x)$, which sets it equal to the 
-frequency with which the response $x$ has been observed, 
-$\hat{p}(x) = \frac{N_x}{N}$, and then estimate $\theta$ 
-using these frequencies: 
-$\hat{\theta} = \sum_{x \in X}|\hat{p}_1(x) - \hat{p}_2(x)|$.  
-However, this method tends to drastically overestimate $\theta$.
-Recently progress has been made on this problem, and two algorithms have 
-been proposed to estimate the L1-distance between distributions
-given only samples.  But these methods provide only asymptotic guarantees
-which cannot be directly applied to our case.  However, machine learning
-approaches provide a general alternative that we describe in the next 
-section.
+	\paragraph{Variance in food vocabulary size (lexical richness).}
+	The number of unique words in a text is strongly dependent on the size
+	of the text: as more text is sampled, previously unseen words continue
+	to be found, though at a decreasing rate.  
+	This means that the vocabulary size of a population of documents is 
+	not well-approximated by a sample.  Nevertheless the vocabulary sizes
+	obtained by taking equally-sized samples of two different populations
+	provides a means to compare the populations on an equal footing.
 
-\paragraph{Using classifiers to measure bias.}
+	Taking the difference between one sample's vocabulary and the 
+	other gives us a measure of their difference in vocabulary size, but 
+	the variance of this measure needs to be characterized to know whether
+	there is a significant difference.
+	
+	To test whether one sample has a (statistically) significantly larger
+	vocabulary size than another, we adopt the null hypothesis that they
+	have the same vocabulary, and pool the documents sampled from both 
+	populations together.  We then randomly partition the pooled sample
+	back into two balanced sets and take the difference in the sets' 
+	vocabulary sizes.  This models the difference that would be observed
+	under the null hypothesis that the documents are drawn from the same
+	population.  We repeat the pooling and partitioning of the samples
+	1000 times to generate a bootstrap sample of the difference in 
+	vocabulary sizes under the null hypothesis.  The 
+	2.5th and 97.5th percentiles of the bootstrap sample then serve as the
+	critical values of vocabulary size-difference that would justify 
+	rejection of the null hypothesis that the original samples have the same 
+	vocabulary size.
 
-We will now show that, any classifier algorithm, $\mathcal{A}$, that
-takes the response, $x$, of a worker, and guesses the population to which
-the worker belongs ($P_0$ or $P_1$), will do so with an accuracy, $\eta$,
-that is bounded according to Eq.~\ref{l1}, which is reproduced here:
-$$
-	\theta \geq 2\eta - 1.
-$$
+	Statistics for these hypothesis tests are shown in 
+	Table~S\ref{table:vocab}.
 
-To do so, we will first formalize $\eta$ by defining a 
-\textit{validation test}.  In a validation test, a uniform random bit 
-$z\in\{0,1\}$ is sampled, and then, according to the value of $z$, the
-response of a worker, $x$, is sampled uniformly randomly from $P_z$.  
-The algorithm is provided
-with $x$ and yields a guess, $b=\mathcal{A}(x)$, as to whether the worker was 
-from $P_0$ or $P_1$.  We shall denote such a validation test by 
-$V(P_0, P_1, \mathcal{A})$, and define the value of the test to be 1 if 
-$b=z$ and zero otherwise.  
+\begin{table}
+\centering{
+\begin{tabular}{c c c c c c c }
+	\toprule
+	\multirow{2}{*}{Experiment} & \multicolumn{2}{c}{$|V|$} 
+		 & \ & \multicolumn{3}{c}{$(\%)$} \\ \cline{2-3} \cline{5-7}
+	& food trtmt. & other trtmt. & \ & $\Delta|V|$ & $\Delta|V|^*_{low}$
+		& $\Delta|V|^*_{high}$  \\
+	\midrule
+	\textit{intertask-food-objects} & 297 & 247 & \ 
+		& \textbf{20.2} & -10.7 & 11.5 \\
+	\textit{frame-food-objects} & 296 & 261 & \ 
+		& \textbf{13.4} & -9.7 & 10.1 \\
+	\textit{echo-food-objects} & 316 & 280 & \ & 
+		\textbf{12.9} & -11.8 & 11.1 \\
+	\textit{intertask-food-culture} & 289 & 244 & \ 
+		& \textbf{18.4} & -11.4 & 11.6 \\
+	\textit{frame-food-culture} & 318 & 332 & \ & -4.2 & -11.9 & 11.2 \\
+	\bottomrule
+\end{tabular}
+}
+\caption{
+	Statistics for the measurement of vocabulary size difference, for each
+	experiment, between the food and non-food treatments. $|V|$: vocabulary
+	size; $\Delta|V|$: vocabulary size of non-food less food treatments;
+	$\Delta|V|^*_{low}, \Delta|V|^*_{low}$: lower and upper critical values
+	for statistically significant $\Delta|V|$, at $\alpha=0.05$, 
+	based on bootstrapping.  
+	Boldfaced values for $\Delta|V|$ are statistically significant.
+}
+\label{table:vocab}
+\end{table}
 
-We then define the accuracy of classifier $\mathcal{A}$ to be $\eta$ according
-to:
-$$
-\eta = \mathrm{E\{V(P_0, P_1, \mathcal{A})\}} 
-	= \mathrm{Pr}\{V(P_0, P_1, \mathcal{A})=1\}.
-$$
 
-To develop the relationship between $\eta$ and $\theta$, let us consider
-the accuracy $\eta^*$ of the best possible classifier $\mathcal{A}^*$.
-The best possible classifier will not in general have perfect accuracy:
-if the responses from workers in $P_0$ and $P_1$ are distributed 
-identically, then there is no hope of determining which population the worker 
-came from given only her response $x$.  But, assuming that responses are
-not distributed identically, then given some $x$, the best possible 
-classifier must always guess 1 whenever $p_1(x) > p_0(x)$ and otherwise 
-guess 0.
 
-Sacrificing, for a moment, some generality, let us assume that, for a given 
-$x$, $p_1(x) > p_0(x)$.  
-Then, given some $x'$ has been chosen during a 
-validation test, the optimal classifier must guess that 
-$z = \arg\!\max_{z'}(p_{z'}(x)) = 1$.
-The probability that the classifier guesses correctly, given a validation
-test in which the resonse $x$ was chosen, is therefore:
-\begin{align}
-	\mathrm{Pr}\{V = 1 | x' = x \} 
-		&= \mathrm{Pr}\{\mathcal{A^*}(x) = z | x' = x \} \\
-		&= \mathrm{Pr}\{z = 1 | x' = x \}  \\
-		&= \frac{\mathrm{Pr}\{z = 1 , x' = x\}}
-			{ \mathrm{Pr}\{z=0 , x'=x\} + \mathrm{Pr}\{z=1 , x'=x\}} \\
-		&= \frac{p_1(x)}{p_0(x) + p_1(x)}.
-\end{align}
-And now, with full generally,
-\begin{align}
-	\mathrm{Pr}\{V=1 | x' = x \} 
-		&= \mathrm{Pr}\{\mathcal{A^*}(x) = z | x' = x \} \\
-		&= \mathrm{Pr}\{z = \arg\!\max_{z'}\big(p_{z'}(x)\big)| x' = x \}  \\
-		&= \frac{\max\big( p_0(x),p_1(x) \big)}
-		{ p_0(x) + p_1(x) }.
-\end{align}
-We can rewrite:
-\begin{align}
-	\max\big(p_0(x),p_1(x)\big) = \frac{1}{2}
-		\big(
-			p_0(x) + p_1(x) + |p_0(x) - p_1(x)|
-		\big),
-\end{align}
-so,
-\begin{align}
-	\mathrm{Pr}\{V = 1 | x' = x \} 
-	&= \frac{1}{2} + \frac{|p_0(x) - p_1(x)|}{2 \big(p_0(x) + p_1(x) \big)}.
-\end{align}
-Then the overall accuracy that probability that $\mathcal{A^*}$ guesses correctly in 
-any validation test is:
-\begin{align}
-	\eta^* &= \mathrm{Pr}\{V=1\} \\
-		&=\sum_{x\in X} \mathrm{Pr}\{V = 1 | x' = x \} \mathrm{Pr}\{x' = x\}\\
-		&= \sum_{x\in X} \left(
-				\frac{1}{2} + 
-				\frac{|p_0(x) - p_1(x)|}{2 \big(p_0(x) + p_1(x) \big)}
-			\right)
-			\left(
-				\frac{p_0(x) + p_1(x)}{2}
-			\right)\\
-		&= \frac{1}{2}\left(
-				\frac{1}{2}(
-					\sum_{x \in X}p_0(x) + \sum_{x \in X}p_1(x)
-				) + 
-				\frac{1}{2} \sum_{x \in X} \big(|p_0(x) + p_1(x)|\big)
-			\right) \\
-		&= \frac{1}{2} \left( \frac{1}{2}(1 + 1) + \theta \right)\\
-		&= \frac{1 + \theta}{2}\\
-		\implies \theta &= 2\eta^* - 1.
-\end{align}
-By definition, no classifier can be more accurate than $\mathcal{A^*}$, so
-for every $\mathcal{A}$
-\begin{align}
-		\theta \geq 2\eta - 1.
-\end{align}
 
 \end{document}
 

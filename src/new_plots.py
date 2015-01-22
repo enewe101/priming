@@ -170,7 +170,7 @@ def plot_specificity(
 		for p in pairs
 	]
 	Y_err = [
-		(food_data[p[0]]['std'] + food_data[p[1]]['std'])*100 
+		np.sqrt( food_data[p[0]]['std']**2 + food_data[p[1]]['std']**2 )*100 
 		for p in pairs
 	]
 	X_0 = range(len(Y_0))
