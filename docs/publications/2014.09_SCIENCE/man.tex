@@ -18,6 +18,8 @@
 \newcolumntype{d}{D{.}{.}{4.0}}
 \newcolumntype{s}{D{.}{.}{1.4}}
 
+\usepackage{arydshln}
+
 % Users of the {thebibliography} environment or BibTeX should use the
 % scicite.sty package, downloadable from *Science* at
 % www.sciencemag.org/about/authors/prep/TeX_help/ .
@@ -235,7 +237,7 @@ depend on the order in which the list is presented, an effect known as
 \textit{positional bias} \cite{lerman2014leveraging}.  This serves as an 
 example of a basic psychological phenomenon impacting crowdsourced data,
 and raises questions about what other cognitive biases might
-affect microtask work, and how prevelant induced bias might be.  
+affect microtask work, and how prevalent induced bias might be.  
 
 Here we investigate the potential for task-repetition to induce bias in 
 microtask-based work.  If such bias is present, it would impact virtually 
@@ -258,8 +260,8 @@ HPU outputs are inherently stochastic, but our revelation of strong intertask
 effects shows that HPUs are subject to \textit{hysteresis}, 
 meaning that their 
 outputs depend on the history of their inputs.  Reproducibility and 
-path-independance are crucial properties of the components in a 
-computing architecture, so it to maintaning the view of the HPU computing 
+path-independence are crucial properties of the components in a 
+computing architecture, so it to maintaining the view of the HPU computing 
 architecture, necessitates a better understanding of the computational 
 ramifications of many psychological phenomena. 
 
@@ -362,46 +364,6 @@ different sets of responses).
 	\label{fig:task}
 \end{figure}
 
-%\setlength{\tabcolsep}{2pt}
-%\begin{table}[t]
-%\centering
-%\begin{tabular}{ c c c c c }
-%		\hline \noalign{\smallskip}
-%		\multicolumn{3}{c}{\textbf{Treatment name}} & \parbox[c]{1.4cm}{\centering \textbf{Frame}} & \parbox[c]{1.3cm}{\centering \textbf{Initial\\ tasks}}	\\ 
-%
-%		\noalign{\smallskip} \hline \noalign{\smallskip}
-%
-%		\multirow{6}{*}{ \parbox[c]{0.8cm}{ \phantom{XX} exp1}} 
-%			& \multirow{2}{*}{task1} & food & none & food\\
-%			& & obj & none & objects\\
-%
-%			\noalign{\smallskip} \cline{2-5} \noalign{\smallskip}
-%			& \multirow{2}{*}{frame1} & food & food & none\\
-%			& & obj & objects & none\\
-%
-%			\noalign{\smallskip} \cline{2-5} \noalign{\smallskip}
-%			& \multirow{2}{*}{echo1} & food & food & none\\
-%			& & obj & objects & none\\
-%
-%		\noalign{\smallskip} \hline \noalign{\smallskip}
-%
-%		\multirow{4}{*}{\parbox[c]{0.8cm}{exp2}} 
-%			& \multirow{2}{*}{task2}  &  food & none & food\\
-%			& 	&  cult & none & culture\\
-%			\noalign{\smallskip} \cline{2-5} \noalign{\smallskip}
-%			& \multirow{2}{*}{frame2} & food & food & food\\
-%			& 	& cult & culture & food\\
-%
-%		\noalign{\smallskip} \hline  
-%	\end{tabular}
-%
-%	\caption{ 
-%		We use the treatment names shown to refer to specific sections of 
-%		the experimental data.
-%	}
-%	\label{table:treatments}
-%\end{table}
-
 Using a na\"ive Bayes classifier\footnote{
 	We discuss our choice of classifier and preprocessing methods, 
 	and show similar results obtained by using a support vector 
@@ -436,7 +398,8 @@ the initial tasks contained images depicting cultural scenes
 (of dance, sport, or music) (see Fig.~\ref{fig:task}E).  The test tasks, which were identical for both
 treatments, included images depicting meals of identifiable cultural 
 origin\footnote{
-	Though we attempted to choose more globalized foods, the initial tasks 
+	Though we attempted to choose foods with less specific or iconic cultural
+	associations, the initial tasks 
 	in \textit{intertask-food-culture} are arguably still of
 	identifiable cultural origin. This would tend to reduce, rather than 
 	inflate, the bias observed in our results 
@@ -654,85 +617,151 @@ computation.
 \section*{Supplementary Material}
 \renewcommand{\figurename}{Figure S\!\!}
 \renewcommand{\tablename}{Table S\!\!}
+\renewcommand{\theequation}{S\arabic{equation}}
 \setcounter{figure}{0}
 \setcounter{table}{0}
+\setcounter{equation}{0}
 
 \subsection*{Materials and Methods}
 
 \paragraph{Microtask setup.}
-Altogether the experiments presented here consisted of data from 3200 HITs 
-(bundles of 10-image labeling tasks).  In all experiments, each treatment
-consisted of results from at least 119 workers.  
-For the purpose of statistical calculations,
-treatments having more than 119 workers were subsampled, producing a uniform
-sample size accross all treatments.  The \textit{food} and \textit{objects}
-treatments in the \textit{intertask-food-objects} experiment were further
-broken down into sub-treatments (each containing at least 119 workers),
-corresponding to different orderings of the test tasks.  These alternative
-orderings were obtained by rotation of the test tasks 
-(i.e. moving all tasks forward by one position, and making the last task 
-become the first test task).  This ensured that each test task appeared in
-each of the five test-task positions.
+\begin{table}
+\centering
+\setlength{\tabcolsep}{2pt}
+\begin{tabular}{c c c c c c}
+\toprule
+Experiment & \parbox[c]{3.8cm}{\centering{Priming modality}} & Treatment & Frame & 
+	Initial tasks & \parbox[c]{2.0cm}{\centering{Test tasks}} \\
+\midrule
+\multirow{2}{*}{\textit{intertask-food-objects}} 
+& \multirow{2}{*}{initial tasks} & \textit{food} & none 
+	& Fig.~S\ref{fig:task1:food} 
+	& \multirow{2}{*}{Fig.~S\ref{fig:task1:test}\textsuperscript{e}} \\
+& & \textit{objects} & none & Fig.~S\ref{fig:task1:obj} & \\
 
-The HITs (as defined in the main text) for all treatments were presented as 
-a series of slides.  The first 
-slide consisted of a brief set of instructions.  In framing-treatments, a 
-framing slide was shown immediately after the instructions, see 
-Fig. S\ref{fig:hit_preamble}.  In intertask-treatments, a set of initial
-tasks were presented (and no framing slide).  Following the
-framing slide or initial tasks, the test-tasks were presented.
+\noalign{\smallskip}
+\hdashline
+\noalign{\smallskip}
 
-All initial and test tasks had the format shown in 
-Fig.~S\ref{fig:hit_preamble}: an image taking up most of
-the task pane, with five text inputs and a ``next'' button.  Images were
-presented in this way, one at a time. 
-For treatments having initial tasks, the test
-tasks followed seemlessly, and no distinction was made between the test 
-tasks and the initial tasks.
+\multirow{2}{*}{\textit{frame-food-objects}} 
+& \multirow{2}{*}{framing} & \textit{food} 
+	& ``food''\textsuperscript{a}
+	& none & \multirow{2}{*}{Fig.~S\ref{fig:task1:test}} \\
+& & \textit{objects} 
+	& ``objects''\textsuperscript{b}
+	& none & \\
 
-In an attempt to increase the strength of framing, we included the
-\textit{echo-food-objects} treatment, in which, during the framing slide,
-the worker was required to echo the frame using a combo-box input.  The
-instructions, both kinds of framing slide (simple and echoed), 
-and an example task slide, are shown 
-in Fig.~S\ref{fig:hit_preamble}.
+\noalign{\smallskip}
+\hdashline
+\noalign{\smallskip}
 
-Given the setup described above, the only tasks that workers in framing 
-treatments perform are the test tasks, whereas in the 
-intertask-treatments, the test tasks were performed as tasks
-5 through 10.  
-It could be argued that a better comparison would be achieved
-by having all workers perform some initial tasks, and simply ensuring that
-the initial tasks are \textit{not} varied between framing treatments. 
-We took this approach in the experiment 
-\textit{frame-food-culture}, in which workers performed the same 
-initial tasks containing images that depicted food in both the \textit{food}
-and \textit{culture} treatments.  If anything, this appears
-to have reduced the strength of framing for that experiment.
+\multirow{2}{*}{\textit{echo-food-objects}} 
+& \multirow{2}{*}{echoed framing} & \textit{food} 
+	& ``food''\textsuperscript{a}
+	& none & \multirow{2}{*}{Fig.~S\ref{fig:task1:test}} \\
+& & \textit{objects} 
+	& ``objects''\textsuperscript{b}
+	& none & \\
+
+\noalign{\smallskip}
+\hdashline
+\noalign{\smallskip}
+
+\multirow{2}{*}{\textit{intertask-food-culture}} 
+& \multirow{2}{*}{initial tasks} & \textit{food} 
+	& none
+	& Fig.~S\ref{fig:task2:food} 
+	& \multirow{2}{*}{Fig.~S\ref{fig:task2:test}} \\
+& & \textit{objects} 
+	& none & Fig.~S\ref{fig:task2:cult} & \\
+
+\noalign{\smallskip}
+\hdashline
+\noalign{\smallskip}
+
+\multirow{2}{*}{\textit{frame-food-culture}} 
+& \multirow{2}{*}{framing} & \textit{food} 
+	& ``food''\textsuperscript{c}
+	& Fig.~S\ref{fig:frame2:ingr} 
+	& \multirow{2}{*}{Fig.~S\ref{fig:task2:test}} \\
+& & \textit{objects} 
+	& ``culture''\textsuperscript{d} 
+	& Fig.~S\ref{fig:frame2:ingr} & \\
+
+\bottomrule
+\end{tabular}
+\caption{
+	Description of experiments performed.  Each experiment had two treatments
+	which differed either in the initial tasks shown or the framing used 
+	(the priming modality).  
+	During echoed framing, the worker had to respond to the framing language
+	using a combo box input (see Fig.~S\ref{fig:hit_preamble}C).
+	\newline\textsuperscript{a} ``Funded by the laboratory for the visual 
+		perception of Food and Ingredients''
+	\newline\textsuperscript{b} ``Funded by the laboratory for the visual 
+		perception of Objects and Tools''
+	\newline\textsuperscript{c} ``The purpose of this study is to understand the visual perception of Food and Ingredients''
+	\newline\textsuperscript{d} ``The purpose of this study is to understand the visual perception of Objects and Tools''
+	\newline\textsuperscript{e} ``This research is proudly funded by The National 
+		Foundation for Nutrition Awareness''
+	\newline\textsuperscript{f} ``This research is proudly funded by The Global 
+		Foundation for the Recognition of Cultures''
+	\newline\textsuperscript{g} Both treatments were divided into five 
+	sub-treatments having a different permutation of test tasks.
+}
+\label{table:experiments}
+\end{table}
 
 \begin{figure}
 	\includegraphics[scale=0.8]{figs/tasks.pdf}
-	\caption{Examples of A) instructions; B) a frame, as shown in 
-		\textit{frame1:obj}, and similar to those shown in 
-		\textit{frame1:food} and \textit{frame2:food}, and 
-		\textit{frame2:cult};  
-		C) an echoed frame, as used in \textit{echo1:obj}, and similar to that
-		used in \textit{echo1:food}; and D) an 
-		example of an image-labeling task.
+	\caption{Examples of (A) task instructions, (B) a framing slide
+		(C) an echoed framing slide, and (D) an image-labeling 
+		task.
 	}
 	\label{fig:hit_preamble}
 \end{figure}
 
-\paragraph{Selection of images.} 
+The work presented in the main text consisted of six experiments involving
+HITs (bundles of microtasks) performed on Amazon's Mechanical Turk platform.  
+Each experiment was divided into two treatments.  Treatments for a given 
+experiment differed with respect to a particular priming modality, which 
+served as the independent variable
+(as specified in Table~\ref{table:experiments}).  
+The HITs for treatments of the same experiment always involved the same
+test tasks (the last five tasks in the HIT),
+the results of which served as the dependent variable.
 
+All HITs were presented as a series of slides.  The first 
+slide consisted of a brief set of instructions.  For HITs that included 
+framing, a framing statement was shown on a slide immediately after the 
+instructions (see Fig. S\ref{fig:hit_preamble}B and C).  
+Initial tasks, when included, followed next.  The initial tasks consisted of 
+a series of 5 slides, each containing an image-labeling task like the one 
+shown in 
+Fig.~S\ref{fig:hit_preamble}D.  Finally, for all HITs, five slides were shown
+containing test tasks, in the same format as the initial tasks.
+
+Workers were randomly assigned to the treatments, and 
+a given worker could only complete one HIT related to this study.  
+In \textit{intertask-food-culture}, the \textit{food} and \textit{culture}
+treatments were both divided into five sub-treatments, 
+in which the test tasks were permuted.  
+The permutations were obtained by rotating 
+the order shown in Fig.~\ref{fig:task1:test} by different amounts. 
+For example, rotating by one position involves moving the first image to the 
+second position, the second image to the third position, and so on, and 
+moving the last image to the first position.  
+The five different possible rotations were used for the five 
+sub-treatments.  This enabled us to study the effects on each image when
+it occurred in different positions relative to the initial tasks.
+
+\paragraph{Selection of images.} 
 
 The images used in the initial tasks for \textit{intertask-food-objects}  
 are shown in Figs.~S\ref{fig:task1:food} (\textit{food} treatment) and 
 S\ref{fig:task1:obj} (\textit{objects} treatment).
-We selected images for the initial tasks that show either food or objects, 
-according to the treatment in which they were used.  
 We took care to exclude objects from
-the food-images (except in some cases a dish supporting the food), and 
+the food-images (except for the dish supporting the food in some cases), and 
 to exclude food from the object-images.  The images used for the test tasks
 of \textit{intertask-food-objects} and \textit{frame-food-objects} are shown 
 in Fig.~S\ref{fig:task1:test}.
@@ -743,17 +772,18 @@ for \textit{intertask-food-culture} are shown in Figs.~S\ref{fig:task2:food}
 (\textit{culture} treatment).
 We selected the initial images for the treatments of this experiment to 
 respectively reflect depict food and culture.
-
 Naturally, since food is a very
 important aspect of culture, pictorial depictions of the two concepts 
 cannot be cleanly separated,
 and images depicting food inevitably also depict culture.
-The fact that the inital-task images for the food treatment of 
-\textit{intertask-food-culture} do also depict culture
-will only tend to make them more similar to those from the \textit{culture}
-treatment, which would tend to \textit{reduce} the severity of intertask 
-effects.  In any case, since we still found strong intertask effects, 
-the presence of culture in the food-related initial images of 
+However, the fact that the images for the initial tasks in the 
+\textit{food} treatment 
+of \textit{intertask-food-culture} also depict culture
+will only tend to make the \textit{food} and \textit{culture}
+treatments more similar. 
+This would tend to reduce the severity of intertask 
+effects, but we nevertheless still observed strong intertask effects.
+Thus, the presence of culture in the food-related initial images of 
 \textit{intertask-food-culture} does not seem to have been problematic.
 The images used in the test tasks of \textit{intertask-food-culture} and
 \textit{frame-food-culture} are shown in Fig.~S\ref{fig:task2:test}.
@@ -827,47 +857,62 @@ The images used in the test tasks of \textit{intertask-food-culture} and
 	\label{fig:task2:test}
 \end{figure}
 
+\begin{figure}
+	\begin{center}
+		\includegraphics{figs/task2-ingr.pdf}
+	\end{center}
+	\caption{
+		Images used in initial tasks for \textit{frame-food-culture} 
+		(both for the \textit{food} and \textit{culture} treatments).
+		The numbers show the order in which the images were presented to 
+		workers.
+	}
+	\label{fig:frame2:ingr}
+\end{figure}
+
+\paragraph{Framing.}
+We framed tasks by including a message, near the beginning of the HIT, that 
+suggested the purpose of the tasks.
+The precise language used is shown in 
+Table~S\ref{table:experiments}, and an example of a framing slide is shown in
+Fig.~S\ref{fig:hit_preamble}(B and C).  In \textit{frame-food-objects}
+and \textit{frame-food-culture}, the framing language was based on
+naming the (fictitious) entity running the study, for example
+``The Global Foundation for the Recognition of Cultures'',
+or ``Laboratory for the visual perception of Objects and Tools''.
+In \textit{echo-food-objects}, we stated the purpose explicitly 
+(``The purpose of this task is \dots''), and then required the worker to
+echo back the purpose of the task by selecting it from a combo box
+Fig.~S\ref{fig:hit_preamble}(C).  
+
+This \textit{echo-food-objects} treatment certainly produced the 
+strongest effect of the framing experiments, but it is difficult to say 
+whether that should be considered indicative of framing textit{per se}.  
+The explicitness of the statement would tend to make it more like an 
+instruction in its effect.  Perhaps more importantly, requiring the worker
+to re-iterate the framing statement by means of a combo-box emphasizes 
+the framing to a greater degree than the instructions, which would probably
+tend to give the impression that the framing statement is intended as an
+instruction to be acted upon.  Framing or not, the fact that initial tasks
+can produce an effect that is on par with that of \textit{echo-food-objects}
+shows just how strong intertask effects are. 
+
+In \textit{frame-food-objects} and \textit{echo-food-objects}, we did not
+include any initial tasks, meaning that the test tasks followed the framing
+slide immediately.  One could argue that a better comparison would be achieved
+including initial tasks even for framing experiments (but keeping the
+initial tasks constant while varying the framing language), since the worker
+would be ``warmed up'' before performing the test tasks, as is the case for
+the experiments investigating the effect of initial tasks. 
+We therefore adopted this approach in the experiment 
+\textit{frame-food-culture}, in which workers performed the same 
+initial tasks containing images that depicted food in both the \textit{food}
+and \textit{culture} treatments.  It would seem that the framing effect in 
+\textit{frame-food-culture} was reduced by the initial tasks, possibly because
+intertask effects tend to override framing. Further experimentation 
+would be necessary to be sure, but this was not the purpose of our study.
+
 \subsection*{Testing for intertask and framing effects using $\chi^2$}
-To test whether intertask and framing effects induced statistically 
-significant changes in word frequencies, we assembled a contingency table
-for each experiment, containing the frequencies of words in each treatment.  
-Any words that appeared less than ten times for
-an experiment (i.e. appearing less than five times averaged over each 
-treatment)
-were lumped together into a separate `OTHER' category, to ensure validity
-of the test.  The degrees of freedom, test statistic, and $p$-values were
-then calculated according to Pearson's $\chi^2$ test, using 
-Yate's correction.  Results are tabulated in Table~S\ref{table:chi2}.
-With the exception of \textit{frame-food-culture}, all experiments showed s
-ignificant changes in word-frequencies in response
-to the task or framing exposures, at $\alpha=0.05$, leading us to 
-reject the null hypothesis that the priming exposures had no effect.
-
-The use of Pearson's $\chi^2$ test has been criticized in linguistic 
-applications, due to the finding that many corpuses are not themselves
-homogeneous \cite{kilgarriff1996comparing}.  
-This results from the fact that corpuses are made of many
-distinct texts, together with the fact that words tend to come in bursts.
-When a rare word is encountered in a given text, it is much more likely
-to be encountered again in the same text, which making the word's frequency
-within the text far from the average.  As a result,
-if a corpus is randomly split, putting half of the texts in one set, 
-and half in another, there can be a significant non-homogeneity between the 
-two halves, when tested using Pearson's $\chi^2$ test.  Thus, it has 
-been argued that finding two
-corpuses to be different according to a $\chi^2$ test might simply be an 
-artifact of the corpus' own inhomogeneity.
-
-This concern does not apply to our case, because the ``texts'' are 
-individual responses from workers, which will not, in general, be subject to 
-the burstiness phenomenon.  Nevertheless, to test this, 
-we randomly divided the workers 
-from each experimental treatment into two sets, and tested the homogeneity 
-between these sets.  Results are tabulated in Table~S\ref{table:chi2_within}, 
-and show that treatments 
-\textit{are} homogeneous.  Thus, the lack of homogeneity \textit{between} 
-the treatments of given experiments can be attributed to the framing / 
-intertask effects.
 
 \begin{table}
 \centering
@@ -900,24 +945,35 @@ Experiment & Treatment & Degrees of freedom & $\chi^2$ & $p$-value\\
 \noalign{\smallskip}
 \multirow{2}{*}{\textit{intertask-food-objects}} & \textit{food} & 65 & 39.0 & $1.0$\\
  & \textit{objects} & 65 & 53.2 & $0.85$\\
+
 \noalign{\smallskip}
+\hdashline
 \noalign{\smallskip}
+
 \multirow{2}{*}{\textit{frame-food-objects}} & \textit{food} & 67 & 41.3 & $0.99$\\
  & \textit{objects} & 62 & 66.9 & $0.31$\\
+
 \noalign{\smallskip}
+\hdashline
 \noalign{\smallskip}
+
 \multirow{2}{*}{\textit{echo-food-objects}} & \textit{food} & 66 & 40.9 & $0.99$\\
  & \textit{objects} & 66 & 35.6 & $1.0$\\
+
 \noalign{\smallskip}
+\hdashline
 \noalign{\smallskip}
+
 \multirow{2}{*}{\textit{intertask-food-culture}} & \textit{food} & 62 & 65.9 & $0.34$\\
  & \textit{culture} & 68 & 57.2 & $0.82$\\
+
 \noalign{\smallskip}
+\hdashline
 \noalign{\smallskip}
+
 \multirow{2}{*}{\textit{frame-food-culture}} & \textit{food} & 57 & 49.6 & $0.75$\\
  & \textit{culture} & 64 & 55.1 & $0.78$\\
-\noalign{\smallskip}
-\noalign{\smallskip}
+
 \bottomrule
 \end{tabular}
 \caption{
@@ -928,20 +984,63 @@ Experiment & Treatment & Degrees of freedom & $\chi^2$ & $p$-value\\
 \label{table:chi2_within}
 \end{table}
 
-\subsection*{Measuring intertask and framing effects.}
+To test whether intertask and framing effects induced statistically 
+significant changes in word frequencies, we assembled a contingency table
+for each experiment, containing the frequencies of words in each treatment.  
+Any words appearing less than ten times for
+an experiment (i.e. one whose expected frequency would be less than five in a 
+given cell of the contingency table)
+were lumped together into a separate `OTHER' category, to ensure validity
+of the test.  The degrees of freedom, test statistic, and $p$-values were
+then calculated according to Pearson's $\chi^2$ test, using 
+Yate's correction.  Results are tabulated in Table~S\ref{table:chi2}.
+With the exception of \textit{frame-food-culture}, all experiments showed 
+significant changes in word-frequencies in response
+to the task or framing exposures, at $\alpha=0.05$, leading us to 
+reject the null hypothesis that the priming exposures had no effect.
+
+The use of Pearson's $\chi^2$ test has been criticized in linguistic 
+applications, due to the finding that many corpera are not themselves
+homogeneous \cite{kilgarriff1996comparing}.  
+This results from the fact that corpera are made of many
+distinct texts, together with the fact that words tend to come in bursts.
+When a rare word is encountered in a given text, it is much more likely
+to be encountered again in the same text. This means that
+frequencies within given texts are often far from the average, causing 
+corpera to be heterogeneous.
+As a result, if a corpus is randomly split, putting half of the texts in one 
+set, and half in another, there can be a significant non-homogeneity between 
+the halves (when tested using Pearson's $\chi^2$ test).  Thus, finding two
+corpera to be different according to a $\chi^2$ test might not 
+indicate that they are meaningfully different.
+
+This concern does not apply to our case, because the ``texts'' are 
+individual responses from workers, which will not, in general, be subject to 
+the ``burstiness'' phenomenon.  Nevertheless, to test this, we randomly 
+divided the workers from each experimental treatment into two sets, and 
+tested the homogeneity 
+between these sets.  Results are tabulated in Table~S\ref{table:chi2_within}, 
+and show that treatments 
+\textit{are} homogeneous.  Thus, the lack of homogeneity \textit{between} 
+the treatments of given experiments can be rightly attributed to the 
+framing / intertask effects.
+
+\subsection*{Measuring the extent of intertask and framing effects}
 
 \paragraph{Comparing $\theta$ and $\chi^2$.}
 The following is an illustrative example to show why it is important to 
-have a measure of effect size, like $\theta$, in addition to effect 
-significance, like $\chi^2$.
+have a measure of effect size, like $\theta$, in addition to a test of the 
+null hypothesis like $\chi^2$.
 Suppose that we have a very slightly unfairly weighted coin, which turns
-up heads ($x=\mathbf{H}$) more often than expected by one part in one hundred:
-$\Pr\{x=\mathbf{H}\} = 0.501$. Such a coin would be fine for many 
-practical purposes, like deciding who buys lunch.  We could
-perform a $\chi^2$ test to determine if the coin is biased, by flipping 
-it 100 million times, while doing the same with a coin we know is fair.
+up heads ($X=\mathbf{H}$) more often than expected by one part in one hundred:
+$\Pr\{X=\mathbf{H}\} = 0.501$. Such a coin is only mildly biased, and would 
+be fine for many purposes.  If we did not know that the coin was
+biased, we could determine whether it was biased by flipping the coin in 
+question, along with a coin we know to be fair, many times 
+(say 100 million times), and then using a $\chi^2$ test to decide whether 
+the two coins have the same probability of turning up heads.
 Simulating this with a random number generator yields the results shown
-in Table~S\ref{table:coin}, and results from a $\chi^2$ test of the 
+in Table~S\ref{table:coin}.  Results from a $\chi^2$ test of the
 hypothesis that the two coins have the same probability of turning up heads 
 is shown in Table~S\ref{table:coin_stats}.
 
@@ -961,7 +1060,7 @@ total & 100103398 & 99896602 & $2\times 10^8$ \\
 \end{tabular}
 \caption{
 	Simulated counts of heads ($N_\mathbf{H}$) and tails ($N_\mathbf{T}$)
-	occurences, for a fair coin, and a coin biased to have a probability
+	occurrences, for a fair coin, and a coin biased to have a probability
 	of turning up heads of 0.501.
 }
 \label{table:coin}
@@ -987,8 +1086,8 @@ total & 100103398 & 99896602 & $2\times 10^8$ \\
 \end{table}
 
 Even though the $\chi^2$ test shows, with tremendous statistical 
-significance, that the unfair coin is indeed unfair, the actual extent
-of bias is small, 
+significance, that the unfair coin is indeed unfair, we know that actual 
+extent of bias is small, 
 $\theta = \frac{1}{2}\left( |0.501 - 0.499| + |0.499 - 0.501| \right) = 0.002$.
 This demonstrates how a sufficiently large sample size will lead to the 
 detection an arbitrarily 
@@ -998,16 +1097,16 @@ we rely on a measure of effect size, which is in this case a measure
 of statistical divergence, $\theta$.
 
 \paragraph{Statistical approaches to measuring bias.}
-Recall that in Eq.~\ref{eq:theta} in the main text, we defined the
-extent of bias that exists between two groups of workers to be $\theta$:
-$$
+Recall that Eq.~\ref{eq:theta} in the main text defined the
+extent of bias between the microtask responses from two groups
+of workers to be $\theta$ (reproduced here):
+\begin{equation}
 	\theta = \frac{1}{2}\sum_{x \in X} \left| p_0(x) - p_1(x) \right|,
-$$
-where $p_0(x)$ and $p_1(x)$ represent the probability mass functions
-for responses from two differently treated populations of workers.  
-Let us denote these two populations by $P_0$ and $P_1$.
-As mentioned, this is a measure of the divergence between $p_0$ and $p_1$ 
-which is called either the \textit{total variation} or the 
+\end{equation}
+where $p_0(x)$ and $p_1(x)$ represent the probability that a worker from
+treatment 1 (respectively 2) produces response $x$, from a set of possible
+responses $X$.  As defined, $\theta$ corresponds to a measure of divergence 
+between $p_0$ and $p_1$, called the \textit{total variation distance} or the
 \textit{L1-distance}.
 
 Measuring the \textit{L1-distance} between two probability distributions,
@@ -1015,24 +1114,32 @@ given only samples, is difficult.  The na\"ive approach is to take
 the maximum likelihood estimate of $p(x)$, which sets it equal to the 
 frequency with which the response $x$ has been observed, 
 $\hat{p}(x) = \frac{N_x}{N}$, and then estimate $\theta$ 
-using these frequencies: 
+using these frequencies\cite{batu2013testing}: 
 $\hat{\theta} = \sum_{x \in X}|\hat{p}_1(x) - \hat{p}_2(x)|$.  
-However, this method tends to drastically overestimate $\theta$.
-Recently progress has been made on this problem, and two algorithms have 
-been proposed to estimate the L1-distance between distributions
-given only samples.  \td{cite these} But these methods provide only asymptotic guarantees
-which cannot be directly applied to our case.  However, machine learning
-approaches provide a general alternative that we describe in the next 
-section.
+However, this method tends to drastically overestimate $\theta$
+\cite{val-thesis}.
+Recently there has been theoretical progress on this problem.
+An estimator of L1-distance, and a tests of whether the L1-distance is
+greater than a specified threshold, have been proposed 
+\cite{val-thesis,batu2013testing,chan2014optimal}.  
+These methods have excellent theoretical convergence guarantees, but
+cannot easily be used to establish estimates with confidence intervals or 
+perform hypothesis tests for a given fixed sample size.  
+We therefore turn to an alternative approach using machine learning. 
+While this method yields an estimator that converges more slowly,
+it is straightforward to establish confidence intervals for estimates and 
+use the estimator in hypothesis tests.
 
 \paragraph{The relationship of bias and classifier accuracy.}
 We will now show that, any classifier algorithm, $\mathcal{A}$, that
 takes the response, $x$, of a worker, and guesses the population to which
 the worker belongs ($P_0$ or $P_1$), will do so with an accuracy, $\eta$,
-that is bounded according to Eq.~\ref{l1}, which is reproduced here:
-$$
+that is bounded according to Eq.~\ref{l1} from the main text 
+(reproduced here):
+\begin{equation}
 	\theta \geq 2\eta - 1.
-$$
+	\label{eq:sup:l1}
+\end{equation}
 
 To do so, we will first formalize $\eta$ by defining a 
 \textit{validation test}.  In a validation test, a uniform random bit 
@@ -1046,10 +1153,10 @@ $b=z$ and zero otherwise.
 
 We then define the accuracy of classifier $\mathcal{A}$ to be $\eta$ according
 to:
-$$
+\begin{equation}
 \eta = \mathrm{E\{V(P_0, P_1, \mathcal{A})\}} 
 	= \mathrm{Pr}\{V(P_0, P_1, \mathcal{A})=1\}.
-$$
+\end{equation}
 
 To develop the relationship between $\eta$ and $\theta$, let us consider
 the accuracy $\eta^*$ of the best possible classifier $\mathcal{A}^*$.
@@ -1067,24 +1174,28 @@ Then, given some $x'$ has been chosen during a
 validation test, the optimal classifier must guess that 
 $z = \arg\!\max_{z'}(p_{z'}(x)) = 1$.
 The probability that the classifier guesses correctly, given a validation
-test in which the resonse $x$ was chosen, is therefore:
+test in which the response $x$ was chosen, is therefore:
 \begin{align}
+	\begin{split}
 	\mathrm{Pr}\{V = 1 | x' = x \} 
 		&= \mathrm{Pr}\{\mathcal{A^*}(x) = z | x' = x \} \\
 		&= \mathrm{Pr}\{z = 1 | x' = x \}  \\
 		&= \frac{\mathrm{Pr}\{z = 1 , x' = x\}}
 			{ \mathrm{Pr}\{z=0 , x'=x\} + \mathrm{Pr}\{z=1 , x'=x\}} \\
 		&= \frac{p_1(x)}{p_0(x) + p_1(x)}.
+	\end{split}
 \end{align}
 And now, with full generally,
 \begin{align}
+	\begin{split}
 	\mathrm{Pr}\{V=1 | x' = x \} 
 		&= \mathrm{Pr}\{\mathcal{A^*}(x) = z | x' = x \} \\
 		&= \mathrm{Pr}\{z = \arg\!\max_{z'}\big(p_{z'}(x)\big)| x' = x \}  \\
 		&= \frac{\max\big( p_0(x),p_1(x) \big)}
 		{ p_0(x) + p_1(x) }.
+	\end{split}
 \end{align}
-We can rewrite:
+Note that we can rewrite $\max\big(p_0(x),p_1(x)\big)$:
 \begin{align}
 	\max\big(p_0(x),p_1(x)\big) = \frac{1}{2}
 		\big(
@@ -1099,6 +1210,7 @@ so,
 Then the overall accuracy that probability that $\mathcal{A^*}$ guesses correctly in 
 any validation test is:
 \begin{align}
+	\begin{split}
 	\eta^* &= \mathrm{Pr}\{V=1\} \\
 		&=\sum_{x\in X} \mathrm{Pr}\{V = 1 | x' = x \} \mathrm{Pr}\{x' = x\}\\
 		&= \sum_{x\in X} \left(
@@ -1117,6 +1229,7 @@ any validation test is:
 		&= \frac{1}{2} \left( \frac{1}{2}(1 + 1) + \theta \right)\\
 		&= \frac{1 + \theta}{2}\\
 		\implies \theta &= 2\eta^* - 1.
+	\end{split}
 \end{align}
 By definition, no classifier can be more accurate than $\mathcal{A^*}$, so
 for every $\mathcal{A}$
@@ -1125,152 +1238,76 @@ for every $\mathcal{A}$
 \end{align}
 
 \paragraph{Using cross-validation accuracy to lower-bound bias.}
-	In order for Eq.~\ref{l1} to be applicable, it is necessary to obtain
-	an unbiased estimate of a classifier's accuracy.  One well-known
-	pitfall in measuring classifier accuracy is to underestimate it due to 
-	over-fitting to the data used.  As an example, if one were to try 
-	a large number of classifiers, eventually one would find one that
-	classifies the data perfectly, even though it might non generalize to
-	new data.
+	In order for Eq.~\ref{eq:sup:l1} to be applicable, it is necessary to 
+	obtain an unbiased estimate of a classifier's accuracy.  To do so it is
+	essential to test the classifier on data that were not used to build 
+	the classifier.  Generally, a portion of the data is used to test
+	optimize preprocessing, perform feature selection, and optimize 
+	classifier hyper-parameters, while keeping another portion of the data
+	set aside for validation.
 
-	It is customary to use part of a data set to optimize hyperparameters of
-	a model, and then test the model on as-yet unseen data.  In our case,
-	don't have enough samples in each treatment to do this.  Instead, for 
-	this reason, we make principled decisions for all of the options used
-	in our classifier, and then test it's accuracy using cross validation,
-	with no optimization performed on the data.  It was crucial for 
-	the statistical validity of our approach that we test our classifier on 
-	each datum only once, and report these results without any optimizations
-	of the classifier.
-
-	In performing the classification we had various options, and since we
-	could not optimize these choices, we made principled decisions based on
-	prior knowledge from text classification applications.  We describe the
-	options we faced and the choices we made below.
-
-	\textit{Spelling correction.}  Because we used free-text
-	entry for the labels, there was bound to be many spelling mistakes.
-	This would tend to reduce the accuracy of a classifier, because the 
-	entries ``bread'' and ``braed'' would be regarded as completely different
-	features, even though they clearly correspond to the same 
-	\textit{intended word}.  While no algorithm can determine a worker's 
-	intentions, it is possible to check words against a corpus, and, in the
-	case of a misspelled word, look for plausible corrections based on 
-	edit distance.
-
-	\textit{Lemmatization.}  In some cases it is helpful to simplify words 
-	before providing them to the classifier.  For example, the words 
-	``berries'' and ``berry'' only differ in number, but would normally be
-	treated as completely different features.  Lemmatization ensures that
-	nouns are in their singular form, which helps to eliminate variations in
-	labels that increase sparsity without conveying discriminative 
-	information.
-
-	\textit{Removal of stop-words.}  Certain very common words such as `the',
-	``to'', and ``it'' are extremely common but don't help discriminate a 
-	worker's exposure.  Removing these words is a common practice because
-	they otherwise introduce noise into the classifier learning process.
-
-	\textit{Splitting multiple words.}  Although workers were 
-	instructed to put one word per text input, many put multiple words.
-	Theoretically the original multi-word entry might bear additional 
-	information that could be useful in discerning a worker's exposure. 
-	In practice, it would be necessary for that word combination to recur,
-	which is unlikely.  Therefore we chose to split multi-word entries,
-	using the individual words as features.  This meant that the outputs of
-	some workers generated more features than those of others.
-
-	\textit{Preserving the location of labels.}  When workers completed image
-	labeling tasks, they had to fill five text inputs, which were stacked
-	vertically.  Presumably, they began with the top input and proceeded 
-	downwards.  It seems likely that exposure effects might influence the
-	\textit{order} in which workers apply labels, so when processing the 
-	labels we prepended an integer to indicate into which text input the 
-	label been input.  This meant that the classifier could distinguish
-	``bread'' entered into the first text input from ``bread'' entered into
-	the second.  A drawback is that this increases sparsity, preventing the
-	classifier from accounting for the fact that different though they are,
-	these entries should be treated similarly.  For this reason, we also
-	provided features to the classifier which did not encode the particular
-	input that had been used.  Thus, two workers that entered ``bread''
-	into different inputs would generate both a feature in common indicating
-	the use of the word ``bread'', as well as distinct features, indicating
-	entry of the word ``bread'' \textit{in a particular input}.
-
-	\textit{Preserving the connection between tasks and labels.}  In many
-	cases a particular label would appear in many tasks.  For example, the
-	word ``food'' appears in all test tasks.  It stands to reason that
-	exposure effects play out differently for different tasks, and that
-	the attribution of a particular label during one task provides different
-	information from the attribution of the same label during a different 
-	task.  So, as we did in the case of input location, we prepended labels
-	with the identity of the task in which they were added, so that the 
-	two otherwise identical labels added for different tasks were treated
-	by the classifier as unique features.  Unlike in the case of input 
-	position attribution, we didn't include raw labels unadorned with 
-	the task number.  Our rationale for this is that the task defines the 
-	context in which a label is applied, and so the elicitation of a label 
-	during one task represents a distinct output from the elicitation of the 
-	same label during a different task.  
+	In our case, samples are expensive, and must be divided between 18
+	experimental treatments, so we sought to keep as many samples available 
+	for validation
+	as possible.  For this reason, we made principled decisions 
+	between alternative preprocessing options and features, 
+	rather than spending samples to empirically test these options.  Making
+	suboptimal choices can only moderate the observed values 
+	of $\theta$, making our experiments more conservative. 
+	However, having more samples for validation tests enables us to estimate
+	those values more precisely.  
+	Using a Na\"ive Bayes classifier, which does not require hyper-parameters 
+	optimization, meant that we also did not need to spend samples on 
+	optimizing hyper-parameters.  
+	
+	Thus, no samples at all were used for optimizations.  We performed 
+	leave-one-out validation, which involves training a classifier using 
+	all but one sample, and then having the classifier guess the class
+	(in our case, the priming exposure) of the left-out sample.  This is 
+	repeated $n$ times, where $n$ is the pooled number of samples in both
+	classes, each time leaving out a different sample.
 
 \paragraph{Selection of the na\"ive Bayes classifier.}
-A great deal of work has been done in the application of classifiers to
-text documents, which provides the background for our choice of classifier.
-The Support Vector Machine (SVM) approach is known to perform well, better in 
-general than na\"ive Bayes.  However, three considerations drove us to use
-a na\"ive Bayes classifier in favor of SVM.
-
-First, we used 119 examples (workers) per treatment, but the number of 
-features
-for each worker (i.e. the number of distinct labels, or modifications 
-thereof produced in preprocessing), was generally in the thousands.  
-This tends to
-be problematic for many classifier algorithms, including SVM, because it
-leads to very high variance models, which manifests as overfitting and poor
-performance.  To deal with this, some approach to culling features is 
-generally used, but this raises the issue of how to decide the culling in 
-a principled manner, generally adding further hyperparameters which could
-be optimized.  However, one of the strengths of the na\"ive Bayes classifier
-is that it's performance is not generally degraded from the inclusion of 
-large numbers of features, even when the number of examples is comparatively
-small.  We expected this feature of the na\"ive Bayes classifier to be 
-advantageous in our case.
+We chose to use the na\"ive Bayes classifier as our basis for measuring 
+bias for three reasons.  First, we had 119 examples (workers) per class 
+(treatment), but thousands of distinct features 
+(i.e. the number of distinct words occuring in an experiment).  
+Having many more features than examples is problematic for many classifiers
+because, a large number of features leads to a high-variance, over-fit model
+resulting in poor performance.  But one of the strengths of the na\"ive 
+Bayes classifier is that it performs well even when the number of features
+exceeds the number of examples\cite{bickel2004, hastie2009elements}
 
 Second, the standard implementation of the na\"ive Bayes classifier has no 
-hyperparameters to optimize.  This allows us to forgo the common practice 
-of holding out a test set, and instead use cross-validation as a method to
-estimate the true classification error, \textit{since we did not perform
-any kind of model selection or optimization whatsoever using our data}.
-This point is crucial, because if we did optimize our classifier during 
-cross-validation, then the validation error would no longer provide an 
-unbiased estimate of the true classification error, but would instead lead
-to us over-reporting exposure effects.
+hyper-parameters to optimize. This meant that we did not need to use 
+samples for hyper-parameters optimization, which would reduce the number
+of samples available for validation tests to estimate $\theta$.
 
 Third, the na\"ive Bayes algorithm is based on an assumption that the 
-probability of observing one feature is independent from the observation
-of any other, \textit{when conditioned on the class}.  This
-\textit{conditional independence} assumption is generally made for
+observation one feature is independent from the observation of any 
+other, once we have conditioned on the class under observation 
+\cite{bishop2006} (i.e. the priming treatment).  This
+conditional independence assumption is made for
 pragmatic rather than theoretical reasons, and is rarely satisfied.  However,
-if it \textit{is} satisfied, then the na\"ive Bayes classifier is optimal.
-In our case, conditional independence means that, provided we know the 
-exposure of a worker, knowing one label they provided to an image does
-not in any way help us guess any other label for that image.  In most
-text documents, the existence of topics and language structure certainly
-violates the conditional independence of words.  But in our case, such 
-effects are less likely to carry from one text input to the next, and in the
-small space provided by five inputs, any overarching topics are likely to
-be in relation to the image itself, upon which we are conditioning.  In other
-words, we believe that, in our setup, conditional independence is better 
-satisfied than in most text classification contexts.  That being the case,
-one would not expect much improvement in using a more sophisticated algorithm,
-such as SVM.
+if it \textit{is} satisfied, then the na\"ive Bayes classifier is 
+optimal \cite{Zhang2004562}.  In most text documents, 
+the existence of long-range dependencies in language 
+violates the conditional independence of words: when a rare word is mentioned,
+it is more likely to be mentioned again, and topics introduced early in a
+text are likely to be revisited.
+But in our case, there is little opportunity for such effects.  Workers 
+generally do not use the same word in multiple labels for the same image. 
+Any overarching ``topics'' within the labels that workers use will tend to 
+relate to the test images, which are held in common.
+Therefore, in our setup, conditional independence is likely to be 
+a realistic approximation, and so the na\"ive Bayes classifier is likely to
+be closer to optimal than in other text classification applications.
 
 \paragraph{Comparison to other classifiers.} 
 
 \begin{figure}
 	\centering
 	\includegraphics[scale=0.75]{figs/theta_sup.pdf}
-	\label{fig:theta_sup}
 	\caption{
 		Figure S2: Bias induced by exposure to initial tasks and frames.
 		Bias is defined to be the difference in the probability 
@@ -1287,6 +1324,7 @@ such as SVM.
 		D,J) lemmatization; E,K) splitting of multiple-word labels; 
 		F,L) distinguishing identical labels entered in different form inputs.
 	}
+	\label{fig:theta_sup}
 \end{figure}
 The inequality in Eq.~\ref{l1}
 asserts that a classifiers performance in predicting class membership
@@ -1294,45 +1332,44 @@ bounds the L1-distance between the distributions of features for the classes.
 This bound is tight for the optimal classifier, and in general, the slack
 depends on how the classifier is constructed.
 
-Therefore there may exist a classifier that is 
-significantly better than the one used to generate our results.  Even before
-committing to a particular classifier algorithm, various decisions about
-preprocessing need to be made.  For example, we chose to remove stopwords,
-lemmatize, split multi-word labels, distinguish the input used to enter 
-labels, and correct spelling.  All of these decisions affect the classifier
-performance.  The particular classifier algorithm chosen also has a strong 
-effect.
+Although we believe the na\"ive Bayes classifier is nearly optimal in this
+setting, some other classifier may exist that is significantly better than 
+the one used to generate our results.  Furthermore, various decisions about
+preprocessing and feature representation must inevitably be made also
+impact the classifier performance.  
+For example, we chose to correct spelling, remove stop-words,
+lemmatize words, and to distinguish which text-input was used to enter a 
+given label.  All of these decisions have some effect on classifier 
+performance.
 
-Since we did not have enough data to create a separate test set, we could not
-optimize these decisions.  Doing so would lead to the inflation of the 
-performance, which could then only be estimated using an independent test set.
-Instead, we made principled decisions as described above.
+We chose not to optimize these decisions, since it would require the
+use of samples (worker-responses), which could then not be used in 
+cross-validation to measure $\theta$.  Nevertheless, it is
+appropriate to look at what affect these decisions had, \textit{post-hoc}.  
+We reproduce the plot from Fig.~\ref{fig:theta}A in the main text, 
+this time using different combinations of preprocessing options,
+and using both the na\"ive Bayes and an SVM classifier, in 
+Fig.~S\ref{fig:theta_sup}.
 
-Although we cannot optimize these decisions, it is appropriate to look at
-what affect these decisions had, post-hoc.  We reproduce the plot shown in 
-Fig.~\ref{fig:theta}A using different combinations of preprocessing options,
-and using both the na\"ive Bayes and an SVM classifier.
+Unlike the na\"ive Bayes classifier, when using SVM it is necessary to tune 
+the cost and gamma hyper-parameters of the SVM classifier, as well as choose 
+a kernel.  We used simulated annealing to optimize the cost and gamma settings
+data from \textit{intertask-food-culture}.  For this reason, the estimate
+of $\theta$ estimate for this experiment in 
+Fig.~S\ref{fig:theta_sup} (G to J) is inflated. 
 
-Unlike the na\"ive Bayes classifier, it is necessary to tune the cost and 
-gamma hyperparameters of the SVM classifier, as well as choose a kernel.
-We used simulated annealing to optimize the cost and gamma settings in the
-classification of $task2:food$ vs $task2:cult$.  For this reason, we expect
-the bar for $task2$ in Fig.~S8G-J is likely to be an overestimate due to
-overfitting on those data.
-
-These plots show that the result shown in Fig.~\ref{fig:theta}A is 
-representative, and supports the validity of the lower bounds on the 
-exposures exposure effects presented in the main text, in terms of induced 
-L1-distance.
+These plots suggest that the values of $\theta$ obtained using the 
+na\"ive Bayes classifier and our particular choice of preprocessing steps, 
+as shown in in Fig.~\ref{fig:theta} of the main text, are representative.
 
 \paragraph{Statistical significance and confidence intervals for $\theta$.}
 The measurements of $\theta$ were based on the number of correct 
-classifications during validation tests.  We used leave-one-out validation,
-and count the number of correct classifications, $X$, which has a binomial
-distribution.  We take the null hypothesis that the classifier performs
+classifications during validation tests.  The number of correct 
+classifications, $X$, has a binomial distribution.  
+We take the null hypothesis that the classifier performs
 no better than chance, $X \sim \mathrm{Bin}(N,0.5)$, where $N$ is the number 
 of workers in both treatments of an experiment.  Then, the critical number 
-of correct classifications, $x^*$, in for a one-tailed hypothesis test with
+of correct classifications, $x^*$, for a one-tailed hypothesis test with
 significance $\alpha$ is:
 \begin{align}
 	&x^* = \sup \left\{
@@ -1341,16 +1378,19 @@ significance $\alpha$ is:
 	\text{where}\quad &\mathrm{Pr}\{ \mathrm{Bin}(N,p) \geq x \} = 
 		\sum_{x'=x}^{N} \binom{N}{x'}p^{x'}(1-p)^{(N-x')}
 \end{align}
-For the treatments in \textit{intertask-food-objects}, 5 different 
-permutations of each treatment was tested, and a different classifier was 
-built for each permutation.  For the sake of estimating the accuracy of 
-these classifiers, we assume that they have the same accuracy, which means
-that \textit{intertask-food-objects} has a larger number of validation tests
-(larger $N$), and for this hypothesis test we assume that $X$ has a normal 
-distribution, with $\mu=N/2$ and $\sigma = \frac{1}{2}\sqrt{N}$.
+For the treatments in \textit{intertask-food-objects}, five different 
+permutations of each treatment were tested, and a different classifier was 
+built for each permutation.  For the sake of estimating accuracy, we assume
+that the classifiers under different permutations have the same accuracy,
+and so we pool their results.  This means that 
+\textit{intertask-food-objects} has five times as many validation tests
+(larger $N$) compared to the other experiments.  We therefore assume 
+that $X$ has a normal distribution for the classification of workers from
+\textit{intertask-food-objects}, with $\mu=N/2$ and 
+$\sigma = \frac{1}{2}\sqrt{N}$.
 
-To determining the confidence intervals for measured $\theta$ values we 
-use the exact Clopper-Pearson method.  
+To determine the confidence intervals for measured $\theta$ values we 
+use the exact Clopper-Pearson method \cite{clopper1934use}.  
 Based on the observed number of successes, $X$, we calculate 
 $\eta^*_\mathrm{low}$ and $\eta^*_\mathrm{high}$ from:
 \begin{align}
@@ -1373,8 +1413,8 @@ transform them into equivalent values of
 $\theta$: $\theta^*_\mathrm{high} = 2\eta^*_\mathrm{high} - 1$ and 
 $\theta^*_\mathrm{low} = 2\eta^*_\mathrm{low} - 1$.
 The statistics collected for the measurement of $\theta$, corresponding to
-Fig.~\ref{fig:theta}A are tabulated in 
-table X.
+Figs.~\ref{fig:theta} (A and B) are tabulated in Tables~S\ref{table:theta} and
+S\ref{table:theta_pos} respectively.
 
 \begin{table}
 \begin{center}
@@ -1403,7 +1443,7 @@ table X.
 \caption{Statistics for the measurement of the extent of bias, $\theta$,
 	induced by intertask and framing effects in various experiments.
 	Number of validation tests, $N$; number of successful classifications, 
-	$X$; critical number of succesful classifications to reject the null 
+	$X$; critical number of successful classifications to reject the null 
 	hypotheses that the classifier does no better than chance 
 	(one-tailed test), $x^*$; 
 	lower bound estimate of bias based on observed number of successful
@@ -1411,12 +1451,12 @@ table X.
 	bound estimate of bias, $\theta^*_\mathrm{low}$; upper confidence 
 	interval for same, $\theta^*_\mathrm{high}$.  Hypothesis test and 
 	confidence intervals are based on a significance of $\alpha=0.05$.
-	Values for $\hat{\theta}$ in boldface are significantly greater than 0.
+	Values for $\hat{\theta}$ in boldface are significantly greater than zero.
 }
+\label{table:theta}
 \end{center}
 \end{table}
 
-The statistics for Fig.~\ref{fig:theta}B are shown in table X.
 
 \begin{table}
 \begin{center}
@@ -1454,14 +1494,9 @@ The statistics for Fig.~\ref{fig:theta}B are shown in table X.
 	bound estimate of bias, $\theta^*_\mathrm{low}$; upper confidence 
 	interval for same, $\theta^*_\mathrm{high}$.  Hypothesis test and 
 	confidence intervals are based on a significance of $\alpha=0.05$.
-	Values for $\hat{\theta}$ in boldface are significantly greater than 0.
+	Values for $\hat{\theta}$ in boldface are significantly greater than zero.
 }
-
-
-
-
-
-
+\label{table:theta_pos}
 \end{center}
 \end{table}
 
@@ -1483,20 +1518,19 @@ The statistics for Fig.~\ref{fig:theta}B are shown in table X.
 	correction algorithm described below.  
 	Next, words were lemmatized using the
 	wordnet lemmatizer \cite{miller1995wordnet,felbaum1998wordnet}.  
-	Common words such as ``the'', ``to'', or ``with'', were found using the
-	the NLTK's English stop-word list and removed \cite{loper2002nltk}.  
+	Common words such as ``the'', ``to'', or ``with'', were found using
+	NLTK's English stop-word list and removed \cite{loper2002nltk}.  
 
 	For the purpose of training and testing a na\"ive Bayes classifier, we 
 	performed an additional preprocessing step.  We tagged words with the
 	position in which they had been entered (i.e. which of the five text 
-	inputs in the task interface) as well as the test tasks in which the word 
-	had been provided.
+	inputs in the task interface, see Fig.~S\ref{fig:hit_preamble}) 
+	as well as the test tasks in which the word had been provided.
 	So, if the word ``wine'' was entered into the second text-input for 
 	the third test-task, after preprocessing, the feature ``3\_2\_wine'' would
 	appear.  Prepending the task number onto words was simply a means to 
-	retain correct attribution, which itself was essential since providing a
-	word during one task is not equivalent to providing the same word during 
-	another task.  
+	retain correct of words to images, since providing a word during one task 
+	is not equivalent to providing the same word during another task.  
 	
 	\paragraph{Spelling correction.}  
 	Spelling correction was performed using an algorithm that first detected
@@ -1531,9 +1565,8 @@ The statistics for Fig.~\ref{fig:theta}B are shown in table X.
 	a space incurred a penalty of 0.1.  Word-separation edits were more 
 	strongly penalized because it is often possible to split a series of 
 	letters into many short two- or three-letter words, which otherwise leads 
-	to many erroneous corrections.  We found that setting the penalty for
-	word splitting at 0.1 worked well by testing on words taken from
-	initial tasks.
+	to many erroneous corrections.  We found these penalties worked well when
+	testing on words taken from initial tasks.
 
 	After all of our analyses had been performed, we checked the accuracy of 
 	the spelling correction algorithm using three human coders.  The coders
@@ -1548,9 +1581,8 @@ The statistics for Fig.~\ref{fig:theta}B are shown in table X.
 	been corrected, as well as any corrections that appeared to be erroneous,
 	by indicating their own correction.
 
-	Based on this exercise, we found that, according to the human coders,
-	17\% of the words were misspelled, but that after applying the 
-	automated spelling correction, only 3.2\% of words were misspelled.
+	According to the human coders, before spelling correction, 17\% of words 
+	were misspelled, but only 3.2\% were mispelled after correction.
 
 	\paragraph{Crawling the world food section of allrecipes.com.}
 	The website allrecipes.com was accessed on 3-4 November 2014 using 
@@ -1565,7 +1597,8 @@ The statistics for Fig.~\ref{fig:theta}B are shown in table X.
 	used in spelling correction.
 	
 
-\subsection*{Most suppressed / activated terms}
+\subsection*{Analysis of worker vocabulary}
+\paragraph{Most suppressed and activated terms.}
 The words whose frequencies differed most between the treatments of given 
 experiments are shown in Table~S\ref{table:top-words}.  Note that 
 the word that was most suppressed in food-exposed treatments was always 
@@ -1686,10 +1719,10 @@ the word that was most suppressed in food-exposed treatments was always
 	\label{table:top-words}
 \end{table}
 
-\subsection*{Identification of food-related terms}
+\paragraph{Identification of food-related terms}
 The wordnet corpus is composed of synsets, which are particular senses 
 (meanings) and a set of word forms bearing that meaning. A given word form, 
-such as ``ring'' has multiple senses (``to ring a bell'', ``a wedding ring''), 
+such as ``ring'' has multiple senses (``to ring a bell'', ``a wedding ring''),
 and so can be part of many synsets.  Since the wordnet corpus was designed
 to carry semantic information, the synset is the basic organizing element
 of wordnet.
@@ -1835,7 +1868,7 @@ Table~S\ref{table:proportion-food}.
 \label{table:proportion-food}
 \end{table}
 
-\subsection*{Calculation of relative specificity}
+\paragraph{Calculation of relative specificity}
 In the main text we present results for the relative specificity of labels
 produced by two experimental treatments.  In performing this calculation,
 we used the wordnet corpus, which has a set of hypernym-hyponym relationships
