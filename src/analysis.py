@@ -1148,6 +1148,20 @@ def do_cross_val(simple_dataset):
 	return overall_accuracy
 
 
+def two_proportion_test(n1, n2, x1, x2):
+	'''
+		Produce a test statistic for the hypothesis that two binomial 
+		variables have the same probability of success.  The binomials are
+		approximated as normals, so a z-statistic is constructed
+	'''
+	n1, n2 = float(n1), float(n2)
+	p1, p2, p= (x1 / n1), (x2 / n2), (x1 + x2)/(n1 + n2)
+	A = p1 - p2
+	B = np.sqrt(p*(1-p)*(1/n1 + 1/n2))
+	z = A / B
+	p = norm.sf(z)
+
+	return z, p
 
 def theta_NB_significance(n,k_star):
 	significance = 0
