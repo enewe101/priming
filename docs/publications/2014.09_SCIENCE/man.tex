@@ -615,8 +615,9 @@ computation.
 \setcounter{table}{0}
 \setcounter{equation}{0}
 
-Microtask platforms are increasingly popular for the annotation of large
-datasets, and obtaining other judgments that require prior knowledge and 
+Microtask platforms are an increasingly popular way to solicit experimental
+participants, as well as to annotate large datasets and obtaining other 
+judgments that require prior knowledge and 
 hence are difficult to automate using only a computer.  Due to their 
 popularity, there is interest in understanding how various task design factors
 influence the reliabality of data obtained using microtask platforms.  
@@ -632,6 +633,29 @@ subsequent tasks.
 
 The work presented in the main text consisted of six experiments involving
 HITs (bundles of microtasks) performed on Amazon's Mechanical Turk platform.  
+The flow of events experienced by a worker when participating in this study 
+is depicted in Fig.~S\ref{fig:task_schematic}.  
+The steps depicted in an orange box are those
+in which the worker interacts with Amazon's Mechanical Turk interface, and 
+are the same for any microtask completed on that platform, and similar
+on other microtask platforms.  While the steps depicted in a black box 
+are specific to our study, the general setup, in which a bundle of tasks
+follows instructions, is typical.
+\begin{figure}
+	\begin{center}
+	\includegraphics[scale=0.8]{figs/task_schematic.pdf}
+	\caption{Flow of events as experienced by a worker participating in
+		our study.  Steps with a dash outlined are only performed by 
+		workers assigned to certain treatments 
+		(see Table~S\ref{table:experiments}).  Steps outlined in orange are
+		part of Amazon's Mechanical Turk interface, and are common to any 
+		microtask performed on that platform.  Steps outlined in black are
+		specific to our HIT.
+	}
+	\label{fig:task_schematic}
+	\end{center}
+\end{figure}
+
 Each experiment was divided into two treatments.  Treatments for a given 
 experiment differed with respect to a particular priming modality, which 
 served as the independent variable
@@ -1601,7 +1625,7 @@ on-par with echoed framing.
 	Next, words were lemmatized using the
 	wordnet lemmatizer \cite{miller1995wordnet,felbaum1998wordnet}.  
 	Common words such as ``the'', ``to'', or ``with'', were found using
-	NLTK's English stop word list and removed \cite{loper2002nltk}.  
+	NLTK's English stop word list \cite{loper2002nltk} and removed.
 
 	For the purpose of training and testing a na\"ive Bayes classifier, we 
 	performed an additional preprocessing step.  We tagged words with the
