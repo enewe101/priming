@@ -661,7 +661,7 @@ Experiment & \parbox[c]{3.8cm}{\centering{Priming modality}} & Treatment & Frame
 \multirow{2}{*}{\textit{intertask-food-objects}} 
 & \multirow{2}{*}{initial tasks} & \textit{food} & none 
 	& Fig.~S\ref{fig:task1:food} 
-	& \multirow{2}{*}{Fig.~S\ref{fig:task1:test}\textsuperscript{e}} \\
+	& \multirow{2}{*}{Fig.~S\ref{fig:task1:test}\textsuperscript{g}} \\
 & & \textit{objects} & none & Fig.~S\ref{fig:task1:obj} & \\
 
 \noalign{\smallskip}
@@ -682,10 +682,10 @@ Experiment & \parbox[c]{3.8cm}{\centering{Priming modality}} & Treatment & Frame
 
 \multirow{2}{*}{\textit{echo-food-objects}} 
 & \multirow{2}{*}{echoed framing} & \textit{food} 
-	& ``food''\textsuperscript{a}
+	& ``food''\textsuperscript{c}
 	& none & \multirow{2}{*}{Fig.~S\ref{fig:task1:test}} \\
 & & \textit{objects} 
-	& ``objects''\textsuperscript{b}
+	& ``objects''\textsuperscript{d}
 	& none & \\
 
 \noalign{\smallskip}
@@ -697,7 +697,7 @@ Experiment & \parbox[c]{3.8cm}{\centering{Priming modality}} & Treatment & Frame
 	& none
 	& Fig.~S\ref{fig:task2:food} 
 	& \multirow{2}{*}{Fig.~S\ref{fig:task2:test}} \\
-& & \textit{objects} 
+& & \textit{culture} 
 	& none & Fig.~S\ref{fig:task2:cult} & \\
 
 \noalign{\smallskip}
@@ -706,11 +706,11 @@ Experiment & \parbox[c]{3.8cm}{\centering{Priming modality}} & Treatment & Frame
 
 \multirow{2}{*}{\textit{frame-food-culture}} 
 & \multirow{2}{*}{framing} & \textit{food} 
-	& ``food''\textsuperscript{c}
+	& ``food''\textsuperscript{e}
 	& Fig.~S\ref{fig:frame2:ingr} 
 	& \multirow{2}{*}{Fig.~S\ref{fig:task2:test}} \\
-& & \textit{objects} 
-	& ``culture''\textsuperscript{d} 
+& & \textit{culture} 
+	& ``culture''\textsuperscript{f} 
 	& Fig.~S\ref{fig:frame2:ingr} & \\
 
 \bottomrule
@@ -728,7 +728,7 @@ Experiment & \parbox[c]{3.8cm}{\centering{Priming modality}} & Treatment & Frame
 	\newline\textsuperscript{c} ``The purpose of this study is to understand the visual perception of Food and Ingredients''
 	\newline\textsuperscript{d} ``The purpose of this study is to understand the visual perception of Objects and Tools''
 	\newline\textsuperscript{e} ``This research is proudly funded by The National 
-		Foundation for Nutrition Awareness''
+		Foundation for Nutritional Awareness''
 	\newline\textsuperscript{f} ``This research is proudly funded by The Global 
 		Foundation for the Recognition of Cultures''
 	\newline\textsuperscript{g} Both treatments were divided into five 
@@ -751,7 +751,7 @@ In \textit{intertask-food-culture}, the \textit{food} and \textit{culture}
 treatments were both divided into five sub-treatments, 
 in which the test tasks were permuted.  
 The permutations were obtained by rotating 
-the order shown in Fig.~\ref{fig:task1:test} by different amounts. 
+the order shown in Fig.~S\ref{fig:task1:test} by different amounts. 
 For example, rotating by one position involves moving the first image to the 
 second position, the second image to the third position, and so on, and 
 moving the last image to the first position.  
@@ -891,7 +891,7 @@ We framed tasks by including a message, near the beginning of the HIT, that
 suggested a particular purpose for the tasks.
 The precise language used is shown in 
 Table~S\ref{table:experiments}, and an example of a framing slide is shown in
-Fig.~S\ref{fig:hit_preamble}(B and C).  In \textit{frame-food-objects}
+Fig.~S\ref{fig:hit_preamble}B and C.  In \textit{frame-food-objects}
 and \textit{frame-food-culture}, the framing language was based on
 naming the (fictitious) entity running the study, for example
 ``The Global Foundation for the Recognition of Cultures'',
@@ -899,12 +899,12 @@ or ``Laboratory for the visual perception of Objects and Tools''.
 In \textit{echo-food-objects}, we stated the purpose explicitly 
 (``The purpose of this task is \dots''), and then required the worker to
 echo back the purpose of the task by selecting it from a combo box
-Fig.~S\ref{fig:hit_preamble}(C).
+Fig.~S\ref{fig:hit_preamble}C.
 
 In \textit{frame-food-objects} and \textit{echo-food-objects}, we did not
 include any initial tasks, meaning that the test tasks followed the framing
-slide immediately.  One could argue that a better comparison would be achieved
-including initial tasks even for framing experiments (but keeping the
+slide immediately.  One could argue that a fairer comparison would be achieved
+by including initial tasks even for framing experiments (but keeping the
 initial tasks constant while varying the framing language), since the worker
 would be ``warmed up'' before performing the test tasks, as is the case for
 the experiments investigating the effect of initial tasks. 
@@ -1027,7 +1027,7 @@ between these sets.  Results are tabulated in Table~S\ref{table:chi2_within},
 and show that treatments 
 \textit{are} homogeneous.  Thus, the lack of homogeneity \textit{between} 
 the treatments of given experiments can be rightly attributed to the 
-framing / intertask effects.
+framing and intertask effects.
 
 \subsection*{Measuring the extent of intertask and framing effects}
 
@@ -1123,15 +1123,15 @@ $\hat{\theta} = \sum_{x \in X}|\hat{p}_1(x) - \hat{p}_2(x)|$.
 However, this method tends to drastically overestimate $\theta$
 \cite{val-thesis}.
 Recently there has been theoretical progress on this problem.
-An estimator of L1-distance, and a tests of whether the L1-distance is
+An estimator of L1-distance, and tests of whether the L1-distance is
 greater than a specified threshold, have been proposed 
 \cite{val-thesis,batu2013testing,chan2014optimal}.  
 These methods have excellent theoretical convergence guarantees, but
 cannot easily be used to establish estimates with confidence intervals or 
-perform hypothesis tests for a given fixed sample size.  
+perform hypothesis tests for fixed sample size and significance level.  
 We therefore turn to an alternative approach using machine learning. 
 While this method yields an estimator that converges more slowly,
-it is straightforward to establish confidence intervals for estimates and 
+it is straightforward to establish confidence intervals and 
 use the estimator in hypothesis tests.
 
 \paragraph{The relationship of bias and classifier accuracy.}
@@ -1150,10 +1150,11 @@ To do so, we will first formalize $\eta$ by defining a
 $z\in\{0,1\}$ is sampled, and then, according to the value of $z$, the
 response of a worker, $x$, is sampled uniformly randomly from $P_z$.  
 The algorithm is provided
-with $x$ and yields a guess, $b=\mathcal{A}(x)$, as to whether the worker was 
+with $x$ and yields a \textit{guess}, $b=\mathcal{A}(x)$, as to whether the 
+worker was 
 from $P_0$ or $P_1$.  We shall denote such a validation test by 
 $V(P_0, P_1, \mathcal{A})$, and define the value of the test to be 1 if 
-$b=z$ and zero otherwise.  
+$b=z$ and 0 otherwise.  
 
 We then define the accuracy of classifier $\mathcal{A}$ to be $\eta$ according
 to:
@@ -1169,66 +1170,65 @@ if the responses from workers in $P_0$ and $P_1$ are distributed
 identically, then there is no hope of determining which population the worker 
 came from given only her response $x$.  But, assuming that responses are
 not distributed identically, then given some $x$, the best possible 
-classifier must always guess 1 whenever $p_1(x) > p_0(x)$ and otherwise 
-guess 0.
+classifier must always guess 1 whenever $p_1(x) > p_0(x)$ and guess 0 whenever
+$p_0(x) > p_1(x)$.
 
-Sacrificing, for a moment, some generality, let us assume that, for a given 
-$x$, $p_1(x) > p_0(x)$.  
-Then, given some $x'$ has been chosen during a 
-validation test, the optimal classifier must guess that 
-$z = \arg\!\max_{z'}(p_{z'}(x)) = 1$.
-The probability that the classifier guesses correctly, given a validation
-test in which the response $x$ was chosen, is therefore:
+Sacrificing, for a moment, some generality, let us assume that, for some give 
+$x'$, $p_1(x') > p_0(x')$.  
+When this $x'$ is encounterend in a validation test, the optimal classifier
+must guess $b = \arg\!\max_{z}(p_{z}(x'))$, which in this case is $b=1$.
+The probability that the classifier guesses correctly in this case is:
 \begin{align}
 	\begin{split}
-	\mathrm{Pr}\{V = 1 | x' = x \} 
-		&= \mathrm{Pr}\{\mathcal{A^*}(x) = z | x' = x \} \\
-		&= \mathrm{Pr}\{z = 1 | x' = x \}  \\
-		&= \frac{\mathrm{Pr}\{z = 1 , x' = x\}}
-			{ \mathrm{Pr}\{z=0 , x'=x\} + \mathrm{Pr}\{z=1 , x'=x\}} \\
-		&= \frac{p_1(x)}{p_0(x) + p_1(x)}.
+	\mathrm{Pr}\{V(P_0, P_1, \mathcal{A}^*) = 1 | x = x' \} 
+		&= \mathrm{Pr}\{z = \mathcal{A^*}(x) | x = x' \} \\
+		&= \mathrm{Pr}\{z = 1 | x = x' \}  \\
+		&= \frac{\mathrm{Pr}\{z = 1 , x = x'\}}
+			{ \mathrm{Pr}\{z=0 , x=x'\} + \mathrm{Pr}\{z=1 , x=x'\}} \\
+		&= \frac{p_1(x')}{p_0(x') + p_1(x')}.
 	\end{split}
 \end{align}
-And now, with full generally,
+And now, with full generally, for any $x'$, where $p_1(x')$ is not necessarily
+greater than $p_0(x')$:
 \begin{align}
 	\begin{split}
-	\mathrm{Pr}\{V=1 | x' = x \} 
-		&= \mathrm{Pr}\{\mathcal{A^*}(x) = z | x' = x \} \\
-		&= \mathrm{Pr}\{z = \arg\!\max_{z'}\big(p_{z'}(x)\big)| x' = x \}  \\
-		&= \frac{\max\big( p_0(x),p_1(x) \big)}
-		{ p_0(x) + p_1(x) }.
+		\mathrm{Pr}\{V(P_0,P_1,\mathcal{A}^*)=1 | x = x' \} 
+		&= \mathrm{Pr}\{z=\mathcal{A^*}(x)  | x' = x' \} \\
+		&= \mathrm{Pr}\{z = \arg\!\max_{z'}\big(p_{z'}(x)\big)| x = x' \}  \\
+		&= \frac{\max\big( p_0(x'),p_1(x') \big)}
+		{ p_0(x') + p_1(x') }.
 	\end{split}
 \end{align}
-Note that we can rewrite $\max\big(p_0(x),p_1(x)\big)$:
+Note that we can rewrite $\max\big(p_0(x'),p_1(x')\big)$:
 \begin{align}
-	\max\big(p_0(x),p_1(x)\big) = \frac{1}{2}
+	\max\big(p_0(x'),p_1(x')\big) = \frac{1}{2}
 		\big(
-			p_0(x) + p_1(x) + |p_0(x) - p_1(x)|
+			p_0(x') + p_1(x') + |p_0(x') - p_1(x')|
 		\big),
 \end{align}
 so,
 \begin{align}
-	\mathrm{Pr}\{V = 1 | x' = x \} 
-	&= \frac{1}{2} + \frac{|p_0(x) - p_1(x)|}{2 \big(p_0(x) + p_1(x) \big)}.
+	\mathrm{Pr}\{V(P_0,P_1,\mathcal{A}^*) = 1 | x = x' \} 
+	&= \frac{1}{2} + \frac{|p_0(x') - p_1(x')|}{2 \big(p_0(x') + p_1(x') \big)}.
 \end{align}
-Then the overall accuracy that probability that $\mathcal{A^*}$ guesses correctly in 
-any validation test is:
+Then, summing over all possible responses $X$, 
+the overall accuracy of the optimal classifier, $\mathcal{A^*}$, is:
 \begin{align}
 	\begin{split}
-	\eta^* &= \mathrm{Pr}\{V=1\} \\
-		&=\sum_{x\in X} \mathrm{Pr}\{V = 1 | x' = x \} \mathrm{Pr}\{x' = x\}\\
-		&= \sum_{x\in X} \left(
+	\eta^* &= \mathrm{Pr}\{V(P_0, P_1, \mathcal{A}^*)=1\} \\
+	&=\sum_{x'\in X} \mathrm{Pr}\{V(P_0,P_1,\mathcal{A}^*) = 1 | x = x' \} \mathrm{Pr}\{x = x'\}\\
+		&= \sum_{x'\in X} \left(
 				\frac{1}{2} + 
-				\frac{|p_0(x) - p_1(x)|}{2 \big(p_0(x) + p_1(x) \big)}
+				\frac{|p_0(x') - p_1(x')|}{2 \big(p_0(x') + p_1(x') \big)}
 			\right)
 			\left(
-				\frac{p_0(x) + p_1(x)}{2}
+				\frac{p_0(x') + p_1(x')}{2}
 			\right)\\
 		&= \frac{1}{2}\left(
 				\frac{1}{2}(
-					\sum_{x \in X}p_0(x) + \sum_{x \in X}p_1(x)
+					\sum_{x' \in X}p_0(x') + \sum_{x' \in X}p_1(x')
 				) + 
-				\frac{1}{2} \sum_{x \in X} \big(|p_0(x) + p_1(x)|\big)
+				\frac{1}{2} \sum_{x' \in X} \big(|p_0(x') + p_1(x')|\big)
 			\right) \\
 		&= \frac{1}{2} \left( \frac{1}{2}(1 + 1) + \theta \right)\\
 		&= \frac{1 + \theta}{2}\\
@@ -1239,37 +1239,44 @@ By definition, no classifier can be more accurate than $\mathcal{A^*}$, so
 for every $\mathcal{A}$
 \begin{align}
 		\theta \geq 2\eta - 1.
+		\label{eq:sup:l1_again}
 \end{align}
 
 \paragraph{Using cross-validation accuracy to lower-bound bias.}
-	In order for Eq.~\ref{eq:sup:l1} to be applicable, it is necessary to 
-	obtain an unbiased estimate of a classifier's accuracy.  To do so it is
+	In order for Eq.~\ref{eq:sup:l1_again} to be applicable, it is necessary to 
+	obtain an unbiased estimate of a classifier's accuracy.  To do so, it is
 	essential to test the classifier on data that were not used to build 
-	the classifier.  Generally, a portion of the data is used to test
-	optimize preprocessing, perform feature selection, and optimize 
+	the classifier.  Generally, a portion of the data is used to
+	optimize preprocessing, select features, and optimize 
 	classifier hyper-parameters, while keeping another portion of the data
 	set aside for validation.
 
-	In our case, samples are expensive, and must be divided between 18
-	experimental treatments, so we sought to keep as many samples available 
+	In our case, the data are expensive, and must be divided between 18
+	experimental treatments, so we sought to keep as many worker responses
+	available 
 	for validation
 	as possible.  For this reason, we made principled decisions 
 	between alternative preprocessing options and features, 
-	rather than spending samples to empirically test these options.  Making
+	rather than spending sampled responses on empirically testing these 
+	options.  Making
 	suboptimal choices can only moderate the observed values 
 	of $\theta$, making our experiments more conservative. 
-	However, having more samples for validation tests enables us to estimate
-	those values more precisely.  
-	Using a Na\"ive Bayes classifier, which does not require hyper-parameters 
-	optimization, meant that we also did not need to spend samples on 
+	However, conserving more responses for validation 
+	tests, by not using them for classifier optimization, 
+	enables us to estimate the resulting classifier's accuracy more precisely.
+	Using a Na\"ive Bayes classifier, which does not require hyper-parameter 
+	optimization, meant that we also did not need to spend data on 
 	optimizing hyper-parameters.  
 	
-	Thus, no samples at all were used for optimizations.  We performed 
+	Thus, no worker responses at all were used for optimizations.  We 
+	performed 
 	leave-one-out validation, which involves training a classifier using 
-	all but one sample, and then having the classifier guess the class
-	(in our case, the priming exposure) of the left-out sample.  This is 
-	repeated $n$ times, where $n$ is the pooled number of samples in both
-	classes, each time leaving out a different sample.
+	all but one response, and then having the classifier guess the class
+	(in our case, the priming exposure) of the left-out worker.  This is 
+	repeated $n$ times, where $n$ is the pooled number of worker responses 
+	in both
+	classes (both treatments in a given experiment), 
+	each time leaving out the response of a different worker.
 
 \paragraph{Selection of the na\"ive Bayes classifier.}
 We chose to use the na\"ive Bayes classifier as our basis for measuring 
@@ -1277,18 +1284,18 @@ bias for three reasons.  First, we had 119 examples (workers) per class
 (treatment), but thousands of distinct features 
 (i.e. the number of distinct words occurring in an experiment).  
 Having many more features than examples is problematic for many classifiers
-because, a large number of features leads to a high-variance, over-fit model
+because a large number of features leads to a high-variance, over-fit model,
 resulting in poor performance.  But one of the strengths of the na\"ive 
 Bayes classifier is that it performs well even when the number of features
 exceeds the number of examples\cite{bickel2004, hastie2009elements}
 
 Second, the standard implementation of the na\"ive Bayes classifier has no 
-hyper-parameters to optimize. This meant that we did not need to use 
+hyper-parameter to optimize. This meant that we did not need to use 
 samples for hyper-parameters optimization, which would reduce the number
 of samples available for validation tests to estimate $\theta$.
 
 Third, the na\"ive Bayes algorithm is based on an assumption that the 
-observation one feature is independent from the observation of any 
+observation of one feature is independent from the observation of any 
 other, once we have conditioned on the class under observation 
 \cite{bishop2006} (i.e. the priming treatment).  This
 conditional independence assumption is made for
@@ -1330,16 +1337,17 @@ be closer to optimal than in other text classification applications.
 	}
 	\label{fig:theta_sup}
 \end{figure}
-The inequality in Eq.~\ref{l1}
-asserts that a classifiers performance in predicting class membership
-bounds the L1-distance between the distributions of features for the classes.
+The inequality in Eq.~\ref{eq:sup:l1_again}
+asserts that a classifier's performance in predicting class membership
+sets a lower bound on the L1-distance between the distributions of features 
+for the classes.
 This bound is tight for the optimal classifier, and in general, the slack
 depends on how the classifier is constructed.
 
 Although we believe the na\"ive Bayes classifier is nearly optimal in this
 setting, some other classifier may exist that is significantly better than 
 the one used to generate our results.  Furthermore, various decisions about
-preprocessing and feature representation must inevitably be made also
+preprocessing and feature representation also
 impact the classifier performance.  
 For example, we chose to correct spelling, remove stop words,
 lemmatize words, and to distinguish which text-input was used to enter a 
@@ -1372,13 +1380,15 @@ classifications during validation tests.  The number of correct
 classifications, $X$, has a binomial distribution.  
 We take the null hypothesis that the classifier performs
 no better than chance, $X \sim \mathrm{Bin}(N,0.5)$, where $N$ is the number 
-of workers in both treatments of an experiment.  Then, the critical number 
+of workers in both treatments of an experiment, and consider an alternative
+hypothesis, that the classifier does perform better than chance.  Then, the 
+critical number 
 of correct classifications, $x^*$, for a one-tailed hypothesis test with
 significance $\alpha$ is:
 \begin{align}
 	&x^* = \sup \left\{
 			x: \mathrm{Pr}\{ \mathrm{Bin}(N;0.5) \geq x \} < \alpha
-		\right\}\\
+		\right\} \label{eq:sup:crit}\\
 	\text{where}\quad &\mathrm{Pr}\{ \mathrm{Bin}(N,\eta) \geq x \} = 
 		\sum_{x'=x}^{N} \binom{N}{x'}\eta^{x'}(1-\eta)^{(N-x')}
 \end{align}
@@ -1388,10 +1398,13 @@ built for each permutation.  For the sake of estimating accuracy, we assume
 that the classifiers under different permutations have the same accuracy,
 and so we pool their results.  This means that 
 \textit{intertask-food-objects} has five times as many validation tests
-(larger $N$) compared to the other experiments.  We therefore assume 
+(larger $N$) compared to the other experiments.  This larger $N$ makes 
+evaluation of \ref{eq:sup:crit} difficult, but also makes the normal 
+distribution a very good approximation.  We therefore assume 
 that $X$ has a normal distribution for the classification of workers from
 \textit{intertask-food-objects}, with $\mu=N/2$ and 
-$\sigma = \frac{1}{2}\sqrt{N}$.
+$\sigma = \frac{1}{2}\sqrt{N}$.  The statistics for these hypothesis tests
+are tabulated in Tables~S\ref{table:theta} and S\ref{table:theta_pos}.
 
 To determine the confidence intervals for measured $\theta$ values we 
 use the exact Clopper-Pearson method \cite{clopper1934use}.  
@@ -1412,12 +1425,12 @@ $\eta^*_\mathrm{low}$ and $\eta^*_\mathrm{high}$ from:
 Again, for the experiment \textit{intertask-food-objects}, which had 
 more validation tests than the others, we derive the confidence intervals
 assuming $X$ is normally distributed.
-Since the significance values are to be shown on a plot of $\theta$, we 
+Since the confidence intervals are to be shown on a plot of $\theta$, we 
 transform them into equivalent values of 
 $\theta$: $\theta^*_\mathrm{high} = 2\eta^*_\mathrm{high} - 1$ and 
 $\theta^*_\mathrm{low} = 2\eta^*_\mathrm{low} - 1$.
 The statistics collected for the measurement of $\theta$, corresponding to
-Figs.~\ref{fig:theta} (A and B) are tabulated in Tables~S\ref{table:theta} and
+Figs.~\ref{fig:theta}A and B are tabulated in Tables~S\ref{table:theta} and
 S\ref{table:theta_pos} respectively.
 
 To determine whether intertask effects were stronger than framing, we 
@@ -1436,8 +1449,11 @@ where
 \end{align}
 
 
-Since, \textit{a priori}, we do not which effects
-should be stronger (if any), we perform a two-tailed test.
+Since, \textit{a priori}, we do not know which effects
+should be stronger (if any), we perform a two-tailed test.  The results for 
+these hypothesis tests are tabulated in Table~S\ref{table:intertask_framing}.
+The results show that intertask effects are stronger than framing, but are
+on-par with echoed framing.
 
 
 \begin{table}
@@ -1483,49 +1499,6 @@ should be stronger (if any), we perform a two-tailed test.
 
 \begin{table}
 \begin{center}
-\begin{tabular}{c c c c c c c c c c c }
-	\toprule
-	Comparison & $N_1$ & $N_2$ & $X_1$ & $X_2$ & $\hat{\eta}_1$ 
-		& $\hat{\eta}_2$ & $z$ & $p$-value \\ 
-	\midrule
-	\parbox[c]{4cm}{\textit{intertask-food-objects} 
-	\textit{vs} \textit{frame-food-objects}} & 1190 & 238 & 777 & 122 &
-	0.653 & 0.513 & \textbf{4.1} & $2.1 \times 10^{-5}$ \\ 
-
-\noalign{\smallskip}
-\hdashline
-\noalign{\smallskip}
-
-	\parbox[c]{4cm}{\textit{intertask-food-objects} 
-	\textit{vs} \textit{echo-food-objects}} & 1190 & 238 & 777 & 162 
-		& 0.653 & 0.681 & -0.82 & 0.79 \\
-
-\noalign{\smallskip}
-\hdashline
-\noalign{\smallskip}
-
-	\parbox[c]{4cm}{\textit{intertask-food-culture} 
-	\textit{vs} \textit{frame-food-culture}} & 238 & 238 & 180 & 130 
-	& 0.756 & 0.546 & \textbf{4.8} & $7.6 \times 10^{-7}$ \\
-	\bottomrule
-
-\end{tabular}
-
-\caption{
-	Results for two-proportion z-tests, leading to the rejection of the null 
-	hypothesis that intertask and (passive) framing effects are equally 
-	strong.  However, the echoed framing effects are on par with intertask
-	effects (second row). 
-	Numbers in boldface indicate a $z$-statistic significantly 
-	different from zero ($\alpha=0.05$).
-}
-\label{table:intertask_framing}
-\end{center}
-\end{table}
-
-
-\begin{table}
-\begin{center}
 \begin{tabular}{c c c c c c c c }
 	\toprule
 	\multirow{2}{*}{Task position} & \multirow{2}{*}{$N$} & 
@@ -1568,6 +1541,49 @@ should be stronger (if any), we perform a two-tailed test.
 
 
 
+\begin{table}
+\begin{center}
+\begin{tabular}{c c c c c c c c c c c }
+	\toprule
+	Comparison & $N_1$ & $N_2$ & $X_1$ & $X_2$ & $\hat{\eta}_1$ 
+		& $\hat{\eta}_2$ & $z$ & $p$-value \\ 
+	\midrule
+	\parbox[c]{4cm}{\textit{intertask-food-objects} 
+	\textit{vs} \textit{frame-food-objects}} & 1190 & 238 & 777 & 122 &
+	0.653 & 0.513 & \textbf{4.1} & $2.1 \times 10^{-5}$ \\ 
+
+\noalign{\smallskip}
+\hdashline
+\noalign{\smallskip}
+
+	\parbox[c]{4cm}{\textit{intertask-food-objects} 
+	\textit{vs} \textit{echo-food-objects}} & 1190 & 238 & 777 & 162 
+		& 0.653 & 0.681 & -0.82 & 0.79 \\
+
+\noalign{\smallskip}
+\hdashline
+\noalign{\smallskip}
+
+	\parbox[c]{4cm}{\textit{intertask-food-culture} 
+	\textit{vs} \textit{frame-food-culture}} & 238 & 238 & 180 & 130 
+	& 0.756 & 0.546 & \textbf{4.8} & $7.6 \times 10^{-7}$ \\
+	\bottomrule
+
+\end{tabular}
+
+\caption{
+	Results for two-proportion z-tests, leading to the rejection of the null 
+	hypothesis that intertask and (passive) framing effects are equally 
+	strong.  However, the echoed framing effects are on par with intertask
+	effects (second row). 
+	Numbers in boldface indicate a $z$-statistic significantly 
+	different from zero ($\alpha=0.05$).
+}
+\label{table:intertask_framing}
+\end{center}
+\end{table}
+
+
 
 
 \subsection*{Data preprocessing}
@@ -1595,7 +1611,8 @@ should be stronger (if any), we perform a two-tailed test.
 	So, if the word ``wine'' was entered into the second text-input for 
 	the third test-task, after preprocessing, the feature ``3\_2\_wine'' would
 	appear.  Prepending the task number onto words was simply a means to 
-	retain correct of words to images, since providing a word during one task 
+	retain correct attribution of words to images, since providing a word 
+	during one task 
 	is not equivalent to providing the same word during another task.  
 	
 	\paragraph{Spelling correction.}  
@@ -1630,7 +1647,7 @@ should be stronger (if any), we perform a two-tailed test.
 	(i.e. separating a word) incurred a penalty of 0.5, while the addition of
 	a space incurred a penalty of 0.1.  Word-separation edits were more 
 	strongly penalized because it is often possible to split a series of 
-	letters into many short two- or three-letter words, which otherwise leads 
+	letters into short two- or three-letter words, which leads 
 	to many erroneous corrections.  We found these penalties worked well when
 	testing on words taken from initial tasks.
 
@@ -1797,17 +1814,22 @@ the word that was most suppressed in food-exposed treatments was always
 
 	\end{tabular}
 	\caption{
-		Top five words, used to label the first test image, whose usage frequency
-		increased or decreased the most between treatments of given 
-		experiments.  Positive values indicate that the food-exposed treatment
+		The five words whose frequencies increased, and those whose 
+		frequencies decreased, the most, between treatments of given 
+		experiments, within labels attributed to the first test task.
+		Positive values indicate that the food-exposed treatment
 		used the word with higher frequency.  Word frequencies for 
-		\textit{intertask-food-objects} are aggregated across five 
-		permutations, and hence tend to show larger absolute differences.
+		\textit{intertask-food-objects} correspond to the labels attributed
+		to image 1 (see Fig. \ref{fig:task1:test}) which is not necessarily 
+		the first 
+		test task due to the tasks being permuted.  There were five times
+		as many workers in \textit{intertask-food-objects}, hence
+		larger absolute differences are observed.
 	}
 	\label{table:top-words}
 \end{table}
 
-\paragraph{Identification of food-related terms}
+\paragraph{Identification of food-related terms.}
 The wordnet corpus is composed of synsets, which are particular senses 
 (meanings) and a set of word forms bearing that meaning. A given word form, 
 such as ``ring'' has multiple senses (``to ring a bell'', ``a wedding ring''),
@@ -1830,19 +1852,23 @@ On the other hand, ``salt'' would be considered a reference to food under
 this operationalization.
 
 The subset of the wordnet corpus induced by the hyponyms of \textit{food.n.01}
-and \textit{food.n.02} provide a set of 3590 words.  Manual
+and \textit{food.n.02} consists of 3590 word-forms.  Manual
 testing showed good coverage, except for references to ethnic foods.  
-Since, especially in \textit{exp2}, we had images containing many ethnic 
+Since, especially in \textit{intertask-food-culture} and 
+\textit{frame-food-culture}, we had images containing many ethnic 
 foods, we decided to augment the wordnet corpus with words learned by 
 crawling the world food section of the allrecipes.com website.  
 
 After collecting a set of words using an automated script 
-(described above), we collected the set of words that had been used by
+(described above), we filtered down to the set of words that had been used by
 workers and which had been seen during crawling of the allrecipes.com website,
 but which were not included in wordnet.  We grafted these extra words into
-the wordnet hyponym-hypernym graph manually, which ensured that any references
-to ethnic words learned from crawling would be properly classified as 
-food references.
+the wordnet hyponym-hypernym graph manually, looking at the image to which 
+they had been attributed (to help disambiguate the intended meaning), but 
+without revealing the treatment(s) in which
+the word was used.  Many (but not all) of the words added this way did refer 
+to ethnic foods, and so this helped increase the coverage of wordnet in that 
+respect.
 
 \paragraph{Validation of the detection of food references.}
 To determine whether our extended version of wordnet provided a good approach
@@ -1854,7 +1880,7 @@ food-related or not.
 The coders were instructed to consider whether a word was a noun signifying
 an edible item.  The guiding principle was, for the coder to ask herself,
 ``can I eat X'', where X is the word she is coding.  The coders were
-shown the used in the task from which the word came, to help resolve ambiguity
+shown the image used in the task from which the word came, to help resolve ambiguity
 in the sense of the word that had been given.  Coders were also shown the 
 spelling correction (if any) that the spell-correction algorithm had made,
 to help interpret misspelled words.
@@ -1862,8 +1888,9 @@ to help interpret misspelled words.
 We evaluated the food detection algorithm in two ways.  First, we measured
 the inter-rater reliability between the three human coders and the algorithm
 (treating the algorithm just like any other coder).  Second, adopting the 
-majority code given by the human coders, we determined the accuracy of the
-food-detection algorithm.  Data summarizing this validation process are given
+majority code given by the human coders as ground-truth, we determined the 
+accuracy of the food-detection algorithm.  
+Data summarizing this validation process are given
 in Table~S\ref{table:inter-rater}.
 
 \begin{table}
@@ -1886,7 +1913,8 @@ human-machine code agreement & 88\% \\
 	of the automatic detection of food references, by comparison to
 	human-generated coding on randomly sampled words.  In calculating the 
 	human-machine code agreement, the majority human code was used.
-	Inter-rater reliability was calculated as Krippendorff's alpha.
+	Inter-rater reliability was calculated as Krippendorff's alpha, treating
+	the machine as any other coder.
 }
 \label{table:inter-rater}
 \end{table}
@@ -1956,121 +1984,36 @@ Table~S\ref{table:proportion-food}.
 \label{table:proportion-food}
 \end{table}
 
-\paragraph{Calculation of relative specificity}
-In the main text we present results for the relative specificity of labels
-produced by two experimental treatments.  In performing this calculation,
-we used the wordnet corpus, which has a set of hypernym-hyponym relationships
-as described in the main text.  The first step in performing this calculation
-was therefore to map the words occurring from (the labels of) a given 
-experimental treatment onto the wordnet synsets.  In general, a given word
-form can have multiple meanings, and therefore maps onto multiple wordnet 
-synsets.
+\paragraph{Variance in food vocabulary size (lexical richness).}
+The number of unique words in a text is strongly dependent on the size
+of the text: as more text is sampled, previously unseen words continue
+to be found, though at a decreasing rate.  
+This means that the vocabulary size of a population of documents is 
+not well-approximated by a sample.  Nevertheless the vocabulary sizes
+obtained by taking equally-sized samples of two different populations
+provides a means to compare the populations on an equal footing.
 
-The result of mapping the words from two treatments onto the wordnet 
-hypernym-hyponym graph two sets of counts, one set per treatment, 
-indicating the number of times a word from a given synset occurred among the
-labels of the treatment.  Then, for every synset in one treatment, we looked
-at the number of synsets in the other treatment that were more generic
-(reachable by following hypernym relations) less the number of words that
-were more specific (reachable by following hyponym relations).  This quantity
-tallied for all words in the original synset gives a (non-normalized) measure
-of the degree to which words from the first treatment are more specific
-than words from the second treatment, overall.  We then normalized this 
-quantity by the total number of possible comparisons between the words of
-one treatment to those of the other, where two words are considered comparable
-only if one word is the hypernym or hyponym of the other.  Hence, ``statue'' 
-and ``bread'' are not comparable, but ``pumpernickel'' and ``bread'' are.
+Taking the difference between one sample's vocabulary and the 
+other gives us a measure of their difference in vocabulary size, but 
+the variance of this measure needs to be characterized to know whether
+there is a significant difference.
 
-This calculation can be summarized by the following equation:
-\begin{equation}
-	S(P,Q) = \frac{
-		\sum_{w\in P}\sum_{v\in Q} \left(
-			\mathbf{1}_{[w>v]} - \mathbf{1}_{[v>w]} \right)
-	}{
-		\sum_{w\in P}\sum_{v\in Q} \left(
-			\mathbf{1}_{[w>v]} + \mathbf{1}_{[v>w]} \right)
-	},
-\end{equation}
-where $P$ and $Q$ are sets of synsets, and $\mathbf{1}_{[w>v]}$ evaluates
-to 1 if synset $w$ is more specific than (i.e. is a hyponym of) synset $v$.
-This measure counts the excess of cases where synsets from $P$ are more
-specific then synsets from $Q$, as a fraction of all comparable synset pairs. 
-
-In computing this quantity between two treatments, we first computed it 
-using the labels attributed to a particular test task, and then
-averaged the result obtained in this way for each of the five test tasks.
-
-To assess statistical significance, we used the bootstrap method.
-For two given treatments $A$ and $B$, 
-119 workers were sampled from each with replacement, giving the bootstrap
-samples $A'$ and $B'$, and the relative specificity between these 
-was measured as described in \textsection S6.
-This was repeated 1000 times.  The 2.5 and 97.5 percentiles from the 
-bootstrap sample to create the 95\% confidence intervals.  If the confidence
-interval did not contain zero it indicates a statistically significant 
-difference in specificity.  The statistics for relative specificity 
-calculations are shown in Table~S\ref{table:specificity}.
-
-\begin{table}
-\centering{
-	\setlength{\tabcolsep}{4pt}
-\begin{tabular}{c c c c c c c c c c c}
-	\toprule
-	Experiment & $S$ & $S^*_\mathrm{lowCI}$ & $S^*_\mathrm{highCI}$ \\ 
-	\midrule
-	\textit{intertask-food-objects} & \textbf{13.6} & 9.1 & 17.8 \\
-	\textit{frame-food-objects} & \textbf{12.4}     & 7.6 & 17.0 \\
-	\textit{echo-food-objects} & \textbf{17.1}      & 12.1 & 21.9 \\
-	\textit{intertask-food-culture} & \textbf{19.6} & 13.7 & 25.4 \\
-	\textit{frame-food-culture} & \textbf{7.0}      & 2.1 & 15.3 \\
-	\bottomrule
-\end{tabular}
-}
-\caption{Relative specificity ($S$) of food-related words between the food- 
-	and non-food-exposed treatments of all experiments. 
-	Positive values indicates the food-exposed treatment was relatively more
-	specific; boldfaced values indicate a disparity in specificity that 
-	is statistically significant.  
-	$S^*_\mathrm{lowCI}, S^*_\mathrm{upCI}$: lower and upper
-	confidence intervals for $S$ based on the bootstrapping approach.  All
-values are expressed as percentages.}
-\label{table:specificity}
-\end{table}
-
-
-
-
-	\paragraph{Variance in food vocabulary size (lexical richness).}
-	The number of unique words in a text is strongly dependent on the size
-	of the text: as more text is sampled, previously unseen words continue
-	to be found, though at a decreasing rate.  
-	This means that the vocabulary size of a population of documents is 
-	not well-approximated by a sample.  Nevertheless the vocabulary sizes
-	obtained by taking equally-sized samples of two different populations
-	provides a means to compare the populations on an equal footing.
-
-	Taking the difference between one sample's vocabulary and the 
-	other gives us a measure of their difference in vocabulary size, but 
-	the variance of this measure needs to be characterized to know whether
-	there is a significant difference.
-	
-	To test whether one sample has a (statistically) significantly larger
-	vocabulary size than another, we adopt the null hypothesis that they
-	have the same vocabulary, and pool the documents sampled from both 
-	populations together.  We then randomly partition the pooled sample
-	back into two balanced sets and take the difference in the sets' 
-	vocabulary sizes.  This models the difference that would be observed
-	under the null hypothesis that the documents are drawn from the same
-	population.  We repeat the pooling and partitioning of the samples
-	1000 times to generate a bootstrap sample of the difference in 
-	vocabulary sizes under the null hypothesis.  The 
-	2.5th and 97.5th percentiles of the bootstrap sample then serve as the
-	critical values of vocabulary size-difference that would justify 
-	rejection of the null hypothesis that the original samples have the same 
-	vocabulary size.
-
-	Statistics for these hypothesis tests are shown in 
-	Table~S\ref{table:vocab}.
+To test whether one sample has a (statistically) significantly larger
+vocabulary size, in reference to food-related words, than another, we adopt 
+the null hypothesis that they
+have the same vocabulary, and pool the documents sampled from both 
+populations together.  We then randomly partition the pooled sample
+back into two balanced sets and take the difference in the sets' 
+vocabulary sizes.  This models the difference that would be observed
+under the null hypothesis that the documents are drawn from the same
+population.  We repeat the pooling and partitioning of the samples
+1000 times to generate a bootstrap sample of the difference in 
+vocabulary sizes under the null hypothesis.  The 
+2.5th and 97.5th percentiles of the bootstrap sample then serve as the
+critical values of vocabulary size-difference beyond which the null hypothesis
+should be rejected (at $\alpha=0.05$).
+Statistics for these hypothesis tests are shown in 
+Table~S\ref{table:vocab}.
 
 \begin{table}
 \centering{
@@ -2097,12 +2040,102 @@ values are expressed as percentages.}
 	Statistics for the measurement of vocabulary size difference, for each
 	experiment, between the food and non-food treatments. $|V|$: vocabulary
 	size; $\Delta|V|$: vocabulary size of non-food less food treatments;
-	$\Delta|V|^*_{low}, \Delta|V|^*_{low}$: lower and upper critical values
+	$\Delta|V|^*_{low}, \Delta|V|^*_{high}$: lower and upper critical values
 	for statistically significant $\Delta|V|$, at $\alpha=0.05$, 
 	based on bootstrapping.  
 	Boldfaced values for $\Delta|V|$ are statistically significant.
 }
 \label{table:vocab}
+\end{table}
+
+
+
+
+
+\paragraph{Calculation of relative specificity}
+In the main text we present results for the relative specificity of labels
+produced by two experimental treatments.  In performing this calculation,
+we used the wordnet corpus, which has a set of hypernym-hyponym relationships.
+The first step in performing this calculation was to map the words occurring 
+in (the labels of) a given experimental treatment onto the wordnet synsets.  
+In general, a given word
+form can have multiple meanings, and therefore maps onto multiple wordnet 
+synsets.
+
+Mapping the words from two treatments onto the wordnet 
+hypernym-hyponym graph yields two sets of counts, one set per treatment, 
+indicating the number of times a word from a given synset occurred among the
+labels of the treatment.  For every synset in one treatment, we looked
+at the number of synsets in the other treatment that were more generic
+(reachable by following hypernym relations) less the number of words that
+were more specific (reachable by following hyponym relations).  This quantity,
+tallied over all words in the original synset, gives a (non-normalized) 
+measure of the overall degree to which words from the first treatment are more
+specific than words from the second treatment.  We then normalized this 
+quantity by the total number of possible comparisons between the words of
+one treatment to those of the other, where two words are considered comparable
+only if one word is the hypernym or hyponym of the other.  Hence, ``statue'' 
+and ``bread'' are not comparable, but ``pumpernickel'' and ``bread'' are.
+
+This calculation can be summarized by the following equation:
+\begin{equation}
+	S(P,Q) = \frac{
+		\sum_{w\in P}\sum_{v\in Q} \left(
+			\mathbf{1}_{[w>v]} - \mathbf{1}_{[v>w]} \right)
+	}{
+		\sum_{w\in P}\sum_{v\in Q} \left(
+			\mathbf{1}_{[w>v]} + \mathbf{1}_{[v>w]} \right)
+	},
+\end{equation}
+where $P$ and $Q$ are sets of synsets associated to different experimental 
+treatments, and $\mathbf{1}_{[w>v]}$ evaluates
+to 1 if synset $w$ is more specific than (i.e. is a hyponym of) synset $v$.
+This measure counts the excess number of cases where synsets from $P$ are more
+specific then synsets from $Q$, as a fraction of all comparable synset pairs. 
+The relative specificity lies within $[-1,1]$; we report it as a percentage 
+in Table~S\ref{table:proportion-food} and in the main text.
+
+In computing this quantity between two treatments, we first computed the 
+relative specificity for the treatments separately for each test task, and 
+averaged the results obtained accross the five test tasks.
+
+To assess statistical significance, we used the bootstrap method.
+For two given treatments $A$ and $B$, 
+119 workers were sampled from each with replacement, giving the bootstrap
+samples $A'$ and $B'$, and the relative specificity between these 
+was measured as described above.
+This was repeated 1000 times.  The 2.5 and 97.5 percentiles from the 
+bootstrap sample were used to estimate 95\% confidence intervals.  
+A confidence interval not containing zero indicates a statistically 
+significant difference in specificity.  
+The statistics for relative specificity 
+calculations are shown in Table~S\ref{table:specificity}.
+
+\begin{table}
+\centering{
+	\setlength{\tabcolsep}{4pt}
+\begin{tabular}{c c c c c c c c c c c}
+	\toprule
+	Experiment & $S$ & $S^*_\mathrm{lowCI}$ & $S^*_\mathrm{highCI}$ \\ 
+	\midrule
+	\textit{intertask-food-objects} & \textbf{13.6} & 9.1 & 17.8 \\
+	\textit{frame-food-objects} & \textbf{12.4}     & 7.6 & 17.0 \\
+	\textit{echo-food-objects} & \textbf{17.1}      & 12.1 & 21.9 \\
+	\textit{intertask-food-culture} & \textbf{19.6} & 13.7 & 25.4 \\
+	\textit{frame-food-culture} & \textbf{7.0}      & 2.1 & 15.3 \\
+	\bottomrule
+\end{tabular}
+}
+\caption{Relative specificity ($S$) of food-related words between the food- 
+	and non-food-exposed treatments of all experiments. 
+	Positive values indicates the food-exposed treatment was relatively more
+	specific (which was always the case); 
+	boldfaced values indicate a disparity in specificity that 
+	is statistically significant.  
+	$S^*_\mathrm{lowCI}, S^*_\mathrm{upCI}$: lower and upper
+	confidence intervals for $S$ based on the bootstrapping approach.  
+	Specificites are expressed as percentages.}
+\label{table:specificity}
 \end{table}
 
 
