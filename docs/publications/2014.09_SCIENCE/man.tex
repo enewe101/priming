@@ -161,8 +161,8 @@ Typical tasks include tagging and categorizing images
 and judging relevancy and quality, for example, to rate information 
 retrieval systems \cite{le2010ensuring,grady2010crowdsourcing,alonso2009can,kazai2013analysis}.
 
-Microtask platforms are a form of crowdsourcing in which workers appear like 
-input-output devices.  They provide much of the flexibility and 
+In this form of crowdsourcing, workers appear like input-output devices.  
+Such platforms provide much of the flexibility and 
 cost-savings of fully automating the work in a computer program: 
 the workforce is available on demand over the Internet using automated 
 scripts, and  no interviews or contracts are required 
@@ -180,26 +180,43 @@ in both industry and academia\cite{wolfson2011look,Berinsky2012351}.
 Naturally, there is a desire to understand the factors affecting the 
 reliability of microtask-based methods.  Researchers have investigated 
 task-design parameters such as the 
-level of pay \cite{kazai2013analysis}, the training and pre-screening of 
-workers \cite{le2010ensuring,paolacci2010running,kazai2013analysis}, 
-and user-interface design \cite{Finnerty2013}.  
+level of pay \cite{Mason200977,kazai2013analysis}, 
+the training and pre-screening of workers 
+\cite{le2010ensuring,paolacci2010running,kazai2013analysis}, 
+user-interface design \cite{Finnerty2013}, and timely feedback 
+\cite{Dow20121013}.
 Researchers have also investigated the effects of \textit{framing}, 
 by altering the description of the workflow context 
 \cite{Kinnaird2012281}, the purpose of tasks 
 \cite{chandler2013breaking}, and the problem description
-\cite{thibodeau2013natural}.  
+\cite{thibodeau2013natural}.  Another important avenue of research concerns
+workflow design: how to break down a complex problem into microtasks
+\cite{kittur2011crowdforge}, the effect of microtask size 
+\cite{Huang201077}, and the effects of interruptions \cite{laseckieffects}.
 
-Here we focus on a ubiquitous feature of the microtask setup: the tendency
-to bundle a set of similar tasks together. 
-For example, in one bundle, a worker might be assigned a set of ten images, 
-and asked to provide descriptive words 
-(or \textit{labels}) for each.  
-On one popular microtask platform,
-Amazon's Mechanical Turk (MTurk), these bundles are called Human 
-Intelligence Tasks (HITs), but for the sake of clarity, we will use 
-``task'' to mean the smallest repeatable unit of work, which, in our study, 
-consists of labeling a single image.  This bundling tendency leads
-workers to perform a series of similar tasks in quick succession.
+Here, we focus on a ubiquitous feature of microtask work: the tendency
+for workers to perform many similar tasks in quick succession.  
+To describe this tendency, it is necessary to clarify terminology.
+On one popular microtask platform, Amazon's Mechanical Turk (MTurk), 
+tasks are delivered in bundles called Human Intelligence Tasks (HITs).  
+But for clarity, we will use ``task'' to mean 
+the smallest repeatable unit of work; for example, labeling one image with
+some descriptive words (\textit{labels}).  
+Using this terminology, it is typical for a HIT to
+actually consist of \textit{several tasks}, 
+such as labeling ten images consecutively.
+
+In addition to the task-repetition occuring \textit{within} HITs, 
+workers prefer HITs that are part of a large set of HITs
+having the same format, and cite speed and repeatability 
+as desireable traits \cite{Chilton20101}.  When the tasks in a sequence are 
+sufficiently similar, workers are more efficient \cite{laseckieffects}, 
+and the cognitive load resulting from task-switching \cite{Adamczyk2004271} 
+is eliminated.  Meanwhile, breaking complex jobs down into simpler tasks 
+appears to improve results \cite{kittur2011crowdforge}.  
+Thus, from the perspectives of both the worker and requester, 
+it is desireable for workers to perform repetitive sequences of similar 
+tasks in quick succession.
 
 The repetitive completion of tasks is of concern because people's responses
 to a prompt can be strongly influenced by their recent exposure to stimuli,
@@ -219,9 +236,10 @@ and raises questions about what other cognitive biases might
 affect microtask work, and how prevalent the induced bias might be.  
 
 Here we investigate the potential for task-repetition to induce bias in 
-microtask-based work.  If such bias is present, it would impact virtually 
+microtask-based work in a highly generalizeable setting.  
+If such bias is present, it would impact virtually 
 every microtask and crowdsourced workflow.
-The results we present here show that a worker's response during a task
+Our results show that a worker's response during a task
 does indeed depend strongly on the tasks performed beforehand.   
 We call the effects that earlier tasks exert on later ones 
 \textit{intertask effects}.
@@ -238,7 +256,9 @@ and make it more like CPU programming
 \cite{little2010turkit,minder2012crowdlang,kittur2011crowdforge}.  
 As an example, one operation overcomes the inherent stochasticity of HPU 
 outputs, by automatically aggregating votes from multiple HPUs under a single
-function call.  But our revelation of strong intertask effects shows that, 
+function call.  
+
+But our revelation of strong intertask effects shows that, 
 in addition to stochasticity, HPUs are subject to \textit{hysteresis}, 
 meaning that their 
 outputs depend on the history of their inputs.  Reproducibility and 
@@ -370,7 +390,7 @@ permutation of the test tasks.  This enabled us to measure the severity
 of bias as a function of task position, independant of the content
 of the test task.  We found that bias was strongest for the first test task
 (about 28\%), but remained significant through all five test tasks 
-($\alpha=0.05$) sustaining nearly 15\% bias (Fig. \ref{fig:theta}B).
+($\alpha=0.05$) sustaining over 12\% bias (Fig. \ref{fig:theta}B).
 
 We conducted variants of these experiments using different images, to see 
 whether this trend was robust.  In the experiment 
@@ -561,8 +581,10 @@ in repeated tasks tends to be directed away from generic, shared features,
 toward specific and distinguishing ones.
 
 Prior to this study, little thought appears to have been given to the 
-ordering and bundling of microtasks.  But our findings show that these are 
-powerful design factors.  A natural response might be simply to randomize 
+priming effect that a task can have on those tasks that follow. 
+But our findings show this is an  
+important design consideration.  
+A natural response might be simply to randomize 
 task ordering, a practice that is commonly employed.  But the sheer extent of 
 bias suggests that this will still introduce a significant amount of noise
 into the results.  Even chains of two or three similar tasks, which
@@ -577,7 +599,7 @@ of responses.
 A consistent goal in human computation is the achievement of expert-level
 judgments from non-expert workers \cite{kittur2011crowdforge}.  
 This has been achieved in some
-applications \cite{Mortensen20131020,Warby2014385}. 
+applications \cite{snow2008cheap,Mortensen20131020,Warby2014385}. 
 The distinction between experts and novices can be 
 attributed in part to the possession of specialized knowledge and heuristics. 
 But to a large degree, this distinction lies in the ability of 
@@ -616,31 +638,33 @@ computation.
 \setcounter{equation}{0}
 
 Microtask platforms are an increasingly popular way to solicit experimental
-participants, as well as to annotate large datasets and obtaining other 
-judgments that require prior knowledge and 
-hence are difficult to automate using only a computer.  Due to their 
-popularity, there is interest in understanding how various task design factors
+participants, as well as to annotate large datasets and obtain other 
+judgments which are difficult to automate using only a computer.  
+Due to the popularity of microtask platforms, there is interest in 
+understanding how various task design factors
 influence the reliabality of data obtained using microtask platforms.  
-Since tasks are typically bundled together, microtask 
-workers tend to perform several similar tasks in quick succession, creating an opportunity for priming effects to induce bias in the results obtained.
+Since workers typically perform similar tasks in quick succession, there is
+an opportunity for earlier tasks to effectively prime workers, and induce 
+bias in the results obtained.
 Here we describe in detail experiments presented in the main text, in which
 we investigate the effect that prior tasks have on the responses given during
-subsequent tasks.  
+subsequent ones.  
 
 \subsection*{Materials and Methods}
 
 \paragraph{Microtask setup.}
 
 The work presented in the main text consisted of six experiments involving
-HITs (bundles of microtasks) performed on Amazon's Mechanical Turk platform.  
+HITs (bundles of tasks) performed on Amazon's Mechanical Turk platform.  
 The flow of events experienced by a worker when participating in this study 
 is depicted in Fig.~S\ref{fig:task_schematic}.  
-The steps depicted in an orange box are those
-in which the worker interacts with Amazon's Mechanical Turk interface, and 
-are the same for any microtask completed on that platform, and similar
-on other microtask platforms.  While the steps depicted in a black box 
-are specific to our study, the general setup, in which a bundle of tasks
-follows instructions, is typical.
+Each experiment was divided into two treatments.  Treatments for a given 
+experiment differed with respect to a particular priming modality, which 
+served as the independent variable
+(as specified in Table~S\ref{table:experiments}).  
+The HITs for treatments of the same experiment always involved the same
+test tasks (the last five tasks in the HIT),
+the results of which served as the dependent variable.
 \begin{figure}
 	\begin{center}
 	\includegraphics[scale=0.8]{figs/task_schematic.pdf}
@@ -655,14 +679,6 @@ follows instructions, is typical.
 	\label{fig:task_schematic}
 	\end{center}
 \end{figure}
-
-Each experiment was divided into two treatments.  Treatments for a given 
-experiment differed with respect to a particular priming modality, which 
-served as the independent variable
-(as specified in Table~S\ref{table:experiments}).  
-The HITs for treatments of the same experiment always involved the same
-test tasks (the last five tasks in the HIT),
-the results of which served as the dependent variable.
 
 All HITs were presented as a series of slides.  The first 
 slide consisted of a brief set of instructions.  For HITs that included 
@@ -1065,7 +1081,7 @@ $\Pr\{X=\mathbf{H}\} = 0.501$. Such a coin is only mildly biased, and would
 be fine for many purposes.  If we did not know that the coin was
 biased, we could determine whether it was biased by flipping the coin in 
 question, along with a coin we know to be fair, many times 
-(say 100 million times), and then using a $\chi^2$ test to decide whether 
+(say 100 million times), and then use a $\chi^2$ test to decide whether 
 the two coins have the same probability of turning up heads.
 Simulating this with a random number generator yields the results shown
 in Table~S\ref{table:coin}.  Results from a $\chi^2$ test of the
@@ -1344,20 +1360,17 @@ be closer to optimal than in other text classification applications.
 	\centering
 	\includegraphics[scale=0.75]{figs/theta_sup.pdf}
 	\caption{
-		Bias induced by exposure to initial tasks and frames.
-		Bias is defined to be the difference in the probability 
-		distribution over workers' labels (L1-distance).  The plotted values
-		give a lower bound to the L1-distance, $D_{L1}^-$, which was 
-		determined from a classifier's performance in 
-		distinguishing workers that had undergone different exposures.
+		Empirical bias, measured using classifiers, induced in image 
+		labeling tasks, by exposing workers to initial tasks or framing. 
 		The bias was determined using (A-F) a na\"ive Bayes classifier, and 
-		(G-L) an SVM classifier.
+		(G-L) an SVM classifier, according to Eq.~\ref{eq:sup:l1}.
 		In panels A through F, each plot adds an additional
 		preprocessing step to those used in the previous plot; the same is 
-		done for panels G through H: A,G) No 
+		done for panels G through H: A,G) no 
 		preprocessing; B,H) spelling correction; C,I) stop word removal; 
 		D,J) lemmatization; E,K) splitting of multiple-word labels; 
 		F,L) distinguishing identical labels entered in different form inputs.
+		Standard error bars are shown.
 	}
 	\label{fig:theta_sup}
 \end{figure}
@@ -1510,10 +1523,10 @@ on-par with echoed framing.
 	$X$; critical number of successful classifications to reject the null 
 	hypotheses that the classifier does no better than chance 
 	(one-tailed test), $x^*$; 
-	lower bound estimate of bias based on observed number of successful
-	classifications, $\hat{\theta}$; lower confidence interval for lower
-	bound estimate of bias, $\theta^*_\mathrm{low}$; upper confidence 
-	interval for same, $\theta^*_\mathrm{high}$.  Hypothesis test and 
+	estimate of bias based on observed number of successful
+	classifications, $\hat{\theta}$; lower confidence interval limit 
+	for the estimate of bias, $\theta^*_\mathrm{low}$; upper confidence 
+	interval limit for same, $\theta^*_\mathrm{high}$.  Hypothesis test and 
 	confidence intervals are based on a significance of $\alpha=0.05$.
 	Values for $\hat{\theta}$ in boldface are significantly greater than zero.
 }
@@ -1545,16 +1558,14 @@ on-par with echoed framing.
 \caption{Statistics for the measurement of the extent of bias, $\theta$,
 	induced by intertask for \textit{intertask-food-objects}, measured 
 	for test images at specific positions in the sequence of five test images.
-	These values are averaged over five different permutations, such that 
-	the strength of intertask effects are measured for each of the test images
-	in each of the positions.
+	These values are averaged over five different permutations.
 	Number of validation tests, $N$; number of successful classifications, 
 	$X$; critical number of successful classifications to reject the null 
 	hypotheses that the classifier does no better than chance 
 	(one-tailed test), $x^*$; 
-	lower bound estimate of bias based on observed number of successful
-	classifications, $\hat{\theta}$; lower confidence interval for lower
-	bound estimate of bias, $\theta^*_\mathrm{low}$; upper confidence 
+	estimate of bias based on observed number of successful
+	classifications, $\hat{\theta}$; lower confidence interval limit
+	for the estimate of bias, $\theta^*_\mathrm{low}$; upper confidence 
 	interval for same, $\theta^*_\mathrm{high}$.  Hypothesis test and 
 	confidence intervals are based on a significance of $\alpha=0.05$.
 	Values for $\hat{\theta}$ in boldface are significantly greater than zero.
@@ -1596,12 +1607,12 @@ on-par with echoed framing.
 \end{tabular}
 
 \caption{
-	Results for two-proportion z-tests, leading to the rejection of the null 
-	hypothesis that intertask and (passive) framing effects are equally 
-	strong.  However, the echoed framing effects are on par with intertask
-	effects (second row). 
-	Numbers in boldface indicate a $z$-statistic significantly 
-	different from zero ($\alpha=0.05$).
+	Results for two-proportion z-tests, testing the null hypothesis that 
+	intertask and framing effects are equally strong.
+	In the cases of comparing intertask effects to passive framing, the
+	null hypothesis should be rejected ($\alpha=0.05$), but 
+	echoed framing effects are on par with intertask effects (second row). 
+	$z$-statistics in boldface are significantly different from zero.
 }
 \label{table:intertask_framing}
 \end{center}
@@ -1842,7 +1853,10 @@ the word that was most suppressed in food-exposed treatments was always
 		frequencies decreased, the most, between treatments of given 
 		experiments, within labels attributed to the first test task.
 		Positive values indicate that the food-exposed treatment
-		used the word with higher frequency.  Word frequencies for 
+		used the word with higher frequency.  
+		Note that the word ``food'' is always the most suppressed among
+		food-exposed workers.
+		Word frequencies for 
 		\textit{intertask-food-objects} correspond to the labels attributed
 		to image 1 (see Fig. \ref{fig:task1:test}) which is not necessarily 
 		the first 
@@ -2001,9 +2015,9 @@ Table~S\ref{table:proportion-food}.
 	\bottomrule
 \end{tabular}
 }
-\caption{Statistics for the comparison of the proportions of food-related
-	labels between treatments of all experiments.  $s$: sample standard
-	deviation.
+\caption{Statistics for the comparison of the proportions of food-references
+	among words used in labels, between treatments of all experiments.  
+	$s$: sample standard deviation.
 }
 \label{table:proportion-food}
 \end{table}
@@ -2062,11 +2076,11 @@ Table~S\ref{table:vocab}.
 }
 \caption{
 	Statistics for the measurement of vocabulary size difference, for each
-	experiment, between the food and non-food treatments. $|V|$: vocabulary
-	size; $\Delta|V|$: vocabulary size of non-food less food treatments;
-	$\Delta|V|^*_{low}, \Delta|V|^*_{high}$: lower and upper critical values
-	for statistically significant $\Delta|V|$, at $\alpha=0.05$, 
-	based on bootstrapping.  
+	experiment, between the food and non-food treatments. Vocabulary
+	size, $|V|$; vocabulary size of non-food less food treatments, 
+	$\Delta|V|$; lower and upper critical values, $\Delta|V|^*_{low}$ and 
+	$\Delta|V|^*_{high}$, for statistically significant 
+	$\Delta|V|$, at $\alpha=0.05$, based on bootstrapping.  
 	Boldfaced values for $\Delta|V|$ are statistically significant.
 }
 \label{table:vocab}
@@ -2156,7 +2170,7 @@ calculations are shown in Table~S\ref{table:specificity}.
 	specific (which was always the case); 
 	boldfaced values indicate a disparity in specificity that 
 	is statistically significant.  
-	$S^*_\mathrm{lowCI}, S^*_\mathrm{upCI}$: lower and upper
+	$S^*_\mathrm{lowCI}, S^*_\mathrm{highCI}$: lower and upper
 	confidence intervals for $S$ based on the bootstrapping approach.  
 	Specificites are expressed as percentages.}
 \label{table:specificity}
