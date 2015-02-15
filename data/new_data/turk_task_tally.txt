@@ -1,0 +1,12 @@
+image/tagging/class		36
+text/judgment/tagging	15
+mixed/taging/class		0
+info gather				46
+writing, editing		18
+image transcript		57
+media transcript		12
+can't tell				7
+survey					9
+
+
+
