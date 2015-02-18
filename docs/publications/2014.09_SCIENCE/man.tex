@@ -132,10 +132,7 @@ Microtask platforms are becoming commonplace tools for performing human
 research, producing gold-standard data, and annotating large datasets.
 These platforms connect \textit{requesters}
 (researchers or companies) with large populations (crowds) of workers, who 
-perform clerical jobs, typically taking less than five minutes each.
-Recently, they have been studied as a way for untrained workers to perform 
-clinical diagnostic functions, where expert human resources are
-a bottleneck \cite{Warby2014385}.
+perform small jobs, typically taking less than five minutes each.
 A topic of ongoing research concerns designing jobs that elicit high 
 quality annotations. Here we identify a feature of nearly all crowdsourcing 
 jobs that acts as a strong systemic source of bias. 
@@ -143,7 +140,7 @@ Microtask jobs typically consist of a sequence
 of tasks sharing common format 
 (e.g., circle galaxies in an image). 
 Using image-labeling, a canonical microtask job format, we 
-discover that a priming effect, induced by earlier tasks, shifts the 
+discover that earlier tasks have a priming effect on the worker, shifting the 
 distribution of future answers by 30-50\%. 
 Moreover, prior tasks influence the content that workers focus on, 
 as well as the richness and specialization of responses. 
@@ -151,9 +148,8 @@ Understanding these \textit{intertask effects} is crucial
 to embracing micratask platforms in critical applications.
 While intertask effects can be a source of systematic bias, 
 our results suggest that, with appropriate job design, 
-it might be possible to leverage them to 
-hone worker focus and acuity, helping to elicit reproducible, 
-expert-level judgments.
+they might be leveraged to hone worker focus and acuity, 
+helping to elicit reproducible, expert-level judgments.
 \end{sciabstract}
 
 \section*{Main text}
@@ -264,8 +260,8 @@ does indeed depend strongly on the tasks performed beforehand.
 We call the effects that earlier tasks exert on later ones 
 \textit{intertask effects}.  If, as has been suggested \cite{5543192}, 
 microtask platforms are to be considered as a new form of computing 
-architecture, it will be necessary reconcile the fact that the human computing 
-elements 
+architecture, it will be necessary to reconcile the fact that the human 
+computing elements 
 exhibit \textit{hysteresis}, meaning that microtask workers' outputs depend 
 on the \textit{history} of their inputs.
 
@@ -310,8 +306,9 @@ providing descriptive labels for an image depicting
 either food or (non-food) objects, depending on the worker's 
 treatment (Fig.~\ref{fig:task}A and B).  Following the initial 
 tasks, workers performed five \textit{test tasks}, which were identical for 
-both treatments.  In the the test tasks, workers labeled images depicting a 
-mixture of food and objects (Fig.~\ref{fig:task}C).  The five initial 
+both treatments.  In the the test tasks, workers labeled images, each of 
+which depicted a mixture of food and objects (Fig.~\ref{fig:task}C).  
+The five initial 
 and test tasks performed by each worker comprised one HIT\footnote{
 	Workers were only allowed to participate in one HIT relating to this study.
 }. The images were presented one at a time, and we made no 
@@ -326,7 +323,7 @@ even though the test tasks were identical in both treatments\footnote{
 about the the microtask methodology.
 
 Having affirmed the \textit{existence} of intertask effects, we wish to
-understand the nature and severity of the bias thus induced.
+understand the nature and severity of the bias induced.
 We therefore define the extent of bias, $\theta$, in terms of
 the strength of influence that a prior perturbation has on workers' responses.
 Since workers' responses are stochastic, we define the extent of bias in 
@@ -366,7 +363,7 @@ different set of responses).
 
 \begin{figure}
 	\centering
-	\includegraphics[scale=0.6]{figs/images.pdf}
+	\includegraphics[scale=1.0]{figs/images.jpg}
 	\caption{
 		Examples of images used in
 		initial tasks for the (\textbf{A}) \textit{food} and (\textbf{B}) 
@@ -408,7 +405,23 @@ Framing did induce changes in the frequencies of
 word usage at significance (as determined by $\chi^2$ test; $p=0.0012$), but 
 the \textit{extent} of framing-induced bias was not statistically 
 distinguishable from zero ($p =0.37$) (Fig.~\ref{fig:theta}A), and was
-weaker than the bias due to intertask effects ($p=2.1\times 10^{-5}$).
+much weaker than the bias due to intertask effects ($p=2.1\times 10^{-5}$).
+\begin{figure}
+	\centering
+	\includegraphics[scale=1]{figs/theta.pdf}
+	\caption{
+		Empirical bias, $\theta_\mathrm{NB}$, measured using a na\"ive Bayes 
+		classifier, induced in image labeling tasks, due to workers' 
+		exposure to framing and initial tasks.  
+		(\textbf{A}) Exposing workers to initial tasks induces more severe
+		bias than framing, except when echoed framing is used. 
+		(\textbf{B}) As workers proceed through test tasks, 
+		the bias due to initial tasks wanes, 
+		but remains significant even after five tasks.  
+		Standard error bars are shown.
+	}
+	\label{fig:theta}
+\end{figure}
 
 To assess the persistence of intertask effects, we replicated the experiment
 \textit{intertask-food-objects} while permuting the test tasks, to reveal the 
@@ -458,23 +471,6 @@ the worker to interpret the exchange as an instruction.
 In any case, it is remarkable that intertask effects
 were on par with an explicit, actively reinforced statement of the tasks' 
 purpose.
-
-\begin{figure}
-	\centering
-	\includegraphics[scale=1]{figs/theta.pdf}
-	\caption{
-		Empirical bias, $\theta_\mathrm{NB}$, measured using a na\"ive Bayes 
-		classifier, induced in image labeling tasks, due to workers' 
-		exposure to framing and initial tasks.  
-		(\textbf{A}) Exposing workers to initial tasks induces more severe
-		bias than framing, except when echoed framing is used. 
-		(\textbf{B}) As workers proceed through test tasks, 
-		the bias due to initial tasks wanes, 
-		but remains significant even after five tasks.  
-		Standard error bars are shown.
-	}
-	\label{fig:theta}
-\end{figure}
 
 \begin{figure}
 	\centering
@@ -791,7 +787,7 @@ Experiment & \parbox[c]{3.8cm}{\centering{Priming modality}} & Treatment & Frame
 \end{table}
 
 \begin{figure}
-	\includegraphics[scale=0.8]{figs/tasks.pdf}
+	\includegraphics[scale=0.8]{figs/tasks.jpg}
 	\caption{Examples of (A) task instructions, (B) a framing slide
 		(C) an echoed framing slide, and (D) an image-labeling 
 		task.
@@ -847,7 +843,7 @@ The images used in the test tasks of \textit{intertask-food-culture} and
 
 \begin{figure}
 	\begin{center}
-	\includegraphics{figs/task1-food.pdf}
+	\includegraphics{figs/task1-food.jpg}
 	\end{center}
 	\caption{
 		Images used in the initial tasks for the
@@ -860,7 +856,7 @@ The images used in the test tasks of \textit{intertask-food-culture} and
 
 \begin{figure}
 	\begin{center}
-	\includegraphics{figs/task1-obj.pdf}
+	\includegraphics{figs/task1-obj.jpg}
 	\end{center}
 	\caption{
 		Images used in the initial tasks for the
@@ -873,7 +869,7 @@ The images used in the test tasks of \textit{intertask-food-culture} and
 
 \begin{figure}
 	\begin{center}
-	\includegraphics{figs/task1-test.pdf}
+	\includegraphics{figs/task1-test.jpg}
 	\end{center}
 	\caption{
 		Images used in the test tasks for \textit{intertask-food-objects}
@@ -889,7 +885,7 @@ The images used in the test tasks of \textit{intertask-food-culture} and
 
 \begin{figure}
 	\begin{center}
-	\includegraphics{figs/task2-food.pdf}
+	\includegraphics{figs/task2-food.jpg}
 	\end{center}
 	\caption{
 		Images used in the initial tasks for the
@@ -902,7 +898,7 @@ The images used in the test tasks of \textit{intertask-food-culture} and
 
 \begin{figure}
 	\begin{center}
-	\includegraphics{figs/task2-cult.pdf}
+	\includegraphics{figs/task2-cult.jpg}
 	\end{center}
 	\caption{
 		Images used in the initial tasks for the
@@ -915,7 +911,7 @@ The images used in the test tasks of \textit{intertask-food-culture} and
 
 \begin{figure}
 	\begin{center}
-	\includegraphics{figs/task2-test.pdf}
+	\includegraphics{figs/task2-test.jpg}
 	\end{center}
 	\caption{
 		Images used in the test tasks for \textit{intertask-food-culture} 
@@ -928,7 +924,7 @@ The images used in the test tasks of \textit{intertask-food-culture} and
 
 \begin{figure}
 	\begin{center}
-		\includegraphics{figs/task2-ingr.pdf}
+		\includegraphics{figs/task2-ingr.jpg}
 	\end{center}
 	\caption{
 		Images used in initial tasks for \textit{frame-food-culture} 
