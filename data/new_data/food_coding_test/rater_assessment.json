@@ -1,0 +1,23 @@
+{
+  "machine_food_FP": 34, 
+  "F1": 0.7761194029850746, 
+  "machine_food_TP": 104, 
+  "food_coding_reliability": 0.8238078084522586, 
+  "num_machine_should_not_have_corrected": 4, 
+  "num_machine_corrections": 89, 
+  "recall": 0.8, 
+  "net_machine_fixes": 69, 
+  "num_correct_machine_food_ratings": 440, 
+  "num_food_terms": 130, 
+  "num_misspelled": 85, 
+  "fract_net_machine_fixes": 0.8117647058823529, 
+  "fract_misspelled_after_correction": 0.032, 
+  "fract_misspelled": 0.17, 
+  "precision": 0.7536231884057971, 
+  "num_correct_machine_corrections": 73, 
+  "machine_food_TN": 336, 
+  "fract_correct_machine_food_ratings": 0.88, 
+  "fract_correct_machine_corrections": 0.8202247191011236, 
+  "machine_food_FN": 26, 
+  "num_terms": 500
+}

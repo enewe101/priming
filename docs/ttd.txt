@@ -1,6 +1,61 @@
 manuscript notes
 ~~~~~~~~~~~~~~~~
 
+[] discuss how many workers collected
+	- over what period of time
+	- no filters used
+
+x left off -- still getting through the j bigham paper 
+	"The effects of Sequence and Delay on crowdwork -- encorporating prior
+	work leads therefrom
+
+It is common to break a jobs down into small tasks, and group tasks of a 
+similar type.  This saves workers the cognitive cost of task-switching, 
+makes it easier for the requester to cross-verify worker outputs.  Moreover
+workers prefer accepting HITs that have a larger number of tasks within them,
+to avoid the interruption exiting the context of the HIT.  Workers also prefer
+when they can perform multiple HITs of the same kind, because they conserve
+the working context and so are more efficient.
+
+Both contextual and temporal interruptions negatively impact worker efficiency.
+
+Worker's subjective reports indicate that interruptions are "annoying", and 
+"frustrating" \cite{Adamczyk2004271}, and interruptions are observed to lead 
+to decreased worker performance \cite{lee2015effects}.
+
+
+Workflow models -- breaking a complex task down tends to reduce error Kittur
+paper, and probably crowdforge paper.
+
+Workers produce better results when they receive timely feedback (either 
+self-assessed or external) \cite{Dow20121013}
+
+[] get proper bibliographical ref from author (J Bigham) homepage for 
+	\cite{laseckieffects}
+workers spend on average over 4h per day, and, among those who report taking
+breaks, they do so on average every 1.24 hours, while the majority of workers
+who don't take breaks report lost wages as the main motivation for 
+abstaining.\cite{laseckieffects}
+
+Among desireable traits when selecting jobs, workers cited speed and 
+repeatability.\cite{laseckieffects}
+
+When intervening tasks are related, but different, they produce greater 
+interruption effects. \cite{laseckieffects}.  They only show that the
+censecutive performance of related tasks  leads to an increase in the time
+required to complete a task, but their design does not enable testing what
+the effects are.\cite{laseckieffects} 
+
+Workers prefer those jobs that have a large number HITs available, suggesting
+that workers prefer to find a given HIT type, and complete many HITs in a row,
+which is consistent with wanting to decrease task-switching. \cite{Chilton20101}
+
+How many tasks are put into a HIT.  Putting more tasks into a hit gives 
+better quality responses.\cite{Huang201077}
+
+
+
+
 [] significance tests
 	x Theta
 		x update the actual plot to reflect the fact than N = 238, not 119

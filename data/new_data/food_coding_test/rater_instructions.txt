@@ -1,0 +1,22 @@
+Examples of good spelling correction:
+crepes,crepe # ignore pluralization
+bibimbapp, bibimbap # 
+firstclass, first_class
+saladbole, salad bowl
+
+
+Context dependant!  Either could be right, depending whether you think
+the intended meaning was actually "restroom" or "left room"
+reftroom, restroom # a plausible correction
+reftroom, left room # an alternate plausible correction for the same item
+allnice, allspice # "all nice" makes sense, but "allspice" is a kind of spice
+
+
+These are examples of words that are probably not correct.
+crepes, creep # 
+bibimbapp, bib im bap # "bibimbap" is a dish.  "bib im bap" seems unlikely
+firstclass, first_pass # "firstclass
+saladbole, salad bone
+
+
+
