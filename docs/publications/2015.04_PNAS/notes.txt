@@ -1,0 +1,27 @@
+Prior to this study, little though was given to the ordering and bundling
+of tasks.  But our findings show that intertask effects are far more powerful 
+than other effects that are normally given consideration during task design.
+
+One practical response to our findings would be to serve tasks in a random
+order. In effect, this is an attempt to submerge the bias induced by 
+intertask effects below the level of noise introduced by other uncontrolled 
+factors.  Given the large
+effect size, this is both not a prudent choice, and eschews the opportunity 
+to engage a more refined task engineering practice, enabled by a better 
+understanding of intertask effects.
+
+The boost that we observed to the specialization and richness of workers' 
+responses provides further motivation for developing a deeper understanding 
+of the role that task ordering might play in a more sophisticated approach to 
+task engineering.  One goal in using microtasks is to achieve expert level
+judgments using non-expert participants.  This generally increases the 
+throughput and decreases the cost in the application domain.  But aggregating 
+many non-expert judgments cannot always produce expert level performance.
+
+Perceptual learning is key to the development of expertise.  In many domains,
+experts are distinguished from novices by their ability 
+recognize salient from the non-salient information, more so than by their
+knowledge of facts or rules.  Our observations show that repeated exposure to 
+the task stimulus strongly influences the perception of salience.  does 
+This suggests that a much more refined approach to task engineering might 
+enable expert-level judgment for a wider variety of crowdsourced applications.
