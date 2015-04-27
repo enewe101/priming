@@ -543,12 +543,11 @@ often, such as ``coffee'', ``cheese'', or ``wine''.
 	\caption{
 		The five words whose frequencies increased, and those whose 
 		frequencies decreased, the most, between treatments of given 
-		experiments, within labels attributed to the first test task.
-		Positive values indicate that the food-exposed treatment
+		experiments.  The label frequencies shown apply to the first test
+		task.  Positive values indicate that the food-exposed treatment
 		used the word with higher frequency.  
 		Note that the word ``food'' is always the most suppressed among
-		food-exposed workers.
-		Word frequencies for 
+		food-exposed workers.  Word frequencies for 
 		\textit{intertask-food-objects} correspond to the labels attributed
 		to image 1 (see Fig. \ref{Sfig:task1:test}) which is not necessarily 
 		the first 
@@ -752,24 +751,23 @@ often: i.e. to guess $z=\arg\max_z(p_z(x))$.
 
 The probability that this guess is correct is:
 \begin{align}
-	\Pr\{\mathrm{correct}\vert x\} 	&= \frac{1}{2} + \frac{|p_0(x') - p_1(x')|}{2 \big(p_0(x') + p_1(x') \big)}.
+	\Pr\{\mathrm{correct}\vert x\} 	&= \frac{1}{2} + \frac{|p_0(x) - p_1(x)|}{2 \big(p_0(x) + p_1(x) \big)}.
 \end{align}
 The probability that the optimal classifier will be correct in general,
-which is by definition $\eta^*$, can be found by summing over all values of 
-$x$:
+which is by definition $\eta^*$, can be found by summing over all possible
+responses $x \in \mathcal{X}$:
 
 \begin{align}
-	\eta^* &= \sum_{x' \in \mathcal{X}} \mathrm{Pr}\{\mathrm{correct}\vert x'\}
-			\mathrm{Pr}\{x'\} \\
-		&= \sum_{x'\in X} \left(
+	\eta^* &= \sum_{x \in \mathcal{X}} \mathrm{Pr}\{\mathrm{correct}\vert x\}
+			\mathrm{Pr}\{x\} \\
+		&= \sum_{x\in X} \left(
 				\frac{1}{2} + 
-				\frac{|p_0(x') - p_1(x')|}{2 \big(p_0(x') + p_1(x') \big)}
+				\frac{|p_0(x) - p_1(x)|}{2 \big(p_0(x) + p_1(x) \big)}
 			\right)
 			\left(
-				\frac{p_0(x') + p_1(x')}{2}
+				\frac{p_0(x) + p_1(x)}{2}
 			\right)\\
-		&= \frac{1 + \theta}{2}\\
-		\implies \theta &= 2\eta^* - 1.
+		&= \frac{1 + \theta}{2}
 \end{align}
 
 Since no classifier can be more accurate than the optimal classifier, we 
