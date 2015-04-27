@@ -11,6 +11,14 @@
 
 %\usepackage{pnastwoF}
 
+\usepackage{xr}
+\externaldocument[S]{supp}
+\usepackage{dcolumn}
+\usepackage{multirow}
+\usepackage{booktabs}
+\newcolumntype{d}{D{.}{.}{4.0}}
+\newcolumntype{s}{D{.}{.}{1.4}}
+
 
 
 %% OPTIONAL MACRO DEFINITIONS
@@ -313,7 +321,7 @@ either images depicting food (Fig.~\ref{fig:task}D), or depictions of cultural
 scenes (of dance, sport, or music) (Fig.~\ref{fig:task}E).  The test tasks,
 which were, again, identical for both treatments, depicted meals of
 identifiable cultural origin (Fig.~\ref{fig:task}F).  As an aside, we recognize
-that, despite efforts to the contrary, initial tasks in
+that, despite efforts to the contrary, initial tasks in the food treatment of
 \textit{intertask-food-culture} are arguably still of identifiable cultural
 origin, but this fact would only tend to make our results more conservative (we
 discuss this further in the supplementary text). 
@@ -323,8 +331,10 @@ effects (about 50\%) (Fig.~\ref{fig:theta}A).  Again, comparing intertask
 effects to framing, the experiment (\textit{frame-food-culture}) used the same
 test tasks as in \textit{intertask-food-culture}, but exposed workers to
 statements framing the purpose of the tasks as the recognition of either food
-or culture.  In this experiment, framing did not induce significant changes in
-word frequencies (by $\chi^2$ test, $p=0.29$) (Fig.~\ref{fig:theta}A).
+or culture.  Again, we found that framing effects were weaker than 
+intertask effects ($p=7.6\times10^{-7}$).  In fact, framing did not induce 
+significant changes in word frequencies (by $\chi^2$ test, $p=0.29$) 
+(Fig.~\ref{fig:theta}A).
 
 It was only when framing was combined with an active reiteration step, that
 bias reached a comparable extent to that induced by intertask effects.  In the
@@ -390,11 +400,164 @@ certain, presumably more common and generic words (yielding fewer food-related
 words in total).
 
 This hypothesis is corroborated when we look at those words whose frequencies
-changed the most from one treatment to another (Table~S\ref{table:top-words}).
-The word ``food'', which is the most generic possible food-related word, was
-always \textit{suppressed} among food-primed workers, relative to the
-non-food-primed workers.  In fact, for all experiments, ``food'' was the
-\textit{most suppressed} word.
+changed the most from one treatment to another (Table~\ref{table:top-words}).
+As one would expect, references to objects, such as ``candle'', ``fork'', 
+or ``statue'' appear less frequently among the labels provided by workers in 
+food-exposed treatments.  But, the food-exposed workers also provide the most
+generic references to to food less often, such as the word ``food'' itself, 
+or ``meal''.  
+In fact, the word ``food'', which is the most generic possible food-related 
+word, was always \textit{the most suppressed} among food-primed workers, 
+relative to their non-food-primed counterparts.  
+Meanwhile, food-exposed workers provide more specific references to food more 
+often, such as ``coffee'', ``cheese'', or ``wine''.
+
+\begin{table*}
+	\centering
+	\setlength{\tabcolsep}{4pt}
+	\begin{tabular}{ c c c c c }
+	
+		\setlength{\tabcolsep}{4pt}
+		\begin{tabular}{ r | c }
+		\toprule
+		\multicolumn{2}{c}{
+			\parbox[c]{2.5cm}{
+				\centering
+					\textit{intertask-food-objects}
+			}} \\
+		\midrule
+		coffee & 38 \\
+		meal & 34 \\
+		cheese & 34 \\
+		apple & 32 \\
+		dessert & 21 \\
+		cup & -30 \\
+		glass & -45 \\
+		table & -70 \\
+		candle & -74 \\
+		food & -80 \\
+		\bottomrule
+		\end{tabular}
+
+&
+
+		\setlength{\tabcolsep}{4pt}
+		\begin{tabular}{ r | c }
+		\toprule
+		\multicolumn{2}{c}{
+			\parbox[c]{2.5cm}{
+				\centering
+				\textit{frame-food-objects}
+			}
+		}\\
+		\midrule
+		bread & 18 \\
+		wine & 18 \\
+		cheese & 16 \\
+		apple & 14 \\
+		oil & 12 \\
+		table & -9 \\
+		meal & -10 \\
+		candle & -12 \\
+		dinner & -13 \\
+		food & -32 \\
+		\bottomrule
+		\end{tabular}
+
+&
+
+		\setlength{\tabcolsep}{4pt}
+		\begin{tabular}{ r | c }
+		\toprule
+		\multicolumn{2}{c}{
+			\parbox[c]{2.3cm}{
+				\centering
+			\textit{echo-food-objects}} 
+		}\\
+		\midrule
+		apple & 24 \\
+		cheese & 23 \\
+		wine & 15 \\
+		coffee & 14 \\
+		oil & 7 \\
+		knife & -24 \\
+		dinner & -26 \\
+		fork & -27 \\
+		candle & -35 \\
+		food & -55 \\
+		\bottomrule
+		\end{tabular}
+
+&
+
+		\setlength{\tabcolsep}{4pt}
+		\begin{tabular}{ r | c }
+		\toprule
+		\multicolumn{2}{c}{
+			\parbox[c]{2.5cm}{
+				\centering
+			\textit{intertask-food-culture}} 
+			\smallskip
+		}\\
+
+		\midrule
+		spicy & 26 \\
+		sauce & 17 \\
+		indian & 15 \\
+		buffet & 14 \\
+		exotic & 12 \\
+		festival & -11 \\
+		offering & -12 \\
+		statue & -15 \\
+		india & -20 \\
+		food & -56 \\
+		\bottomrule
+		\end{tabular}
+
+&
+
+		\setlength{\tabcolsep}{4pt}
+		\begin{tabular}{ r | c }
+		\toprule
+		\multicolumn{2}{c}{
+			\parbox[c]{2.5cm}{
+				\centering
+			\textit{frame-food-culture}} 
+		}\\
+		\noalign{\smallskip}
+		\midrule
+		indian & 11 \\
+		banquet & 8 \\
+		spicy & 7 \\
+		asian & 6 \\
+		variety & 6 \\
+		delicious & -6 \\
+		meat & -7 \\
+		festival & -7 \\
+		spice & -7 \\
+		food & -9 \\
+		\bottomrule
+		\end{tabular}
+
+	\end{tabular}
+	\caption{
+		The five words whose frequencies increased, and those whose 
+		frequencies decreased, the most, between treatments of given 
+		experiments, within labels attributed to the first test task.
+		Positive values indicate that the food-exposed treatment
+		used the word with higher frequency.  
+		Note that the word ``food'' is always the most suppressed among
+		food-exposed workers.
+		Word frequencies for 
+		\textit{intertask-food-objects} correspond to the labels attributed
+		to image 1 (see Fig. \ref{Sfig:task1:test}) which is not necessarily 
+		the first 
+		test task due to the tasks being permuted.  There were five times
+		as many workers in \textit{intertask-food-objects}, hence
+		larger absolute differences are observed.
+	}
+	\label{table:top-words}
+\end{table*}
 
 Our results can be explained through a combination of positive and negative
 priming.  Positive priming (usually simply ``priming'') occurs when a prior
@@ -493,10 +656,10 @@ reliable human computation systems.
 \section{Microtask setup} The work presented in the main text consisted of six
 experiments involving HITs (bundles of tasks) performed on Amazon's Mechanical
 Turk (MTurk) platform.  The flow of events experienced by a worker when
-participating in this study is depicted in Fig.~S\ref{fig:task_schematic}.
+participating in this study is depicted in Fig.~S\ref{Sfig:task_schematic}.
 Each experiment was divided into two treatments.  Treatments for a given
 experiment differed with respect to a particular priming modality, which served
-as the independent variable (as specified in Table~S\ref{table:experiments}).
+as the independent variable (as specified in Table~S\ref{Stable:experiments}).
 The HITs for treatments of the same experiment always involved the same test
 tasks (the last five tasks in the HIT), the results of which served as the
 dependent variable.
@@ -504,9 +667,9 @@ dependent variable.
 All HITs were presented as a series of slides.  The first slide consisted of a
 brief set of instructions.  For HITs that included framing, a framing statement
 was shown on a slide immediately after the instructions (Fig.
-S\ref{fig:hit_preamble}B and C).  Initial tasks, when included, followed next.
+S\ref{Sfig:hit_preamble}B and C).  Initial tasks, when included, followed next.
 The initial tasks consisted of a series of five slides, each containing an
-image-labeling task like the one shown in Fig.~S\ref{fig:hit_preamble}D.
+image-labeling task like the one shown in Fig.~S\ref{Sfig:hit_preamble}D.
 Finally, for all HITs, five slides were shown containing test tasks, in the
 same format as the initial tasks.
 
@@ -514,7 +677,7 @@ Workers were randomly assigned to the treatments, and a given worker could only
 complete one HIT related to this study.  In \textit{intertask-food-culture},
 the \textit{food} and \textit{culture} treatments were both divided into five
 sub-treatments, in which the test tasks were permuted.  The permutations were
-obtained by rotating the order shown in Fig.~S\ref{fig:task1:test} by different
+obtained by rotating the order shown in Fig.~S\ref{Sfig:task1:test} by different
 amounts.  For example, rotating by one position involves moving the first image
 to the second position, the second image to the third position, and so on, and
 moving the last image to the first position.  The five different possible
@@ -523,18 +686,18 @@ effects on each image when it occurred in different positions relative to the
 initial tasks.
 
 \section{Selection of images} The images used in the initial tasks for
-\textit{intertask-food-objects}  are shown in Figs.~S\ref{fig:task1:food}
-(\textit{food} treatment) and S\ref{fig:task1:obj} (\textit{objects}
+\textit{intertask-food-objects}  are shown in Figs.~S\ref{Sfig:task1:food}
+(\textit{food} treatment) and S\ref{Sfig:task1:obj} (\textit{objects}
 treatment).  We took care to exclude objects from the food-images (except for
 the dish supporting the food in some cases), and to exclude food from the
 object-images.  The images used for the test tasks of
 \textit{intertask-food-objects} and \textit{frame-food-objects} are shown in
-Fig.~S\ref{fig:task1:test}.
+Fig.~S\ref{Sfig:task1:test}.
 
 The images used in the initial tasks for \textit{intertask-food-culture} are
-shown in Figs.~S\ref{fig:task2:food} (\textit{food} treatment) and
-S\ref{fig:task2:cult} (\textit{culture} treatment).  We selected the initial
-images for the treatments of this experiment to respectively reflect depict
+shown in Figs.~S\ref{Sfig:task2:food} (\textit{food} treatment) and
+S\ref{Sfig:task2:cult} (\textit{culture} treatment).  We selected the initial
+images for the treatments of this experiment to respectively depict
 food and culture.  Naturally, since food is a very important aspect of culture,
 pictorial depictions of the two concepts cannot be cleanly separated, and
 images depicting food inevitably also depict culture.  However, the fact that
@@ -546,19 +709,19 @@ strong intertask effects.  Thus, the presence of culture in the food-related
 initial images of \textit{intertask-food-culture} does not seem to have been
 problematic.  The images used in the test tasks of
 \textit{intertask-food-culture} and \textit{frame-food-culture} are shown in
-Fig.~S\ref{fig:task2:test}.
+Fig.~S\ref{Sfig:task2:test}.
 
 \section{Framing} We framed tasks by including a message, near the beginning
 of the HIT, that suggested a particular purpose for the tasks.  The precise
-language used is shown in Table~S\ref{table:experiments}, and an example of a
-framing slide is shown in Fig.~S\ref{fig:hit_preamble}B and C.  In
+language used is shown in Table~S\ref{Stable:experiments}, and an example of a
+framing slide is shown in Fig.~S\ref{Sfig:hit_preamble}B and C.  In
 \textit{frame-food-objects} and \textit{frame-food-culture}, the framing
 language was based on naming the (fictitious) entity running the study, for
 example ``The Global Foundation for the Recognition of Cultures'', or
 ``Laboratory for the visual perception of Objects and Tools''.  In
 \textit{echo-food-objects}, we stated the purpose explicitly (``The purpose of
 this task is \dots''), and then required the worker to echo back the purpose of
-the task by selecting it from a combo box Fig.~S\ref{fig:hit_preamble}C.
+the task by selecting it from a combo box Fig.~S\ref{Sfig:hit_preamble}C.
 
 In \textit{frame-food-objects} and \textit{echo-food-objects}, we did not
 include any initial tasks, meaning that the test tasks followed the framing
@@ -574,6 +737,43 @@ framing effect in \textit{frame-food-culture} was reduced by the initial tasks,
 possibly because intertask effects tend to override framing. Further
 experimentation would be necessary to be sure, but this was not the purpose of
 our study.
+
+\section{Derivation of bias inequality}
+A sketch of the derivation of the lower bound on the degree of bias 
+$\theta$ in terms of the observed accuracy of a classifier, $\eta$, follows
+(see the supplementary material for a detailed derivation). 
+Consider the accuracy of the best possible classifier, $\eta^*$.  
+Assume two groups of workers, have been
+exposed to different treatments, 1 and 2, and as a result have
+a different probability of yielding response $x$ during a task: 
+$p_1(x)$ and $p_2(x)$.  Upon observing response $x$, it is optimal to guess 
+that the worker came from the treatment that produces response $x$ more 
+often: i.e. to guess $z=\arg\max_z(p_z(x))$.
+
+The probability that this guess is correct is:
+\begin{align}
+	\Pr\{\mathrm{correct}\vert x\} 	&= \frac{1}{2} + \frac{|p_0(x') - p_1(x')|}{2 \big(p_0(x') + p_1(x') \big)}.
+\end{align}
+The probability that the optimal classifier will be correct in general,
+which is by definition $\eta^*$, can be found by summing over all values of 
+$x$:
+
+\begin{align}
+	\eta^* &= \sum_{x' \in \mathcal{X}} \mathrm{Pr}\{\mathrm{correct}\vert x'\}
+			\mathrm{Pr}\{x'\} \\
+		&= \sum_{x'\in X} \left(
+				\frac{1}{2} + 
+				\frac{|p_0(x') - p_1(x')|}{2 \big(p_0(x') + p_1(x') \big)}
+			\right)
+			\left(
+				\frac{p_0(x') + p_1(x')}{2}
+			\right)\\
+		&= \frac{1 + \theta}{2}\\
+		\implies \theta &= 2\eta^* - 1.
+\end{align}
+
+Since no classifier can be more accurate than the optimal classifier, we 
+obtain the bound stated in Eq.~\ref{l1}.
 
 \end{materials}
 
