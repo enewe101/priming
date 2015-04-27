@@ -1,4 +1,3 @@
-
 % ULaTeX2e, calling the article.cls class and 12-point type.
 
 \documentclass[12pt]{article}
@@ -20,6 +19,8 @@
 \newcolumntype{s}{D{.}{.}{1.4}}
 
 \usepackage{arydshln}
+\usepackage{xr}
+\externaldocument{man}
 
 % Users of the {thebibliography} environment or BibTeX should use the
 % scicite.sty package, downloadable from *Science* at
@@ -154,7 +155,8 @@ subsequent ones.
 \paragraph{Microtask setup.}
 
 The work presented in the main text consisted of six experiments involving
-HITs (bundles of tasks) performed on Amazon's Mechanical Turk platform.  
+HITs (bundles of tasks) performed on Amazon's Mechanical Turk (MTurk)
+platform.  
 The flow of events experienced by a worker when participating in this study 
 is depicted in Fig.~S\ref{fig:task_schematic}.  
 Each experiment was divided into two treatments.  Treatments for a given 
@@ -171,7 +173,7 @@ the results of which served as the dependent variable.
 		our study.  Steps with a dash outlined are only performed by 
 		workers assigned to certain treatments 
 		(see Table~S\ref{table:experiments}).  Steps outlined in orange are
-		part of Amazon's Mechanical Turk interface, and are common to any 
+		part of MTurk's interface, and are common to any 
 		microtask performed on that platform.  Steps outlined in black are
 		specific to our HIT.
 	}
@@ -277,7 +279,7 @@ Experiment & \parbox[c]{3.8cm}{\centering{Priming modality}} & Treatment & Frame
 \end{table}
 
 \begin{figure}
-	\includegraphics[scale=0.8]{figs/tasks.pdf}
+	\includegraphics[scale=0.8]{figs/tasks.jpg}
 	\caption{Examples of (A) task instructions, (B) a framing slide
 		(C) an echoed framing slide, and (D) an image-labeling 
 		task.
@@ -333,7 +335,7 @@ The images used in the test tasks of \textit{intertask-food-culture} and
 
 \begin{figure}
 	\begin{center}
-	\includegraphics{figs/task1-food.pdf}
+	\includegraphics{figs/task1-food.jpg}
 	\end{center}
 	\caption{
 		Images used in the initial tasks for the
@@ -346,7 +348,7 @@ The images used in the test tasks of \textit{intertask-food-culture} and
 
 \begin{figure}
 	\begin{center}
-	\includegraphics{figs/task1-obj.pdf}
+	\includegraphics{figs/task1-obj.jpg}
 	\end{center}
 	\caption{
 		Images used in the initial tasks for the
@@ -359,7 +361,7 @@ The images used in the test tasks of \textit{intertask-food-culture} and
 
 \begin{figure}
 	\begin{center}
-	\includegraphics{figs/task1-test.pdf}
+	\includegraphics{figs/task1-test.jpg}
 	\end{center}
 	\caption{
 		Images used in the test tasks for \textit{intertask-food-objects}
@@ -375,7 +377,7 @@ The images used in the test tasks of \textit{intertask-food-culture} and
 
 \begin{figure}
 	\begin{center}
-	\includegraphics{figs/task2-food.pdf}
+	\includegraphics{figs/task2-food.jpg}
 	\end{center}
 	\caption{
 		Images used in the initial tasks for the
@@ -388,7 +390,7 @@ The images used in the test tasks of \textit{intertask-food-culture} and
 
 \begin{figure}
 	\begin{center}
-	\includegraphics{figs/task2-cult.pdf}
+	\includegraphics{figs/task2-cult.jpg}
 	\end{center}
 	\caption{
 		Images used in the initial tasks for the
@@ -401,7 +403,7 @@ The images used in the test tasks of \textit{intertask-food-culture} and
 
 \begin{figure}
 	\begin{center}
-	\includegraphics{figs/task2-test.pdf}
+	\includegraphics{figs/task2-test.jpg}
 	\end{center}
 	\caption{
 		Images used in the test tasks for \textit{intertask-food-culture} 
@@ -414,7 +416,7 @@ The images used in the test tasks of \textit{intertask-food-culture} and
 
 \begin{figure}
 	\begin{center}
-		\includegraphics{figs/task2-ingr.pdf}
+		\includegraphics{figs/task2-ingr.jpg}
 	\end{center}
 	\caption{
 		Images used in initial tasks for \textit{frame-food-culture} 
@@ -454,6 +456,47 @@ and \textit{culture} treatments.  It would seem that the framing effect in
 \textit{frame-food-culture} was reduced by the initial tasks, possibly because
 intertask effects tend to override framing. Further experimentation 
 would be necessary to be sure, but this was not the purpose of our study.
+
+\subsection*{MTurk's task composition}
+
+\begin{table}
+\centering
+\begin{tabular}{l c c}
+\toprule
+Task Type & Number Seen & Fraction of total (\%) \\
+\toprule
+Image transcription & 57 & 28.5 \\
+Information gathering & 46 & 23.0 \\
+Image tagging and classification & 36 & 18.0 \\
+Copy writing and editing & 18 & 9.0 \\
+Text tagging and classification & 15 & 7.5 \\
+Audio/Video transcription & 12 & 6.0 \\
+Survey & 9 & 4.5 \\
+Unknown & 7 & 3.5 \\
+\bottomrule
+\end{tabular}
+\caption{
+	Frequency of various broad task types seen among the 200 most 
+	recently posted tasks on MTurk, accessed on 12 February, 2015.
+}
+\label{table:task_composition}
+\end{table}
+Image labeling tasks are one of the most often cited kinds of tasks in the
+literature.  To determine whether they do indeed reflect an important fraction
+of MTurk tasks, we accessed MTurk on 12 February, 2015, and coded the 200 
+most recently posted tasks based on their title and description, 
+into one of seven categories.
+
+Tasks relating to image tagging and categorization represented 18\% of the 
+total.  Of all tasks seen, those in which images are the primary input
+account for 46.5\%.  Considering tasks regardless of input modality (e.g.
+text, image, audio, or multimedia), those that involved some kind of tagging
+or categorization accounted for 25.5\%.  
+The detailed counts for our categorization
+of task types are shown in Table~S\ref{table:task_composition}.  
+While this does not reflect a full and
+a systematic characterization of MTurk task composition, it does support our
+choice of image labeling as a representative microtask.
 
 \subsection*{Testing for intertask and framing effects using $\chi^2$}
 
@@ -640,7 +683,7 @@ we rely on a measure of effect size, which is in this case a measure
 of statistical divergence, $\theta$.
 
 \paragraph{Statistical approaches to measuring bias.}
-Recall that Eq.~1 in the main text defined the
+Recall that Eq.~\ref{eq:theta} in the main text defined the
 extent of bias between the microtask responses from two groups
 of workers to be $\theta$ (reproduced here):
 \begin{equation}
@@ -677,7 +720,7 @@ use the estimator in hypothesis tests.
 We will now show that, any classifier algorithm, $\mathcal{A}$, that
 takes the response, $x$, of a worker, and guesses the population to which
 the worker belongs ($P_0$ or $P_1$), will do so with an accuracy, $\eta$,
-that is bounded according to Eq.~2 from the main text 
+that is bounded according to Eq.~\ref{l1} from the main text 
 (reproduced here):
 \begin{equation}
 	\theta \geq 2\eta - 1.
@@ -836,7 +879,8 @@ of samples available for validation tests to estimate $\theta$.
 Third, the na\"ive Bayes algorithm is based on an assumption that the 
 observation of one feature is independent from the observation of any 
 other, once we have conditioned on the class under observation 
-\cite{bishop2006} (i.e. the priming treatment).  This
+%\cite{bishop2006} 
+(i.e. the priming treatment).  This
 conditional independence assumption is made for
 pragmatic rather than theoretical reasons, and is rarely satisfied.  However,
 if it \textit{is} satisfied, then the na\"ive Bayes classifier is 
@@ -894,7 +938,7 @@ We chose not to optimize these decisions, since it would require the
 use of samples (worker-responses), which could then not be used in 
 cross-validation to measure $\theta$.  Nevertheless, it is
 appropriate to look at what affect these decisions had, \textit{post-hoc}.  
-We reproduce the plot from Fig.~2A in the main text, 
+We reproduce the plot from Fig.~\ref{fig:theta}A in the main text, 
 this time using different combinations of preprocessing options,
 and using both the na\"ive Bayes and an SVM classifier, in 
 Fig.~S\ref{fig:theta_sup}.
@@ -908,7 +952,7 @@ Fig.~S\ref{fig:theta_sup} (G to J) is inflated.
 
 These plots suggest that the values of $\theta$ obtained using the 
 na\"ive Bayes classifier and our particular choice of preprocessing steps, 
-as shown in in Fig.~2A of the main text, are representative.
+as shown in Fig.~\ref{fig:theta} of the main text, are representative.
 
 \paragraph{Statistical significance and confidence intervals for $\theta$.}
 The measurements of $\theta$ were based on the number of correct 
@@ -943,7 +987,7 @@ $\sigma = \frac{1}{2}\sqrt{N}$.  The statistics for these hypothesis tests
 are tabulated in Tables~S\ref{table:theta} and S\ref{table:theta_pos}.
 
 To determine the confidence intervals for measured $\theta$ values we 
-use the exact Clopper-Pearson method \cite{clopper1934use}.  
+use the exact Clopper-Pearson method. % \cite{clopper1934use}.  
 Based on the observed number of successes, $X$, we calculate 
 $\eta^*_\mathrm{low}$ and $\eta^*_\mathrm{high}$ from:
 \begin{align}
@@ -966,7 +1010,7 @@ transform them into equivalent values of
 $\theta$: $\theta^*_\mathrm{high} = 2\eta^*_\mathrm{high} - 1$ and 
 $\theta^*_\mathrm{low} = 2\eta^*_\mathrm{low} - 1$.
 The statistics collected for the measurement of $\theta$, corresponding to
-Figs.~2A and B are tabulated in Tables~S\ref{table:theta} and
+Figs.~\ref{fig:theta}A and B are tabulated in Tables~S\ref{table:theta} and
 S\ref{table:theta_pos} respectively.
 
 To determine whether intertask effects were stronger than framing, we 
@@ -1133,9 +1177,10 @@ on-par with echoed framing.
 	Misspelled words were automatically corrected using a spelling 
 	correction algorithm described below.  
 	Next, words were lemmatized using the
-	wordnet lemmatizer \cite{miller1995wordnet,felbaum1998wordnet}.  
+	wordnet lemmatizer \cite{felbaum1998wordnet}.  %miller1995wordnet,
 	Common words such as ``the'', ``to'', or ``with'', were found using
-	NLTK's English stop word list \cite{loper2002nltk} and removed.
+	the natural language toolkit (NLTK) English stop word list 
+	\cite{loper2002nltk} and removed.
 
 	For the purpose of training and testing a na\"ive Bayes classifier, we 
 	performed an additional preprocessing step.  We tagged words with the
@@ -1215,156 +1260,6 @@ on-par with echoed framing.
 	
 
 \subsection*{Analysis of worker vocabulary}
-\paragraph{Most suppressed and activated terms.}
-The words whose frequencies differed most between the treatments of given 
-experiments are shown in Table~S\ref{table:top-words}.  Note that 
-the word that was most suppressed in food-exposed treatments was always 
-``food''.
-
-\begin{table}
-	\centering
-	\setlength{\tabcolsep}{4pt}
-	\begin{tabular}{ c c c c c }
-	
-		\setlength{\tabcolsep}{4pt}
-		\begin{tabular}{ r | c }
-		\toprule
-		\multicolumn{2}{c}{
-			\parbox[c]{2.5cm}{
-				\centering
-					\textit{intertask-food-objects}
-			}} \\
-		\midrule
-		coffee & 38 \\
-		meal & 34 \\
-		cheese & 34 \\
-		apple & 32 \\
-		dessert & 21 \\
-		cup & -30 \\
-		glass & -45 \\
-		table & -70 \\
-		candle & -74 \\
-		food & -80 \\
-		\bottomrule
-		\end{tabular}
-
-&
-
-		\setlength{\tabcolsep}{4pt}
-		\begin{tabular}{ r | c }
-		\toprule
-		\multicolumn{2}{c}{
-			\parbox[c]{2.5cm}{
-				\centering
-				\textit{frame-food-objects}
-			}
-		}\\
-		\midrule
-		bread & 18 \\
-		wine & 18 \\
-		cheese & 16 \\
-		apple & 14 \\
-		oil & 12 \\
-		table & -9 \\
-		meal & -10 \\
-		candle & -12 \\
-		dinner & -13 \\
-		food & -32 \\
-		\bottomrule
-		\end{tabular}
-
-&
-
-		\setlength{\tabcolsep}{4pt}
-		\begin{tabular}{ r | c }
-		\toprule
-		\multicolumn{2}{c}{
-			\parbox[c]{2.5cm}{
-				\centering
-			\textit{echo-food-objects}} 
-		}\\
-		\midrule
-		apple & 24 \\
-		cheese & 23 \\
-		wine & 15 \\
-		coffee & 14 \\
-		oil & 7 \\
-		knife & -24 \\
-		dinner & -26 \\
-		fork & -27 \\
-		candle & -35 \\
-		food & -55 \\
-		\bottomrule
-		\end{tabular}
-
-&
-
-		\setlength{\tabcolsep}{4pt}
-		\begin{tabular}{ r | c }
-		\toprule
-		\multicolumn{2}{c}{
-			\parbox[c]{2.5cm}{
-				\centering
-			\textit{intertask-food-culture}} 
-		}\\
-		\midrule
-		spicy & 26 \\
-		sauce & 17 \\
-		indian & 15 \\
-		buffet & 14 \\
-		exotic & 12 \\
-		festival & -11 \\
-		offering & -12 \\
-		statue & -15 \\
-		india & -20 \\
-		food & -56 \\
-		\bottomrule
-		\end{tabular}
-
-&
-
-		\setlength{\tabcolsep}{4pt}
-		\begin{tabular}{ r | c }
-		\toprule
-		\multicolumn{2}{c}{
-			\parbox[c]{2.5cm}{
-				\centering
-			\textit{frame-food-culture}} 
-		}\\
-		\noalign{\smallskip}
-		\midrule
-		indian & 11 \\
-		banquet & 8 \\
-		spicy & 7 \\
-		asian & 6 \\
-		variety & 6 \\
-		delicious & -6 \\
-		meat & -7 \\
-		festival & -7 \\
-		spice & -7 \\
-		food & -9 \\
-		\bottomrule
-		\end{tabular}
-
-	\end{tabular}
-	\caption{
-		The five words whose frequencies increased, and those whose 
-		frequencies decreased, the most, between treatments of given 
-		experiments, within labels attributed to the first test task.
-		Positive values indicate that the food-exposed treatment
-		used the word with higher frequency.  
-		Note that the word ``food'' is always the most suppressed among
-		food-exposed workers.
-		Word frequencies for 
-		\textit{intertask-food-objects} correspond to the labels attributed
-		to image 1 (see Fig. \ref{fig:task1:test}) which is not necessarily 
-		the first 
-		test task due to the tasks being permuted.  There were five times
-		as many workers in \textit{intertask-food-objects}, hence
-		larger absolute differences are observed.
-	}
-	\label{table:top-words}
-\end{table}
 
 \paragraph{Identification of food-related terms.}
 The wordnet corpus is composed of synsets, which are particular senses 
