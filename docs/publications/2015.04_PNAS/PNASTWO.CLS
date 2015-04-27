@@ -740,7 +740,7 @@ of the National Academy of Sciences of the United States of America}
 \setlength\belowcaptionskip{4\p@}
 
 \long\def\@makecaption#1#2{%
-\ifx\@captype\xtable
+\ifx\@captype\table
 \let\currtabcaption\relax
 \gdef\currtabcaption{%
 \tabnumfont\relax #1.\tabtextfont\hskip8\p@\relax#2\par
