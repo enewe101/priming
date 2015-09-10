@@ -1,172 +1,161 @@
-% ULaTeX2e calling the article.cls class and 12-point type.
+\documentclass{sigchi}
 
-\documentclass[12pt]{article}
+% Use this command to override the default ACM copyright statement
+% (e.g. for preprints).  Consult the conference website for the
+% camera-ready copyright statement.
+
+
+%% EXAMPLE BEGIN -- HOW TO OVERRIDE THE DEFAULT COPYRIGHT STRIP -- (July 22, 2013 - Paul Baumann)
+% \toappear{Permission to make digital or hard copies of all or part of this work for personal or classroom use is      granted without fee provided that copies are not made or distributed for profit or commercial advantage and that copies bear this notice and the full citation on the first page. Copyrights for components of this work owned by others than ACM must be honored. Abstracting with credit is permitted. To copy otherwise, or republish, to post on servers or to redistribute to lists, requires prior specific permission and/or a fee. Request permissions from permissions@acm.org. \\
+% {\emph{CHI'14}}, April 26--May 1, 2014, Toronto, Canada. \\
+% Copyright \copyright~2014 ACM ISBN/14/04...\$15.00. \\
+% DOI string from ACM form confirmation}
+%% EXAMPLE END -- HOW TO OVERRIDE THE DEFAULT COPYRIGHT STRIP -- (July 22, 2013 - Paul Baumann)
+
+
+% Arabic page numbers for submission.  Remove this line to eliminate
+% page numbers for the camera ready copy 
+
+%\pagenumbering{arabic}
+
+% Load basic packages
+\usepackage{balance}  % to better equalize the last page
+\usepackage{graphics} % for EPS, load graphicx instead 
+%\usepackage[T1]{fontenc}
+\usepackage{txfonts}
+\usepackage{times}    % comment if you want LaTeX's default font
+\usepackage[pdftex]{hyperref}
+% \usepackage{url}      % llt: nicely formatted URLs
+\usepackage{color}
+\usepackage{textcomp}
+\usepackage{booktabs}
+\usepackage{ccicons}
+\usepackage{todonotes}
 
 % My packages
-
-\usepackage{amsmath}
-\usepackage{framed, color}
-\usepackage{soul}
-\definecolor{blu}{rgb}{0,0,1}
-\newcommand{\td}[1]{{\color{blu}\hl{TODO: #1}}}
-\usepackage{graphicx}
-\usepackage{amsthm}
-\newtheorem{mydef}{Definition}
 \usepackage{dcolumn}
 \usepackage{multirow}
-\usepackage{booktabs}
 \newcolumntype{d}{D{.}{.}{4.0}}
 \newcolumntype{s}{D{.}{.}{1.4}}
-
 \usepackage{arydshln}
 
-% Users of the {thebibliography} environment or BibTeX should use the
-% scicite.sty package, downloadable from *Science* at
-% www.sciencemag.org/about/authors/prep/TeX_help/ .
-% This package should properly format in-text
-% reference calls and reference-list numbers.
 
-\usepackage{scicite}
+% llt: Define a global style for URLs, rather that the default one
+\makeatletter
+\def\url@leostyle{%
+  \@ifundefined{selectfont}{\def\UrlFont{\sf}}{\def\UrlFont{\small\bf\ttfamily}}}
+\makeatother
+\urlstyle{leo}
 
-% Use times if you have the font installed; otherwise, comment out the
-% following line.
+% To make various LaTeX processors do the right thing with page size.
+\def\pprw{8.5in}
+\def\pprh{11in}
+\special{papersize=\pprw,\pprh}
+\setlength{\paperwidth}{\pprw}
+\setlength{\paperheight}{\pprh}
+\setlength{\pdfpagewidth}{\pprw}
+\setlength{\pdfpageheight}{\pprh}
 
-\usepackage{times}
-
-% The preamble here sets up a lot of new/revised commands and
-% environments.  It's annoying, but please do *not* try to strip these
-% out into a separate .sty file (which could lead to the loss of some
-% information when we convert the file to other formats).  Instead, keep
-% them in the preamble of your main LaTeX source file.
-
-
-% The following parameters seem to provide a reasonable page setup.
-
-\topmargin 0.0cm
-\oddsidemargin 0.2cm
-\textwidth 16cm 
-\textheight 21cm
-\footskip 1.0cm
-
-
-%The next command sets up an environment for the abstract to your paper.
-
-\newenvironment{sciabstract}{%
-\begin{quote} \bf}
-{\end{quote}}
-
-
-% If your reference list includes text notes as well as references,
-% include the following line; otherwise, comment it out.
-
-\renewcommand\refname{References and Notes}
-
-% The following lines set up an environment for the last note in the
-% reference list, which commonly includes acknowledgments of funding,
-% help, etc.  It's intended for users of BibTeX or the {thebibliography}
-% environment.  Users who are hand-coding their references at the end
-% using a list environment such as {enumerate} can simply add another
-% item at the end, and it will be numbered automatically.
-
-\newcounter{lastnote}
-\newenvironment{scilastnote}{%
-\setcounter{lastnote}{\value{enumiv}}%
-\addtocounter{lastnote}{+1}%
-\begin{list}%
-{\arabic{lastnote}.}
-{\setlength{\leftmargin}{.22in}}
-{\setlength{\labelsep}{.5em}}}
-{\end{list}}
-
-
-% Include your paper's title here
-
-\title{Hysteresis in human computation:\\ how one task affects another} 
-
-
-% Place the author information here.  Please hand-code the contact
-% information and notecalls; do *not* use \footnote commands.  Let the
-% author contact information appear immediately below the author names
-% as shown.  We would also prefer that you don't change the type-size
-% settings shown here.
-
-\author
-{Edward Newell \\ Derek Ruths\\
-\\
-\normalsize{\texttt{edward.newell@mail.mcgill.ca}}\\
-\normalsize{\texttt{derek.ruths@mcgill.ca}}\\
-\normalsize{School of Computer Science, McGill University,}\\
-\normalsize{3480 University Street, Room 318, Montreal, Quebec, Canada, H3A 2A7}\\
-\\
+% Make sure hyperref comes last of your loaded packages, to give it a
+% fighting chance of not being over-written, since its job is to
+% redefine many LaTeX commands.
+\definecolor{linkColor}{RGB}{6,125,233}
+\hypersetup{%
+  pdftitle={SIGCHI Conference Proceedings Format},
+  pdfauthor={LaTeX},
+  pdfkeywords={SIGCHI, proceedings, archival format},
+  bookmarksnumbered,
+  pdfstartview={FitH},
+  colorlinks,
+  citecolor=black,
+  filecolor=black,
+  linkcolor=black,
+  urlcolor=linkColor,
+  breaklinks=true,
 }
 
+% create a shortcut to typeset table headings
+% \newcommand\tabhead[1]{\small\textbf{#1}}
 
+% End of preamble. Here it comes the document.
+\begin{document}
 
+\title{How One Microtask Affects Another}
 
-% Include the date command, but leave its argument blank.
+\numberofauthors{3}
+\author{%
+  \alignauthor{Edward Newell\\
+    \affaddr{Network Dynamics Group\\
+	School of Computer Science\\ McGill University}\\
+    \affaddr{Montreal, Qu\'ebec}\\
+    \email{e-mail address}}\\
+  \alignauthor{2nd Author Name\\
+    \affaddr{Affiliation}\\
+    \affaddr{City, Country}\\
+    \email{e-mail address}}\\
+  \alignauthor{3rd Author Name\\
+    \affaddr{Affiliation}\\
+    \affaddr{City, Country}\\
+    \email{e-mail address}}\\
+}
 
-\date{}
+\maketitle
 
-
-
-%%%%%%%%%%%%%%%%% END OF PREAMBLE %%%%%%%%%%%%%%%%
-
-
-
-\begin{document} 
-
-% Double-space the manuscript.
-
-\baselineskip24pt
-
-% Make the title.
-
-\maketitle 
-
-
-
-% Place your abstract within the special {sciabstract} environment.
-
-\begin{sciabstract}
+\begin{abstract}
 Microtask platforms are becoming commonplace tools for performing human
 research, producing gold-standard data, and annotating large datasets.
 These platforms connect \textit{requesters}
 (researchers or companies) with large populations (crowds) of workers, who 
 perform small jobs, typically taking less than five minutes each.
-A topic of ongoing research concerns designing jobs that elicit high 
-quality annotations. 
-
+A topic of ongoing research concerns designing jobs that elicit high
+quality annotation.
 Here we identify a feature of nearly all crowdsourcing 
-jobs that acts as a strong, systemic source of bias. 
-
+jobs that profoundly impacts workers' responses.
 Microtask jobs typically consist of a sequence 
 of tasks sharing common format 
 (e.g., circle galaxies in an image). 
 Using image-labeling, a canonical microtask job format, we 
-discover that earlier tasks have a priming effect on the worker, shifting the 
-distribution of future answers by 30-50\%. 
+discover that earlier tasks have a priming effect on the worker, shifting 
+the distribution of future responses by 30-50\% 
+(total variational distance). 
 Moreover, prior tasks influence the content that workers focus on, 
 as well as the richness and specialization of responses. 
-Understanding these \textit{intertask effects} is crucial 
-to embracing microtask platforms in critical applications.
+In comparison to overtly framing the job, by stating the requester's 
+research interest, we find prior-task effects are on par or stronger
+than those of framing.
 While intertask effects can be a source of systematic bias, 
-our results suggest that, with appropriate job design, 
+our results suggest that, with appropriate task design, 
 they might be leveraged to hone worker focus and acuity, 
 helping to elicit reproducible, expert-level judgments.
-\end{sciabstract}
+Prior-task effects are a crucial aspect of human computation that should be
+considered in the design of any crowdsourced study.
+\end{abstract}
 
-\section*{Main text}
-Microtask platforms are online marketplaces in which \textit{requesters} 
-post batches of tasks, and \textit{workers} complete them
-for remuneration, a sense of purpose, and fun
-\cite{kazai2013analysis}.
-Typical tasks include tagging and categorizing images,
+\keywords{Authors' choice; of terms; separated; by semi\-colons;
+  commas, within terms only; this section is required.}
+
+\category{H.5.m.}{Information Interfaces and Presentation
+  (e.g. HCI)}{Miscellaneous} \category{See
+  \url{http://acm.org/about/class/1998/} for the full list of ACM
+  classifiers. This section is required.}{}{}
+
+\section{Introduction}
+There are many tasks that are trivial for people, but difficult to solve
+programatically.  
+Typical tasks include tagging and categorizing images
 %\cite{6116320,Zhai2012357}, 
 coding and transcribing media,
-%\cite{chandler2013breaking,Berinsky2012351,Finnerty2013},%paolacci2010running}, 
-judging the relevancy or quality of content, 
-and performing surveys for academic or market reserach purposes\footnote{We provide a survey of task types in the supplementary text.}.
+%\cite{chandler2013breaking,Berinsky2012351,Finnerty2013},%paolacci2010running},
+judging the relevancy or quality of content, and performing surveys for 
+academic or market reserach purposes\footnote{We provide a survey of task 
+types in the supplementary text.}.
 %\cite{le2010ensuring,grady2010crowdsourcing,alonso2009can,kazai2013analysis}.
+Often these tasks are ill-defined and require some kind of high-level 
+judgment.
+Microtask platforms are marketplaces that help fill the gap in current 
+computational capabilities, by matching requesters, who need to have such 
+tasks completed, with human workers.  Amazon's Mechanical Turk, and 
+CrowdFlower are two popular microtask platforms.  
 
 This form of crowdsourcing embeds workers in a controlled but flexible
 task infrastructure.  To the requester, workers seem almost like input-output 
@@ -209,39 +198,68 @@ workflow design: how breaking down a complex problem into microtasks
 
 Here, we focus on a ubiquitous feature of microtask work: the tendency
 for workers to perform many similar tasks in quick succession.  
-%To describe this tendency, it is necessary to clarify terminology.
-On one popular microtask platform, Amazon's Mechanical Turk (MTurk), 
-tasks are delivered in bundles called HITs.
-Although HIT stands for ``Human Intelligence Task'', here we use ``task'' to 
-mean the smallest repeatable unit of work.  For example, one HIT may involve 
-labeling ten images with descriptive words (\textit{labels}), which amounts
-to ten tasks, each being the labeling of a single image.
-In addition to the task-repetition occuring \textit{within} HITs, 
-workers prefer those HITs that have many available repetitions (that is,
-many more HITs of the same format, but with different data) 
-\cite{Chilton20101}, probably because performing similar tasks reduces 
+This tendency arises from a combination of worker preferences and the 
+logistics of serving small tasks.  
+Workers have a preference for performing sequences of similar microtasks
+\cite{Chilton20101}, probably because it reduces 
 cognitive load from task-switching\cite{Adamczyk2004271}.
-%Furthermore, on average, workers report spending over 4 hours per day on 
-%microtasks, taking breaks only every 1.24 hours, while some take no breaks 
-%at all
-%\cite{laseckieffects}.
+Morever, as workers complete task assignments, they must continually 
+switch between working on an assignment and choosing their next 
+assignment (weighing such factors as the wage paid, and effort required).  
+Bundling tasks together reduces the amount of time spent choosing 
+assignments and reduces the overhead of switching between working and 
+choosing.  This may explain why the the pre-defined templates offered to 
+help requesters set up their microtask jobs generally bundle many tasks 
+together by default\footnote{mturk.com}.
 
-%Complex work consists of heterogeneous subtasks; when complex work is
-%broken down and workers perform sequences of very similar simple tasks
-%cognitive load is reduced, and workers are more efficient and accurate 
-%\cite{Adamczyk2004271,laseckieffects,kittur2011crowdforge}.
-%Thus, the tendency for workers to perform series of repetitive, similar
-%tasks would appear to be beneficial.
+The effects of task-repetition have been studied in the context of 
+monitoring tasks by facility operators.  There the main concern is 
+operator error due to boredom and distraction.  
+However, in the microtask context, tasks are often ill-defined, and lack 
+a clear notion of error.  For example for an image-labeling task
+it would be difficult to decide which labels are `correct'.
+Not only does this complicate the measurement of task-repitition effects, 
+it suggests that their effect may be better understood as introducing 
+\textit{bias} into responses, rather than \textit{error}.  
 
-The repetitive completion of similar tasks is of concern because people's 
-responses to a prompt can be strongly influenced by their recent exposure to 
-stimuli, due to \textit{priming} 
+One of our present contributions is a method for determining
+the extent of this bias.  Generally, there may be many possible responses 
+to an ill-defined, qualitative microtask, so the responses actually
+obtained can be viewed as being drawn from a distribution.
+Design factors that affect how workers respond to a microtask will change 
+this distribution.  Measuring the effect of such a design factor therefore
+amounts to measuring how much the distribution of responses changes
+There are good statistical techniques for detecting \textit{whether}
+samples come from two different distributions, such as the $\chi^2$ test.  
+But to properly weigh design decisions, a method is needed to measure
+the \textit{extent} by which response distributions differ.
+The direct substitution of sample frequencies in divergence 
+calculations, although occaisionally seen in literature, has no statistical
+basis and can easily lead to the ``detection'' of large changes when none 
+exist.  We present a convenient and statistically sound method that can be 
+applied even when the set of possible responses is very large 
+(or infinite), such as for free text responses.  
+While our purpose is to measure the 
+effects of prior microtasks on later ones, this method can be used to 
+calculate an empirical divergence of distributions from samples in any 
+context.
+
+[\#\#]
+Unlike tasks that have a clear correct response, tasks that rely on 
+worker's qualitative judgments may be particularly susceptible to 
+\textit{priming effects}.
+Priming is the phenomenon by which a person's response to a prompt is
+influenced by their recent exposure to stimuli
 \cite{BJOP1796}. %,No2007}. %,beller1971priming}.  
 Priming can arise when 
 a prior stimulus is conceptually or perceptually related to an ensuing 
-task, so the repetition of 
-similar tasks may create an opportunity for strong priming effects
-\cite{Gass1999549}. %,sohn2001task}
+task \cite{Gass1999549} %sohn2001task}
+so the repetition of similar tasks creates many opportunities for 
+strong priming effects. 
+If tasks can act as primes for other tasks, it may help explain an earlier 
+observation [*] that when interrupting one microtask with another,
+the interruption is more disruptive when the tasks are \textit{similar} to 
+one another.
 
 %Researchers investigating a somewhat similar class of psychological phenomena,
 %found that ratings that microtask workers give to items in a list
@@ -562,7 +580,7 @@ to suppress certain, presumably more common and generic words
 
 This hypothesis is corroborated when we look at those words whose 
 frequencies changed the most from one treatment to another 
-(Table~S\ref{table:top-words}).  
+(Table~\ref{table:top-words}).  
 The word ``food'', which is the most generic possible food-related word, was 
 always \textit{suppressed} among food-primed workers.  In fact, 
 for all experiments, ``food'' was the \textit{most suppressed} word.
@@ -635,18 +653,12 @@ on the repetitive use of human judgment is likely subject to the phenomena
 described here.  Exploring the pitfalls and opportunities posed by
 intertask effects is an important direction for future work, 
 in the effort to develop performant and reliable human computation.
-\bibliography{newbib}
-\bibliographystyle{Science}
 
+\bibliographystyle{SIGCHI-Reference-Format}
+\bibliography{newbib}
 
 \pagebreak
 \section*{Supplementary Material}
-\renewcommand{\figurename}{Figure S\!\!}
-\renewcommand{\tablename}{Table S\!\!}
-\renewcommand{\theequation}{S\arabic{equation}}
-\setcounter{figure}{0}
-\setcounter{table}{0}
-\setcounter{equation}{0}
 
 Microtask platforms are an increasingly popular way to solicit experimental
 participants, as well as to annotate large datasets and obtain other 
@@ -2236,3 +2248,7 @@ calculations are shown in Table~S\ref{table:specificity}.
 
 \end{document}
 
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

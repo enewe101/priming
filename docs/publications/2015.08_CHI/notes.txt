@@ -1,0 +1,738 @@
+
+RELATED WORK NOTES
+ - study showing that interruptions are more disruptive if they are
+	"well aligned" with the current task (presumably in terms of content).
+		Gillie, T. and Broadbent, D.. What makes interruptions disruptive? a
+		study of length, similarity, and complexity.  Psychological 
+		Research , 50:243–50, 1989.
+
+ - bulleted list each of the "studies" or experiments
+
+ - the ETA paper talks about common crowdsourcing task types, and has some
+	references for that too.
+
+
+ABSTRACT
+Microtask platforms are becoming commonplace tools for performing human
+research, producing gold-standard data, and annotating large datasets.
+These platforms connect \textit{requesters}
+(researchers or companies) with large populations (crowds) of workers, who 
+perform small jobs, typically taking less than five minutes each.
+A topic of ongoing research concerns designing jobs that elicit high
+quality annotation.
+Here we identify a feature of nearly all crowdsourcing 
+jobs that profoundly impacts workers' responses.
+Microtask jobs typically consist of a sequence 
+of tasks sharing common format 
+(e.g., circle galaxies in an image). 
+Using image-labeling, a canonical microtask job format, we 
+discover that earlier tasks have a priming effect on the worker, shifting 
+the distribution of future responses by 30-50\% 
+(total variational distance). 
+Moreover, prior tasks influence the content that workers focus on, 
+as well as the richness and specialization of responses. 
+In comparison to overtly framing the job, by stating the requester's 
+research interest, we find prior-task effects are on par or stronger
+than those of framing.
+While intertask effects can be a source of systematic bias, 
+our results suggest that, with appropriate task design, 
+they might be leveraged to hone worker focus and acuity, 
+helping to elicit reproducible, expert-level judgments.
+Prior-task effects are a crucial aspect of human computation that should be
+considered in the design of any crowdsourced study.
+
+
+INTRODUCTION
+There are many tasks that are trivial for people, but difficult to solve
+programatically.  
+
+Typical tasks include tagging and categorizing images,
+%\cite{6116320,Zhai2012357}, 
+coding and transcribing media,
+%\cite{chandler2013breaking,Berinsky2012351,Finnerty2013},%paolacci2010running},
+judging the relevancy or quality of content, and performing surveys for 
+academic or market reserach purposes\footnote{We provide a survey of task 
+types in the supplementary text.}.
+%\cite{le2010ensuring,grady2010crowdsourcing,alonso2009can,kazai2013analysis}.
+Often these tasks are ill-defined and require some kind of high-level 
+judgment.
+
+Microtask platforms are marketplaces that help fill the gap in current 
+computational capabilities, by matching requesters, who need to have such 
+tasks completed, with human workers.  Amazon's Mechanical Turk, and 
+CrowdFlower are two popular microtask platforms.  
+
+Microtask platforms are super popular.  And they can be accessed through an 
+API.  This makes "human computation" available on demand via the Internet,
+like a compute resource.
+This means the human is no longer only user of the system, but is an 
+integral part of a larger computation.   In this context, factors at the
+human-machine interface can be considered for their computational 
+ramefications.
+
+In addition to these 
+marketplaces, many studies that use crowdsourcing,
+or which are described as "citizen science", involve very small units of 
+work requiring human judgment, i.e. microtasks.  Our current investigation 
+applies equally to those contexts.
+
+
+An important motivation for our study is the fact that, on microtask 
+platforms and crowdsourced work, workers typically perform
+many similar tasks consecutively.  In part this is due to the fact that
+workers prefer sequences of similar microtasks, because it reduces the
+cognitive overhead of task-switching.  But it is also encouraged by the 
+fact that microtasks are very small units of work.  Microtasks often
+need to be bundled together to have an amount of work that can be 
+reasonably in cents (USD$0.01). Bundling also reduces the amount of time 
+that workers spend choosing tasks, which, in many cases, would be excessive 
+if tasks were not bundled.
+
+Discuss the potential issues with human computation (e.g. reproducibility)
+...
+
+- these considerations mainly involve reproducibility, which is much 
+	more challenging for human computations.  Whereas electronic computers
+	have a well-defined low-level instruction set, and execute those 
+	instructions deterministically, humans have a high-level, but not well-
+	defined instruction set.
+
+- reproducibility is lost for two different reasons.  The first is due to
+	the fact that different people will perform a given task differently.
+	This can be handled, relatively simply, by assuming that given people
+	are drawn from a distribution (of human processing characteristics), 
+	and so, the output for a given task can be viewed as being drawn from
+	a distribution of outputs.  Stochastic algorithms are already 
+	well-understood in the context of electronic computations, so this
+	factor is not new, and can be delt with in the same way that we treat
+	stochastic algorithms.  Even though the ultimate source of 
+	stochasticity in both cases is different
+	- electronic - alg is pseudorandom and samples some randomness from
+		outside of the algorithm itself (random seed)
+	- human - unobserved and uncontrolled variables influencing execution
+
+- However, a more problematic issue arises from the fact that people are
+	stateful, and cannot perform the same task in the same way twice.
+	One's imeediately preceeding experiences inevitably influence one's 
+	performance in a task, especially when one's preceeding experiences
+	have some kind of salience to that task.
+
+- In the current work, we develop a framework for measuring the 
+	computational hysteresis of a population of human processors.  As we
+	have described, priming is well-understood as a psychological 
+	phenomenon, but it's effect on computations is not understood, nor do
+	methods exist, to our knowledge, for how this can be measured.
+
+Prior work on task interruption shows that an interruption which is 
+similar to the task is more disruptive.  One could regard the interruption
+itself as a task.  And so, this raises the question: in a 
+sequence of similar tasks, do earlier tasks impact later ones?  If so, such
+effects would be ubiquitous in studies involving microtasks and 
+crowdsourcing.
+
+We test this effect using a canonical microtask in which the user must 
+provide descriptive labels to images.  In our setup, the worker is shown
+a series of images, one at a time, and must provide 5 individual 
+descriptive labels for each image.  We chose the image labeling task, first
+because it is a common task, but also because it involves an open-ended
+judgment in which the task is ill-defined in the sense that it does not
+have a "correct" answer.  Thus, image labeling is prototypical for a wide
+class of tasks involving open-ended judgment, which are common as 
+microtasks, because they are inherently difficult to automate using 
+computers alone.  
+
+For open-ended judgement tasks like image-labeling, standard performance 
+metrics, such as accuracy, precision, and recall, are not available,
+making it difficult to quantify the effects of design parameters. An 
+important aspect of our contribution is the derivation of a
+rigorous method for quantifying the impact that a treatment has on the
+performance of a task, where the space of possible responses is potentially
+large, and where there is no "correct" response.  As we will show below,
+a fundamental inequality that provides an upper bound on the accuracy of 
+classifiers in machine learning, can be used to provide a lower bound on
+the effect of a design parameter on workers' performance on ill-defined 
+tasks.
+
+Using our measurement approach, we find that, when workers label a series 
+of images, the labels they provide to the last five 
+images are strongly affected by the content of the first five images.  We
+call these effects "intertask effects".  To quantify these effects, it is
+necessary to acknowledge that, for an ill-defined task like image labeling,
+different workers who label the same images will provide a variety of 
+different labels which are all equally valid.  Therefore, we observe 
+inter-task effects as a shift in the distribution of labels for a given 
+image.  So, quantifying the effect on the performance of an ill-defined
+task amounts to measuring how much the distribution of responses shifts.
+In general, there are various measures that describe the difference between
+two distributions.  We use a measure called the total variational distance,
+because it is easy to interpret and has strong theoretical connections to
+many other macroscopic descriptors of distributions, including the
+Kullback-Liebler distribution.  We describe this measure in more detail 
+later, but it can be intuitively understood as the area under the 
+distributions which does not overlap (see Fig.1)
+
+In terms of total variational distance we observe that that the content
+of the first five images alters the labels applied to the last five 
+images by 30-50%.  Investigating this remarkably strong effect, we find 
+that workers responses show significant deviations in terms of their
+topical focus, the diversity of their labels, and the specificity of their
+labels.  We propose an interpretation of these effects based on a 
+combination of positive and negative priming: when workers label a series
+of images that are very similar in content, they are primed by the content
+of the early images, and are driven to use more specific words to describe
+similar content in later images.  Simultaneously, negative priming 
+discourages the workers from describing generic content that does not 
+vary within the set of images.  Such effects can be exploited: if 
+broad labeling is desired, a hetorogenous set of images should be provided,
+while if it is desired to provide finer labeling that can descriminate 
+between similar images, it is best to provide images that are as similar 
+as possible to individual workers.
+
+PRIOR WORK
+Due to the widesrpead adoption of microtask platforms for both academic
+research and in industry, there is a substantial ongoing research into the
+design factors that affect microtask performance.
+
+- impact of repetition on task performance
+	- studied based on the notion of accuracy, but what about ill-defined
+		tasks?  What is the nature of repetition effects when the 
+		tasks are ill-defined?
+
+	
+
+
+Impact of Design Factors on Microtask work
+---
+design factors previously investigated
+
+...
+
+There are also works on the effects of framing on microtask performance.
+This is more directly related to the current study, because framing can 
+be seen as a kind of priming.
+
+
+Priming
+---
+
+- This phenomenon is well-understood already in psychology, and is called
+	"priming".
+
+- Despite the fact that priming is well-understood as a psychological 
+	mechanism, the effect that it has on a computational system due
+	to effects on tasks is not well understood.
+
+- Typically priming experiments measure whether priming effects can 
+	be observed at some statistical significance.  However, even if 
+	priming effects are statistically significant, they may have little
+	practicle impact on the computation.  
+	- Most studies focus on such thing
+		as response time, the effects on which vary within a range that 
+		aren't significant to microtask settings.
+	- Some studies have investigated the effects of priming on error rates
+		but it is difficult to extrapolate how these effects bear on tasks
+		that rely on qualitative judgments without any clear right or wrong
+		answer.  (such tasks tend to benefit the most from crowdsourcing)
+	- However, in psychology, the study of priming has had very different 
+		goals.
+		Typically, the study focuses on using priming effects to shed light 
+		on the underlying psychological mechanisms in the human mind.  While
+		these studies have difinitively shown many kinds of priming effects,
+		these effects are completely uncharacterized from a computational 
+		standpoint.  In the context of psychological investigation, priming 
+		provides a residual trace of *how* the human mind works, but it is 
+		not at all clear how priming would affect a computation.
+
+
+
+
+
+Measuring the effects of on ill-defined tasks
+---
+
+To show that early tasks affect the results of later tasks, one could 
+simply perform a chi-sqared test.  This involves tallying the number of 
+times each label is used by workers from two different treatments (whose
+initial tasks differ), and showing that the probability that these 
+distributions are the same is less than some $\alpha$.
+
+This would be enough to show a definitive causal link between 
+early task exposure and later task performance.  However, in the context
+of human computation, our primary concern is over the practical significance
+of intertask effects: just how strong are they?
+
+We use the total variational distance between the distributions of respnoses
+produced by workers from different treatments as a measure of effect size.
+Intuitively, this measures the shift in probability ascribed to different
+labels as a result of changing the content of earlier tasks (see fig 1).
+The total variational distance does not rely on the task having a "correct" 
+response, and it does not matter whether the the set of possible responses
+is predetermined (e.g. choice from a list of options) or open-ended 
+(e.g. free-text entry).
+Formally, total variational distance is given by:
+
+formula for TV
+
+Total variational distance is ideal both because it is an intuitive measure
+of the difference between two distributions, and because it is has 
+deep theoretical connections in statistics and information theory, and
+can be easily related to other divergence metrics like Kullbeck-Liebler
+and Jenson-Shannon.  However, the total variational distance is difficult
+to estimate based on empirical frequencie distributions. 
+
+A seemingly straightforward way to measure $\theta$ would be to use
+the frequency of each response to estimate the probability of that response
+(this is the maximum likelihood estimator of the probability).  However,
+this leads to a gross systematic overestimation of $\theta$ which is 
+uninterpretable.  Even if two distributions are identical, this method
+could estimate $\theta=100%$ if the distributions have very high entropy 
+and the sample size is small.
+
+Recently there has been theoretical progress on this problem.
+An estimator of L1-distance, and tests of whether the L1-distance is
+greater than a specified threshold, have been proposed 
+\cite{val-thesis,batu2013testing,chan2014optimal}.  
+These methods have excellent theoretical convergence guarantees, but
+cannot easily be used to establish estimates with confidence intervals or 
+perform hypothesis tests for fixed sample size and significance level.  
+
+We therefore derive an alternative approach based on 
+techniques from machine learning.  In this approach, instead of trying
+to measure the difference in responses that result from the worker's 
+treatment, we reverse the problem, and build a classifier that infers 
+the worker's treatment based on her responses.  Intuitively, the stronger
+the effect of some treatment variable on the worker's subsequent respnoses, 
+the easier it will be to infer the treatment based on the classifier.
+Formally, if one constructs a classifier whose accuracy is shown to be
+\eta, this establishes a lower bound on the effect size \theta:
+
+.... equation relating \eta and \theta
+
+The derivation of this inequality follows from considering an optimal
+classifier, who has maximal accuracy $\eta^*$
+The best possible classifier will not in general have perfect accuracy:
+Given two sets workers from different treatments, $P_0$ and $P_1$, 
+if workers from both have identical response distributions, then there
+is no hope of determining the population to which a worker belonged based
+on her response, $x$. 
+But, assuming that responses are
+not distributed identically, then given some $x$, the best possible 
+classifier must always guess 1 whenever $p_1(x) > p_0(x)$ and guess 0 
+whenever $p_0(x) > p_1(x)$ (of course, these probabilities are not known,
+otherwise it would be trivial to calculate \theta).  Based on this fact,
+we can calculate the accuracy of the best possible classifier.
+
+Sacrificing, for a moment, some generality, let us assume that, for some 
+give $x'$, $p_1(x') > p_0(x')$.  
+When this $x'$ is encounterend in a validation test, the optimal classifier
+must guess $b = \arg\!\max_{z}(p_{z}(x'))$, which in this case is $b=1$.
+The probability that the classifier guesses correctly in this case is:
+\begin{align}
+	\begin{split}
+	\mathrm{Pr}\{V(P_0, P_1, \mathcal{A}^*) = 1 | x = x' \} 
+		&= \mathrm{Pr}\{z = \mathcal{A^*}(x) | x = x' \} \\
+		&= \mathrm{Pr}\{z = 1 | x = x' \}  \\
+		&= \frac{\mathrm{Pr}\{z = 1 , x = x'\}}
+			{ \mathrm{Pr}\{z=0 , x=x'\} + \mathrm{Pr}\{z=1 , x=x'\}} \\
+		&= \frac{p_1(x')}{p_0(x') + p_1(x')}.
+	\end{split}
+\end{align}
+And now, with full generally, for any $x'$, where $p_1(x')$ is not necessarily
+greater than $p_0(x')$:
+\begin{align}
+	\begin{split}
+		\mathrm{Pr}\{V(P_0,P_1,\mathcal{A}^*)=1 | x = x' \} 
+		&= \mathrm{Pr}\{z=\mathcal{A^*}(x)  | x' = x' \} \\
+		&= \mathrm{Pr}\{z = \arg\!\max_{z'}\big(p_{z'}(x)\big)| x = x' \}  \\
+		&= \frac{\max\big( p_0(x'),p_1(x') \big)}
+		{ p_0(x') + p_1(x') }.
+	\end{split}
+\end{align}
+Note that we can rewrite $\max\big(p_0(x'),p_1(x')\big)$:
+\begin{align}
+	\max\big(p_0(x'),p_1(x')\big) = \frac{1}{2}
+		\big(
+			p_0(x') + p_1(x') + |p_0(x') - p_1(x')|
+		\big),
+\end{align}
+so,
+\begin{align}
+	\mathrm{Pr}\{V(P_0,P_1,\mathcal{A}^*) = 1 | x = x' \} 
+	&= \frac{1}{2} + \frac{|p_0(x') - p_1(x')|}{2 \big(p_0(x') + p_1(x') \big)}.
+\end{align}
+Then, summing over all possible responses $X$, 
+the overall accuracy of the optimal classifier, $\mathcal{A^*}$, is:
+\begin{align}
+	\begin{split}
+	\eta^* &= \mathrm{Pr}\{V(P_0, P_1, \mathcal{A}^*)=1\} \\
+	&=\sum_{x'\in X} \mathrm{Pr}\{V(P_0,P_1,\mathcal{A}^*) = 1 | x = x' \} \mathrm{Pr}\{x = x'\}\\
+		&= \sum_{x'\in X} \left(
+				\frac{1}{2} + 
+				\frac{|p_0(x') - p_1(x')|}{2 \big(p_0(x') + p_1(x') \big)}
+			\right)
+			\left(
+				\frac{p_0(x') + p_1(x')}{2}
+			\right)\\
+		&= \frac{1}{2}\left(
+				\frac{1}{2}(
+					\sum_{x' \in X}p_0(x') + \sum_{x' \in X}p_1(x')
+				) + 
+				\frac{1}{2} \sum_{x' \in X} \big(|p_0(x') + p_1(x')|\big)
+			\right) \\
+		&= \frac{1}{2} \left( \frac{1}{2}(1 + 1) + \theta \right)\\
+		&= \frac{1 + \theta}{2}\\
+		\implies \theta &= 2\eta^* - 1.
+	\end{split}
+\end{align}
+By definition, no classifier can be more accurate than $\mathcal{A^*}$, so
+for every $\mathcal{A}$
+\begin{align}
+		\theta \geq 2\eta - 1.
+		\label{eq:sup:l1_again}
+\end{align}
+
+Results
+---
+
+Our image-labeling tasks were performed on the MTurk microtask platform.  We
+chose image labeling because it is very common,
+%,paolacci2010running},
+and because it is prototypical for any kind of task in which the worker is
+asked to provide a response that is not precisely determined by the prompt, but
+instead depends on the worker's judgment
+\cite{chandler2013breaking,Finnerty2013}.  This includes such diverse tasks as
+describing video and audio recordings, summarizing texts, or in clinical
+diagnostic judgments.
+
+In our first experiment, called \textit{intertask-food-objects}, workers were
+assigned to either a \textit{food} or \textit{objects} treatment.  Workers in
+both treatments performed a set of five \textit{initial tasks}, which each
+involved providing descriptive labels for an image depicting either food or
+(non-food) objects, depending on the worker's treatment (Fig.~\ref{fig:task}A
+and B).  Following the initial tasks, workers performed five \textit{test
+tasks}, which were identical for both treatments.  In the test tasks, workers
+labeled images, each of which depicted a mixture of food and objects
+(Fig.~\ref{fig:task}C).  The five initial and test tasks performed by each
+worker comprised one HIT. The images were presented one at a time, and we made
+no distinction between the initial and test tasks. Finally, workers were only
+allowed to participate in one HIT relating to this study, ensuring that prior
+exposure to the experiment design and content was not an issue.
+
+The frequencies of words used by workers in the \textit{food} and
+\textit{objects} treatments differed significantly during test tasks (by
+$\chi^2$ test, $p = 6.0 \times 10^{-14}$), even though the test tasks were
+identical in both treatments (see Supplementary Material for tabulated
+statistics).  This establishes our most fundamental finding: earlier tasks do affect
+later ones. %, raising concerns about the the microtask methodology.
+
+Having affirmed the \textit{existence} of intertask effects, we wish to
+understand the nature and severity of the bias induced.  We therefore define
+the extent of bias, $\theta$, in terms of the strength of influence that a
+prior perturbation has on workers' responses.  Since workers' responses are
+stochastic, we define the extent of bias in terms of the change induced in the
+distribution of responses:
+
+\begin{equation}
+	\theta = \frac{1}{2}\sum_{x \in X} \left| p_0(x) - p_1(x) \right|,
+	\label{eq:theta}
+\end{equation}
+
+where $p_i(x)$ is the probability that a worker, subjected to treatment $i$,
+provides response $x$, from the set of possible responses $X$. This formulation
+is a general divergence metric between probability distributions known as the
+{\it total variation distance}. Determining $\theta$ from finite samples of
+responses, using purely statistical approaches, is difficult (see supplementary
+text), which leads us to reformulate the problem in terms of classification:
+given a worker's responses to test tasks, can a machine reliably infer what her
+prior exposure had been?  Intuitively, the greater the effect that prior tasks
+have on subsequent responses, the more accurate the classifier can be.
+Formally (as shown in the supplementary material), the accuracy of such a
+classifier, $\eta$, establishes a lower bound on the bias:
+
+\begin{equation}
+	\theta \geq 2\eta - 1.
+	\label{l1}
+\end{equation}
+
+By measuring the accuracy of a classifier, we bound the bias induced by a
+perturbation, such as the exposure to prior tasks or framing.  Bias ranges from
+0 (meaning the exposure does not affect the distribution of responses), to 1
+(or 100\%) (meaning that the exposure leads workers to provide a completely
+different set of responses).
+
+\begin{figure*}
+	\centering
+	\includegraphics[scale=1.0]{figs/images.jpg}
+	\caption{
+		Examples of images used in
+		initial tasks for the (\textbf{A}) \textit{food} and (\textbf{B}) 
+		\textit{objects} treatments of \textit{intertask-food-objects};
+		(\textbf{C}) test tasks for \textit{intertask-food-objects} and 
+		\textit{frame-food-objects};
+		initial tasks for the (\textbf{D}) \textit{food} and (\textbf{E}) 
+		\textit{culture} treatments of \textit{intertask-food-culture};
+		and (\textbf{F}) test tasks for \textit{intertask-food-culture} and 
+		\textit{frame-food-culture}.
+		The full set of experimental materials is shown in the 
+		supplementary text.
+	}
+
+	\label{fig:task}
+\end{figure*}
+
+Using a na\"ive Bayes classifier (other classifiers were considered and tested,
+see SM), we found that intertask effects lead to {\it at least} a 30\% bias between workers
+from the \textit{food} and \textit{objects} treatments (Fig.~\ref{fig:theta}A).
+This represents a substantial potential to distort microtask data.
+
+Of course, intertask effects are not the only means of introducing bias into
+worker responses. In particular, there has been considerable interest in the effects that
+framing can have on microtask responses
+\cite{Kinnaird2012281,chandler2013breaking,thibodeau2013natural}. Therefore, as a point of
+comparison, we conducted an experiment, similar to the first, in which we
+framed the purpose of the tasks.  In this experiment, called
+\textit{frame-food-objects}, the same test-tasks were used, but rather than
+exposing workers to initial tasks, workers were either told that the tasks were
+``Funded by the laboratory for the visual perception of Food and Ingredients'',
+or ``\ldots of Objects and Tools''.  Framing did induce changes in the
+frequencies of word usage at significance (as determined by $\chi^2$ test;
+$p=0.0012$), but the \textit{extent} of framing-induced bias was not
+statistically distinguishable from zero ($p =0.37$) (Fig.~\ref{fig:theta}A),
+and was much weaker than the bias due to intertask effects ($p=2.1\times
+10^{-5}$).
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.8]{figs/theta.pdf}
+	\caption{
+		Empirical bias, $\theta_\mathrm{NB}$, measured using a na\"ive Bayes 
+		classifier, induced in image labeling tasks, due to workers' 
+		exposure to framing and initial tasks.  
+		(\textbf{A}) Exposing workers to initial tasks induces more severe
+		bias than framing, except when echoed framing is used. 
+		(\textbf{B}) As workers proceed through test tasks, 
+		the bias due to initial tasks wanes, 
+		but remains significant even after five tasks.  
+		Standard error bars are shown.
+	}
+	\label{fig:theta}
+\end{figure}
+
+To assess the persistence of intertask effects, we replicated the experiment
+\textit{intertask-food-objects} while permuting the test tasks, to reveal the
+dependence of intertask effects on task position.  We found that, as expected,
+bias was strongest for the first test task (about 28\%), but remained
+significant through all five test tasks ($\alpha=0.05$) sustaining over 12\%
+bias even when the initial and test tasks were separated by four intervening
+tasks (Fig. \ref{fig:theta}B).
+
+We conducted variants of these experiments using different images, to see
+whether this trend was robust.  In the experiment
+\textit{intertask-food-culture}, workers were either assigned to a
+\textit{food} or \textit{culture} treatment.  The initial tasks contained
+either images depicting food (Fig.~\ref{fig:task}D), or depictions of cultural
+scenes (of dance, sport, or music) (Fig.~\ref{fig:task}E).  The test tasks,
+which were, again, identical for both treatments, depicted meals of
+identifiable cultural origin (Fig.~\ref{fig:task}F).  As an aside, we recognize
+that, despite efforts to the contrary, initial tasks in the food treatment of
+\textit{intertask-food-culture} are arguably still of identifiable cultural
+origin, but this fact would only tend to make our results more conservative (we
+discuss this further in the supplementary text). 
+
+Results for this experiment again showed a strong bias as a result of intertask
+effects (about 50\%) (Fig.~\ref{fig:theta}A).  Again, comparing intertask
+effects to framing, the experiment (\textit{frame-food-culture}) used the same
+test tasks as in \textit{intertask-food-culture}, but exposed workers to
+statements framing the purpose of the tasks as the recognition of either food
+or culture.  Again, we found that framing effects were weaker than 
+intertask effects ($p=7.6\times10^{-7}$).  In fact, framing did not induce 
+significant changes in word frequencies (by $\chi^2$ test, $p=0.29$) 
+(Fig.~\ref{fig:theta}A).
+
+It was only when framing was combined with an active reiteration step, that
+bias reached a comparable extent to that induced by intertask effects.  In the
+experiment \textit{echo-food-objects}, after framing the purpose of the task
+(as the recognition of food or objects), workers were asked to echo the purpose
+of the task using a combo-box input.  This  ``echoed framing'' induced a bias
+of about 35\% (Fig.~\ref{fig:theta}A). However, it is difficult to say whether
+this should be considered as a framing treatment \textit{per se}: requiring the
+worker to reiterate the purpose signals our intent, as the requester, to ensure
+that the worker has taken note of it, possibly leading the worker to interpret
+the exchange as an instruction.  In any case, it is remarkable that intertask
+effects were on par with an explicit, actively reinforced statement of the
+tasks' purpose.
+
+% Specificity
+To better understand the nature of intertask effects, we investigated the
+vocabulary that workers used to label test tasks. One might expect that, within
+a given experiment, those workers exposed to food (whether through framing or
+initial tasks) would label test tasks using food-related words more often.
+Food-related words in labels were identified using the wordnet corpus,
+augmented with additional words obtained by crawling a recipe website (see
+supplementary text for details).  Surprisingly, we discovered that food-primed
+workers typically did not use food words more often. In
+\textit{intertask-food-culture}, food-exposed workers actually used
+significantly \textit{fewer} food-related words during test tasks
+(Fig.~\ref{fig:specificity}A).  This finding rules out the seemingly-simple and
+intuitive idea that workers emphasize content that has been present in earlier
+tasks: seeing content influences, but does not necessarily \textit{increase},
+the probability of referring to it in subsequent tasks.
+
+To deepen our understanding, we investigated workers' lexical richness in
+reference to food, that is, the number of \textit{unique} food-related words
+used.  Even if workers provide an abundance of food-related words, there can be
+less diversity, if, for example, workers repeat generic references to food.
+Both \textit{intertask} experiments showed that food-exposed workers had
+greater lexical richness, in reference to food, than their counterparts (as
+much as 20\% more) (Fig.~\ref{fig:specificity}B).  This is particularly
+noteworthy in the experiment \textit{intertask-food-culture}, because there,
+food-primed workers made fewer total references to food.  
+
+The observations regarding lexical richness suggest that initial tasks might
+influence workers to use more refined or specialized words, when referring to
+aspects of content that had been present in the initial tasks.  To test this,
+we used the wordnet corpus to operationalize the notion of word specialization.
+Wordnet establishes relationships between 117,798 English nouns, indicating
+which words are specializations (or generalizations) of others
+\cite{felbaum1998wordnet}.  For example, ``pumpernickel'' is a specialization
+of ``bread''.  Within each experiment, we determined the percent-excess of
+food-related words that were more specialized in the food-exposed treatment
+relative to the other treatment (details in the supplementary material).
+
+In all experiments except \textit{frame-food-culture} (which had only a weak
+priming effect), food-primed workers used significantly more
+specialized words, in reference to food (about 15\% more)
+(Fig.~\ref{fig:specificity}C).  It is interesting that such substantial
+increases in both the lexical richness and specialization of food-related words
+held for \textit{intertask-food-culture}, where, as mentioned, we observed that
+food-exposed workers made \textit{fewer} references to food overall.  These
+observations point to countervailing factors: one factor tending to activate
+the more specialized and less common food-related words (yielding greater
+lexical richness and specialization), and the other tending to suppress
+certain, presumably more common and generic words (yielding fewer food-related
+words in total).
+
+This hypothesis is corroborated when we look at those words whose frequencies
+changed the most from one treatment to another (Table~\ref{table:top-words}).
+As one would expect, references to objects, such as ``candle'', ``fork'', 
+or ``statue'' appear less frequently among the labels provided by workers in 
+food-exposed treatments.  But, the food-exposed workers also provide the most
+generic references to to food less often, such as the word ``food'' itself, 
+or ``meal''.  
+In fact, the word ``food'', which is the most generic possible food-related 
+word, was always \textit{the most suppressed} among food-primed workers, 
+relative to their non-food-primed counterparts.  
+Meanwhile, food-exposed workers provide more specific references to food more 
+often, such as ``coffee'', ``cheese'', or ``wine''.
+
+
+Our results can be explained through a combination of positive and negative
+priming.  Positive priming (usually simply ``priming'') occurs when a prior
+stimulus predisposes a person to give certain responses in an ensuing task, and
+is often observed as an increase in the speed or accuracy of a response, or the
+ability to recognize briefer or noisier stimuli
+\cite{BJOP1796,BJOP1826,Huber2008324}.  Negative priming occurs when, after
+exposure to a stimulus considered to be non-salient, subsequent recognition of
+the stimulus is inhibited \cite{mayr2007negative}.
+
+Workers exposed to images containing food are (positively) primed, activating
+memories, concepts, and vocabulary related to food.  However, if the worker
+labels several images containing food, the basic fact that an image contains
+food will not seem salient, since it does not distinguish one image from
+another.  Thus, the most generic references to that fact, such as the label
+``food'', will be suppressed, while more specialized references will be
+elicited.  Meanwhile, the number of references to food overall might increase
+or decrease, depending on the balance of these factors.  
+
+More generally, we are suggesting that, even though workers are not instructed
+to compare tasks in any way, prior tasks form a context relative to which
+workers judge salience.  Thus, due to a combination of negative and positive
+priming, a worker's focus in repeated tasks tends to be directed away from
+generic, shared features, toward specific and distinguishing ones.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.87]{figs/vocab_specificity.pdf}
+	\caption{
+		Exposing workers to a priming concept, e.g. food, through
+		initial tasks or framing, affects their tendency to focus
+		on that concept, and the richness and specialization of their 
+		vocaubulary in reference to it.
+		In all three plots, positive values indicate a larger quantity for 
+		the food-exposed workers.
+		(\textbf{A}) Exposing workers to food does not necessarily increase
+		the fraction food references they provide during test tasks.
+		(\textbf{B}) The number of unique food-related
+		words (richness) was greater for food-exposed workers, except in the 
+		case of \textit{frame-food-culture} (stars indicate the threshold
+		for a significant deviation, $\alpha=0.05$). 
+		(\textbf{C}) Food-exposed
+		workers used more specialized words to refer to food (see 
+		supplementary text for calculation of relative specialization).
+		Standard error bars are shown in (\textbf{A} and \textbf{C}).
+	}
+	\label{fig:specificity}
+\end{figure}
+
+Discussion
+---
+\section{Discussion}
+
+Prior to this study, little thought appears to have been given to earlier tasks
+as a priming vector for later tasks.  But our findings show this is an
+important design consideration. 
+
+Our most urgent discovery is that a severe bias can be introduced into
+microtask responses, simply from the performance of earlier tasks.  These
+effects are much stronger than those of framing. This result impacts a
+staggering number of crowdsourcing studies that have been, are currently being,
+and will be done.  One approach to minimizing bias could be to randomize task
+ordering. This is, in fact, common practice among the crowd sourcing
+community already.  Our results, however, indicate that this is an unreliable fix
+at best: the sheer magnitude of bias we observed suggests that random ordering
+can still admit a significant amount of noise.  Even chains of two or three
+similar tasks, which will not be reliably eliminated in random permutations,
+could lead to levels of bias like those we observed in our experiments.
+Preferably, a deeper understanding of intertask effects might allow them to be
+properly controlled.
+
+If controlled in the right way, our findings actually suggest that careful task
+engineering might be able to leverage intertask effects to achieve higher 
+quality and greater reproducibility in crowdsourcing tasks.  A consistent goal
+in human computation is the achievement of expert-level judgments from
+non-expert workers \cite{kittur2011crowdforge}.  This has been achieved in some
+applications \cite{snow2008cheap,Mortensen20131020,Warby2014385}.  The
+distinction between experts and novices is partly attributable to specialized
+knowledge and heuristics.  But experts also simplify tasks by more efficiently
+directing their focus toward salient features \cite{kellman2009perceptual}.
+Our discovery that inter-task effects can produce levels of specificity in
+labels indicate that, using strategic task exposure, it might be possible to
+guide workers' focus and salience attribution, enabling expert-level judgment
+in a wider variety of crowdsourced applications.  We anticipate future work
+will yield techniques to control intertask effects, to reduce unwanted bias,
+and to tune the focus, diversity, and specificity of worker responses.
+
+\section{Conclusion}
+Fundamentally, while our findings raise serious concerns about the current
+state of microtask design, they also reveal potential opportunities to refine
+worker focus and acuity.  Any application that relies on the repetitive use of
+human judgment is likely subject to the phenomena described here.  Exploring
+the pitfalls and opportunities posed by intertask effects is an important
+direction for future work, in the effort to develop more performant and
+reliable human computation systems.
+
+Conclusion
+---
+
+
+
+
+
+
+
+
+
+
+	
+
+
