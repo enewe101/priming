@@ -1,0 +1,11 @@
+Crowdsourcing has become a valuable tool in industry and academia for
+completing information-processing jobs that computers are not currently capable
+of performing well.  Image labeling, product reviewing, and text translation
+are all applications that crowdsourcing has been applied to.  Because it has
+emerged as a modern technology for computing, there is significant interest and
+concern in the quality of results crowdsourcing plaforms achieve. In this work,
+we show that the common practice of bundling similar jobs together (e.g.,
+labeling one image after another) can introduce serious bias in the results
+obtained.  This finding suggests that such bias may be present in many past and
+ongoing crowdsourcing studies and that more attention needs to be given to
+subtle aspects of how crowdsourcing job design.

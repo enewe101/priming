@@ -87,7 +87,7 @@ Typical tasks include tagging and categorizing images,
 coding and transcribing media,
 %\cite{chandler2013breaking,Berinsky2012351,Finnerty2013},%paolacci2010running}, 
 judging the relevancy or quality of content, 
-and performing surveys for academic or market reserach purposes (see Table SX for a survey of task types).
+and performing surveys for academic or market reserach purposes (see Table S\ref{Stable:task_composition} for a survey of task types).
 %\cite{le2010ensuring,grady2010crowdsourcing,alonso2009can,kazai2013analysis}.
 
 This form of crowdsourcing embeds workers in a controlled but flexible
@@ -179,7 +179,7 @@ on the \textit{history} of their inputs.
 Our image-labeling tasks were performed on the MTurk microtask platform.  We
 chose image labeling because it is very common,
 %,paolacci2010running},
-and because it is prototypical for any kind of task in which the worker is
+and because it is prototypical for tasks in which the worker is
 asked to provide a response that is not precisely determined by the prompt, but
 instead depends on the worker's judgment
 \cite{chandler2013breaking,Finnerty2013}.  This includes such diverse tasks as
@@ -296,8 +296,8 @@ and was much weaker than the bias due to intertask effects ($p=2.1\times
 		the bias due to initial tasks wanes, 
 		but remains significant even after five tasks.  
 		Standard error bars are shown.
-	}
 	\label{fig:theta}
+	}
 \end{figure}
 
 To assess the persistence of intertask effects, we replicated the experiment
@@ -360,6 +360,152 @@ intuitive idea that workers emphasize content that has been present in earlier
 tasks: seeing content influences, but does not necessarily \textit{increase},
 the probability of referring to it in subsequent tasks.
 
+\begin{table*}[b]
+	\centering
+	\setlength{\tabcolsep}{4pt}
+	\begin{tabular}{ c c c c c }
+	
+		\setlength{\tabcolsep}{4pt}
+		\begin{tabular}{ r | c }
+		\toprule
+		\multicolumn{2}{c}{
+			\parbox[c]{2.5cm}{
+				\centering
+					\textit{intertask-food-objects}
+			}} \\
+		\midrule
+		coffee & 38 \\
+		meal & 34 \\
+		cheese & 34 \\
+		apple & 32 \\
+		dessert & 21 \\
+		cup & -30 \\
+		glass & -45 \\
+		table & -70 \\
+		candle & -74 \\
+		food & -80 \\
+		\bottomrule
+		\end{tabular}
+
+&
+
+		\setlength{\tabcolsep}{4pt}
+		\begin{tabular}{ r | c }
+		\toprule
+		\multicolumn{2}{c}{
+			\parbox[c]{2.5cm}{
+				\centering
+				\textit{frame-food-objects}
+			}
+		}\\
+		\midrule
+		bread & 18 \\
+		wine & 18 \\
+		cheese & 16 \\
+		apple & 14 \\
+		oil & 12 \\
+		table & -9 \\
+		meal & -10 \\
+		candle & -12 \\
+		dinner & -13 \\
+		food & -32 \\
+		\bottomrule
+		\end{tabular}
+
+&
+
+		\setlength{\tabcolsep}{4pt}
+		\begin{tabular}{ r | c }
+		\toprule
+		\multicolumn{2}{c}{
+			\parbox[c]{2.3cm}{
+				\centering
+			\textit{echo-food-objects}} 
+		}\\
+		\midrule
+		apple & 24 \\
+		cheese & 23 \\
+		wine & 15 \\
+		coffee & 14 \\
+		oil & 7 \\
+		knife & -24 \\
+		dinner & -26 \\
+		fork & -27 \\
+		candle & -35 \\
+		food & -55 \\
+		\bottomrule
+		\end{tabular}
+
+&
+
+		\setlength{\tabcolsep}{4pt}
+		\begin{tabular}{ r | c }
+		\toprule
+		\multicolumn{2}{c}{
+			\parbox[c]{2.5cm}{
+				\centering
+			\textit{intertask-food-culture}} 
+			\smallskip
+		}\\
+
+		\midrule
+		spicy & 26 \\
+		sauce & 17 \\
+		indian & 15 \\
+		buffet & 14 \\
+		exotic & 12 \\
+		festival & -11 \\
+		offering & -12 \\
+		statue & -15 \\
+		india & -20 \\
+		food & -56 \\
+		\bottomrule
+		\end{tabular}
+
+&
+
+		\setlength{\tabcolsep}{4pt}
+		\begin{tabular}{ r | c }
+		\toprule
+		\multicolumn{2}{c}{
+			\parbox[c]{2.5cm}{
+				\centering
+			\textit{frame-food-culture}} 
+		}\\
+		\noalign{\smallskip}
+		\midrule
+		indian & 11 \\
+		banquet & 8 \\
+		spicy & 7 \\
+		asian & 6 \\
+		variety & 6 \\
+		delicious & -6 \\
+		meat & -7 \\
+		festival & -7 \\
+		spice & -7 \\
+		food & -9 \\
+		\bottomrule
+		\end{tabular}
+
+	\end{tabular}
+	\caption{
+		The five words whose frequencies increased, and those whose 
+		frequencies decreased, the most, between treatments of given 
+		experiments.  The label frequencies shown apply to the first test
+		task.  Positive values indicate that the food-exposed treatment
+		used the word with higher frequency.  
+		Note that the word ``food'' is always the most suppressed among
+		food-exposed workers.  Word frequencies for 
+		\textit{intertask-food-objects} correspond to the labels attributed
+		to image 1 (see Fig. \ref{Sfig:task1:test}) which is not necessarily 
+		the first 
+		test task due to the tasks being permuted.  There were five times
+		as many workers in \textit{intertask-food-objects}, hence
+		larger absolute differences are observed.
+	}
+	\label{table:top-words}
+\end{table*}
+
 To deepen our understanding, we investigated workers' lexical richness in
 reference to food, that is, the number of \textit{unique} food-related words
 used.  Even if workers provide an abundance of food-related words, there can be
@@ -393,6 +539,7 @@ the more specialized and less common food-related words (yielding greater
 lexical richness and specialization), and the other tending to suppress
 certain, presumably more common and generic words (yielding fewer food-related
 words in total).
+
 
 This hypothesis is corroborated when we look at those words whose frequencies
 changed the most from one treatment to another (Table~\ref{table:top-words}).
@@ -432,7 +579,7 @@ workers judge salience.  Thus, due to a combination of negative and positive
 priming, a worker's focus in repeated tasks tends to be directed away from
 generic, shared features, toward specific and distinguishing ones.
 
-\begin{figure}[h]
+\begin{figure}[t]
 	\centering
 	\includegraphics[scale=0.87]{figs/vocab_specificity.pdf}
 	\caption{
@@ -502,16 +649,15 @@ reliable human computation systems.
 
 \begin{materials}
 
-\section{Microtask setup} The work presented in the main text consisted of six
-experiments involving HITs (bundles of tasks) performed on Amazon's Mechanical
-Turk (MTurk) platform.  The flow of events experienced by a worker when
-participating in this study is depicted in Fig.~S\ref{Sfig:task_schematic}.
-Each experiment was divided into two treatments.  Treatments for a given
-experiment differed with respect to a particular priming modality, which served
-as the independent variable (as specified in Table~S\ref{Stable:experiments}).
-The HITs for treatments of the same experiment always involved the same test
-tasks (the last five tasks in the HIT), the results of which served as the
-dependent variable.
+\section{Microtask setup} This study involved six experiments involving HITs
+(bundles of tasks) performed on Amazon's Mechanical Turk (MTurk) platform.  The
+flow of events experienced by a worker when participating in this study is
+depicted in Fig.~S\ref{Sfig:task_schematic}.  Each experiment was divided into
+two treatments.  Treatments for a given experiment differed with respect to a
+particular priming modality, which served as the independent variable (as
+specified in Table~S\ref{Stable:experiments}).  The HITs for treatments of the
+same experiment always involved the same test tasks (the last five tasks in the
+HIT), the results of which served as the dependent variable.
 
 All HITs were presented as a series of slides.  The first slide consisted of a
 brief set of instructions.  For HITs that included framing, a framing statement
@@ -720,152 +866,6 @@ This work was partially supported by an Insight Grant from the Canadian Social S
 %
 
 \end{article}
-
-\begin{table*}
-	\centering
-	\setlength{\tabcolsep}{4pt}
-	\begin{tabular}{ c c c c c }
-	
-		\setlength{\tabcolsep}{4pt}
-		\begin{tabular}{ r | c }
-		\toprule
-		\multicolumn{2}{c}{
-			\parbox[c]{2.5cm}{
-				\centering
-					\textit{intertask-food-objects}
-			}} \\
-		\midrule
-		coffee & 38 \\
-		meal & 34 \\
-		cheese & 34 \\
-		apple & 32 \\
-		dessert & 21 \\
-		cup & -30 \\
-		glass & -45 \\
-		table & -70 \\
-		candle & -74 \\
-		food & -80 \\
-		\bottomrule
-		\end{tabular}
-
-&
-
-		\setlength{\tabcolsep}{4pt}
-		\begin{tabular}{ r | c }
-		\toprule
-		\multicolumn{2}{c}{
-			\parbox[c]{2.5cm}{
-				\centering
-				\textit{frame-food-objects}
-			}
-		}\\
-		\midrule
-		bread & 18 \\
-		wine & 18 \\
-		cheese & 16 \\
-		apple & 14 \\
-		oil & 12 \\
-		table & -9 \\
-		meal & -10 \\
-		candle & -12 \\
-		dinner & -13 \\
-		food & -32 \\
-		\bottomrule
-		\end{tabular}
-
-&
-
-		\setlength{\tabcolsep}{4pt}
-		\begin{tabular}{ r | c }
-		\toprule
-		\multicolumn{2}{c}{
-			\parbox[c]{2.3cm}{
-				\centering
-			\textit{echo-food-objects}} 
-		}\\
-		\midrule
-		apple & 24 \\
-		cheese & 23 \\
-		wine & 15 \\
-		coffee & 14 \\
-		oil & 7 \\
-		knife & -24 \\
-		dinner & -26 \\
-		fork & -27 \\
-		candle & -35 \\
-		food & -55 \\
-		\bottomrule
-		\end{tabular}
-
-&
-
-		\setlength{\tabcolsep}{4pt}
-		\begin{tabular}{ r | c }
-		\toprule
-		\multicolumn{2}{c}{
-			\parbox[c]{2.5cm}{
-				\centering
-			\textit{intertask-food-culture}} 
-			\smallskip
-		}\\
-
-		\midrule
-		spicy & 26 \\
-		sauce & 17 \\
-		indian & 15 \\
-		buffet & 14 \\
-		exotic & 12 \\
-		festival & -11 \\
-		offering & -12 \\
-		statue & -15 \\
-		india & -20 \\
-		food & -56 \\
-		\bottomrule
-		\end{tabular}
-
-&
-
-		\setlength{\tabcolsep}{4pt}
-		\begin{tabular}{ r | c }
-		\toprule
-		\multicolumn{2}{c}{
-			\parbox[c]{2.5cm}{
-				\centering
-			\textit{frame-food-culture}} 
-		}\\
-		\noalign{\smallskip}
-		\midrule
-		indian & 11 \\
-		banquet & 8 \\
-		spicy & 7 \\
-		asian & 6 \\
-		variety & 6 \\
-		delicious & -6 \\
-		meat & -7 \\
-		festival & -7 \\
-		spice & -7 \\
-		food & -9 \\
-		\bottomrule
-		\end{tabular}
-
-	\end{tabular}
-	\caption{
-		The five words whose frequencies increased, and those whose 
-		frequencies decreased, the most, between treatments of given 
-		experiments.  The label frequencies shown apply to the first test
-		task.  Positive values indicate that the food-exposed treatment
-		used the word with higher frequency.  
-		Note that the word ``food'' is always the most suppressed among
-		food-exposed workers.  Word frequencies for 
-		\textit{intertask-food-objects} correspond to the labels attributed
-		to image 1 (see Fig. \ref{Sfig:task1:test}) which is not necessarily 
-		the first 
-		test task due to the tasks being permuted.  There were five times
-		as many workers in \textit{intertask-food-objects}, hence
-		larger absolute differences are observed.
-	}
-	\label{table:top-words}
-\end{table*}
 
 \end{document}
 
