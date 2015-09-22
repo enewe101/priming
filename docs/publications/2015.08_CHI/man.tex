@@ -32,6 +32,8 @@
 \usepackage{ccicons}
 \usepackage{todonotes}
 
+
+
 % My packages
 \usepackage{dcolumn}
 \usepackage{multirow}
@@ -39,6 +41,7 @@
 \newcolumntype{s}{D{.}{.}{1.4}}
 \usepackage{arydshln}
 \usepackage{enumitem}
+
 
 % llt: Define a global style for URLs, rather that the default one
 \makeatletter
@@ -84,19 +87,21 @@
 
 \numberofauthors{3}
 \author{%
-  \alignauthor{Edward Newell\textsuperscript{*}, Derek Ruths\\
-	School of Computer Science\\ McGill University}\\
-    \affaddr{Montreal, Qu\'ebec}\\
-	\textsuperscript{*}\email{edward.newell@mail.mcgill.ca} }\\
-
-  \alignauthor{2nd Author Name\\
-    \affaddr{Affiliation}\\
-    \affaddr{City, Country}\\
-    \email{e-mail address}}\\
-  \alignauthor{3rd Author Name\\
-    \affaddr{Affiliation}\\
-    \affaddr{City, Country}\\
-    \email{e-mail address}}\\
+  \alignauthor{
+	Edward Newell \\
+    \affaddr{School of Computer Science, McGill University}\\
+    \affaddr{3480 University Street, Room 318, Montreal, Qu\'ebec,
+	  Canada, H3A 2A7
+	}\\
+	\email{edward.newell@mail.mcgill.ca}}\\
+  \alignauthor{
+	Derek Ruths \\
+    \affaddr{School of Computer Science, McGill University}\\
+    \affaddr{3480 University Street, Room 318, Montreal, Qu\'ebec,
+	  Canada, H3A 2A7
+	}\\
+	\email{derek.ruths@mcgill.ca}
+  }\\
 }
 
 \maketitle
@@ -141,14 +146,14 @@ considered in the design of any crowdsourced study.
 
 \section{Introduction}
 There are many tasks that are trivial for people, but difficult to solve
-programatically.  
+programmatically.  
 Typical tasks include tagging and categorizing images,
 %\cite{6116320,Zhai2012357}, 
 coding and transcribing media,
 %\cite{chandler2013breaking,Berinsky2012351,Finnerty2013},%paolacci2010running},
 %judging the relevancy or quality of content,
 and performing surveys for 
-academic or market reserach purposes (see Table~\ref{table:task_composition} for a listing of task types seen on the Amazon's Mechanical Turk 
+academic or market research purposes (see Table~\ref{table:task_composition} for a listing of task types seen on the Amazon's Mechanical Turk 
 microtask platform).
 %\cite{le2010ensuring,grady2010crowdsourcing,alonso2009can,kazai2013analysis}.
 Many tasks are ill-defined, in the sense that they do not have
@@ -173,7 +178,7 @@ Many researchers consider microtask platforms
 as a new kind of \textit{human computing} architecture
 \cite{5543192}. %,little2010turkit,minder2012crowdlang,kittur2011crowdforge}.
 
-The flexibility and cost-effectiveness of microtask labour
+The flexibility and cost-effectiveness of microtask labor
 has led to a surge in demand from industry and 
 academia \cite{wolfson2011look,Berinsky2012351}.  More recently microtask 
 platforms have
@@ -197,14 +202,14 @@ logistics of serving small tasks.
 Workers have a preference for performing sequences of similar microtasks
 \cite{Chilton20101}, probably because it reduces 
 cognitive load arising from task-switching \cite{Adamczyk2004271}.
-Morever, as workers complete task assignments, they must continually 
+Moreover, as workers complete task assignments, they must continually 
 switch between working on an assignment and choosing their next 
 assignment (weighing such factors as the wage paid, and effort required).  
 Since microtasks are very short,
 it makes sense to bundle tasks together into
 larger assignments, to reduce the overhead of switching between  
 working on assignments and choosing them.
-This may explain why the pre-defined assignment templates available on 
+This may explain why the predefined assignment templates available on 
 microtask platforms generally bundle many tasks together by 
 default\footnote{e.g. on \url{mturk.com} and \url{crowdflower.com}}.
 
@@ -225,7 +230,7 @@ extent to which intertask priming can shift the distribution of responses
 to a task.  
 Measuring the \textit{extent} of the shift in response distribution,
 i.e. the extent of bias, is substantially harder than
-simply determining \textit{whether} a biasing effect has occured.  
+simply determining \textit{whether} a biasing effect has occurred.  
 Our first contribution is a statistically grounded method for doing so.
 
 To investigate the phenomenon in a
@@ -235,7 +240,7 @@ We also sought a task that would be a typical exemplar of the kinds of
 tasks actually seen on microtask platforms (see 
 Table~\ref{table:task_composition} for examples).  For this purpose, we 
 adopted
-image-labeling as a canonical micratask, in which workers provide 
+image-labeling as a canonical microtask, in which workers provide 
 descriptive labels to images using free-text inputs.  Image labeling is
 a qualitative task without clearly ``correct'' or ``incorrect'' responses,
 and is among the most common kinds of tasks on the major crowdsourcing
@@ -256,8 +261,8 @@ Our results show that a worker's responses are strongly influenced by
 the content of tasks performed beforehand, leading to as much as 50\%
 bias (measured as total variational distance, 
 see Figure~\ref{fig:l1_example} for illustrative definition).  
-Using the wordnet 
-knowledge base, we analyze worker's word choices to characterize the 
+Using the WordNet 
+knowledge base, we analyze worker's word choices to characterize 
 the nature of these effects in detail.  We find that, when workers 
 label a series of images that are more similar, their responses become 
 more specialized more diverse.  Prior tasks can shift the topical focus of 
@@ -276,7 +281,7 @@ architecture, it will be necessary to reconcile the fact that the human
 computing elements exhibit \textit{hysteresis}, 
 meaning that microtask workers' outputs 
 depend on the \textit{history} of their inputs.
-We propose a dual priming mechanism which can exaplain our
+We propose a dual priming mechanism which can explain our
 observations.  Irrespective of the underlying mechanism, this 
 very strong effect might be exploited in task design to tune worker 
 focus and acuity.
@@ -290,14 +295,13 @@ As our main contributions, we
 	show that when completing a series of similar microtasks,
 	worker's responses become more specialized and diverse;
   }
-  \item{provide design considerations in light of our observations.}
 \end{itemize}
 
 The rest of the paper is organized as follows.  In the next section, we 
 review the relevant prior work.  We then present a method for 
 measuring bias due to intertask effects.  
 Next we present our experimental results, followed by a discussion 
-of interpretations and ramefications for microtask-based and crowdsourced 
+of interpretations and ramifications for microtask-based and crowdsourced 
 work.  We conclude with suggestions for task design and future work.
 
 \section{Prior work}
@@ -327,7 +331,8 @@ Unknown & 7 & 3.5 \\
 \end{tabular}
 \caption{
 	Frequency of various broad task types seen among the 200 most 
-	recently posted tasks on MTurk, accessed on 12 February, 2015.
+	recently posted tasks on Amazon's Mechanical Turk, 
+	accessed on 12 February, 2015.
 }
 \label{table:task_composition}
 \end{table}
@@ -335,7 +340,7 @@ Unknown & 7 & 3.5 \\
 % These things are definitely not assured, and people have tried to 
 % figure out what to do about it
 Accuracy and replicability are central to any crowdsourcing study.
-There is ongoing research investigating how the desing of microtasks,
+There is ongoing research investigating how the design of microtasks,
 and their context, affect the quality of responses.  
 One of the most basic issues with crowd work
 is that workers vary in the amount of attention they pay to tasks, 
@@ -365,19 +370,19 @@ but results are ambiguous.  One study found that increasing wage
 has no effect on response quality, but does increase the amount of 
 responses \cite{Mason200977}.
 Another study \cite{kazai2013analysis} showed that increasing
-wages does increse quality, but that this effect saturates, and 
-eventually increases in wage attract a larger porportion of workers who 
+wages does increase quality, but that this effect saturates, and 
+eventually increases in wage attract a larger proportion of workers who 
 disregard the task instructions.
 
 % Task framing
-Workers have other motivations for completeing tasks aside from 
+Workers have other motivations for completing tasks aside from 
 remuneration \cite{kazai2013analysis}.  
 Researchers have attempted to appeal to
 worker's motivation to do work that has a meaningful purpose:
 when a task was framed as assisting with medical research,
 workers are more likely to participate and completed more tasks, than
 when they were not provided any context \cite{chandler2013breaking}.
-Providing a meaninful context did not, however, increase the 
+Providing a meaningful context did not, however, increase the 
 \textit{quality} of work.
 
 Other studies have investigating different means of framing.  
@@ -464,7 +469,7 @@ and memory access \cite{beller1971priming}.
 Priming is more 
 effective when the prime and the target task involve the kind of 
 activity.  For example, exposing participants to an image helps them 
-subsequently recognize that image when shown very breifly in a 
+subsequently recognize that image when shown very briefly in a 
 tachistoscope; however, being presented with a related \textit{word}, 
 and reading it aloud, does not \cite{BJOP1796}.
 
@@ -481,7 +486,7 @@ result in a shift in the responses workers provide for the later task.
 A variety of tests exist to determine \textit{whether} two samples, 
 i.e. sets of responses, come from different distributions, 
 most notably the $\chi^2$ test.  
-This will suffice to determine whether there are any grounds for conern 
+This will suffice to determine whether there are any grounds for concern 
 about priming effects in the first place.  However, such tests
 do not tell us \textit{how much} two distributions differ, and hence
 how severe the priming effects are.
@@ -491,8 +496,8 @@ distance, or \textit{divergence}, between response distributions, by
 sampling responses from workers exposed to different priming conditions.
 We will present a method for bounding a kind of divergence known as 
 \textit{total variational distance}\footnote{
-  Other formulation such as the Kulback-Leibler and 
-  Jenson-Shannon divergence can be calculated from the total variational
+  Other formulation such as the Kullback-Leibler and 
+  Jensen-Shannon divergence can be calculated from the total variational
   distance
 }, which we will henceforth denote by $\theta$.
 The value of $\theta$ between two distributions $P$ and $Q$ 
@@ -660,8 +665,6 @@ responses, and then measuring its accuracy.
 		\textit{culture} treatments of \textit{intertask-food-culture};
 		and (\textbf{F}) test tasks for \textit{intertask-food-culture} and 
 		\textit{frame-food-culture}.
-		The full set of experimental materials is shown in the 
-		supplementary text.
 	}
 
 	\label{fig:task}
@@ -805,9 +808,8 @@ depicting both food and objects (Figure~\ref{fig:task}C).
 The frequencies of words used by
 workers in the \textit{food} and \textit{objects} treatments differed
 significantly during test tasks (by $\chi^2$ test, $p = 6.0 \times 10^{-14}$),
-even though the test tasks were identical in both treatments\footnote{
-	see supplementary text for tabulated statistics.
-}.  Thus earlier tasks do significantly affect later ones, which 
+even though the test tasks were identical in both treatments.  
+Thus earlier tasks do significantly affect later ones, which 
 validates our concerns about the typical microtask methodology.
 
 Having affirmed the \textit{existence} of intertask effects, we sought to
@@ -816,23 +818,21 @@ To measure $\theta$ we used a na\"ive Bayes classifier based on a
 multinomial distribution over the word frequencies in worker's labels, 
 and measured it's accuracy using leave-one-out cross-validation.  
 We chose the na\"ive Bayes
-classifier for three reasons\footnote{In the supplementary material we 
-  compare alternate classifier configurations, and show that they produce
-similar results.}.  First, it performs well even when the 
+classifier for three reasons.  First, it performs well even when the 
 number of features is large compared to the number of training examples.  
 Second, there are no hyperparameters to 
 optimize, which eliminates the need to partition the response data into
 dev and test sets.
-Third, the conditional independance assumption, normally 
+Third, the conditional independence assumption, normally 
 undertaken for pragmatic reasons, is probably a relatively mild in 
 relation to image labels, since they are likely to be less dependent
-on one another than in a coherent passage of text.
+on one another than in a coherent passage of text.  We also used a 
+support vector machine and found very similar results.
 
 To produce word frequency features, worker's labels were split on white
 space and punctuation, and the resulting tokens were spell-corrected based
 on edit-distance to a dictionary of words, followed by stop-word removal
-and lemmatization\footnote{A detailed description of preprocessing steps 
-is available in the supplementary material.}.  The spelling correction
+and lemmatization.  The spelling correction
 dictionary was compiled from a combination of WordNet 
 \cite{felbaum1998wordnet} and words
 collected by crawling the World Food section of \url{allrecipes.com}.
@@ -913,7 +913,7 @@ Once again, we compared the strength of intertask effects to those due to
 framing. In the experiment \textit{frame-food-culture} we used
 the same test tasks as in \textit{intertask-food-culture}, but before
 workers began the tasks, we indicated
-that the purpose of the task was either the the recognition of food or 
+that the purpose of the task was either the recognition of food or 
 culture, depending on the treatment to which the worker was assigned.  
 However, unlike in the previous framing experiment, this time we also 
 included initial tasks in the framing experiment (although they were 
@@ -946,7 +946,7 @@ purpose.
 		Exposing workers to a priming concept, e.g. food, through
 		initial tasks or framing, affects their tendency to focus
 		on that concept, and the richness and specialization of their 
-		vocaubulary in reference to it.
+		vocabulary in reference to it.
 		In all three plots, positive values indicate a larger quantity for 
 		the food-exposed workers.
 		(\textbf{A}) Exposing workers to food does not necessarily increase
@@ -956,8 +956,7 @@ purpose.
 		case of \textit{frame-food-culture} (stars indicate the threshold
 		for a significant deviation, $\alpha=0.05$). 
 		(\textbf{C}) Food-exposed
-		workers used more specialized words to refer to food (see 
-		supplementary text for calculation of relative specialization).
+		workers used more specialized words to refer to food.
 		Standard error bars are shown in (\textbf{A} and \textbf{C}).
 	}
 	\label{fig:specificity}
@@ -1093,7 +1092,7 @@ purpose.
 		The five words whose frequencies increased, and those whose 
 		frequencies decreased, the most, between treatments of given 
 		experiments, within labels attributed to the first test task.
-		Values indicate the absolute change in number of occurences
+		Values indicate the absolute change in number of occurrences
 		of the word, and positive values indicate that the food-exposed
 		treatment 
 		used the word with higher frequency.  
@@ -1120,10 +1119,10 @@ WordNet knowledge base \cite{felbaum1998wordnet}.
 
 WordNet provides
 hyponym and hypernym relations between words.  A hypernym is a 
-generalization (for example, ``bread'' is a hypernym of ``pumpernickle''), 
+generalization (for example, ``bread'' is a hypernym of ``pumpernickel''), 
 while a hyponym is a specialization.  We took took the set of food-words
 to be all those reachable through
-a chain of hyponym relations from the wordsenses 
+a chain of hyponym relations from the word senses 
 \texttt{food.n.01} and \texttt{food.n.02}, in other words, all words
 denoting a specific kind of food (a total of 3590 words).  
 To improve the coverage of words for
@@ -1132,7 +1131,7 @@ discovered while crawling the World Food section of \url{allrecipes.com}
 which were not already in WordNet.  
 
 To validate the resulting set of 
-food words, three independant annotators labeled 500 words selected from 
+food words, three independent annotators labeled 500 words selected from 
 workers' responses as either food or non-food, and these were
 compared to the labels derived using the automated approach.
 Among those words, 26\% were 
@@ -1145,7 +1144,7 @@ was an inter-rater reliability of 82.4\%.
 
 Using the automated labeling of food words, we found that, in fact
 workers exposed to food (via prior tasks or framing) did not necessarily
-use more food-words when labelng images in the test tasks.
+use more food-words when labeling images in the test tasks.
 In \textit{intertask-food-culture}, food-exposed
 workers actually used significantly \textit{fewer} food-related words 
 during test tasks (Figure~\ref{fig:specificity}A).  This finding
@@ -1193,7 +1192,7 @@ The relative specificity lies within $[-1,1]$;
 we report it as a percentage.
 In computing this quantity between two treatments, we first computed the 
 relative specificity for the treatments separately for each test task, and 
-averaged the results obtained accross the five test tasks.
+averaged the results obtained across the five test tasks.
 
 In all experiments except \textit{frame-food-culture}, food-primed workers 
 used significantly more specialized words, in reference to food 
