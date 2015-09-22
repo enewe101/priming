@@ -1,0 +1,159 @@
+
+
+RELATED WORK NOTES
+ - study showing that interruptions are more disruptive if they are
+	"well aligned" with the current task (presumably in terms of content).
+		Gillie, T. and Broadbent, D.. What makes interruptions disruptive? a
+		study of length, similarity, and complexity.  Psychological 
+		Research , 50:243–50, 1989.
+
+ - bulleted list each of the "studies" or experiments
+
+ - the ETA paper talks about common crowdsourcing task types, and has some
+	references for that too.
+
+----
+
+- microtask design factors
+	- general design factors
+	- framing
+
+- task repetition
+	NASA
+
+- priming
+	- knowing that priming has occured tells us nothing about it's practical
+		ramefications
+	- Most studies focus on such thing
+		as response time, the effects on which vary within a range that 
+		aren't significant to microtask settings.
+	- Some studies have investigated the effects of priming on error rates
+		but it is difficult to extrapolate how these effects bear on tasks
+		that rely on qualitative judgments without any clear right or wrong
+		answer.  (such tasks tend to benefit the most from crowdsourcing)
+
+	- research into priming has a different goal
+		Typically, the study focuses on using priming effects to shed light 
+		on the underlying psychological mechanisms in the human mind.  While
+		these studies have difinitively shown many kinds of priming effects,
+		these effects are completely uncharacterized from a computational 
+		standpoint.  In the context of psychological investigation, priming 
+		provides a residual trace of *how* the human mind works, but it is 
+		not at all clear how priming would affect a computation.
+
+- measuring divergence
+
+	- establish the need, explain why the straightforward method isn't
+		reliable
+
+A seemingly straightforward way to measure $\theta$ would be to use
+the frequency of each response to estimate the probability of that response
+(this is the maximum likelihood estimator of the probability).  However,
+this leads to a gross systematic overestimation of $\theta$ which is 
+uninterpretable.  Even if two distributions are identical, this method
+could estimate $\theta=100%$ if the distributions have very high entropy 
+and the sample size is small.
+
+Recently there has been theoretical progress on this problem.
+An estimator of L1-distance, and tests of whether the L1-distance is
+greater than a specified threshold, have been proposed 
+\cite{val-thesis,batu2013testing,chan2014optimal}.  
+These methods have excellent theoretical convergence guarantees, but
+cannot easily be used to establish estimates with confidence intervals or 
+perform hypothesis tests for fixed sample size and significance level.  
+
+We therefore derive an alternative approach based on 
+techniques from machine learning.  In this approach, instead of trying
+to measure the difference in responses that result from the worker's 
+treatment, we reverse the problem, and build a classifier that infers 
+the worker's treatment based on her responses.  Intuitively, the stronger
+the effect of some treatment variable on the worker's subsequent respnoses, 
+the easier it will be to infer the treatment based on the classifier.
+Formally, if one constructs a classifier whose accuracy is shown to be
+\eta, this establishes a lower bound on the effect size \theta:
+
+.... equation relating \eta and \theta
+
+The derivation of this inequality follows from considering an optimal
+classifier, who has maximal accuracy $\eta^*$
+The best possible classifier will not in general have perfect accuracy:
+Given two sets workers from different treatments, $P_0$ and $P_1$, 
+if workers from both have identical response distributions, then there
+is no hope of determining the population to which a worker belonged based
+on her response, $x$. 
+But, assuming that responses are
+not distributed identically, then given some $x$, the best possible 
+classifier must always guess 1 whenever $p_1(x) > p_0(x)$ and guess 0 
+whenever $p_0(x) > p_1(x)$ (of course, these probabilities are not known,
+otherwise it would be trivial to calculate \theta).  Based on this fact,
+we can calculate the accuracy of the best possible classifier.
+
+Sacrificing, for a moment, some generality, let us assume that, for some 
+give $x'$, $p_1(x') > p_0(x')$.  
+When this $x'$ is encounterend in a validation test, the optimal classifier
+must guess $b = \arg\!\max_{z}(p_{z}(x'))$, which in this case is $b=1$.
+The probability that the classifier guesses correctly in this case is:
+\begin{align}
+	\begin{split}
+	\mathrm{Pr}\{V(P_0, P_1, \mathcal{A}^*) = 1 | x = x' \} 
+		&= \mathrm{Pr}\{z = \mathcal{A^*}(x) | x = x' \} \\
+		&= \mathrm{Pr}\{z = 1 | x = x' \}  \\
+		&= \frac{\mathrm{Pr}\{z = 1 , x = x'\}}
+			{ \mathrm{Pr}\{z=0 , x=x'\} + \mathrm{Pr}\{z=1 , x=x'\}} \\
+		&= \frac{p_1(x')}{p_0(x') + p_1(x')}.
+	\end{split}
+\end{align}
+And now, with full generally, for any $x'$, where $p_1(x')$ is not necessarily
+greater than $p_0(x')$:
+\begin{align}
+	\begin{split}
+		\mathrm{Pr}\{V(P_0,P_1,\mathcal{A}^*)=1 | x = x' \} 
+		&= \mathrm{Pr}\{z=\mathcal{A^*}(x)  | x' = x' \} \\
+		&= \mathrm{Pr}\{z = \arg\!\max_{z'}\big(p_{z'}(x)\big)| x = x' \}  \\
+		&= \frac{\max\big( p_0(x'),p_1(x') \big)}
+		{ p_0(x') + p_1(x') }.
+	\end{split}
+\end{align}
+Note that we can rewrite $\max\big(p_0(x'),p_1(x')\big)$:
+\begin{align}
+	\max\big(p_0(x'),p_1(x')\big) = \frac{1}{2}
+		\big(
+			p_0(x') + p_1(x') + |p_0(x') - p_1(x')|
+		\big),
+\end{align}
+so,
+\begin{align}
+	\mathrm{Pr}\{V(P_0,P_1,\mathcal{A}^*) = 1 | x = x' \} 
+	&= \frac{1}{2} + \frac{|p_0(x') - p_1(x')|}{2 \big(p_0(x') + p_1(x') \big)}.
+\end{align}
+Then, summing over all possible responses $X$, 
+the overall accuracy of the optimal classifier, $\mathcal{A^*}$, is:
+\begin{align}
+	\begin{split}
+	\eta^* &= \mathrm{Pr}\{V(P_0, P_1, \mathcal{A}^*)=1\} \\
+	&=\sum_{x'\in X} \mathrm{Pr}\{V(P_0,P_1,\mathcal{A}^*) = 1 | x = x' \} \mathrm{Pr}\{x = x'\}\\
+		&= \sum_{x'\in X} \left(
+				\frac{1}{2} + 
+				\frac{|p_0(x') - p_1(x')|}{2 \big(p_0(x') + p_1(x') \big)}
+			\right)
+			\left(
+				\frac{p_0(x') + p_1(x')}{2}
+			\right)\\
+		&= \frac{1}{2}\left(
+				\frac{1}{2}(
+					\sum_{x' \in X}p_0(x') + \sum_{x' \in X}p_1(x')
+				) + 
+				\frac{1}{2} \sum_{x' \in X} \big(|p_0(x') + p_1(x')|\big)
+			\right) \\
+		&= \frac{1}{2} \left( \frac{1}{2}(1 + 1) + \theta \right)\\
+		&= \frac{1 + \theta}{2}\\
+		\implies \theta &= 2\eta^* - 1.
+	\end{split}
+\end{align}
+By definition, no classifier can be more accurate than $\mathcal{A^*}$, so
+for every $\mathcal{A}$
+\begin{align}
+		\theta \geq 2\eta - 1.
+		\label{eq:sup:l1_again}
+\end{align}
+
