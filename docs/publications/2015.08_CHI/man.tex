@@ -113,7 +113,7 @@ These platforms connect \textit{requesters}
 (researchers or companies) with large populations (crowds) of workers, who 
 perform small tasks, typically taking less than five minutes each.
 A topic of ongoing research concerns the design of tasks that elicit high
-quality annotation.
+quality annotations.
 Here we identify a feature of nearly all crowdsourcing 
 workflows that profoundly impacts workers' responses.
 Microtask assignments typically consist of a sequence 
@@ -125,7 +125,7 @@ the distribution of future responses by 30-50\%
 Specifically, prior tasks influence the content that workers focus on, 
 as well as the richness and specialization of responses. 
 We call this phenomenon \textit{intertask effects}.
-We compare intertask effects to the overt framing of the assignment, 
+We compare intertask effects to the overt framing, 
 effected by stating the requester's research interest, 
 and find that intertask effects are on par or stronger.
 While intertask effects can be a source of systematic bias, 
@@ -157,8 +157,9 @@ Many tasks are ill-defined, in the sense that they do not have
 a clear ``correct'' response, and require high-level, qualitative judgment.
 Microtask platforms are marketplaces that help fill the gap in current 
 computational capabilities, by matching requesters, who need to have such 
-tasks completed, with human workers.  Amazon's Mechanical Turk, and 
-CrowdFlower are two popular microtask platforms.  
+tasks completed, with human workers.  Amazon's Mechanical Turk\footnote{\url{mturk.com}}, and 
+CrowdFlower\footnote{\url{crowdflower.com}} are two popular microtask 
+platforms.  
 
 This form of crowdsourcing embeds workers in a controlled but flexible
 task infrastructure.  
@@ -215,15 +216,16 @@ before performing a task influences performance, an effect known as
 \textit{priming} \cite{BJOP1796}.
 The effect of priming appears to be stronger when the modality of the
 prime is the same as the task.
-Thus, the typical microtask setup creates the conditions in which
+Thus, the typical microtask setup creates conditions in which
 earlier tasks could induce bias in later ones, through priming.
 
 We seek to determine if any significant priming effect occurs between
 tasks, and if so, to measure and characterize it.
 Certain tasks admit a well-defined notion of ``correct'' and 
 ``incorrect'' responses.  But many tasks involving qualitative judgment
-do not.  To provide a generalized measure of bias, we seek to quantify the
-extent to which intertask priming can shift the distribution of responses 
+do not.  Rather than simply characterizing effects on accuracy, we seek
+to provide a generalized measure of bias, by quantifying the
+extent to which intertask effects can shift the distribution of responses 
 to a task.  
 Measuring the \textit{extent} of the shift in response distribution,
 i.e. the extent of bias, is substantially harder than
@@ -262,14 +264,16 @@ Using the WordNet
 knowledge base, we analyze worker's word choices to characterize 
 the nature of these effects in detail.  We find that, when workers 
 label a series of images that are more similar, their responses become 
-more specialized more diverse.  Prior tasks can shift the topical focus of 
+more specialized and more diverse.  
+Prior tasks can shift the topical focus of 
 worker's labels, inducing them to focus on different aspects of the images.
 
 As a point of comparison, we perform similar experiments, in which we
 alter the framing of microtask assignments, in terms of the stated purpose
-of the task.  Remarkably, the effects prior microtasks themselves,
+of the task, or by naming the funder.
+Remarkably, the effects of prior microtasks themselves,
 which are virtually ubiquitous, are on par with, or stronger than, 
-overtly framing the purpose of an assignment.
+overtly framing an assignment.
 
 We call the effects that earlier tasks exert on later ones 
 \textit{intertask effects}.  If, as has been suggested \cite{5543192}, 
@@ -336,7 +340,6 @@ Unknown & 7 & 3.5 \\
 
 % These things are definitely not assured, and people have tried to 
 % figure out what to do about it
-Accuracy and replicability are central to any crowdsourcing study.
 There is ongoing research investigating how the design of microtasks,
 and their context, affect the quality of responses.  
 One of the most basic issues with crowd work
@@ -361,7 +364,7 @@ are inherently less effortful and error-prone than others
 
 % Task pricing
 Since microtask work is generally paid, wage is a basic parameter in
-the requesters control that might influence response quality.
+the requester's control that might influence response quality.
 One might expect a higher wage to \textit{buy} better performance,
 but results are ambiguous.  One study found that increasing wage
 has no effect on response quality, but does increase the amount of 
@@ -394,7 +397,7 @@ which amounts to a kind a framing, increased both the quantity and
 quality of responses \cite{Kinnaird2012281}.
 
 % Optimization based on the breakdown of tasks
-Breaking down of complex jobs into simpler tasks, can increasing worker
+The breaking down of complex jobs into simpler tasks can increase
 efficiency by enabling greater parallelism.
 While this could disrupt the natural context provided by performing the
 whole job as a single task, it turns out that, 
@@ -464,22 +467,25 @@ stimulus encodings (during perception) \cite{BJOP1826},
 the top-down application of object-knowledge \cite{Ghuman17062008},
 and memory access \cite{beller1971priming}.
 Priming is more 
-effective when the prime and the target task involve the kind of 
+effective when the prime and the target task involve the same kind of 
 activity.  For example, exposing participants to an image helps them 
 subsequently recognize that image when shown very briefly in a 
 tachistoscope; however, being presented with a related \textit{word}, 
 and reading it aloud, does not \cite{BJOP1796}.
 
-As we have mentioned, workers prefer to perform series of similar tasks
-series of similar tasks in quick succession.  Moreover, the many 
+As we have mentioned, workers prefer to perform a series of tasks that
+are similar to one another.
+Moreover, many 
 microtasks involve tasks based on visual and auditory perception 
 similar to the kinds used in priming studies.
 Thus, in a typical microtask assignment, there are many opportunities for 
 priming, the effects of which should be explored.
 
-\subsection{Measuring the extent of priming}
-If a prior task acts as a prime for a later one, it will 
-result in a shift in the responses workers provide for the later task.
+\section{Measuring the extent of priming}
+If a prior task acts as a prime for a later one, 
+and thereby introduces bias, the bias will manifest as
+a shift in the distribution of responses 
+workers provide for the later task.
 A variety of tests exist to determine \textit{whether} two samples, 
 i.e. sets of responses, come from different distributions, 
 most notably the $\chi^2$ test.  
@@ -493,9 +499,9 @@ distance, or \textit{divergence}, between response distributions, by
 sampling responses from workers exposed to different priming conditions.
 We will present a method for bounding a kind of divergence known as 
 \textit{total variational distance}\footnote{
-  Other formulation such as the Kullback-Leibler and 
+  Other formulations such as the Kullback-Leibler and 
   Jensen-Shannon divergence can be calculated from the total variational
-  distance
+  distance.
 }, which we will henceforth denote by $\theta$.
 The value of $\theta$ between two distributions $P$ and $Q$ 
 is the fraction under the graph of $P$ that does not overlap with that
@@ -513,7 +519,7 @@ $0 \leq \theta \leq 1$ (or from 0 to 100\%).
 When $\theta = 100\%$, the distributions do not overlap at all.  
 When $\theta = 0\%$, the distributions are identical.
 For reference, the distributions plotted in 
-Figure~\ref{fig:l1_example}A and B have $\theta=30\%$ and $\theta=50\%$ 
+Figure~\ref{fig:l1_example}A and B have $\theta=50\%$ and $\theta=30\%$ 
 respectively.
 
 \begin{figure}
@@ -524,7 +530,7 @@ respectively.
 		of A) 50\% and B) 30\%.  The total variational distance is 
 		the non-overlapping portion of the distributions, e.g. in
 		A) it is given by 
-		$\theta = a_1 / (a_1 + a_2) = a_2 / (a_2 + a_3)$.
+		$\theta = a_1 / (a_1 + a_2) = a_3 / (a_2 + a_3)$.
 	}
 	\label{fig:l1_example}
 \end{figure}
@@ -559,13 +565,13 @@ an identical Zipf distribution\footnote{The
 $\hat{\theta} \approx 65\%$, event though, in reality $\theta = 0\%$
 (this can be shown by simulated sampling).
 
-However, we can establish a lower bound for $\theta$ by 
+Nevertheless, we can establish a lower bound for $\theta$ by 
 exploiting a fact about the theoretical limits on the accuracy of a 
 classifier algorithm.  The intuition is as follows: 
-suppose workers are shown one of two alternative designs\footnote{We will
+suppose workers are shown one of two alternative designs\footnote{We
 use ``design'' in a general sense, to include both the design of the task
 and of its context.  In particular, the ``design'' might include the
-particular tasks that were shown beforehand, or the use of framing.}
+selection of tasks that were shown beforehand, or the use of framing.}
 for an otherwise
 similar task, and that we build a classifier which, 
 based on a worker's response, infers which of the designs had been 
@@ -574,7 +580,7 @@ If worker's responses are not affected by the design alternative,
 then the classification problem will be hard, and the classifier's 
 accuracy poor.
 Conversely, if the classifier accuracy is good, then design alternative 
-must have a strong effect on the response distribution.
+must have had a strong effect on the response distribution.
 
 Stated formally, any classifier algorithm, $\mathcal{A}$, that
 takes the response, $x$, of a worker, and guesses the 
@@ -758,13 +764,11 @@ Experiment & \parbox[c]{3.0cm}{\centering{Priming modality}} & Initial Tasks & F
 \label{table:experiments}
 \end{table}
 
-
-
 We performed a series of five experiments
-on Amazon's Mechanical Turk\footnote{\url{mturk.com}} using 1071 workers.  
+on Amazon's Mechanical Turk using 1071 workers.  
 Every experiment consisted of two treatments, each with 119 workers,
 who performed a single assignment\footnote{Workers could not participate 
-multiple times in our study}\textsuperscript{,}\footnote{On Mechanical Turk, individual 
+multiple times in our study.}\textsuperscript{,}\footnote{On Mechanical Turk, individual 
 assignments are called Human Intelligence Tasks (HITs), but this use of 
 ``task'' is 
 different from our current one: in our experiment each HIT actually 
@@ -804,10 +808,29 @@ depicting both food and objects (Figure~\ref{fig:task}C).
 
 The frequencies of words used by
 workers in the \textit{food} and \textit{objects} treatments differed
-significantly during test tasks (by $\chi^2$ test, $p = 6.0 \times 10^{-14}$),
+significantly during test tasks ($p = 6.0 \times 10^{-14}$),
 even though the test tasks were identical in both treatments.  
 Thus earlier tasks do significantly affect later ones, which 
 validates our concerns about the typical microtask methodology.
+
+The heterogeneity of word-frequencies between treatments was based on 
+Pearson's $\chi^2$ test with Yates' correction.
+In linguistics applications, the use of a $\chi^2$ to test for 
+heterogeneity between corpora has been called
+into question, because there is frequently heterogeneity \textit{within}
+a given corpus \cite{kilgarriff1996comparing}.
+This occurs because certain documents in a corpus will regard certain 
+topics, leading to bursty word usage.  While our setup is substantially
+remote from the applications for which this concern was raised, 
+one could argue that the responses to a given treatment
+constitute a ``corpus'', and the responses of a given worker to a 
+``document''.
+To address this concern, we randomly split responses to given treatment
+into two sets, and tested for hetererogeneity between the sets.
+In all cases, we failed to find heterogeneity \textit{within} a given 
+treatment (with $p > 0.3$ for all treatments and $p > 0.8$ for most).
+Thus, the heterogeneity we observed \textit{between} treatments is 
+meaningful.
 
 Having affirmed the \textit{existence} of intertask effects, we sought to
 measure the severity of the bias induced, i.e. $\theta$.
@@ -816,15 +839,17 @@ multinomial distribution over the word frequencies in worker's labels,
 and measured it's accuracy using leave-one-out cross-validation.  
 We chose the na\"ive Bayes
 classifier for three reasons.  First, it performs well even when the 
-number of features is large compared to the number of training examples.  
+number of features is large compared to the number of training examples
+\cite{bickel2004,hastie2009elements}.  
 Second, there are no hyperparameters to 
 optimize, which eliminates the need to partition the response data into
 dev and test sets.
 Third, the conditional independence assumption, normally 
-undertaken for pragmatic reasons, is probably a relatively mild in 
+undertaken for pragmatic reasons \cite{Zhang2004562}, 
+is probably a relatively mild in 
 relation to image labels, since they are likely to be less dependent
-on one another than in a coherent passage of text.  We also used a 
-support vector machine and found very similar results.
+on one another than in a coherent passage of text.  We repeated our
+analysis used a support vector machine and found very similar results.
 
 To produce word frequency features, worker's labels were split on white
 space and punctuation, and the resulting tokens were spell-corrected based
@@ -836,12 +861,18 @@ collected by crawling the World Food section of \url{allrecipes.com}.
 
 Based on the classifier accuracy, intertask effects in the 
 experiment \textit{intertask-food-objects}
-lead to (a lower bound) bias of $\theta=30\%$ between workers from the 
+lead to (a lower bound) bias of $\theta=30.6\%$ between workers from the 
 \textit{food} and \textit{objects} treatments (Figure~\ref{fig:theta}A).
 It is difficult to visualize the distributions of word frequencies,
 but for reference, the distributions shown in 
 Figure~\ref{fig:l1_example}B have $\theta = 30\%$.  This represents a 
 substantial potential to distort microtask data.
+
+When observing the classifier's accuracy, in order to calculate $\theta$,
+the number of correct inferences made by the classifier follows a binomial 
+distribution.  The fraction of successes yields the maximum likelihood
+estimate of the classifier's accuracy (used to generate $\theta$), 
+and we derived confidence intervals using the exact Clopper-Pearson method.
 
 As already discussed, there has been considerable interest in the 
 effects that framing can have on microtask responses
@@ -866,7 +897,10 @@ word usage at significance
 the \textit{extent} of framing-induced bias was not statistically 
 distinguishable from zero ($p =0.37$) (Figure~\ref{fig:theta}A).
 And so, remarkably, the extent of bias due to framing was weaker than that 
-due to intertask effects ($p=2.1\times 10^{-5}$).
+due to intertask effects ($p=2.1\times 10^{-5}$)\footnote{To compare bias
+  due to framing and inter-task effects, we approximated the distribution
+  of correct classifications as a normal distribution, and performed
+a (two-tailed) two-proportion $z$-test.}.
 In other words, the \textit{microtasks themselves}
 had a stronger biasing effect than framing.
 
@@ -877,7 +911,7 @@ test-task positions (see Figure \ref{fig:task-schematic}).
 By taking the average bias induced for each test task when 
 occupying a given position, we determined $\theta$ as a function of the 
 task position.
-Bias was strongest for the first test task (about 28\%), 
+Bias was strongest for the first test task (28.1\%), 
 but remained significant through all five test tasks 
 ($\alpha=0.05$) sustaining over 12\% bias even when the initial and test 
 tasks were separated by four intervening tasks (Figure~\ref{fig:theta}B).
@@ -901,7 +935,7 @@ cultural origin
 (Figure~\ref{fig:task}F).  
 
 Results for this experiment again showed a 
-strong bias as a result of intertask effects (about 50\%) 
+strong bias as a result of intertask effects (51.3\%) 
 (Figure~\ref{fig:theta}A).  Again, visualizing the word frequencies 
 themselves is difficult, but Figure~\ref{fig:l1_example} provides an 
 example of distributions having $\theta = 50\%$.
@@ -926,8 +960,8 @@ that framing-induced bias reached a comparable extent to that induced by
 intertask effects.  In the experiment \textit{echo-food-objects},
 after framing the purpose of the task (as the recognition of food
 or objects), workers were asked to echo the purpose of the task
-using a combo-box input.  This  ``echoed framing'' induced a bias of about 
-35\% (Figure~\ref{fig:theta}A). However, it is difficult to say whether this 
+using a combo-box input.  This  ``echoed framing'' induced a bias of 
+36.1\% (Figure~\ref{fig:theta}A). However, it is difficult to say whether this 
 should be considered as a framing treatment \textit{per se}:
 requiring the worker to reiterate the purpose signals our intent, as the 
 requester, to ensure that the worker has taken note of it, possibly leading 
@@ -1119,7 +1153,7 @@ hyponym and hypernym relations between words.  A hypernym is a
 generalization (for example, ``bread'' is a hypernym of ``pumpernickel''), 
 while a hyponym is a specialization.  We took took the set of food-words
 to be all those reachable through
-a chain of hyponym relations from the word senses 
+a chain of hyponym relations from the word-senses 
 \texttt{food.n.01} and \texttt{food.n.02}, in other words, all words
 denoting a specific kind of food (a total of 3590 words).  
 To improve the coverage of words for
@@ -1137,18 +1171,22 @@ Taking the majority label among annotators to be the correct one,
 the automatically-identified food-words
 had 88\% correspondence to the human annotators.  Treating the
 automated identification of food words as another annotator, there 
-was an inter-rater reliability of 82.4\%.
+was an 82.4\% agreement between annotators.
 
-Using the automated labeling of food words, we found that, in fact
+Using the automated labeling of food words, we found that, contrary to
+expectations,
 workers exposed to food (via prior tasks or framing) did not necessarily
 use more food-words when labeling images in the test tasks.
 In \textit{intertask-food-culture}, food-exposed
-workers actually used significantly \textit{fewer} food-related words 
+workers actually used significantly\footnote{
+  Frequencies of food references within a treatment were calculated as
+  an average across workers, and modeled as normally distributed.
+} \textit{fewer} food-related words 
 during test tasks (Figure~\ref{fig:specificity}A).  This finding
 rules out a seemingly-simple idea that workers emphasize
 content that has been present in earlier tasks: seeing content 
-influences, but does not necessarily \textit{increase}, the probability of 
-referring to it in subsequent tasks.
+significantly influences, but does not necessarily 
+\textit{increase}, the probability of referring to it in subsequent tasks.
 
 To deepen our understanding, we investigated workers' lexical richness in 
 reference to food, that is, the number of \textit{unique} food-related words
@@ -1164,6 +1202,19 @@ food-primed workers made fewer total references to food.
 %We also observed enrichment of the food-related lexicon in the 
 %\textit{priming-food-objects}, and \textit{echo-food-objects} experiments, 
 %although to a lesser extent.
+
+To test the significance of the difference in sizes of food
+lexicons,
+we created a null model for each experiment, by assuming that
+responses for both treatments were in fact drawn from the same 
+distribution.
+This was accomplished by pooling responses for both treatments 
+of a given experiment, then 
+drawing two bootstrap samples of 119 responses and calculating
+the difference in the size of their food lexicons.  
+We repeated this 1000 times and took the 2.5th and 97.5th percentiles 
+as the critical values for the rejection of the null hypothesis 
+(the latter shown by stars in Figure~\ref{fig:specificity}B).
 
 The observations regarding lexical richness suggest that 
 initial tasks might influence workers to use more refined or specialized 
@@ -1189,11 +1240,12 @@ The relative specificity lies within $[-1,1]$;
 we report it as a percentage.
 In computing this quantity between two treatments, we first computed the 
 relative specificity for the treatments separately for each test task, and 
-averaged the results obtained across the five test tasks.
+averaged the results obtained across the five test tasks.  To establish
+significance, we again used a null model, based on bootstrapping.
 
 In all experiments except \textit{frame-food-culture}, food-primed workers 
 used significantly more specialized words, in reference to food 
-(about 15\% more) (Figure~\ref{fig:specificity}C).
+(about 15\% more; $p > 0.05$) (Figure~\ref{fig:specificity}C).
 It is interesting that such substantial increases in both the lexical 
 richness and specialization of food-related words 
 held for \textit{intertask-food-culture}, where, as mentioned, we observed 
@@ -1275,7 +1327,7 @@ specificity of worker responses.
 
 We have shown that a severe bias can be introduced into microtask 
 responses, simply from the performance of earlier tasks. 
-These effects are much stronger than those of framing.  
+These effects can be much stronger than those of framing.  
 While our findings raise serious concerns about the 
 current state of microtask design, they reveal potential opportunities 
 to refine worker focus and acuity.  Any application that relies
