@@ -90,15 +90,15 @@
   \alignauthor{
 	Edward Newell \\
     \affaddr{School of Computer Science, McGill University}\\
-    \affaddr{3480 University Street, Room 318, Montreal, Qu\'ebec,
-	  Canada, H3A 2A7
+    \affaddr{Montreal, Qu\'ebec,
+	  Canada
 	}\\
 	\email{edward.newell@mail.mcgill.ca}}\\
   \alignauthor{
 	Derek Ruths \\
     \affaddr{School of Computer Science, McGill University}\\
-    \affaddr{3480 University Street, Room 318, Montreal, Qu\'ebec,
-	  Canada, H3A 2A7
+    \affaddr{Montreal, Qu\'ebec,
+	  Canada
 	}\\
 	\email{derek.ruths@mcgill.ca}
   }\\
@@ -114,7 +114,7 @@ These platforms connect \textit{requesters}
 perform small tasks, typically taking less than five minutes each.
 A topic of ongoing research concerns the design of tasks that elicit high
 quality annotations.
-Here we identify a feature of nearly all crowdsourcing 
+Here we identify a seemingly banal feature of nearly all crowdsourcing 
 workflows that profoundly impacts workers' responses.
 Microtask assignments typically consist of a sequence 
 of tasks sharing a common format (e.g., circle galaxies in an image). 
@@ -144,7 +144,7 @@ considered in the design of any crowdsourced study.
 \section{Introduction}
 There are many tasks that are trivial for people, but difficult to solve
 programmatically.  
-Typical tasks include tagging and categorizing images,
+Such tasks include tagging and categorizing images,
 %\cite{6116320,Zhai2012357}, 
 coding and transcribing media,
 %\cite{chandler2013breaking,Berinsky2012351,Finnerty2013},%paolacci2010running},
@@ -243,9 +243,9 @@ image-labeling as a canonical microtask, in which workers provide
 descriptive labels to images using free-text inputs.  Image labeling is
 a qualitative task without clearly ``correct'' or ``incorrect'' responses,
 and is among the most common kinds of tasks on the major crowdsourcing
-platform Amazon's Mechanical Turk.  If task-induced priming arises in our 
-setup, it should be expected in virtually every microtask and 
-crowdsourced workflow where workers are called upon to provide qualitative
+platform Amazon's Mechanical Turk (see Table \ref{table:task_composition}).  If task-induced priming arises in our 
+setup, it should be expected in an overwhelming number of microtasks and 
+crowdsourced workflows where workers are called upon to provide qualitative
 judgment.
 
 In our experiments, workers label a series of images, one at a time.
@@ -309,7 +309,7 @@ work.  We conclude with suggestions for task design and future work.
 \subsection{Effects of microtask design on response quality}
 % Accuracy, reproducibility, and a controlled task environment are 
 % important
-Microtask platforms are increasingly used clean and codify datasets,
+Microtask platforms are increasingly used to clean and codify datasets,
 administer experiments with human participants, and distribute 
 surveys.  Accuracy and replicability are crucial in all of these 
 applications.
@@ -562,7 +562,7 @@ an identical Zipf distribution\footnote{The
   \end{align}
   where $p(x)$ is the probability of the $x$th most common word.
 }, the na\"ive approach would typically lead one to report 
-$\hat{\theta} \approx 65\%$, event though, in reality $\theta = 0\%$
+$\hat{\theta} \approx 65\%$, even though, in reality $\theta = 0\%$
 (this can be shown by simulated sampling).
 
 Nevertheless, we can establish a lower bound for $\theta$ by 
@@ -594,7 +594,7 @@ $\eta_\mathcal{A}$, that is bounded according to:
 where $\theta$ is the divergence between the distributions of responses
 to $\mathrm{design}_1$ and $\mathrm{design}_2$.
 
-We will now establish Inequality~\ref{eq:sup:l1} by considering an
+We can establish Inequality~\ref{eq:sup:l1} by considering an
 optimal classifier having accuracy $\eta_*$.  
 Let us assume that workers are shown 
 $\mathrm{design}_1$ or $\mathrm{design}_2$ with equal probability.
@@ -674,7 +674,7 @@ responses, and then measuring its accuracy.
 \end{figure*}
 
 
-\begin{figure}
+\begin{figure}[t]
 	\includegraphics[scale=0.75]{figs/theta.pdf}
 	\caption{
 		Empirical bias, $\theta_\mathrm{NB}$, measured using a na\"ive Bayes 
@@ -691,7 +691,40 @@ responses, and then measuring its accuracy.
 \end{figure}
 
 
-\begin{table}
+
+We performed a series of five experiments
+on Amazon's Mechanical Turk using 1071 workers.  
+Every experiment consisted of two treatments, each with 119 workers,
+who performed a single assignment\footnote{Workers could not participate 
+multiple times in our study.}\textsuperscript{,}\footnote{On Mechanical Turk, individual 
+assignments are called Human Intelligence Tasks (HITs), but this use of 
+``task'' is 
+different from our current one: in our experiment each HIT actually 
+involves 10 image-labeling tasks.}.  
+The setup in each experiment followed the template depicted in 
+Figure~\ref{fig:task-schematic}.  
+The assignments had two parts.  The first part of the assignment differed
+between the two treatments, and consisted of a set of initial tasks 
+and/or framing (by describing the purpose of the assignment or source of 
+funding).  In the second part of the assignment, workers from both
+treatments completed the same five \textit{test tasks}.  Each of the 
+initial and test tasks required workers to provide five descriptive labels
+for an image.  The tasks were performed one at a time,
+and, in treatments involving both initial and test tasks, there was no
+interruption or distinction made between the initial and test tasks from
+the perspective of the worker.
+
+We analyzed the
+workers' responses to the test tasks to determine whether
+they were influenced by the initial tasks (or framing).  We looked for 
+differences in the distributions of test responses 
+using a $\chi^2$ test.  We then measured the 
+severity of bias induced by initial tasks and framing, by 
+constructing a na\"ive Bayes classifier to infer the workers' 
+treatments based on their responses to test tasks, 
+and measuring its accuracy.
+
+\begin{table}[b!]
 \small
 \centering
 \setlength{\tabcolsep}{1pt}
@@ -764,39 +797,7 @@ Experiment & \parbox[c]{3.0cm}{\centering{Priming modality}} & Initial Tasks & F
 \label{table:experiments}
 \end{table}
 
-We performed a series of five experiments
-on Amazon's Mechanical Turk using 1071 workers.  
-Every experiment consisted of two treatments, each with 119 workers,
-who performed a single assignment\footnote{Workers could not participate 
-multiple times in our study.}\textsuperscript{,}\footnote{On Mechanical Turk, individual 
-assignments are called Human Intelligence Tasks (HITs), but this use of 
-``task'' is 
-different from our current one: in our experiment each HIT actually 
-involves 10 image-labeling tasks.}.  
-The setup in each experiment followed the template depicted in 
-Figure~\ref{fig:task-schematic}.  
-The assignments had two parts.  The first part of the assignment differed
-between the two treatments, and consisted of a set of initial tasks 
-and/or framing (by describing the purpose of the assignment or source of 
-funding).  In the second part of the assignment, workers from both
-treatments completed the same five \textit{test tasks}.  Each of the 
-initial and test tasks required workers to provide five descriptive labels
-for an image.  The tasks were performed one at a time,
-and, in treatments involving both initial and test tasks, there was no
-interruption or distinction made between the initial and test tasks from
-the perspective of the worker.
-
-We analyzed the
-workers' responses to the test tasks to determine whether
-they were influenced by the initial tasks (or framing).  We looked for 
-differences in the distributions of test responses 
-using a $\chi^2$ test.  We then measured the 
-severity of bias induced by initial tasks and framing, by 
-constructing a na\"ive Bayes classifier to infer the workers' 
-treatments based on their responses to test tasks, 
-and measuring its accuracy.
-
-In our first experiment called \textit{intertask-food-objects},
+{\bf Existence of inter-task effects.} In our first experiment called \textit{intertask-food-objects},
 workers were assigned to either a \textit{food} or \textit{objects} 
 treatment.  Workers from these treatments performed initial tasks 
 in which they labeled, respectively, 
@@ -832,7 +833,7 @@ treatment (with $p > 0.3$ for all treatments and $p > 0.8$ for most).
 Thus, the heterogeneity we observed \textit{between} treatments is 
 meaningful.
 
-Having affirmed the \textit{existence} of intertask effects, we sought to
+{\bf Strength of inter-task effects.} Having affirmed the \textit{existence} of intertask effects, we sought to
 measure the severity of the bias induced, i.e. $\theta$.
 To measure $\theta$ we used a na\"ive Bayes classifier based on a 
 multinomial distribution over the word frequencies in worker's labels, 
@@ -866,7 +867,7 @@ lead to (a lower bound) bias of $\theta=30.6\%$ between workers from the
 It is difficult to visualize the distributions of word frequencies,
 but for reference, the distributions shown in 
 Figure~\ref{fig:l1_example}B have $\theta = 30\%$.  This represents a 
-substantial potential to distort microtask data.
+substantial potential to distort microtask results.
 
 When observing the classifier's accuracy, in order to calculate $\theta$,
 the number of correct inferences made by the classifier follows a binomial 
@@ -904,7 +905,7 @@ a (two-tailed) two-proportion $z$-test.}.
 In other words, the \textit{microtasks themselves}
 had a stronger biasing effect than framing.
 
-To assess the persistence of intertask effects, we replicated the 
+{\bf Persistence of inter-task effects.} To assess the persistence of intertask effects, we replicated the 
 \textit{intertask-food-objects} experiments, rotating the ordering of the
 test tasks, so that each test task occupied each of the possible 5 
 test-task positions (see Figure \ref{fig:task-schematic}).  
@@ -916,7 +917,7 @@ but remained significant through all five test tasks
 ($\alpha=0.05$) sustaining over 12\% bias even when the initial and test 
 tasks were separated by four intervening tasks (Figure~\ref{fig:theta}B).
 
-We conducted variants of these experiments using different images, to see 
+{\bf Different tasks, similar effects.} We conducted variants of these experiments using different images, to see 
 whether this trend was robust.  In the experiment 
 \textit{intertask-food-culture},
 workers were either assigned to a \textit{food} or \textit{culture} treatment.
@@ -1139,7 +1140,7 @@ purpose.
 	\label{table:top-words}
 \end{table*}
 
-To better understand the nature of 
+{\bf Inter-task effects and concept activation.} To better understand the nature of 
 intertask effects, we investigated the vocabulary
 that workers used to label test tasks. One might expect that, within a given 
 experiment, those workers exposed to food (whether through framing or initial
@@ -1151,7 +1152,7 @@ WordNet knowledge base \cite{felbaum1998wordnet}.
 WordNet provides
 hyponym and hypernym relations between words.  A hypernym is a 
 generalization (for example, ``bread'' is a hypernym of ``pumpernickel''), 
-while a hyponym is a specialization.  We took took the set of food-words
+while a hyponym is a specialization.  We took the set of food-words
 to be all those reachable through
 a chain of hyponym relations from the word-senses 
 \texttt{food.n.01} and \texttt{food.n.02}, in other words, all words
