@@ -1,0 +1,63 @@
+Thank you for the thoughtful and important comments.  
+
+In the paper we combined experiments and results into one section.  This seems to have caused confusion, so we will move these to separate sections.
+
+In the paper, we compare framing and intertask experiments (we now call them "sub-experiments").  Were the sub-experiments that we compare conducted simultaneously, with random assignment?  Yes.
+
+We shall clarify that, underlying the various sub-experiments were two overall experiments, done at different times.  Crucially, these experiments were treated as self-contained -- we only draw comparisons *within* experiments, not between them.
+
+To clarify the experimental setup, we will present these two experiments separately.  We will take up the results in dedicated sections after each respective experiment.  This will make the chronology clear, and head off some confusions that arose with the original structure.
+
+To help address some of the reviewers questions, We shall now paraphrase Experiment 1:
+
+Experiment 1 "food-culture"
+ * this experiment consisted of two sub-experiments: "intertask" and 
+	"framing"
+ * the sub-experiments had two treatments: "food" and "culture"
+	(4 treatments in total)
+ * all treatments were carried out simultaneously using random assignment.
+ * in both intertask and framing, workers labeled ten images.
+ * the last five images (the "test tasks"), were identical for all 
+	treatments
+ * test tasks were presented in the same order.
+ * in the intertask sub-experiment, the first five images differed between
+	the food and culture treatments
+ * in the framing experiment, both treatments labeled the same images,
+	but the workers were told that the task was funded by different 
+	organizations.
+
+As described, the intertask and framing sub-experiments had the same number of tasks.  While this avoids the confound of differential fatigue, the tasks occurring between framing and the test tasks could diminish ("wash out") the framing effects.  So, in Experiment 2 we repeat with test tasks immediately after framing, to test our hypothesis more stringently.
+
+As described, test tasks were not randomly ordered; this is crucial.  Test tasks can exert intertask effects on one another; comparing treatments with the same permutation of tasks is needed to eliminate this confound.  However, In experiment 2 we investigate permutations of test tasks.  This separates effects due to task position from effects due to image content (fig 4B)
+
+We now paraphrase Experiment 2:
+
+Experiment 2: "food-objects"
+	* this experiment features three sub-experiments: "intertask", 
+		"framing", and "echo"
+	* each has two treatments: "food" and "objects" (6 treatments in total)
+	* all treatments were run simultaneously using random assignment
+	* five replicates of the "intertask" sub-experiment are done using
+		different permutations of the test tasks
+	* the framing sub-experiment is altered by presenting the test tasks
+		immediately after the framing (hence only 5 tasks performed), since
+		this may render framing effects more comparable to intertask 
+		effects
+	* the "echo" sub-experiment further intensifies framing, by first 
+		exposing the worker to the frame (displaying the "purpose" of 
+		the task), and then asking the worker to select the purpose of 
+		the task from a combo box
+
+Note, the two experiments use all different images. But, within a given experiment, test images must be the same to provide a basis of comparison.
+
+Why was no echo treatment used in experiment 1? Frankly it was the results of experiment 1 prompted us to try a more intense form of framing, as a stringent test of our hypothesis.
+
+Do the images really represent food / objects / culture?  Our study does not rest on that being the case.  We only seek to show that varying initial tasks induces effects on subsequent tasks' responses.  Our setup is conservative: if the sets of images were not distinct, it would statistically reduce the intertask effects.
+
+"Priming" -- We agree on the formal definition of "priming", but our usage of the word raised concerns.  We shall restrict its use to a few judiciously chosen cases.  We will retain our conjecture that priming is an underlying mechanism, but mark it as conjecture.  Our reasoning is that, when labeling images, those words that enter the worker's mind fastest are more likely to be written down.
+
+Further, recall that we invoke a dual mechanism including *negative* priming.  In the proposed mechanism, repeated stimulus with food would tend to inhibit generic words (e.g. "food") due to negative priming, while access to wider (more nuanced) vocabulary relating to food is quickened by classical priming.  This reasoning is conjectured, and shall be presented as such, but does align with observations.
+
+We intend to incorporate other suggestions which we do not have space to address.  We will also address the various prior works that you have reminded us about in the paper.
+
+Thank you again for the feedback!
