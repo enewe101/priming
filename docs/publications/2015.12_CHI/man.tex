@@ -5,11 +5,16 @@
 % camera-ready copyright statement.
 
 
+
 %% EXAMPLE BEGIN -- HOW TO OVERRIDE THE DEFAULT COPYRIGHT STRIP -- (July 22, 2013 - Paul Baumann)
-% \toappear{Permission to make digital or hard copies of all or part of this work for personal or classroom use is      granted without fee provided that copies are not made or distributed for profit or commercial advantage and that copies bear this notice and the full citation on the first page. Copyrights for components of this work owned by others than ACM must be honored. Abstracting with credit is permitted. To copy otherwise, or republish, to post on servers or to redistribute to lists, requires prior specific permission and/or a fee. Request permissions from permissions@acm.org. \\
-% {\emph{CHI'14}}, April 26--May 1, 2014, Toronto, Canada. \\
-% Copyright \copyright~2014 ACM ISBN/14/04...\$15.00. \\
-% DOI string from ACM form confirmation}
+\toappear{Permission to make digital or hard copies of all or part of this work for personal or classroom use is      granted without fee provided that copies are not made or distributed for profit or commercial advantage and that copies bear this notice and the full citation on the first page. Copyrights for components of this work owned by others than ACM must be honored. Abstracting with credit is permitted. To copy otherwise, or republish, to post on servers or to redistribute to lists, requires prior specific permission and/or a fee. Request permissions from permissions@acm.org. \\
+{\emph{CHI'16}}, May 07--12, 2016, San Jose, CA, USA. \\
+Copyright is held by the owner/author(s). Publication rights licensed to ACM. \\
+ACM 978-1-4503-3362-7/16/05 \$15.00  \\
+DOI http://dx.doi.org/10.1145/2858036.2858490
+}
+%Copyright \copyright~2014 ACM ISBN/14/04...\$15.00. \\
+%http://dx.doi.org/10.1145/2858036.2858490}
 %% EXAMPLE END -- HOW TO OVERRIDE THE DEFAULT COPYRIGHT STRIP -- (July 22, 2013 - Paul Baumann)
 
 
@@ -31,7 +36,7 @@
 \usepackage{booktabs}
 \usepackage{ccicons}
 \usepackage{todonotes}
-
+\usepackage{paralist}
 
 
 % My packages
@@ -83,24 +88,29 @@
 % End of preamble. Here it comes the document.
 \begin{document}
 
+%\CopyrightYear{2016}
+%\setcopyright{acmlicensed}
+%\conferenceinfo{CHI'16,}{May 07 - 12, 2016, San Jose, CA, USA}
+%\isbn{978-1-4503-3362-7/16/05}\acmPrice{\$15.00}
+%\doi{http://dx.doi.org/10.1145/2858036.2858490}
+
+
 \title{How One Microtask Affects Another}
 
-\numberofauthors{1}
+\numberofauthors{2}
 \author{%
   \alignauthor{
-	Authors\\
-    \affaddr{Affiliations}\\
-    \affaddr{Addresses 	}\\
-	\email{email@domain.com}
+	Edward Newell\\
+    \affaddr{School of Computer Science}\\
+    \affaddr{McGill University}\\
+	\email{\texttt{edward.newell@mail.mcgill.ca}}
   }\\
-  %\alignauthor{
-  %  Author 2 \\
-  %  \affaddr{Affiliation 1}\\
-  %  \affaddr{Montreal, Qu\'ebec,
-  %    Canada
-  %  }\\
-  %  \email{derek.ruths@mcgill.ca}
-  %}\\
+  \alignauthor{
+    Derek Ruths\\
+    \affaddr{School of Computer Science}\\
+	\affaddr{McGill University}\\
+	\email{\texttt{derek.ruths@mcgill.ca}}
+  }\\
 }
 
 %\numberofauthors{2}
@@ -229,11 +239,38 @@ This may explain why the predefined assignment templates available on
 microtask platforms generally bundle many tasks together by 
 default\footnote{e.g. on \url{mturk.com} and \url{crowdflower.com}}.
 
+
+\begin{table}
+\centering
+\begin{tabular}{l c c}
+\toprule
+Task Type & Count & Fraction (\%) \\
+\toprule
+Image transcription & 57 & 28.5 \\
+Information gathering & 46 & 23.0 \\
+Image labeling and classification & 36 & 18.0 \\
+Copy writing and editing & 18 & 9.0 \\
+Text tagging and classification & 15 & 7.5 \\
+Audio/Video transcription & 12 & 6.0 \\
+Survey & 9 & 4.5 \\
+Unknown & 7 & 3.5 \\
+\bottomrule
+\end{tabular}
+\caption{
+	Frequency of various broad task types seen among the 200 most 
+	recently posted tasks on Amazon's Mechanical Turk, 
+	accessed on 12 February, 2015.
+}
+\label{table:task_composition}
+\end{table}
+
+
 Psychological experiments show that the exposure to stimuli immediately 
 before performing a task influences performance, an effect known as 
-\textit{priming} \cite{BJOP1796}.
+\textit{priming} 
+\cite{Ghuman17062008,BJOP1826,beller1971priming,BJOP1796}.
 The effect of priming appears to be stronger when the modality of the
-prime is the same as the task.
+prime is the same as the task \cite{BJOP1796}.
 Thus, for the typical microtask worker, who does many similar tasks in
 quick succession, there is a potential for earlier tasks to influence
 later ones, via priming or other mechanisms.
@@ -294,30 +331,6 @@ Remarkably, the effects of prior microtasks,
 which are virtually ubiquitous, are on par with, or stronger than, 
 the effects of overtly framing an assignment.
 
-\begin{table}
-\centering
-\begin{tabular}{l c c}
-\toprule
-Task Type & Count & Fraction (\%) \\
-\toprule
-Image transcription & 57 & 28.5 \\
-Information gathering & 46 & 23.0 \\
-Image labeling and classification & 36 & 18.0 \\
-Copy writing and editing & 18 & 9.0 \\
-Text tagging and classification & 15 & 7.5 \\
-Audio/Video transcription & 12 & 6.0 \\
-Survey & 9 & 4.5 \\
-Unknown & 7 & 3.5 \\
-\bottomrule
-\end{tabular}
-\caption{
-	Frequency of various broad task types seen among the 200 most 
-	recently posted tasks on Amazon's Mechanical Turk, 
-	accessed on 12 February, 2015.
-}
-\label{table:task_composition}
-\end{table}
-
 We call the effects that earlier tasks exert on later ones 
 \textit{intertask effects}.  If, as has been suggested \cite{5543192}, 
 microtask platforms are to be considered as a new form of computing 
@@ -334,7 +347,7 @@ Irrespective of the underlying mechanism, this very strong effect might
 be exploited in task design to tune worker focus and acuity.
 
 As our main contributions, we
-\begin{itemize}[noitemsep,nolistsep]
+\begin{compactitem}%[noitemsep,nolistsep]
   \item{
 	derive a method for measuring changes in response distributions;
   }
@@ -345,7 +358,7 @@ As our main contributions, we
 	show that when completing a series of similar microtasks,
 	worker's responses become more specialized and diverse;
   }
-\end{itemize}
+\end{compactitem}
 
 The rest of the paper is organized as follows.  In the next section, we 
 review the relevant prior work.  We then present our method for 
@@ -494,7 +507,8 @@ cognitively taxing tasks.
 %this kind.  We hypothesize that such tasks are highly susceptible to 
 %priming effects, and that in the repetitive pattern of microtask work
 %(and most crowdsourced work), earlier tasks may act as primes to later 
-%ones, and thereby introduce singificant amounts of bias.
+%ones, and thereby introduce significant amounts of bias.
+
 
 \subsection{Priming}
 Priming is a psychological phenomenon whereby previous exposure to a 
@@ -559,7 +573,7 @@ is the fraction under the graph of $P$ that does not overlap with that
 under $Q$ (or vice-versa; see Figure~\ref{fig:l1_example}).  
 Formally:
 \begin{align}
-	\theta = \frac{1}{2}\sum_{x \in X} \left| p(x) - q(x) \right|,
+  \theta = \frac{1}{2}\sum_{x \in \mathcal{X}} \left| p(x) - q(x) \right|,
 	\label{eq:theta}
 \end{align}
 Where $p(x)$ and $q(x)$ are the respective probabilities 
@@ -679,7 +693,7 @@ Of course, neither $p_1(x)$ nor $p_2(x)$ are known.  But, on seeing $x$,
 the probability that such a classifier would be correct is:
 \begin{align}
   \mathrm{Pr}\{\mathrm{correct}|x\} = \frac{1}{2} 
-	+ \frac{|p_0(x) - p_1(x)|}{2(p_0(x) + p_1(x))}
+	+ \frac{|p_1(x) - p_2(x)|}{2(p_1(x) + p_2(x))}
 \end{align}
 Summing over all possible responses that a worker could provide, 
 $x \in \mathcal{X}$, weighted by the probability of observing $x$, 
@@ -690,9 +704,9 @@ we obtain the accuracy of the optimal classifier:
 	\mathrm{Pr}\{\mathrm{correct}|x\}\mathrm{Pr}\{x\} \\
   &= \sum_{x\in\mathcal{X}} 
 	\left(
-	\frac{1}{2} + \frac{|p_0(x) - p_1(x)|}{2(p_0(x) + p_1(x))}
+	\frac{1}{2} + \frac{|p_1(x) - p_2(x)|}{2(p_1(x) + p_2(x))}
   \right) \left( 
-	\frac{p_0(x) + p_1(x)}{2} 
+	\frac{p_1(x) + p_2(x)}{2} 
   \right) \\
   &= \frac{1 + \theta}{2}
 \end{align}
@@ -730,7 +744,10 @@ we will call ``intertask'' and ``framing'', because they are respectively
 designed to measure intertask and framing effects.  The experiment was 
 performed on MTurk using 476 workers.  Workers
 could only participate once in a given experiment, and could only 
-participate in one of the experiments we present here.
+participate in one of the experiments we present here.  Workers were 
+required to have had 90\% of their previously submitted work on Mturk 
+accepted by other requesters to participate.  No other screening 
+was applied to workers.
 
 The experiment was conducted using a single HIT\footnote{
   On MTurk, a HIT (or Human Intelligence Task) is the smallest 
@@ -740,9 +757,12 @@ The experiment was conducted using a single HIT\footnote{
 }.  Workers who accepted the HIT were randomly assigned to one of the two
 sub-experiments.  Both sub-experiments consisted of two treatments, which
 we call ``food'' and ``culture'', and workers were also randomly 
-assigned to a treatment.  In both treatments of both sub-experiments,
+assigned to a treatment, resulting in 119 workers per treatment.  
+In both treatments of both sub-experiments,
 workers were asked to perform ten image-labeling tasks, each of which 
 required the worker to assign five descriptive labels to an image.  
+Labels had to contain at least two letters to be accepted. 
+Workers were paid USD\$0.45 for their work.
 In all cases, the last five tasks were identical among all treatments 
 (and across sub-experiments), and were presented in the same order.  
 These last five tasks constituted the ``test tasks'', whose distribution
@@ -774,8 +794,21 @@ Nutritional Awareness'', or ``\ldots by the Global Foundation for the
 Recognition of Cultures''.  The intention was to frame the task by
 providing the name of a (fictitious) funder, while using names that
 invite the worker to focus on different aspects of the image content.  
-As already mentioned, the test tasks consisted of images depicting meals 
-of diverse ethnic origin.
+Initial tasks were still included to ensure that learning or fatigue 
+effects were equalized between the sub-experiments.  
+For the initial tasks, we used the same images as had been shown to the 
+food treatment of the intertask sub-experiment.  
+If intertask effects exist, any choice of images for the initial tasks 
+will have an effect.  This choice makes the food treatments of both 
+sub-experiments very similar, so that the culture treatments of both 
+sub-experiments can be viewed as perturbations from a similar baseline.  
+The test tasks were the same as for the intertask sub-experiment.
+
+Manual inspection showed that the vast majority of labels were of 
+high-quality.  Less than 1\% of submissions were problematic, having
+redundant labels or entries that were not English words.
+We chose to include all submissions for analysis in the experiments
+presented here.
 
 \subsection{Results}
 
@@ -822,6 +855,7 @@ These results hold for Experiment 2, to be discussed later.
 Thus, the heterogeneity we observed \textit{between} the intertask 
 treatments indicates a meaningful effect.
 
+\pagebreak
 \paragraph{Strength of intertask and framing effects.}
 Having affirmed the \textit{existence} of intertask effects, we sought to
 measure their strength, i.e. $\theta$.
@@ -840,7 +874,7 @@ undertaken for pragmatic reasons \cite{Zhang2004562},
 is probably mild in 
 relation to image labels, since they are likely to be less dependent
 on one another than in a coherent passage of text.  We repeated our
-analysis using a support vector machine and found very similar results.
+analysis using support vector machines and found very similar results.
 
 To produce word frequency features, worker-submitted labels were split on 
 white
@@ -906,7 +940,6 @@ subside, while also generating intertask effects that are
 effects that remain.  In the next experiment, we measure framing effects 
 immediately after the application of framing.
 
-\pagebreak
 \section{Experiment 2}
 \subsection{Setup}
 In Experiment 2 we again had ``intertask'' and ``framing'' 
@@ -919,7 +952,7 @@ both experiments (to be discussed in the results for Experiment 2).
 The experiment was again performed using a single HIT on MTurk, 
 and involved 1666 workers.
 Workers were randomly assigned to a sub-experiment and treatment upon
-starting the HIT.
+starting the HIT, resulting in 119 workers per treatment.
 
 The intertask sub-experiment was similar to that in Experiment 1: workers
 performed a set of five initial tasks, whose images depended on the 
@@ -1119,15 +1152,16 @@ fifth test task by 12.4\% total variational distance.
 
 \begin{figure}
 	\centering
-	\includegraphics[scale=1.05]{figs/specificity.pdf}
+	\includegraphics[scale=0.97]{figs/specificity.pdf}
 	\caption{
 		Workers exposed to food (either in framing or initial tasks)
-		show a different tendency to focus on food when labeling
-		test tasks, and their vocabulary in reference to food is affected.
+		showed a different tendency to focus on food when labeling
+		test tasks, and their vocabulary in reference to food was affected.
 		In all three plots, positive values indicate a larger quantity for 
 		workers from the food treatment.
-		(\textbf{A}) Exposing workers to food does not necessarily increase
-		the fraction of food references they provide during test tasks.
+		(\textbf{A}) Exposing workers to food significantly changed the 
+		fraction of food references they provide, but did not necessarily 
+		\textit{increase} it.
 		(\textbf{B}) The number of unique food-related
 		words (richness) was greater for food-exposed workers, 
 		except in the 
@@ -1363,7 +1397,7 @@ We repeated this 1000 times and took the 2.5th and 97.5th percentiles
 as the critical values for the rejection of the null hypothesis 
 (the latter shown by stars in Figure~\ref{fig:specificity}B).
 
-The above observations regarding lexical richness, suggest that initial 
+The above observations regarding lexical richness suggest that initial 
 tasks might influence workers to use more \textit{refined} or 
 \textit{specialized} words, when referring to aspects 
 of content that had been present in the initial tasks.  
@@ -1465,30 +1499,30 @@ inhibited \cite{mayr2007negative}.  In the case of our image labeling
 tasks, repeated exposure to images depicting food might cause the worker to
 stop regarding the basic presence of food as salient, and to direct her 
 attention instead to the features that are specific to the food in a given 
-image.  This would explain the suppression very generic references to 
+image.  This would explain the suppression of very generic references to 
 food observed in Table~\ref{table:top-words}.  
-The balance between the inhibition of generic food-related words, with 
-activation of specific ones could lead to more or less food references
+The balance between the inhibition of generic food-related words, and the 
+activation of specialized ones, could lead to more or less food references
 overall, so this dual priming mechanism is consistent with our 
-observations.  Direct experimentation would be needed to determine whether
-priming mechanisms, positive or negative, are in able to explain intertask
+observations.  Direct experimentation is needed to determine whether
+priming mechanisms, positive or negative, can explain intertask
 effects.
 
 Prior to this study, it was not realized that earlier microtasks could 
 have such strong effects on later ones.
-But our findings show this is an important design consideration that 
+But our findings show this is an important design factor that 
 should be considered by anyone using microtask platforms.
 The commonly employed practice of randomizing task ordering probably
 introduces a significant amount of noise due to intertask effects:
-Even chains of two or three similar tasks, which will not be reliably 
+even chains of two or three similar tasks, which will not be reliably 
 eliminated in random permutations, could lead to the levels of influence 
 we observed in our experiments.  Preferably, a deeper understanding of 
 intertask effects might allow them to be properly controlled.
 
 But perhaps more importantly, our findings show that intertask effects 
-might be leveraged achieve greater quality and reproducibility in 
+might be leveraged obtain greater quality and reproducibility in 
 crowdsourcing.
-A consistent goal in human computation is the achievement of expert-level
+A consistent goal in human computation is the elicitation of expert-level
 judgments from non-expert workers \cite{kittur2011crowdforge}.  
 This has been achieved in some
 applications \cite{snow2008cheap,Mortensen20131020,Warby2014385}. 
