@@ -5,7 +5,7 @@ in the paper
 
 import json
 import util
-from analysis import get_theta_star, binomial_lower_confidence_p, binomial_confidence_intervals
+from analysis_utils import get_theta_star, binomial_lower_confidence_p, binomial_confidence_intervals
 import sys
 import random
 import naive_bayes
@@ -31,7 +31,7 @@ CONFIDENCE_99 = 2.975
 
 IMAGE_NAMES = ['test%d' %i for i in range(5)]
 
-DATA_DIR = 'data/new_data'
+DATA_DIR = '../data/new_data'
 FIGS_DIR = 'figs/'
 
 
@@ -136,9 +136,9 @@ def plot_longit_vocab(
 
 
 def plot_specificity(
-		read_food_fname='data/new_data/food.json',
-		read_specificity_fname = 'data/new_data/specificity.json',
-		read_vocab_fname = 'data/new_data/vocabulary.json',
+		read_food_fname='../data/new_data/food.json',
+		read_specificity_fname = '../data/new_data/specificity.json',
+		read_vocab_fname = '../data/new_data/vocabulary.json',
 		write_fname = 'figs/vocab_specificity.pdf'
 	):
 
@@ -158,11 +158,11 @@ def plot_specificity(
 	ax1 = plt.subplot(gs[0])
 		
 	pairs = [
+		('task2:cult', 'task2:food'),
+		('frame2:cult', 'frame2:food'),
 		('task1:obj', 'task1:food'),
 		('frame1:obj', 'frame1:food'),
 		('echo:obj', 'echo:food'),
-		('task2:cult', 'task2:food'),
-		('frame2:cult', 'frame2:food'),
 	]
 
 	Y_0 = [
@@ -192,24 +192,23 @@ def plot_specificity(
 
 	vocab_data = json.loads(open(read_vocab_fname).read())
 
-
 	# plot vocabulary data accross all experiments
 	ax2 = plt.subplot(gs[1])
 
 	comparisons = [
+		('task2:food', 'task2:cult'),
+		('frame2:food', 'frame2:cult'),
 		('task1:food', 'task1:obj'),
 		('frame1:food', 'frame1:obj'),
 		('echo:food', 'echo:obj'),
-		('task2:food', 'task2:cult'),
-		('frame2:food', 'frame2:cult')
 	]
 
 	short_comparisons = [
+		'task2',
+		'frame2',
 		'task1',
 		'frame1',
 		'echo',
-		'task2',
-		'frame2',
 	]
 	
 	Y_2 = []
@@ -220,7 +219,7 @@ def plot_specificity(
 
 	upper_CIs = []
 	for c in short_comparisons:
-		fname = 'data/new_data/vocabulary/vocabulary_null_%s.json' % c
+		fname = '../data/new_data/vocabulary/vocabulary_null_%s.json' % c
 		data = json.loads(open(fname).read())
 		upper_CIs.append(data['upper_CI'])
 	
@@ -239,7 +238,7 @@ def plot_specificity(
 	ax2.set_xticks([x + width/2. for x in X_2])
 	plt.setp(ax2.get_xticklabels(), visible=False)
 	ylims = plt.ylim()
-	plt.ylim(-6, 22)
+	plt.ylim(-6, 24)
 	ax2.set_ylabel(r'$\Delta$ richness $(\%)$', size=12)
 	ax2.yaxis.labelpad = 7.5
 
@@ -248,11 +247,11 @@ def plot_specificity(
 	ax3 = plt.subplot(gs[2])
 	width = 0.75
 	specificity_keys_labels = [
+		('task2', 'task2'),
+		('frame2', 'frame2'),
 		('task1', 'task1'),
 		('frame1', 'frame1'),
 		('echo', 'echo'),
-		('task2', 'task2'),
-		('frame2', 'frame2'),
 	]
 
 	# read the data from the bootstrapped specificity data
@@ -261,7 +260,7 @@ def plot_specificity(
 	specificity_error_high = []
 	specificity_error = (specificity_error_low, specificity_error_high)
 	for key, label in specificity_keys_labels:
-		fh = open('data/new_data/specificity/specificity_%s.json' % key)
+		fh = open('../data/new_data/specificity/specificity_%s.json' % key)
 		data = json.loads(fh.read())
 		mean = 100 * data['mean']
 		err_high = abs(100 * data['std'])
@@ -286,23 +285,25 @@ def plot_specificity(
 	ylims = plt.ylim()
 	plt.ylim(ylims[0], 28)
 	ax3.set_ylabel(r'$\Delta$ specialization $(\%)$', size=12)
-	xlabels = [l for k,l in specificity_keys_labels]
+	xlabels = ['intertask', 'framing', 'intertask', 'framing', 'echo']
 	ax3.set_xticks([x + width/2. for x in X_3])
 	ax3.set_xticklabels(xlabels, rotation=45, size=12,
 		horizontalalignment='right')
 	ax3.yaxis.labelpad = 7.5
 
-	ax1.text(4.7, 11.5, 'A', va='top', ha='right', size=18, color='0.55')
-	ax2.text(4.7, 20.5, 'B', va='top', ha='right', size=18, color='0.55')
-	ax3.text(4.7, 26.5, 'C', va='top', ha='right', size=18, color='0.55')
+	ax1.text(0.6, 11.5, 'A', va='top', ha='right', size=18, color='0.55')
+	ax2.text(0.5, 22.5, 'B', va='top', ha='right', size=18, color='0.55')
+	ax3.text(0.5, 26.5, 'C', va='top', ha='right', size=18, color='0.55')
 	#ax3.set_yticks([0.01,0.02,0.03])
 
 	# control overall layout.  Save and return.
 	plt.draw()
 	plt.tight_layout()
-	fig.subplots_adjust(hspace=0.02, top=0.99, right=0.98, left=0.24, 
-		bottom=0.08)
+	fig.subplots_adjust(
+		hspace=0.02, top=0.99, right=0.98, left=0.24, bottom=0.10
+	)
 	fig.savefig(write_fname)
+
 
 
 def plot_delta_food(
@@ -366,9 +367,8 @@ def plot_delta_food(
 		horizontalalignment='right')
 
 	plt.draw()
+	fig.subplots_adjust(top=0.98, right=0.98, left=0.18, bottom=0.18)
 	plt.tight_layout()
-	fig.subplots_adjust(top=0.98, right=0.98, left=0.18, 
-		bottom=0.22)
 	fig.savefig(write_fname)
 
 SUPPLEMENTARY_THETA_FNAMES = [
@@ -453,6 +453,7 @@ def plot_theta_panel(ax, data):
 	test_names = [
 		'exp2.task', 'exp2.frame', 'exp2.*', 'exp1.task', 'exp1.frame'
 	]
+
 	accuracies = [this_data[tn] for tn in test_names]
 
 	# convert accuracy to priming difference (which is what we want to plot)
@@ -488,8 +489,80 @@ def plot_theta_panel(ax, data):
 	plt.ylim(ylims)
 
 
+def plot_theta_experiment_1(
+		read_fname='l1.json',
+		write_fname='theta.pdf'
+	):
 
-def plot_theta(
+	# open files
+	data = json.loads(open(os.path.join(DATA_DIR, read_fname)).read())
+
+	# make a figure with two subplots
+	figWidth = 3.6 
+	figHeight = 1.6 
+	fig = plt.figure(figsize=(figWidth, figHeight))
+	gs = gridspec.GridSpec(1, 1)
+
+	width = 0.75
+
+	# Plot the aggregate data series
+	ax1 = plt.subplot(gs[0])
+	this_data = data['aggregates']
+
+	accuracies = [this_data['exp1.frame'], this_data['exp1.task']]
+	Y_aggregate = [100*(2*a-1) for a in accuracies]
+
+	confidence_intervals = [
+		binomial_confidence_intervals(
+			238, int(round(238*a)), alpha=0.15865, as_theta=True
+		)
+		for a in accuracies
+	]
+
+	err_low = [
+		y - 100*c[1] for y,c in zip(Y_aggregate, confidence_intervals)
+	]
+	err_high = [
+		100*c[0] - y for y,c in zip(Y_aggregate, confidence_intervals)
+	]
+	err = [err_low, err_high]
+
+	X = range(len(Y_aggregate))
+
+	series = ax1.barh(
+		X, Y_aggregate, width, color='0.25', ecolor='0.75', xerr=err)
+
+	# adjust the padding
+	padding = 0.25
+	ylims = (-padding, len(X) - 1 + width + padding)
+	plt.ylim(ylims)
+
+	ax1.set_xlabel(r'$\theta_\mathrm{NB}\;(\%)$', size=12)
+
+	# Label experiments along the y-axis
+	ylabels = ['framing', 'intertask']
+	eps = 0.0
+	ax1.set_yticks(map(lambda x: x + width/2. + eps, X))
+	ax1.tick_params(axis='y', colors='0.25')
+	ax1.set_yticklabels(ylabels, size=10,
+		horizontalalignment='right', verticalalignment='center', 
+		color='k')
+
+	ax1.set_xticks(range(0,70,10))
+	xlims = (0, 62)
+	plt.xlim(xlims)
+
+	left = 4.7
+	height = 52
+
+	plt.draw()
+	plt.tight_layout()
+	fig.subplots_adjust(top=0.90, right=0.96, left=0.20, bottom=0.34)
+	fig.savefig(os.path.join(FIGS_DIR, write_fname))
+
+
+
+def plot_theta_experiment_2(
 		read_fname='l1.json',
 		write_fname='theta.pdf'
 	):
@@ -500,11 +573,8 @@ def plot_theta(
 	# make a figure with two subplots
 	figWidth = 10.0 / 2.54 	# conversion from PNAS spec in cm to inches
 	figHeight = 3/5.*figWidth	# a reasonable aspect ratio
-	#figWidth = 14.78 / 2.54 	# conversion from PNAS spec in cm to inches
-	#figHeight = 2/5.*figWidth	# a reasonable aspect ratio
 	fig = plt.figure(figsize=(figWidth, figHeight))
-	gs = gridspec.GridSpec(1, 2)
-	#gs = gridspec.GridSpec(1, 3, width_ratios=(5,5,5))
+	gs = gridspec.GridSpec(1, 2, width_ratios=[3,5])
 
 	width = 0.75
 
@@ -512,19 +582,21 @@ def plot_theta(
 	ax1 = plt.subplot(gs[0])
 	this_data = data['aggregates']
 
-	# the img_food_obj test was tried under multiple permutations -- take avg
+	# the img_food_obj test was tried under multiple permutations 
+	# -- take avg
 	this_data['exp2.task'] = np.mean(this_data['exp2.task'])
 
-	test_names = ['exp2.task', 'exp2.frame', 'exp2.*', 'exp1.task', 
-			'exp1.frame']
+	test_names = ['exp2.task', 'exp2.frame', 'exp2.*']
 	accuracies = [this_data[tn] for tn in test_names]
 
-	# convert accuracy to priming difference (which is what we want to plot)
+	# convert accuracy to priming difference 
 	Y_aggregate = [100*(2*a-1) for a in accuracies]
 
 	confidence_intervals = [
-		binomial_confidence_intervals(n, int(round(n*a)), alpha=0.15865, as_theta=True)
-		for n,a in zip([1190,238,238,238,238], accuracies)
+		binomial_confidence_intervals(
+			n, int(round(n*a)), alpha=0.15865, as_theta=True
+		)
+		for n,a in zip([1190,238,238], accuracies)
 	]
 
 	err_low = [
@@ -544,17 +616,23 @@ def plot_theta(
 	padding = 0.25
 	xlims = (-padding, len(X) - 1 + width + padding)
 	plt.xlim(xlims)
-	#theta_star = get_theta_star(119, 0.05)
-	#singificance_line = ax1.plot(
-	#		xlims, [theta_star, theta_star], color='0.55', linestyle=':')
 
 	ax1.set_ylabel(r'$\theta_\mathrm{NB}\;(\%)$', size=12)
 
-	xlabels = [
-		r'$intertask$', r'$frame$', r'$echo$', '$intertask$', '$frame$'
-	]
+	xlabels = ['intertask', 'framing', 'echo']
 
 	eps = 0.2
+	ax1_prime = ax1.twiny()
+	ax1_prime.xaxis.set_ticks_position('top')
+	ax1_prime.set_xticks([ 0+.75/2., 1+.75/2., 2+.75/2])
+	plt.setp(ax1_prime.get_xticklabels(), visible=False)
+	plt.xlim(xlims)
+
+	ax1.tick_params(axis='x', colors='0.25')
+	ax1.set_xticklabels(xlabels, rotation=45, size=10,
+		horizontalalignment='right', color='k')
+
+	ax1.xaxis.set_ticks_position('bottom')
 	ax1.set_xticks(map(lambda x: x + width/2. + eps, X))
 	ax1.tick_params(axis='x', colors='0.25')
 	ax1.set_xticklabels(xlabels, rotation=45, size=10,
@@ -598,54 +676,21 @@ def plot_theta(
 		horizontalalignment='center', color='k')
 	ax2.set_xlabel(r'test task position', size=8)
 
-#	# Plot the by_img data series
-#	ax3 = plt.subplot(gs[2], sharey=ax1)
-#	plt.setp(ax3.get_yticklabels(), visible=False)
-#
-#	this_data = data['exp2.task']
-#	avg_accuracies = [np.mean(this_data[img]) for img in IMAGE_NAMES]
-#
-#	# convert accuracy to priming difference (which is what we want to plot)
-#	Y_by_img = [2*a-1 for a in avg_accuracies]
-#	err_low = [
-#		2*binomial_lower_confidence_p(595, int(595*a)) - 1
-#		for a in avg_accuracies
-#	]
-#	err_low = [y-y_err for y, y_err in zip(Y_by_img, err_low)]
-#	err_high = [0 for e in err_low]
-#	err = [err_low, err_high]
-#
-#	series = ax3.bar(X, Y_by_img, width, color='0.25', ecolor='0.85', yerr=err)
-#
-#	# adjust the padding, then add a horizontal line to indicate significance
-#	padding = 0.25
-#	xlims = (-padding, len(X) - 1 + width + padding)
-#	plt.xlim(xlims)
-#
-#
-#	xlabels = ['image %d'%i for i in range(1,6)]
-#
-#	ax3.set_xticks(map(lambda x: x + width/2., X))
-#	ax3.set_xticklabels(xlabels, rotation=45, size=12,
-#		horizontalalignment='right')
 
-	ax1.set_yticks(range(0,60,10))
-	ax2.set_yticks(range(0,60,10))
-#	ax3.set_yticks([0.1,0.2,0.3,0.4,0.5])
+	ax1.set_yticks(range(0,50,10))
+	ax2.set_yticks(range(0,50,10))
 
-	ylims = (0, 55)
+	ylims = (0, 47)
 	plt.ylim(ylims)
 
-	left = 4.7
-	height = 52
-	#for label, ax in zip(['A', 'B', 'C',], [ax1, ax2, ax3]):
-	for label, ax in zip(['A', 'B'], [ax1, ax2]):
-		ax.text(left, height, label, 
-			va='top', ha='right', size=18, color='0.55')
+	ax1.text(
+		0.6, 44, 'A', va='top', ha='right', size=18, color='0.55')
+	ax2.text(
+		0.5, 44, 'B', va='top', ha='right', size=18, color='0.55')
 
 	plt.draw()
 	plt.tight_layout()
-	fig.subplots_adjust(wspace=0.05, top=0.99, right=0.99, left=0.15, 
+	fig.subplots_adjust(wspace=0.05, top=0.95, right=0.95, left=0.15, 
 		bottom=0.29)
 	fig.savefig(os.path.join(FIGS_DIR, write_fname))
 
