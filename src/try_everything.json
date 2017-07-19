@@ -1,0 +1,386 @@
+[
+{
+  "params": {
+    "spellcheck": true, 
+    "show_token_pos": false, 
+    "remove_stops": true, 
+    "do_split": true, 
+    "lemmatize": true, 
+    "classifier": "svm"
+  }, 
+  "results": null, 
+  "run_time": 389.58
+},
+{
+  "params": {
+    "spellcheck": true, 
+    "show_token_pos": false, 
+    "remove_stops": false, 
+    "do_split": true, 
+    "lemmatize": true, 
+    "classifier": "svm"
+  }, 
+  "results": null, 
+  "run_time": 399.84
+},
+{
+  "params": {
+    "spellcheck": true, 
+    "show_token_pos": false, 
+    "remove_stops": true, 
+    "do_split": false, 
+    "lemmatize": true, 
+    "classifier": "svm"
+  }, 
+  "results": null, 
+  "run_time": 427.81
+},
+{
+  "params": {
+    "spellcheck": false, 
+    "show_token_pos": false, 
+    "remove_stops": true, 
+    "do_split": true, 
+    "lemmatize": true, 
+    "classifier": "svm"
+  }, 
+  "results": null, 
+  "run_time": 416.34
+},
+{
+  "params": {
+    "spellcheck": false, 
+    "show_token_pos": false, 
+    "remove_stops": false, 
+    "do_split": true, 
+    "lemmatize": true, 
+    "classifier": "svm"
+  }, 
+  "results": null, 
+  "run_time": 428.02000000000004
+},
+{
+  "params": {
+    "spellcheck": false, 
+    "show_token_pos": false, 
+    "remove_stops": true, 
+    "do_split": false, 
+    "lemmatize": true, 
+    "classifier": "svm"
+  }, 
+  "results": null, 
+  "run_time": 453.8
+},
+{
+  "params": {
+    "spellcheck": true, 
+    "show_token_pos": false, 
+    "remove_stops": false, 
+    "do_split": false, 
+    "lemmatize": true, 
+    "classifier": "svm"
+  }, 
+  "results": null, 
+  "run_time": 436.68999999999994
+},
+{
+  "params": {
+    "spellcheck": true, 
+    "show_token_pos": true, 
+    "remove_stops": true, 
+    "do_split": true, 
+    "lemmatize": true, 
+    "classifier": "svm"
+  }, 
+  "results": null, 
+  "run_time": 1243.36
+},
+{
+  "params": {
+    "spellcheck": true, 
+    "show_token_pos": true, 
+    "remove_stops": false, 
+    "do_split": true, 
+    "lemmatize": true, 
+    "classifier": "svm"
+  }, 
+  "results": null, 
+  "run_time": 1299.98
+},
+{
+  "params": {
+    "spellcheck": true, 
+    "show_token_pos": false, 
+    "remove_stops": true, 
+    "do_split": true, 
+    "lemmatize": false, 
+    "classifier": "svm"
+  }, 
+  "results": null, 
+  "run_time": 419.5200000000001
+},
+{
+  "params": {
+    "spellcheck": true, 
+    "show_token_pos": true, 
+    "remove_stops": false, 
+    "do_split": false, 
+    "lemmatize": true, 
+    "classifier": "svm"
+  }, 
+  "results": null, 
+  "run_time": 1330.27
+},
+{
+  "params": {
+    "spellcheck": true, 
+    "show_token_pos": true, 
+    "remove_stops": true, 
+    "do_split": false, 
+    "lemmatize": true, 
+    "classifier": "svm"
+  }, 
+  "results": null, 
+  "run_time": 1342.37
+},
+{
+  "params": {
+    "spellcheck": false, 
+    "show_token_pos": false, 
+    "remove_stops": false, 
+    "do_split": false, 
+    "lemmatize": true, 
+    "classifier": "svm"
+  }, 
+  "results": null, 
+  "run_time": 453.4200000000001
+},
+{
+  "params": {
+    "spellcheck": false, 
+    "show_token_pos": false, 
+    "remove_stops": true, 
+    "do_split": true, 
+    "lemmatize": false, 
+    "classifier": "svm"
+  }, 
+  "results": null, 
+  "run_time": 441.77
+},
+{
+  "params": {
+    "spellcheck": true, 
+    "show_token_pos": true, 
+    "remove_stops": true, 
+    "do_split": true, 
+    "lemmatize": false, 
+    "classifier": "svm"
+  }, 
+  "results": null, 
+  "run_time": 1342.73
+},
+{
+  "params": {
+    "spellcheck": true, 
+    "show_token_pos": false, 
+    "remove_stops": false, 
+    "do_split": true, 
+    "lemmatize": false, 
+    "classifier": "svm"
+  }, 
+  "results": null, 
+  "run_time": 429.8800000000001
+},
+{
+  "params": {
+    "spellcheck": false, 
+    "show_token_pos": true, 
+    "remove_stops": true, 
+    "do_split": true, 
+    "lemmatize": true, 
+    "classifier": "svm"
+  }, 
+  "results": null, 
+  "run_time": 1339.18
+},
+{
+  "params": {
+    "spellcheck": false, 
+    "show_token_pos": false, 
+    "remove_stops": false, 
+    "do_split": true, 
+    "lemmatize": false, 
+    "classifier": "svm"
+  }, 
+  "results": null, 
+  "run_time": 458.37999999999965
+},
+{
+  "params": {
+    "spellcheck": false, 
+    "show_token_pos": true, 
+    "remove_stops": false, 
+    "do_split": true, 
+    "lemmatize": true, 
+    "classifier": "svm"
+  }, 
+  "results": null, 
+  "run_time": 1334.25
+},
+{
+  "params": {
+    "spellcheck": false, 
+    "show_token_pos": true, 
+    "remove_stops": false, 
+    "do_split": false, 
+    "lemmatize": true, 
+    "classifier": "svm"
+  }, 
+  "results": null, 
+  "run_time": 1408.62
+},
+{
+  "params": {
+    "spellcheck": false, 
+    "show_token_pos": true, 
+    "remove_stops": true, 
+    "do_split": false, 
+    "lemmatize": true, 
+    "classifier": "svm"
+  }, 
+  "results": null, 
+  "run_time": 1420.94
+},
+{
+  "params": {
+    "spellcheck": true, 
+    "show_token_pos": false, 
+    "remove_stops": true, 
+    "do_split": false, 
+    "lemmatize": false, 
+    "classifier": "svm"
+  }, 
+  "results": null, 
+  "run_time": 455.8299999999999
+},
+{
+  "params": {
+    "spellcheck": true, 
+    "show_token_pos": true, 
+    "remove_stops": false, 
+    "do_split": true, 
+    "lemmatize": false, 
+    "classifier": "svm"
+  }, 
+  "results": null, 
+  "run_time": 1454.24
+},
+{
+  "params": {
+    "spellcheck": true, 
+    "show_token_pos": false, 
+    "remove_stops": false, 
+    "do_split": false, 
+    "lemmatize": false, 
+    "classifier": "svm"
+  }, 
+  "results": null, 
+  "run_time": 458.5300000000002
+},
+{
+  "params": {
+    "spellcheck": false, 
+    "show_token_pos": false, 
+    "remove_stops": true, 
+    "do_split": false, 
+    "lemmatize": false, 
+    "classifier": "svm"
+  }, 
+  "results": null, 
+  "run_time": 476.4500000000003
+},
+{
+  "params": {
+    "spellcheck": false, 
+    "show_token_pos": true, 
+    "remove_stops": true, 
+    "do_split": true, 
+    "lemmatize": false, 
+    "classifier": "svm"
+  }, 
+  "results": null, 
+  "run_time": 1448.1099999999997
+},
+{
+  "params": {
+    "spellcheck": false, 
+    "show_token_pos": false, 
+    "remove_stops": false, 
+    "do_split": false, 
+    "lemmatize": false, 
+    "classifier": "svm"
+  }, 
+  "results": null, 
+  "run_time": 479.96000000000004
+},
+{
+  "params": {
+    "spellcheck": true, 
+    "show_token_pos": true, 
+    "remove_stops": true, 
+    "do_split": false, 
+    "lemmatize": false, 
+    "classifier": "svm"
+  }, 
+  "results": null, 
+  "run_time": 1433.0100000000002
+},
+{
+  "params": {
+    "spellcheck": true, 
+    "show_token_pos": true, 
+    "remove_stops": false, 
+    "do_split": false, 
+    "lemmatize": false, 
+    "classifier": "svm"
+  }, 
+  "results": null, 
+  "run_time": 1424.7800000000002
+},
+{
+  "params": {
+    "spellcheck": false, 
+    "show_token_pos": true, 
+    "remove_stops": false, 
+    "do_split": true, 
+    "lemmatize": false, 
+    "classifier": "svm"
+  }, 
+  "results": null, 
+  "run_time": 1464.15
+},
+{
+  "params": {
+    "spellcheck": false, 
+    "show_token_pos": true, 
+    "remove_stops": true, 
+    "do_split": false, 
+    "lemmatize": false, 
+    "classifier": "svm"
+  }, 
+  "results": null, 
+  "run_time": 1490.54
+},
+{
+  "params": {
+    "spellcheck": false, 
+    "show_token_pos": true, 
+    "remove_stops": false, 
+    "do_split": false, 
+    "lemmatize": false, 
+    "classifier": "svm"
+  }, 
+  "results": null, 
+  "run_time": 1492.25
+}
+]
